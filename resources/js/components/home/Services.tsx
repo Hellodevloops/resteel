@@ -1,96 +1,239 @@
-
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
+import { ArrowRight, Building2, HandHeart, Truck, Wrench } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const services = [
-  {
-    id: 1,
-    title: 'Purchase & Sale',
-    description: 'We buy and sell second-hand buildings of all types and sizes, from warehouses to commercial premises.',
-    icon: '🏢',
-    color: 'bg-blue-50 text-resteel-primary border-resteel-primary/20'
-  },
-  {
-    id: 2,
-    title: 'Assembly & Disassembly',
-    description: 'Our experienced team handles the careful disassembly and reassembly of buildings on your site.',
-    icon: '🔨',
-    color: 'bg-amber-50 text-resteel-accent border-resteel-accent/20'
-  },
-  {
-    id: 3,
-    title: 'Transport',
-    description: 'We manage logistics and transportation across Europe and beyond, ensuring safe delivery to your location.',
-    icon: '🚚',
-    color: 'bg-green-50 text-green-600 border-green-600/20'
-  },
-  {
-    id: 4,
-    title: 'Mediation & Guidance',
-    description: 'Get expert advice and support throughout the entire process, from selection to installation.',
-    icon: '🤝',
-    color: 'bg-purple-50 text-purple-600 border-purple-600/20'
-  }
+    {
+        id: 1,
+        title: 'Purchase & Sale',
+        description: 'We buy and sell second-hand buildings of all types and sizes, from warehouses to commercial premises.',
+        icon: Building2,
+        gradient: 'from-blue-600 to-slate-700',
+        accentColor: 'bg-blue-600',
+        borderColor: 'border-blue-600/20',
+        hoverGlow: 'hover:shadow-blue-500/25',
+    },
+    {
+        id: 2,
+        title: 'Assembly & Disassembly',
+        description: 'Our experienced team handles the careful disassembly and reassembly of buildings on your site.',
+        icon: Wrench,
+        gradient: 'from-orange-500 to-orange-600',
+        accentColor: 'bg-orange-500',
+        borderColor: 'border-orange-500/20',
+        hoverGlow: 'hover:shadow-orange-500/25',
+    },
+    {
+        id: 3,
+        title: 'Transport',
+        description: 'We manage logistics and transportation across Europe and beyond, ensuring safe delivery to your location.',
+        icon: Truck,
+        gradient: 'from-teal-500 to-teal-600',
+        accentColor: 'bg-teal-500',
+        borderColor: 'border-teal-500/20',
+        hoverGlow: 'hover:shadow-teal-500/25',
+    },
+    {
+        id: 4,
+        title: 'Mediation & Guidance',
+        description: 'Get expert advice and support throughout the entire process, from selection to installation.',
+        icon: HandHeart,
+        gradient: 'from-purple-600 to-purple-700',
+        accentColor: 'bg-purple-600',
+        borderColor: 'border-purple-600/20',
+        hoverGlow: 'hover:shadow-purple-500/25',
+    },
 ];
 
 const Services = () => {
-  return (
-    <section className="py-20 md:py-28 bg-resteel-light relative">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-hero-pattern opacity-50"></div>
-      
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="mb-16 max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center px-4 py-1 bg-white rounded-full mb-4 shadow-soft">
-            <span className="text-resteel-primary text-sm font-medium">What We Offer</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 font-serif text-resteel-secondary">
-            Comprehensive <span className="text-resteel-primary">Services</span>
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We offer end-to-end solutions for buying, selling, and relocating second-hand buildings.
-            From disassembly to reassembly, we handle every step of the process with expertise.
-          </p>
-          
-          {/* Decorative Divider */}
-          <div className="luxury-divider w-full max-w-xs mx-auto my-8"></div>
-        </div>
+    const [isVisible, setIsVisible] = useState(false);
+    const [hoveredCard, setHoveredCard] = useState(null);
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
-            <div 
-              key={service.id} 
-              className="feature-card hover:translate-y-[-8px] transition-all duration-300 animate-on-scroll border border-gray-100"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <div className={`feature-icon ${service.color} border`}>
-                <span className="text-2xl">{service.icon}</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-resteel-secondary font-serif">{service.title}</h3>
-              <p className="text-gray-600 mb-6">{service.description}</p>
-              <Link 
-                to={`/services#${service.title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="inline-flex items-center text-resteel-primary hover:text-resteel-accent transition-colors font-medium relative group"
-              >
-                Learn more <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-resteel-accent transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            { threshold: 0.1 },
+        );
+
+        const section = document.getElementById('services-section');
+        if (section) {
+            observer.observe(section);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <section id="services-section" className="relative overflow-hidden bg-slate-50">
+            {/* Background with Gradient and Pattern */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
+                {/* Mesh Pattern Overlay */}
+                <div className="absolute inset-0 opacity-30">
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.05) 0%, transparent 50%), 
+                             radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.05) 0%, transparent 50%), 
+                             radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.05) 0%, transparent 50%)`,
+                        }}
+                    />
+                </div>
             </div>
-          ))}
-        </div>
 
-        <div className="text-center mt-16">
-          <Button asChild size="lg" className="bg-luxury-gradient hover:bg-resteel-primary/90 rounded-full px-8 py-6 shadow-luxury hover:shadow-glow transition-all duration-300">
-            <Link to="/services">
-              Explore All Services
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
+            {/* Floating Elements */}
+            <div
+                className="absolute top-20 left-10 h-20 w-20 animate-bounce rounded-full bg-orange-500/10"
+                style={{ animationDuration: '6s', animationDelay: '0s' }}
+            />
+            <div
+                className="absolute top-40 right-20 h-16 w-16 animate-bounce rounded-full bg-blue-600/10"
+                style={{ animationDuration: '6s', animationDelay: '-2s' }}
+            />
+            <div
+                className="absolute bottom-40 left-20 h-12 w-12 animate-bounce rounded-full bg-teal-500/10"
+                style={{ animationDuration: '6s', animationDelay: '-4s' }}
+            />
+
+            <div className="relative z-10 py-20 md:py-28">
+                <div className="container mx-auto px-4">
+                    {/* Header Section */}
+                    <div className="mx-auto mb-20 max-w-4xl text-center">
+                        <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+                            <div className="mb-6 inline-flex items-center rounded-full bg-white/80 px-6 py-3 shadow-lg backdrop-blur-sm">
+                                <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500" />
+                                <span className="text-sm font-semibold text-slate-700">What We Offer</span>
+                            </div>
+                        </div>
+
+                        <h2
+                            className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                        >
+                            Comprehensive
+                            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                                Steel Solutions
+                            </span>
+                        </h2>
+
+                        <p
+                            className={`mx-auto max-w-3xl text-xl leading-relaxed text-slate-600 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                        >
+                            We offer end-to-end solutions for buying, selling, and relocating second-hand buildings. From disassembly to reassembly,
+                            we handle every step with precision and expertise.
+                        </p>
+
+                        {/* Decorative Line */}
+                        <div
+                            className={`mx-auto mt-8 h-1 w-24 bg-gradient-to-r from-orange-500 to-blue-600 transition-all delay-600 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+                        />
+                    </div>
+
+                    {/* Services Grid */}
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                        {services.map((service, index) => {
+                            const IconComponent = service.icon;
+                            return (
+                                <div
+                                    key={service.id}
+                                    className={`group relative overflow-hidden rounded-3xl border border-white/20 bg-white/80 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-4 hover:scale-105 hover:shadow-2xl ${service.hoverGlow} ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}
+                                    style={{
+                                        animationDelay: `${index * 200}ms`,
+                                        transitionDelay: `${index * 100}ms`,
+                                    }}
+                                    onMouseEnter={() => setHoveredCard(service.id)}
+                                    onMouseLeave={() => setHoveredCard(null)}
+                                >
+                                    {/* Background Gradient Effect */}
+                                    <div
+                                        className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
+                                    />
+
+                                    {/* Icon Container */}
+                                    <div className="relative mb-6">
+                                        <div
+                                            className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${service.gradient} shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+                                        >
+                                            <IconComponent className="h-8 w-8 text-white" />
+                                        </div>
+
+                                        {/* Floating Indicator */}
+                                        {hoveredCard === service.id && (
+                                            <div className="absolute -top-2 -right-2 h-4 w-4 animate-pulse rounded-full bg-orange-500" />
+                                        )}
+                                    </div>
+
+                                    {/* Content */}
+                                    <h3 className="mb-4 text-xl font-bold text-slate-700 transition-colors group-hover:text-slate-800">
+                                        {service.title}
+                                    </h3>
+
+                                    <p className="mb-6 leading-relaxed text-slate-600 transition-colors group-hover:text-slate-700">
+                                        {service.description}
+                                    </p>
+
+                                    {/* Action Link */}
+                                    <Link
+                                        href={`/services#${service.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                        className="group/link relative inline-flex items-center font-semibold text-slate-700 transition-all duration-300 hover:text-orange-500"
+                                    >
+                                        Learn more
+                                        <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+                                        <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-blue-600 transition-all duration-300 group-hover/link:w-full" />
+                                    </Link>
+
+                                    {/* Grid Pattern Overlay */}
+                                    <div
+                                        className="absolute inset-0 opacity-5 transition-opacity duration-300 group-hover:opacity-10"
+                                        style={{
+                                            backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), 
+                                           linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)`,
+                                            backgroundSize: '20px 20px',
+                                        }}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Call to Action */}
+                    <div
+                        className={`mt-20 text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
+                        <div className="mx-auto max-w-2xl">
+                            <h3 className="mb-4 text-2xl font-bold text-slate-700">Ready to Start Your Project?</h3>
+                            <p className="mb-8 text-lg text-slate-600">Get in touch with our experts to discuss your steel construction needs</p>
+
+                            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                                <Button
+                                    asChild
+                                    size="lg"
+                                    className="group rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/25"
+                                >
+                                    <Link href="/services">
+                                        Explore All Services
+                                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                                    </Link>
+                                </Button>
+
+                                <Button
+                                    asChild
+                                    size="lg"
+                                    variant="outline"
+                                    className="rounded-xl border-2 border-slate-300 px-8 py-4 text-lg font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-slate-100"
+                                >
+                                    <Link href="/contact">Get Quote</Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default Services;
