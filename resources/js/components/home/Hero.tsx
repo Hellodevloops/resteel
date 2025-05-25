@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Navbar from '../layout/Navbar';
+import Navbar from '../layout/Header';
 
 const ResteelHero = () => {
     const [scrollY, setScrollY] = useState(0);

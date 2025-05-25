@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('website/home');
+    return Inertia::render('website/App');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
