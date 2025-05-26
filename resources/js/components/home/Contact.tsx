@@ -145,8 +145,8 @@ const Contact = () => {
                         <div>
                           <h3 className="font-semibold text-lg mb-2 text-resteel-secondary">Email</h3>
                           <p className="text-gray-600">
-                            <a href="mailto:info@resteel.com" className="hover:text-resteel-accent transition-colors">
-                              info@resteel.com
+                            <a href="mailto:info@resteel-solutions.com" className="hover:text-resteel-accent transition-colors">
+                              info@resteel-solutions.com
                             </a>
                           </p>
                         </div>

@@ -1,50 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
-import { ArrowRight, Building2, HandHeart, Truck, Wrench } from 'lucide-react';
+import { ArrowRight, Building2, Handshake, MapPin, Package, Truck, Users, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-const services = [
-    {
-        id: 1,
-        title: 'Purchase & Sale',
-        description: 'We buy and sell second-hand buildings of all types and sizes, from warehouses to commercial premises.',
-        icon: Building2,
-        gradient: 'from-blue-600 to-slate-700',
-        accentColor: 'bg-blue-600',
-        borderColor: 'border-blue-600/20',
-        hoverGlow: 'hover:shadow-blue-500/25',
-    },
-    {
-        id: 2,
-        title: 'Assembly & Disassembly',
-        description: 'Our experienced team handles the careful disassembly and reassembly of buildings on your site.',
-        icon: Wrench,
-        gradient: 'from-orange-500 to-orange-600',
-        accentColor: 'bg-orange-500',
-        borderColor: 'border-orange-500/20',
-        hoverGlow: 'hover:shadow-orange-500/25',
-    },
-    {
-        id: 3,
-        title: 'Transport',
-        description: 'We manage logistics and transportation across Europe and beyond, ensuring safe delivery to your location.',
-        icon: Truck,
-        gradient: 'from-teal-500 to-teal-600',
-        accentColor: 'bg-teal-500',
-        borderColor: 'border-teal-500/20',
-        hoverGlow: 'hover:shadow-teal-500/25',
-    },
-    {
-        id: 4,
-        title: 'Mediation & Guidance',
-        description: 'Get expert advice and support throughout the entire process, from selection to installation.',
-        icon: HandHeart,
-        gradient: 'from-purple-600 to-purple-700',
-        accentColor: 'bg-purple-600',
-        borderColor: 'border-purple-600/20',
-        hoverGlow: 'hover:shadow-purple-500/25',
-    },
-];
 
 const Services = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -67,6 +22,71 @@ const Services = () => {
 
         return () => observer.disconnect();
     }, []);
+
+    const mainServices = [
+        {
+            id: 1,
+            title: 'Purchase & Sale',
+            description:
+                'Expert buying and selling of second-hand agricultural and industrial halls, plus used steel constructions across all sectors.',
+            icon: Building2,
+            gradient: 'from-blue-600 to-slate-700',
+            accentColor: 'bg-blue-600',
+            hoverGlow: 'hover:shadow-blue-500/25',
+            features: ['Agricultural Halls', 'Industrial Buildings', 'Steel Constructions', 'Cross-Border Trading'],
+        },
+        {
+            id: 2,
+            title: 'Assembly & Disassembly',
+            description: 'Professional dismantling and reconstruction services with experienced teams handling projects of all sizes.',
+            icon: Wrench,
+            gradient: 'from-orange-500 to-orange-600',
+            accentColor: 'bg-orange-500',
+            hoverGlow: 'hover:shadow-orange-500/25',
+            features: ['Expert Dismantling', 'Careful Reconstruction', 'Site Management', 'Quality Assurance'],
+        },
+        {
+            id: 3,
+            title: 'Transport & Logistics',
+            description: 'Complete transportation solutions throughout Europe and beyond, managing shipping outside the EU with ease.',
+            icon: Truck,
+            gradient: 'from-teal-500 to-teal-600',
+            accentColor: 'bg-teal-500',
+            hoverGlow: 'hover:shadow-teal-500/25',
+            features: ['Europe-wide Transport', 'International Shipping', 'Logistics Management', 'Safe Delivery'],
+        },
+        {
+            id: 4,
+            title: 'Equipment Trading',
+            description: 'Comprehensive trading in machinery, forklifts, racks, and construction materials with extensive industry connections.',
+            icon: Package,
+            gradient: 'from-purple-600 to-purple-700',
+            accentColor: 'bg-purple-600',
+            hoverGlow: 'hover:shadow-purple-500/25',
+            features: ['Machinery Trading', 'Forklift Sales', 'Storage Racks', 'Construction Materials'],
+        },
+    ];
+
+    const additionalServices = [
+        {
+            title: 'European Coverage',
+            description: 'Active throughout Europe with no project boundaries',
+            icon: MapPin,
+            color: 'text-blue-600',
+        },
+        {
+            title: 'Buyer Matching',
+            description: 'Finding suitable buyers for your trade objects',
+            icon: Handshake,
+            color: 'text-orange-500',
+        },
+        {
+            title: 'Sales Partnership',
+            description: 'Opportunities to become a sales manager in your country',
+            icon: Users,
+            color: 'text-teal-500',
+        },
+    ];
 
     return (
         <section id="services-section" className="relative overflow-hidden bg-slate-50">
@@ -100,30 +120,30 @@ const Services = () => {
             />
 
             <div className="relative z-10 py-20 md:py-28">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto max-w-7xl px-4">
                     {/* Header Section */}
                     <div className="mx-auto mb-20 max-w-4xl text-center">
                         <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                             <div className="mb-6 inline-flex items-center rounded-full bg-white/80 px-6 py-3 shadow-lg backdrop-blur-sm">
                                 <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500" />
-                                <span className="text-sm font-semibold text-slate-700">What We Offer</span>
+                                <span className="text-sm font-semibold text-slate-700">2nd Hand Trading Solutions</span>
                             </div>
                         </div>
 
                         <h2
                             className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
-                            Comprehensive
+                            Complete Trading
                             <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                                Steel Solutions
+                                & Construction Services
                             </span>
                         </h2>
 
                         <p
                             className={`mx-auto max-w-3xl text-xl leading-relaxed text-slate-600 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
-                            We offer end-to-end solutions for buying, selling, and relocating second-hand buildings. From disassembly to reassembly,
-                            we handle every step with precision and expertise.
+                            2nd Hand Trading B.V. is a broadly oriented company where projects are not tied to branches or national borders. We handle
+                            everything from small to large industrial projects across Europe and beyond.
                         </p>
 
                         {/* Decorative Line */}
@@ -132,9 +152,9 @@ const Services = () => {
                         />
                     </div>
 
-                    {/* Services Grid */}
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                        {services.map((service, index) => {
+                    {/* Main Services Grid */}
+                    <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+                        {mainServices.map((service, index) => {
                             const IconComponent = service.icon;
                             return (
                                 <div
@@ -175,15 +195,22 @@ const Services = () => {
                                         {service.description}
                                     </p>
 
+                                    {/* Features List */}
+                                    <div className="mb-6 space-y-2">
+                                        {service.features.map((feature, idx) => (
+                                            <div key={idx} className="flex items-center text-sm text-slate-600">
+                                                <div className="mr-2 h-1.5 w-1.5 rounded-full bg-orange-500" />
+                                                {feature}
+                                            </div>
+                                        ))}
+                                    </div>
+
                                     {/* Action Link */}
-                                    <Link
-                                        href={`/services#${service.title.toLowerCase().replace(/\s+/g, '-')}`}
-                                        className="group/link relative inline-flex items-center font-semibold text-slate-700 transition-all duration-300 hover:text-orange-500"
-                                    >
+                                    <button className="group/link relative inline-flex items-center font-semibold text-slate-700 transition-all duration-300 hover:text-orange-500">
                                         Learn more
                                         <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
                                         <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-blue-600 transition-all duration-300 group-hover/link:w-full" />
-                                    </Link>
+                                    </button>
 
                                     {/* Grid Pattern Overlay */}
                                     <div
@@ -199,34 +226,66 @@ const Services = () => {
                         })}
                     </div>
 
+                    {/* What We Do Section */}
+                    <div
+                        className={`mb-20 rounded-3xl border border-white/20 bg-white/80 p-12 backdrop-blur-sm transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    >
+                        <div className="mb-12 text-center">
+                            <h3 className="mb-4 text-3xl font-bold text-slate-700">What We Do</h3>
+                            <p className="mx-auto max-w-3xl text-lg text-slate-600">
+                                We take care of the purchase, sale, assembly, disassembly and transport and are active throughout Europe. Our core
+                                business is 2nd hand buildings alongside all common trade operations.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                            {additionalServices.map((service, index) => {
+                                const IconComponent = service.icon;
+                                return (
+                                    <div
+                                        key={index}
+                                        className="group rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/60 hover:shadow-lg"
+                                    >
+                                        <div className="mb-4 flex justify-center">
+                                            <div
+                                                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-colors group-hover:bg-white`}
+                                            >
+                                                <IconComponent className={`h-6 w-6 ${service.color}`} />
+                                            </div>
+                                        </div>
+                                        <h4 className="mb-2 text-lg font-semibold text-slate-700">{service.title}</h4>
+                                        <p className="text-sm text-slate-600">{service.description}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
                     {/* Call to Action */}
                     <div
-                        className={`mt-20 text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                        className={`text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
-                        <div className="mx-auto max-w-2xl">
-                            <h3 className="mb-4 text-2xl font-bold text-slate-700">Ready to Start Your Project?</h3>
-                            <p className="mb-8 text-lg text-slate-600">Get in touch with our experts to discuss your steel construction needs</p>
+                        <div className="mx-auto max-w-4xl rounded-3xl border border-white/20 bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 p-12 text-white backdrop-blur-sm">
+                            <h3 className="mb-4 text-3xl font-bold">Ready to Start Trading?</h3>
+                            <p className="mx-auto mb-8 max-w-2xl text-lg text-white/80">
+                                We can almost always find a suitable buyer for your trade objects. Contact us for both small and large industrial
+                                projects.
+                            </p>
 
                             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className="group rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/25"
-                                >
-                                    <Link href="/services">
-                                        Explore All Services
-                                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                                    </Link>
-                                </Button>
+                                <button className="group rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
+                                    Get Quote Today
+                                    <ArrowRight className="ml-2 inline h-5 w-5 transition-transform group-hover:translate-x-1" />
+                                </button>
 
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    variant="outline"
-                                    className="rounded-xl border-2 border-slate-300 px-8 py-4 text-lg font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-slate-100"
-                                >
-                                    <Link href="/contact">Get Quote</Link>
-                                </Button>
+                                <button className="rounded-xl border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+                                    Become Sales Manager
+                                </button>
+                            </div>
+
+                            {/* Contact Info */}
+                            <div className="mt-8 text-sm text-white/70">
+                                <p>Want to become a sales manager in your country? Contact us today!</p>
                             </div>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ import NotFound from '@/components/home/NotFound';
 import Privacy from '@/components/home/Privacy';
 import Services from '@/components/home/Services';
 import Terms from '@/components/home/Terms';
+import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -21,6 +22,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+                <Header />
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/buildings" element={<Buildings />} />
