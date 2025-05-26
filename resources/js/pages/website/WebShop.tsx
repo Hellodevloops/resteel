@@ -82,7 +82,7 @@ const WebShop = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="mt-22 min-h-screen bg-slate-50">
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-20">
                 {/* Background Pattern */}

@@ -40,7 +40,7 @@ const ResteelHero = () => {
     ];
 
     return (
-        <div className="bg-slate-50">
+        <div className="mt-22 bg-slate-50">
             {/* Navigation */}
             <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-white/95 shadow-lg shadow-slate-900/5 backdrop-blur-xl">
                 <Navbar />
