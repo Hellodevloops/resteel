@@ -69,9 +69,12 @@ const FeaturedBuildings = () => {
     const BuildingCard = ({ building, index }) => {
         return (
             <div
-                className={`group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
-                    isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-                }`}
+                className={
+                    'mt-22' +
+                    `group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
+                        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+                    }`
+                }
                 style={{ animationDelay: `${800 + index * 100}ms` }}
             >
                 {/* Image Section */}
