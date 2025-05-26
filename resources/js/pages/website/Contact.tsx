@@ -67,7 +67,7 @@ const ContactCTA = () => {
     ];
 
     return (
-        <section id="contact-section" className="relative overflow-hidden bg-slate-50 py-20 md:py-28">
+        <section id="contact-section" className="relative mt-22 overflow-hidden bg-slate-50 py-20 md:py-28">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Floating geometric shapes with parallax */}
