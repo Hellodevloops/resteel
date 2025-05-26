@@ -11,8 +11,10 @@ import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import BuildingDetail from './BuildingDetail';
+import Cart from './Cart';
 import Privacy from './Privacy';
 import Terms from './Terms';
+import WebShop from './WebShop';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/webshop" element={<WebShop />} />
+                    <Route path="/cart" element={<Cart />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>

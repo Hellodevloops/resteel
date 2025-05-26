@@ -53,19 +53,6 @@ const buildings = [
         hasVideo: false,
         featured: true,
     },
-    {
-        id: 4,
-        title: 'Steel Structure',
-        status: 'SALE',
-        type: 'other',
-        category: 'Steel Structures',
-        construction: 'No walls, No roof',
-        image: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        specifications: [{ name: 'Steel Frame', dimensions: '45 x 75 m', area: '3,375 m²' }],
-        totalArea: '3,375 m²',
-        hasVideo: false,
-        featured: true,
-    },
 ];
 
 const FeaturedBuildings = () => {
@@ -277,7 +264,7 @@ const FeaturedBuildings = () => {
                     </div>
 
                     <TabsContent value={activeFilter} className="mt-0">
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
                             ))}
