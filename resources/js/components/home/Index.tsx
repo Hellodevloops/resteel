@@ -1,7 +1,10 @@
+import ContactCTA from '@/components/home/ContactCTA';
 import FeaturedBuildings from '@/components/home/FeaturedBuildings';
-import Hero from '@/components/home/Hero';
+import Services from '@/components/home/Services';
+import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
+import Hero from '@/sections/Hero';
 import { useEffect } from 'react';
 
 const Index = () => {
@@ -19,13 +22,13 @@ const Index = () => {
             <main className="flex-grow">
                 <Hero />
                 <FeaturedBuildings />
-                {/* <Services />
-                <AboutSection />
+                <Services />
+                {/* <AboutSection />
                 <Testimonials />
-                <Partners />
-                <ContactCTA /> */}
+                <Partners /> */}
+                <ContactCTA />
             </main>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 };
