@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Link } from '@inertiajs/react';
 import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Building types
 const buildingTypes = [
@@ -291,7 +291,7 @@ const FeaturedBuildings = () => {
                                 variant="outline"
                                 className="rounded-full border-2 border-slate-300 bg-white/80 px-10 py-4 text-lg font-semibold text-slate-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-transparent hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:text-white hover:shadow-xl"
                             >
-                                <Link href="/buildings">
+                                <Link to="/buildings">
                                     View All Buildings
                                     <ArrowRight className="ml-3 h-5 w-5" />
                                 </Link>

@@ -22,7 +22,7 @@ const Header = () => {
     return (
         <>
             {/* Top Bar - Only visible on desktop when not scrolled */}
-            {!isScrolled && (
+            {isScrolled && (
                 <div className="hidden bg-gradient-to-r from-slate-700 to-slate-600 text-white lg:block">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="flex items-center justify-between py-2 text-sm">
@@ -159,7 +159,7 @@ const Header = () => {
                                         to="/contact"
                                         className="group shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
                                     >
-                                        <span className="relative z-10">Get Quote</span>
+                                        <span className="relative z-10">Contact Us</span>
                                         <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                                     </Link>
                                 </li>
