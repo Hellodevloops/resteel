@@ -1,18 +1,18 @@
-import About from '@/components/home/About';
-import BuildingDetail from '@/components/home/BuildingDetail';
-import Buildings from '@/components/home/Buildings';
-import Contact from '@/components/home/Contact';
-import Index from '@/components/home/Index';
-import NotFound from '@/components/home/NotFound';
-import Privacy from '@/components/home/Privacy';
-import Services from '@/components/home/Services';
-import Terms from '@/components/home/Terms';
 import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import About from '@/pages/website/About';
+import Buildings from '@/pages/website/Buildings';
+import Contact from '@/pages/website/Contact';
+import Index from '@/pages/website/Index';
+import NotFound from '@/pages/website/NotFound';
+import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import BuildingDetail from './BuildingDetail';
+import Privacy from './Privacy';
+import Terms from './Terms';
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ const App = () => (
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/buildings" element={<Buildings />} />
-                    <Route path="/buildings/:id" element={<BuildingDetail />} />
+                    {/* <Route path="/buildings/:id" element={<BuildingDetail />} /> */}
                     <Route path="/services" element={<Services />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />

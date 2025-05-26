@@ -1,11 +1,11 @@
-import ContactCTA from '@/components/home/ContactCTA';
-import FeaturedBuildings from '@/components/home/FeaturedBuildings';
-import Services from '@/components/home/Services';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
-import Hero from '@/sections/Hero';
+import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
+import Services from '@/pages/website/Services';
 import { useEffect } from 'react';
+import Contact from './Contact';
+import Hero from './Hero';
 
 const Index = () => {
     // Initialize scroll animations
@@ -23,10 +23,7 @@ const Index = () => {
                 <Hero />
                 <FeaturedBuildings />
                 <Services />
-                {/* <AboutSection />
-                <Testimonials />
-                <Partners /> */}
-                <ContactCTA />
+                <Contact />
             </main>
             <Footer />
         </div>
