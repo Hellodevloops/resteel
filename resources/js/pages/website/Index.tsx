@@ -1,7 +1,6 @@
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
-import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
 import Services from '@/pages/website/Services';
 import { useEffect } from 'react';
 import Contact from './Contact';
@@ -21,8 +20,8 @@ const Index = () => {
             <Header />
             <main className="flex-grow">
                 <Hero />
-                <FeaturedBuildings />
                 <Services />
+                {/* <FeaturedBuildings /> */}
                 <Contact />
             </main>
             <Footer />

@@ -115,11 +115,6 @@ const ContactCTA = () => {
                 <div
                     className={`mb-16 text-center transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 >
-                    <div className="mb-6 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500/10 to-blue-600/10 px-6 py-3 backdrop-blur-sm">
-                        <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
-                        <span className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Expert Consultation</span>
-                    </div>
-
                     <h2 className="mb-6 text-4xl leading-tight font-bold text-slate-800 md:text-5xl lg:text-6xl">
                         Ready to Build
                         <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Something Great?</span>
