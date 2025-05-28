@@ -1,262 +1,221 @@
-import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
-import { ArrowRight, Award, Clock, Mail, MapPin, Phone, Users, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowRight, Clock, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { useState } from 'react';
 
 const ContactCTA = () => {
-    const [scrollY, setScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        mobile: '',
+        message: '',
+    });
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll);
+    const handleInputChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 },
-        );
-
-        const element = document.getElementById('contact-section');
-        if (element) observer.observe(element);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            observer.disconnect();
-        };
-    }, []);
-
-    const contactMethods = [
-        {
-            icon: Mail,
-            title: 'Email Inquiries',
-            subtitle: 'Get detailed quotations & technical specifications',
-            contact: 'info@resteel.com',
-            href: 'mailto:info@resteel.com?subject=Premium Steel Solutions Inquiry',
-            color: 'from-orange-500 to-orange-600',
-            accent: 'border-orange-500/30',
-        },
-        {
-            icon: Phone,
-            title: 'Direct Consultation',
-            subtitle: 'Speak with our engineering specialists',
-            contact: '+31 (0) 123 456 789',
-            href: 'tel:+31123456789',
-            color: 'from-blue-600 to-blue-700',
-            accent: 'border-blue-600/30',
-        },
-        {
-            icon: MapPin,
-            title: 'Visit Our Facility',
-            subtitle: 'Westerbeemd 2B, 5705 DN Helmond, NL',
-            contact: 'Schedule Tour',
-            href: '/contact',
-            color: 'from-teal-500 to-teal-600',
-            accent: 'border-teal-500/30',
-        },
-    ];
-
-    const features = [
-        { icon: Clock, text: '24/7 Project Support' },
-        { icon: Award, text: 'ISO 9001 Certified' },
-        { icon: Users, text: '500+ Satisfied Clients' },
-        { icon: Zap, text: 'Rapid Response Time' },
-    ];
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+    };
 
     return (
-        <section id="contact-section" className="relative overflow-hidden bg-slate-50 py-20 md:py-28">
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-                {/* Floating geometric shapes with parallax */}
-                <div
-                    className="absolute top-20 -right-32 h-96 w-96 rounded-full bg-gradient-to-br from-orange-500/10 to-orange-600/5 blur-3xl"
-                    style={{ transform: `translate3d(0, ${scrollY * 0.1}px, 0)` }}
-                ></div>
-                <div
-                    className="absolute bottom-0 -left-32 h-96 w-96 rounded-full bg-gradient-to-br from-blue-600/10 to-slate-700/5 blur-3xl"
-                    style={{ transform: `translate3d(0, ${scrollY * -0.1}px, 0)` }}
-                ></div>
-                <div
-                    className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-teal-500/5 to-transparent blur-2xl"
-                    style={{ transform: `translate(-50%, -50%) translate3d(0, ${scrollY * 0.05}px, 0)` }}
-                ></div>
-
-                {/* Animated grid pattern */}
-                <div
-                    className="absolute inset-0 opacity-10"
-                    style={{
-                        backgroundImage: `linear-gradient(rgba(74, 83, 99, 0.3) 1px, transparent 1px), 
-                                         linear-gradient(90deg, rgba(74, 83, 99, 0.3) 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px',
-                        transform: `translate3d(0, ${scrollY * 0.02}px, 0)`,
-                    }}
-                ></div>
-
-                {/* Floating particles */}
-                <div
-                    className="absolute top-10 left-10 h-3 w-3 animate-bounce rounded-full bg-orange-500/40"
-                    style={{ animationDuration: '4s' }}
-                ></div>
-                <div
-                    className="absolute top-40 right-20 h-2 w-2 animate-bounce rounded-full bg-blue-600/40"
-                    style={{ animationDuration: '6s', animationDelay: '-2s' }}
-                ></div>
-                <div
-                    className="absolute bottom-20 left-1/4 h-4 w-4 animate-bounce rounded-full bg-teal-500/30"
-                    style={{ animationDuration: '5s', animationDelay: '-1s' }}
-                ></div>
-            </div>
-
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Header Section */}
-                <div
-                    className={`mb-16 text-center transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                >
-                    <div className="mb-6 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500/10 to-blue-600/10 px-6 py-3 backdrop-blur-sm">
-                        <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
-                        <span className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Expert Consultation</span>
-                    </div>
-
-                    <h2 className="mb-6 text-4xl leading-tight font-bold text-slate-800 md:text-5xl lg:text-6xl">
-                        Ready to Build
-                        <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Something Great?</span>
-                    </h2>
-
-                    <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-600">
-                        Transform your vision into reality with our precision engineering and decades of expertise. Let's discuss your next industrial
-                        project.
+        <div className="bg-gradient-to-b from-gray-50 to-white py-20">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                {/* Header */}
+                <div className="mb-16 text-center">
+                    <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Get in Touch</h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-gray-600">
+                        Ready to sell equipment or start a project? Our team, with over 20 years of experience, is here to guide you across Europe.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-                    {/* Left Side - Contact Methods */}
-                    <div className="space-y-6">
-                        {contactMethods.map((method, index) => (
-                            <div
-                                key={index}
-                                className={`group relative overflow-hidden rounded-2xl border bg-white/80 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${method.accent} ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'}`}
-                                style={{ transitionDelay: `${index * 200}ms` }}
-                            >
-                                {/* Gradient overlay on hover */}
-                                <div
-                                    className={`absolute inset-0 bg-gradient-to-br ${method.color} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
-                                ></div>
-
-                                <div className="relative flex items-start space-x-6">
-                                    <div
-                                        className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${method.color} shadow-lg`}
-                                    >
-                                        <method.icon className="h-8 w-8 text-white" />
+                <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+                    {/* Contact Form */}
+                    <div className="lg:col-span-2">
+                        <div className="rounded-3xl bg-white p-8 shadow-xl transition-shadow hover:shadow-2xl">
+                            <h3 className="mb-6 text-2xl font-semibold text-gray-900">Send Us a Message</h3>
+                            <form onSubmit={handleSubmit} className="space-y-5">
+                                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">Full Name *</label>
+                                        <input
+                                            type="text"
+                                            name="fullName"
+                                            value={formData.fullName}
+                                            onChange={handleInputChange}
+                                            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-gray-900 transition-all duration-300 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Your name"
+                                            required
+                                        />
                                     </div>
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium text-gray-700">Email Address *</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="w-full rounded-lg border border-gray-200 px-4 py-3 text-gray-900 transition-all duration-300 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Your email"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">Mobile Number *</label>
+                                    <input
+                                        type="tel"
+                                        name="mobile"
+                                        value={formData.mobile}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-lg border border-gray-200 px-4 py-3 text-gray-900 transition-all duration-300 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Your mobile number"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="mb-1 block text-sm font-medium text-gray-700">Your Message *</label>
+                                    <textarea
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        rows={4}
+                                        className="w-full resize-none rounded-lg border border-gray-200 px-4 py-3 text-gray-900 transition-all duration-300 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Tell us about your project or equipment..."
+                                        required
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-medium text-white transition-colors duration-300 hover:bg-blue-700"
+                                >
+                                    <Send className="h-5 w-5" /> Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
 
-                                    <div className="flex-1">
-                                        <h3 className="mb-2 text-2xl font-bold text-slate-800">{method.title}</h3>
-                                        <p className="mb-4 text-slate-600">{method.subtitle}</p>
-
-                                        <a
-                                            href={method.href}
-                                            className="group/link inline-flex items-center text-lg font-semibold text-slate-800 transition-colors hover:text-orange-600"
-                                        >
-                                            {method.contact}
-                                            <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/link:translate-x-1" />
+                    {/* Contact Info & Quick Links */}
+                    <div className="space-y-8">
+                        {/* Contact Information */}
+                        <div className="rounded-3xl bg-white p-6 shadow-xl">
+                            <h3 className="mb-4 text-xl font-semibold text-gray-900">Contact Information</h3>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <Mail className="h-5 w-5 text-blue-600" />
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-900">Email</p>
+                                        <a href="mailto:2ndhand@tradingbv.com" className="text-sm text-blue-600 hover:text-blue-800">
+                                            2ndhand@tradingbv.com
                                         </a>
                                     </div>
                                 </div>
-
-                                {/* Animated accent line */}
-                                <div
-                                    className={`absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r ${method.color} transition-all duration-300 group-hover:w-full`}
-                                ></div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Right Side - CTA and Features */}
-                    <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}>
-                        {/* Main CTA Card */}
-                        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-800 via-slate-700 to-blue-800 p-10 text-white shadow-2xl">
-                            {/* Background pattern */}
-                            <div
-                                className="absolute inset-0 opacity-10"
-                                style={{
-                                    backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.3) 0%, transparent 50%), 
-                                                     radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.3) 0%, transparent 50%)`,
-                                }}
-                            ></div>
-
-                            <div className="relative">
-                                <h3 className="mb-6 text-3xl font-bold">Start Your Project Today</h3>
-                                <p className="mb-8 text-lg text-white/80">
-                                    Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring your
-                                    vision to life.
-                                </p>
-
-                                <div className="flex flex-col gap-4 sm:flex-row">
-                                    <Button
-                                        asChild
-                                        size="lg"
-                                        className="bg-orange-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25"
-                                    >
-                                        <Link href="/contact">
-                                            Get Free Consultation
-                                            <ArrowRight className="ml-2 h-5 w-5" />
-                                        </Link>
-                                    </Button>
-
-                                    <Button
-                                        asChild
-                                        size="lg"
-                                        variant="outline"
-                                        className="border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/10"
-                                    >
-                                        <a href="tel:+31123456789">Call Now</a>
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {/* Floating accent elements */}
-                            <div className="absolute top-4 right-4 h-20 w-20 animate-pulse rounded-full bg-orange-500/20"></div>
-                            <div
-                                className="absolute bottom-4 left-4 h-16 w-16 animate-pulse rounded-full bg-blue-600/20"
-                                style={{ animationDelay: '1s' }}
-                            ></div>
-                        </div>
-
-                        {/* Features Grid */}
-                        <div className="grid grid-cols-2 gap-4">
-                            {features.map((feature, index) => (
-                                <div
-                                    key={index}
-                                    className={`group rounded-2xl border border-slate-200 bg-white/80 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
-                                    style={{ transitionDelay: `${600 + index * 100}ms` }}
-                                >
-                                    <div className="mb-4 flex justify-center">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 transition-transform duration-300 group-hover:scale-110">
-                                            <feature.icon className="h-6 w-6 text-white" />
-                                        </div>
+                                <div className="flex items-center gap-3">
+                                    <Phone className="h-5 w-5 text-blue-600" />
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-900">Phone</p>
+                                        <p className="text-sm text-gray-600">Available upon request</p>
                                     </div>
-                                    <p className="text-sm font-semibold text-slate-700">{feature.text}</p>
                                 </div>
-                            ))}
+                                <div className="flex items-center gap-3">
+                                    <MapPin className="h-5 w-5 text-blue-600" />
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-900">Location</p>
+                                        <p className="text-sm text-gray-600">Westleest 2H, 5705 DN Helmond, Netherlands</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Clock className="h-5 w-5 text-blue-600" />
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-900">Experience</p>
+                                        <p className="text-sm text-gray-600">20+ Years Across Europe</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Trust Badge */}
-                        <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 text-center backdrop-blur-sm">
-                            <div className="mb-3 flex justify-center space-x-1">
-                                {[...Array(5)].map((_, i) => (
-                                    <div key={i} className="h-5 w-5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600"></div>
+                        {/* Quick Links */}
+                        <div className="rounded-3xl bg-white p-6 shadow-xl">
+                            <h3 className="mb-4 text-xl font-semibold text-gray-900">Explore More</h3>
+                            <div className="space-y-2">
+                                {[
+                                    { href: '#services', label: 'Our Services' },
+                                    { href: '#portfolio', label: 'Project Portfolio' },
+                                    { href: '#references', label: 'Client References' },
+                                    { href: '#tender', label: 'Tender Quotations' },
+                                    { href: '#agricultural', label: 'Agricultural Sector' },
+                                ].map((link) => (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        className="block text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800"
+                                    >
+                                        {link.label}
+                                    </a>
                                 ))}
                             </div>
-                            <p className="text-sm font-semibold text-slate-700">Trusted by 500+ Industrial Clients</p>
-                            <p className="text-xs text-slate-500">Average 4.9/5 satisfaction rating</p>
                         </div>
                     </div>
                 </div>
+
+                {/* Map & Newsletter Section */}
+                <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                    {/* Map Section */}
+                    <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
+                        <div className="p-6">
+                            <h3 className="mb-4 text-xl font-semibold text-gray-900">Our Location</h3>
+                            <p className="mb-4 text-sm text-gray-600">2nd Hand Trading B.V., Westleest 2H, 5705 DN Helmond, Netherlands</p>
+                        </div>
+                        <div className="relative h-64 bg-gradient-to-br from-blue-100 to-green-100">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <MapPin className="h-10 w-10 text-red-500" />
+                            </div>
+                            <p className="absolute bottom-4 left-4 rounded-lg bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm">
+                                Helmond, Netherlands
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Newsletter Signup */}
+                    <div className="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-xl">
+                        <h3 className="mb-4 text-xl font-semibold">Stay Updated</h3>
+                        <p className="mb-6 text-sm">Receive our newsletters.</p>
+                        <div className="flex gap-3">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                className="flex-1 rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white placeholder-gray-300 transition-all duration-300 focus:border-transparent focus:ring-2 focus:ring-orange-400"
+                            />
+                            <button className="flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 transition-colors duration-300 hover:bg-orange-600">
+                                <ArrowRight className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <p className="mt-4 text-xs text-gray-200">Join our network of professionals across Europe.</p>
+                    </div>
+                </div>
+
+                {/* Services Highlights */}
+                {/* <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    {[
+                        { icon: Building, label: 'Purchase & Sale' },
+                        { icon: Users, label: 'Mediation' },
+                        { icon: Hammer, label: 'Assembly' },
+                        { icon: Truck, label: 'Transport' },
+                    ].map((service) => (
+                        <div
+                            key={service.label}
+                            className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg"
+                        >
+                            <service.icon className="h-6 w-6 text-blue-600" />
+                            <span className="text-sm font-medium text-gray-900">{service.label}</span>
+                        </div>
+                    ))}
+                </div> */}
             </div>
-        </section>
+        </div>
     );
 };
 

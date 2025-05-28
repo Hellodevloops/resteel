@@ -11,6 +11,7 @@ import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import BuildingDetail from './BuildingDetail';
+import Career from './Career';
 import Privacy from './Privacy';
 import Terms from './Terms';
 
@@ -33,6 +34,7 @@ const App = () => (
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="career" element={<Career />} />
                 </Routes>
             </BrowserRouter>
         </TooltipProvider>

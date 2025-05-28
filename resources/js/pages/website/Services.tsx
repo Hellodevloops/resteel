@@ -89,7 +89,7 @@ const Services = () => {
     ];
 
     return (
-        <section id="services-section" className="relative overflow-hidden bg-slate-50">
+        <section id="services-section" className="relative mt-22 overflow-hidden bg-slate-50">
             {/* Background with Gradient and Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
                 {/* Mesh Pattern Overlay */}
@@ -123,27 +123,18 @@ const Services = () => {
                 <div className="container mx-auto max-w-7xl px-4">
                     {/* Header Section */}
                     <div className="mx-auto mb-20 max-w-4xl text-center">
-                        <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                            <div className="mb-6 inline-flex items-center rounded-full bg-white/80 px-6 py-3 shadow-lg backdrop-blur-sm">
-                                <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500" />
-                                <span className="text-sm font-semibold text-slate-700">2nd Hand Trading Solutions</span>
-                            </div>
-                        </div>
-
                         <h2
-                            className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                            className={`mb-6 translate-y-0 text-4xl leading-tight font-bold text-slate-700 opacity-100 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl`}
                         >
-                            Complete Trading
-                            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                                & Construction Services
-                            </span>
+                            What
+                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent"> We Do</span>
                         </h2>
 
                         <p
                             className={`mx-auto max-w-3xl text-xl leading-relaxed text-slate-600 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
-                            2nd Hand Trading B.V. is a broadly oriented company where projects are not tied to branches or national borders. We handle
-                            everything from small to large industrial projects across Europe and beyond.
+                            We take care of the purchase, sale, assembly, disassembly and transport and are active throughout Europe. Our core
+                            business is 2nd hand buildings alongside all common trade operations.
                         </p>
 
                         {/* Decorative Line */}
@@ -227,15 +218,12 @@ const Services = () => {
                     </div>
 
                     {/* What We Do Section */}
-                    <div
+                    {/* <div
                         className={`mb-20 rounded-3xl border border-white/20 bg-white/80 p-12 backdrop-blur-sm transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
                         <div className="mb-12 text-center">
                             <h3 className="mb-4 text-3xl font-bold text-slate-700">What We Do</h3>
-                            <p className="mx-auto max-w-3xl text-lg text-slate-600">
-                                We take care of the purchase, sale, assembly, disassembly and transport and are active throughout Europe. Our core
-                                business is 2nd hand buildings alongside all common trade operations.
-                            </p>
+                            <p className="mx-auto max-w-3xl text-lg text-slate-600"></p>
                         </div>
 
                         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -259,7 +247,7 @@ const Services = () => {
                                 );
                             })}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Call to Action */}
                     <div
@@ -274,7 +262,7 @@ const Services = () => {
 
                             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                                 <button className="group rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
-                                    Get Quote Today
+                                    Contact Us
                                     <ArrowRight className="ml-2 inline h-5 w-5 transition-transform group-hover:translate-x-1" />
                                 </button>
 

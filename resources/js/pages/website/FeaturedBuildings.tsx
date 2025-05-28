@@ -53,19 +53,6 @@ const buildings = [
         hasVideo: false,
         featured: true,
     },
-    {
-        id: 4,
-        title: 'Steel Structure',
-        status: 'SALE',
-        type: 'other',
-        category: 'Steel Structures',
-        construction: 'No walls, No roof',
-        image: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-        specifications: [{ name: 'Steel Frame', dimensions: '45 x 75 m', area: '3,375 m²' }],
-        totalArea: '3,375 m²',
-        hasVideo: false,
-        featured: true,
-    },
 ];
 
 const FeaturedBuildings = () => {
@@ -82,9 +69,12 @@ const FeaturedBuildings = () => {
     const BuildingCard = ({ building, index }) => {
         return (
             <div
-                className={`group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
-                    isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-                }`}
+                className={
+                    'mt-22' +
+                    `group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
+                        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
+                    }`
+                }
                 style={{ animationDelay: `${800 + index * 100}ms` }}
             >
                 {/* Image Section */}
@@ -234,14 +224,7 @@ const FeaturedBuildings = () => {
             </div>
 
             <div className="relative z-10 container mx-auto px-4">
-                <div className="mb-12 text-center">
-                    <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                        <div className="mb-6 inline-flex items-center rounded-full border border-white/50 bg-white/80 px-6 py-3 shadow-lg backdrop-blur-sm">
-                            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
-                            <span className="text-sm font-semibold text-slate-700">Available Now</span>
-                        </div>
-                    </div>
-
+                {/* <div className="mb-12 text-center">
                     <h2
                         className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
@@ -255,7 +238,7 @@ const FeaturedBuildings = () => {
                         Browse our selection of high-quality second-hand buildings available for purchase. Each structure is carefully dismantled and
                         prepared for transport with precision engineering.
                     </p>
-                </div>
+                </div> */}
 
                 <Tabs defaultValue="all" className="w-full">
                     <div
@@ -277,7 +260,7 @@ const FeaturedBuildings = () => {
                     </div>
 
                     <TabsContent value={activeFilter} className="mt-0">
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
                             ))}

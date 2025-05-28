@@ -134,26 +134,16 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/services"
+                                        to="/career"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
                                     >
-                                        Services
+                                        Career
                                         <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8"></span>
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link
-                                        to="/about"
-                                        className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
-                                            isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
-                                        }`}
-                                    >
-                                        About
-                                        <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8"></span>
-                                    </Link>
-                                </li>
+
                                 <li>
                                     <Link
                                         to="/contact"

@@ -4,8 +4,9 @@ import useScrollAnimation from '@/hooks/useScrollAnimation';
 import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
 import Services from '@/pages/website/Services';
 import { useEffect } from 'react';
-import Contact from './Contact';
+import ContactCTA from './Contact';
 import Hero from './Hero';
+import Testimonials from './Testimonials';
 
 const Index = () => {
     // Initialize scroll animations
@@ -21,9 +22,12 @@ const Index = () => {
             <Header />
             <main className="flex-grow">
                 <Hero />
-                <FeaturedBuildings />
                 <Services />
-                <Contact />
+                <FeaturedBuildings />
+                <Testimonials />
+                {/* <Career /> */}
+                <ContactCTA />
+                {/* <NewsLetter /> */}
             </main>
             <Footer />
         </div>

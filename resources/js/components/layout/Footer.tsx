@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRight, Instagram, Mail, MapPin, Phone, Twitter } from 'lucide-react';
+import { ArrowRight, Instagram, Mail, MapPin, MessageCircle, Twitter, Youtube } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -9,94 +9,99 @@ const Footer = () => {
                 <div
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.1) 0%, transparent 50%), 
-                         radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.1) 0%, transparent 50%), 
-                         radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.1) 0%, transparent 50%)`,
+                        backgroundImage: `radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.1) 0%, transparent 50%)`,
                     }}
                 ></div>
                 <div
-                    className="absolute inset-0 opacity-30"
+                    className="absolute inset-0 opacity-20"
                     style={{
                         backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px',
+                        backgroundSize: '30px 30px',
                     }}
                 ></div>
             </div>
 
-            {/* Floating Elements */}
-            <div className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10" style={{ animationDuration: '6s' }}></div>
-            <div
-                className="absolute top-40 right-20 h-12 w-12 animate-bounce rounded-full bg-blue-600/10"
-                style={{ animationDuration: '8s', animationDelay: '-2s' }}
-            ></div>
-            <div
-                className="absolute right-32 bottom-32 h-20 w-20 animate-bounce rounded-full bg-orange-500/5"
-                style={{ animationDuration: '7s', animationDelay: '-4s' }}
-            ></div>
-
-            <div className="relative container mx-auto px-4 py-16 md:py-20">
+            <div className="relative container mx-auto px-4 py-6 md:py-8">
                 {/* Main Footer Content */}
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-16">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
                     {/* Company Info */}
                     <div className="lg:col-span-2">
-                        <div className="mb-8">
-                            <h3 className="mb-6 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-3xl font-bold text-transparent">
-                                Resteel
+                        <div className="mb-6">
+                            <h3 className="mb-3 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-xl font-bold text-transparent">
+                                2nd Hand Trading B.V.
                             </h3>
-                            <p className="mb-6 max-w-md text-lg leading-relaxed text-slate-300">
-                                Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience in
-                                engineering tomorrow's infrastructure.
+                            <p className="mb-3 max-w-md text-sm leading-relaxed text-slate-300">
+                                2nd Hand Trading B.V. handles industrial projects of all sizes, unrestricted by industry or borders.
                             </p>
 
                             {/* Social Links */}
-                            <div className="flex space-x-4">
+                            <div className="flex space-x-2">
                                 <a
-                                    href="https://twitter.com/resteel"
+                                    href="https://twitter.com/2ndhandtrading"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20"
+                                    className="group flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20"
                                 >
-                                    <Twitter size={20} className="transition-colors group-hover:text-orange-400" />
+                                    <Twitter size={16} className="transition-colors group-hover:text-orange-400" />
                                     <span className="sr-only">Twitter</span>
                                 </a>
                                 <a
-                                    href="https://www.instagram.com/resteel"
+                                    href="https://www.instagram.com/2ndhandtrading"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20"
+                                    className="group flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20"
                                 >
-                                    <Instagram size={20} className="transition-colors group-hover:text-orange-400" />
+                                    <Instagram size={16} className="transition-colors group-hover:text-orange-400" />
                                     <span className="sr-only">Instagram</span>
+                                </a>
+                                <a
+                                    href="#"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20"
+                                >
+                                    <Youtube size={16} className="transition-colors group-hover:text-orange-400" />
+                                    <span className="sr-only">YouTube Channel</span>
                                 </a>
                             </div>
                         </div>
-
-                        {/* Newsletter Signup */}
-                        <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-slate-700/50 to-slate-600/30 p-6 backdrop-blur-sm">
-                            <h4 className="mb-3 text-lg font-semibold text-white">Stay Updated</h4>
-                            <p className="mb-4 text-sm text-slate-300">Get the latest news about our projects and industry insights.</p>
-                            <div className="flex gap-3">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="flex-1 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-white placeholder-slate-400 focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/50 focus:outline-none"
+                        <div className="mt-4 flex">
+                            <a
+                                href="https://wa.me/31651062354"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center text-sm text-slate-300 transition-all duration-300 hover:text-green-400"
+                            >
+                                <MessageCircle
+                                    size={12}
+                                    className="mr-2 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
                                 />
-                                <button className="group flex items-center justify-center rounded-lg bg-orange-500 px-4 py-2 transition-colors hover:bg-orange-600">
-                                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                                </button>
-                            </div>
+                                <span className="transition-transform duration-300 group-hover:translate-x-2">WhatsApp +31 06 51 06 23 54</span>
+                            </a>
+                            <a
+                                href="#"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center text-sm text-slate-300 transition-all duration-300 hover:text-red-400"
+                            >
+                                <Youtube
+                                    size={12}
+                                    className="mr-2 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                                />
+                                <span className="transition-transform duration-300 group-hover:translate-x-2">Our YouTube channel</span>
+                            </a>
                         </div>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="relative mb-6 text-xl font-semibold">
+                        <h3 className="relative mb-4 text-xl font-semibold">
                             Quick Links
-                            <div className="absolute -bottom-2 left-0 h-0.5 w-12 bg-gradient-to-r from-orange-500 to-transparent"></div>
+                            <div className="absolute -bottom-1 left-0 h-0.5 w-10 bg-gradient-to-r from-orange-500 to-transparent"></div>
                         </h3>
                         <nav>
-                            <ul className="space-y-3">
+                            <ul className="space-y-2">
                                 {[
                                     { href: '/', label: 'Home' },
                                     { href: '/buildings', label: 'Buildings' },
@@ -107,10 +112,10 @@ const Footer = () => {
                                     <li key={link.href}>
                                         <Link
                                             href={link.href}
-                                            className="group flex items-center text-slate-300 transition-all duration-300 hover:text-orange-400"
+                                            className="group flex items-center text-sm text-slate-300 transition-all duration-300 hover:text-orange-400"
                                         >
                                             <ArrowRight
-                                                size={14}
+                                                size={12}
                                                 className="mr-2 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
                                             />
                                             <span className="transition-transform duration-300 group-hover:translate-x-2">{link.label}</span>
@@ -119,76 +124,48 @@ const Footer = () => {
                                 ))}
                             </ul>
                         </nav>
+
+                        {/* WhatsApp and YouTube Links */}
                     </div>
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="relative mb-6 text-xl font-semibold">
+                        <h3 className="relative mb-4 text-xl font-semibold">
                             Contact Us
-                            <div className="absolute -bottom-2 left-0 h-0.5 w-12 bg-gradient-to-r from-blue-600 to-transparent"></div>
+                            <div className="absolute -bottom-1 left-0 h-0.5 w-10 bg-gradient-to-r from-blue-600 to-transparent"></div>
                         </h3>
-                        <address className="space-y-4 not-italic">
-                            <div className="group flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
-                                <MapPin size={20} className="mt-1 shrink-0 text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <span className="text-slate-300 transition-colors group-hover:text-white">
-                                    Westerbeemd 2B, 5705 DN Helmond, Netherlands
+                        <address className="space-y-2 not-italic">
+                            <div className="group flex items-start gap-2 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10">
+                                <MapPin size={16} className="mt-1 shrink-0 text-slate-400 transition-colors group-hover:text-orange-400" />
+                                <span className="text-sm text-slate-300 transition-colors group-hover:text-white">
+                                    Waterbeemd 2B, 5705 DN Helmond
                                 </span>
                             </div>
-                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
-                                <Phone size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="tel:+31123456789" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    +31 (0) 123 456 789
-                                </a>
-                            </div>
-                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
-                                <Mail size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="mailto:info@resteel-solutions.com" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    info@resteel-solutions.com
+                            <div className="group flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10">
+                                <Mail size={16} className="text-slate-400 transition-colors group-hover:text-orange-400" />
+                                <a href="mailto:2ndhand@tradingbv.com" className="text-sm text-slate-300 transition-colors hover:text-orange-400">
+                                    2ndhand@tradingbv.com
                                 </a>
                             </div>
                         </address>
                     </div>
                 </div>
 
-                {/* Stats Section */}
-                <div className="mt-16 border-t border-white/10 pt-12">
-                    <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-                        {[
-                            { number: '500+', label: 'Projects Completed' },
-                            { number: '38', label: 'Years Experience' },
-                            { number: '99%', label: 'Client Satisfaction' },
-                            { number: '24/7', label: 'Support Available' },
-                        ].map((stat, index) => (
-                            <div key={index} className="group text-center">
-                                <div className="mb-2 text-3xl font-bold text-orange-500 transition-transform duration-300 group-hover:scale-110">
-                                    {stat.number}
-                                </div>
-                                <div className="text-sm text-slate-400 transition-colors group-hover:text-slate-300">{stat.label}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
                 {/* Bottom Bar */}
-                <div className="mt-12 border-t border-white/10 pt-8">
-                    <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                        <p className="text-slate-400">
-                            © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 1985.
-                        </p>
-                        <div className="flex space-x-6">
-                            <Link href="/terms" className="group text-sm text-slate-400 transition-colors hover:text-orange-400">
+                <div className="mt-6 border-t border-white/10 pt-4">
+                    <div className="flex flex-col items-center justify-between md:flex-row">
+                        <p className="text-xs text-slate-400">Copyright © 2025 2nd Hand Trading BV - Gerealiseerd door Maykel Leijsten Computers</p>
+                        <div className="mt-2 flex space-x-4 md:mt-0">
+                            <Link href="/terms" className="group text-xs text-slate-400 transition-colors hover:text-orange-400">
                                 <span className="group-hover:underline">Terms of Service</span>
                             </Link>
-                            <Link href="/privacy" className="group text-sm text-slate-400 transition-colors hover:text-orange-400">
+                            <Link href="/privacy" className="group text-xs text-slate-400 transition-colors hover:text-orange-400">
                                 <span className="group-hover:underline">Privacy Policy</span>
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Bottom Gradient */}
-            <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"></div>
         </footer>
     );
 };
