@@ -89,7 +89,7 @@ const Services = () => {
     ];
 
     return (
-        <section id="services-section" className="relative mt-22 overflow-hidden bg-slate-50">
+        <section id="services-section" className="relative overflow-hidden bg-slate-50">
             {/* Background with Gradient and Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
                 {/* Mesh Pattern Overlay */}
