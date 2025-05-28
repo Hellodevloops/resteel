@@ -108,8 +108,8 @@ const ContactCTA = () => {
                                     <Mail className="h-5 w-5 text-blue-600" />
                                     <div>
                                         <p className="text-sm font-medium text-gray-900">Email</p>
-                                        <a href="mailto:2ndhand@tradingbv.com" className="text-sm text-blue-600 hover:text-blue-800">
-                                            2ndhand@tradingbv.com
+                                        <a href="mailto:info@resteel-solutions.com" className="text-sm text-blue-600 hover:text-blue-800">
+                                            info@resteel-solutions.com
                                         </a>
                                     </div>
                                 </div>
@@ -167,7 +167,7 @@ const ContactCTA = () => {
                     <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
                         <div className="p-6">
                             <h3 className="mb-4 text-xl font-semibold text-gray-900">Our Location</h3>
-                            <p className="mb-4 text-sm text-gray-600">2nd Hand Trading B.V., Westleest 2H, 5705 DN Helmond, Netherlands</p>
+                            <p className="mb-4 text-sm text-gray-600">Resteel, Westleest 2H, 5705 DN Helmond, Netherlands</p>
                         </div>
                         <div className="relative h-64 bg-gradient-to-br from-blue-100 to-green-100">
                             <div className="absolute inset-0 flex items-center justify-center">

@@ -23,7 +23,7 @@ const Header = () => {
         <>
             {/* Top Bar - Only visible on desktop when not scrolled */}
             {isScrolled && (
-                <div className="hidden bg-gradient-to-r from-slate-700 to-slate-600 text-white lg:block">
+                <div className="hidden text-white lg:block">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="flex items-center justify-between py-2 text-sm">
                             <div className="flex items-center gap-6">
@@ -123,12 +123,12 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/buildings"
+                                        to="/webshop"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
                                     >
-                                        Buildings
+                                        Web Shop
                                         <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8"></span>
                                     </Link>
                                 </li>
@@ -170,94 +170,6 @@ const Header = () => {
                 </div>
 
                 {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="shadow-luxury absolute top-full w-full border-t border-slate-200/20 bg-white/95 backdrop-blur-xl lg:hidden">
-                        <div className="container mx-auto px-4 py-6">
-                            <nav>
-                                <ul className="space-y-2">
-                                    <li>
-                                        <Link
-                                            to="/"
-                                            className="group flex items-center gap-3 rounded-xl p-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:bg-orange-500/10 hover:text-orange-500"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <div className="h-2 w-2 rounded-full bg-orange-500 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
-                                            Home
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to="/buildings"
-                                            className="group flex items-center gap-3 rounded-xl p-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:bg-orange-500/10 hover:text-orange-500"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <div className="h-2 w-2 rounded-full bg-orange-500 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
-                                            Buildings
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to="/services"
-                                            className="group flex items-center gap-3 rounded-xl p-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:bg-orange-500/10 hover:text-orange-500"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <div className="h-2 w-2 rounded-full bg-orange-500 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
-                                            Services
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to="/about"
-                                            className="group flex items-center gap-3 rounded-xl p-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:bg-orange-500/10 hover:text-orange-500"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <div className="h-2 w-2 rounded-full bg-orange-500 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
-                                            About
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to="/contact"
-                                            className="group shadow-glow flex items-center gap-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105"
-                                            onClick={() => setIsMenuOpen(false)}
-                                        >
-                                            <div className="h-2 w-2 rounded-full bg-white"></div>
-                                            Get Quote
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </nav>
-
-                            {/* Mobile Contact Info */}
-                            <div className="mt-8 space-y-4 border-t border-slate-200 pt-6">
-                                <a
-                                    href="tel:+31123456789"
-                                    className="group flex items-center gap-4 rounded-xl p-4 transition-all duration-300 hover:bg-slate-50"
-                                >
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10">
-                                        <Phone size={20} className="text-orange-500" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-medium text-slate-500">Call Us</span>
-                                        <span className="font-semibold text-slate-700">+31 (0) 123 456 789</span>
-                                    </div>
-                                </a>
-                                <a
-                                    href="mailto:info@resteel-solutions.com"
-                                    className="group flex items-center gap-4 rounded-xl p-4 transition-all duration-300 hover:bg-slate-50"
-                                >
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10">
-                                        <Mail size={20} className="text-orange-500" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-medium text-slate-500">Email Us</span>
-                                        <span className="font-semibold text-slate-700">info@resteel-solutions.com</span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </header>
         </>
     );

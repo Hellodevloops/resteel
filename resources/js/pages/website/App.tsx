@@ -14,6 +14,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Career from './Career';
 import Privacy from './Privacy';
 import Terms from './Terms';
+import WebShop from './WebShop';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="*" element={<NotFound />} />
                     <Route path="career" element={<Career />} />
+                    <Route path="webshop" element={<WebShop />} />
                 </Routes>
             </BrowserRouter>
         </TooltipProvider>

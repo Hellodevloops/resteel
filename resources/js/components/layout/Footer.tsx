@@ -29,10 +29,10 @@ const Footer = () => {
                     <div className="lg:col-span-2">
                         <div className="mb-6">
                             <h3 className="mb-3 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-xl font-bold text-transparent">
-                                2nd Hand Trading B.V.
+                                Resteel.
                             </h3>
                             <p className="mb-3 max-w-md text-sm leading-relaxed text-slate-300">
-                                2nd Hand Trading B.V. handles industrial projects of all sizes, unrestricted by industry or borders.
+                                Resteel. handles industrial projects of all sizes, unrestricted by industry or borders.
                             </p>
 
                             {/* Social Links */}
@@ -143,8 +143,11 @@ const Footer = () => {
                             </div>
                             <div className="group flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10">
                                 <Mail size={16} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="mailto:2ndhand@tradingbv.com" className="text-sm text-slate-300 transition-colors hover:text-orange-400">
-                                    2ndhand@tradingbv.com
+                                <a
+                                    href="mailto:info@resteel-solutions.com"
+                                    className="text-sm text-slate-300 transition-colors hover:text-orange-400"
+                                >
+                                    info@resteel-solutions.com
                                 </a>
                             </div>
                         </address>
@@ -154,7 +157,7 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="mt-6 border-t border-white/10 pt-4">
                     <div className="flex flex-col items-center justify-between md:flex-row">
-                        <p className="text-xs text-slate-400">Copyright © 2025 2nd Hand Trading BV - Gerealiseerd door Maykel Leijsten Computers</p>
+                        <p className="text-xs text-slate-400">Copyright © 2025 Resteel - Gerealiseerd door Maykel Leijsten Computers</p>
                         <div className="mt-2 flex space-x-4 md:mt-0">
                             <Link href="/terms" className="group text-xs text-slate-400 transition-colors hover:text-orange-400">
                                 <span className="group-hover:underline">Terms of Service</span>
