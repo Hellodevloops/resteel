@@ -21,34 +21,6 @@ const Header = () => {
 
     return (
         <>
-            {/* Top Bar - Only visible on desktop when not scrolled */}
-            {isScrolled && (
-                <div className="hidden text-white lg:block">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <div className="flex items-center justify-between py-2 text-sm">
-                            <div className="flex items-center gap-6">
-                                <span className="flex items-center gap-2">
-                                    <div className="h-2 w-2 animate-pulse rounded-full bg-orange-500"></div>
-                                    Industrial Excellence Since 1985
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-6">
-                                <a href="tel:+31123456789" className="flex items-center gap-2 transition-colors hover:text-orange-400">
-                                    <Phone size={14} />
-                                    <span>+31 (0) 123 456 789</span>
-                                </a>
-                                <a
-                                    href="mailto:info@resteel-solutions.com"
-                                    className="flex items-center gap-2 transition-colors hover:text-orange-400"
-                                >
-                                    <Mail size={14} />
-                                    <span>info@resteel-solutions.com</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Main Header */}
             <header
@@ -68,7 +40,7 @@ const Header = () => {
                         </div>
 
                         {/* Desktop Contact Info */}
-                        <div className="hidden items-center gap-8 xl:flex">
+                        {/* <div className="hidden items-center gap-8 xl:flex">
                             <a
                                 href="tel:+31123456789"
                                 className={`group flex items-center gap-3 transition-all duration-300 hover:scale-105 ${
@@ -105,7 +77,7 @@ const Header = () => {
                                     <span className="font-semibold">info@resteel-solutions.com</span>
                                 </div>
                             </a>
-                        </div>
+                        </div> */}
 
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:block">
@@ -146,6 +118,17 @@ const Header = () => {
 
                                 <li>
                                     <Link
+                                        to="/cart"
+                                        className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                                            isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
+                                        }`}
+                                    >
+                                        Cart 🛒
+                                        <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8"></span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         to="/contact"
                                         className="group shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
                                     >
@@ -169,7 +152,8 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
+                
+
             </header>
         </>
     );
