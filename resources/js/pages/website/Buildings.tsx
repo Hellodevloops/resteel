@@ -1,4 +1,4 @@
-import { ArrowRight, Building, ExternalLink, Eye, Filter, Play, Ruler, Square } from 'lucide-react';
+import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Buildings = () => {
@@ -107,10 +107,10 @@ const Buildings = () => {
     ];
 
     const buildingTypes = [
-        { id: 'all', label: 'All Buildings', color: 'from-slate-600 to-slate-700' },
-        { id: 'warehouses', label: 'Warehouses', color: 'from-orange-500 to-orange-600' },
-        { id: 'commercial', label: 'Commercial', color: 'from-blue-600 to-blue-700' },
-        { id: 'industrial', label: 'Industrial', color: 'from-teal-500 to-teal-600' },
+        { id: 'all', label: 'All Buildings', icon: Building2, color: 'from-slate-600 to-slate-700' },
+        { id: 'warehouses', label: 'Warehouses', icon: Warehouse, color: 'from-orange-500 to-orange-600' },
+        { id: 'commercial', label: 'Commercial', icon: Factory, color: 'from-blue-600 to-blue-700' },
+        { id: 'industrial', label: 'Industrial', icon: SquareStack, color: 'from-teal-500 to-teal-600' },
     ];
 
     const filteredBuildings = buildingsData.filter((building) => filter === 'all' || building.type === filter);
@@ -118,7 +118,7 @@ const Buildings = () => {
     const BuildingCard = ({ building, index }) => {
         return (
             <div
-                className={`group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
+                className={`group relative mt-22 overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
                     isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
                 }`}
                 style={{ animationDelay: `${index * 150}ms` }}
@@ -212,7 +212,7 @@ const Buildings = () => {
 
                         {building.hasVideo && (
                             <button
-                                onClick={() => building.videoUrls && window.open(building.videoUrls[0], '_blank')}
+                                onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
                                 className="flex items-center justify-center rounded-xl border-2 border-blue-600 px-4 py-3 text-sm font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
                             >
                                 <Play className="h-4 w-4" />
@@ -330,7 +330,7 @@ const Buildings = () => {
                             </button>
                             {building.hasVideo && (
                                 <button
-                                    onClick={() => building.videoUrls && window.open(building.videoUrls[0], '_blank')}
+                                    onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
                                     className="flex-1 rounded-xl border-2 border-blue-600 py-4 text-lg font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
                                 >
                                     Watch Video Tour
@@ -415,8 +415,24 @@ const Buildings = () => {
             </section>
 
             {/* Filter Section */}
-            <section className="relative bg-white py-12 shadow-lg">
-                <div className="mx-auto max-w-7xl px-4">
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-16">
+                {/* Background Elements */}
+                <div className="absolute inset-0">
+                    {/* Floating Elements */}
+                    <div
+                        className="absolute top-20 left-10 h-20 w-20 animate-bounce rounded-full bg-orange-500/10"
+                        style={{ animationDuration: '8s', animationDelay: '0s' }}
+                    ></div>
+                    <div
+                        className="absolute top-40 right-20 h-16 w-16 animate-bounce rounded-full bg-blue-600/10"
+                        style={{ animationDuration: '8s', animationDelay: '-3s' }}
+                    ></div>
+
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-blue-600/5"></div>
+                </div>
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4">
                     <div className="flex flex-col items-center gap-8">
                         <div className="text-center">
                             <h2 className="mb-2 text-3xl font-bold text-slate-800">Filter Buildings</h2>
@@ -431,11 +447,11 @@ const Buildings = () => {
                                     className={`rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 ${
                                         filter === type.id
                                             ? `bg-gradient-to-r ${type.color} text-white shadow-lg`
-                                            : 'border-2 border-slate-300 text-slate-600 hover:border-orange-500 hover:text-orange-500'
+                                            : 'border-2 border-white/50 bg-white/80 text-slate-600 backdrop-blur-sm hover:border-orange-500 hover:text-orange-500'
                                     }`}
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
-                                    <Filter className="mr-2 inline h-4 w-4" />
+                                    <type.icon className="mr-2 inline h-4 w-4" />
                                     {type.label}
                                 </button>
                             ))}
@@ -445,7 +461,7 @@ const Buildings = () => {
             </section>
 
             {/* Buildings Grid */}
-            <section className="py-20">
+            <section className="bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-20">
                 <div className="mx-auto max-w-7xl px-4">
                     {filteredBuildings.length > 0 ? (
                         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -455,7 +471,7 @@ const Buildings = () => {
                         </div>
                     ) : (
                         <div className="py-20 text-center">
-                            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-slate-100">
+                            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm">
                                 <Building className="h-12 w-12 text-slate-400" />
                             </div>
                             <h3 className="mb-4 text-2xl font-bold text-slate-700">No buildings found</h3>
