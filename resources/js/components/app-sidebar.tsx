@@ -13,6 +13,21 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Building',
+        href: '/building',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Service',
+        href: '/service',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Trending',
+        href: '/trending',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
