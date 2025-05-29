@@ -75,7 +75,7 @@ const Footer = () => {
                         {/* Newsletter Signup */}
                         <div className="rounded-2xl border border-white/10 bg-gradient-to-r from-slate-700/50 to-slate-600/30 p-6 backdrop-blur-sm">
                             <h4 className="mb-3 text-lg font-semibold text-white">Stay Updated</h4>
-                            <p className="mb-4 text-sm text-slate-300">Get the latest news about our projects and industry insights.</p>
+                            <p className="mb-4 text-sm text-slate-300">Receive our newsletters</p>
                             <div className="flex gap-3">
                                 <input
                                     type="email"
@@ -142,8 +142,8 @@ const Footer = () => {
                             </div>
                             <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
                                 <Mail size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="mailto:info@resteel-solutions.com" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    info@resteel-solutions.com
+                                <a href="mailto:info@resteel.com" className="text-slate-300 transition-colors hover:text-orange-400">
+                                    info@resteel.com
                                 </a>
                             </div>
                         </address>

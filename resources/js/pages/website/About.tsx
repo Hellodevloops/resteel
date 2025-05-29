@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 import { ArrowRight, Award, Building2, Globe2, MapPin, Shield, Users, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const AboutSection = () => {
+const About = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -71,7 +71,7 @@ const AboutSection = () => {
     ];
 
     return (
-        <section id="about-section" className="relative mt-22 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-20 md:py-32">
+        <section id="about-section" className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-20 md:py-32">
             {/* Background Elements */}
             <div className="absolute inset-0">
                 <div className="absolute top-20 right-10 h-32 w-32 animate-pulse rounded-full bg-orange-500/5 blur-3xl"></div>
@@ -105,16 +105,17 @@ const AboutSection = () => {
                         <h2
                             className={`mb-8 bg-gradient-to-r from-slate-700 via-slate-600 to-blue-600 bg-clip-text text-4xl leading-tight font-bold text-transparent transition-all delay-200 duration-1000 md:text-6xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
-                            Resteel
+                            About 2nd Hand
+                            <span className="block">Trading BV</span>
                         </h2>
 
                         <div
                             className={`mb-10 space-y-6 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
                             <p className="text-lg leading-relaxed text-slate-600">
-                                Based in <span className="font-semibold text-slate-700">Helmond, Netherlands</span>, Resteel specializes in buying and
-                                selling second-hand buildings and construction materials. With over two decades of experience, we've established
-                                ourselves as experts in the field of demountable industrial buildings.
+                                Based in <span className="font-semibold text-slate-700">Helmond, Netherlands</span>, 2nd Hand Trading BV specializes
+                                in buying and selling second-hand buildings and construction materials. With over two decades of experience, we've
+                                established ourselves as experts in the field of demountable industrial buildings.
                             </p>
                             <p className="text-lg leading-relaxed text-slate-600">
                                 We're <span className="font-semibold text-orange-600">broadly oriented</span> and not bound by specific branches or
@@ -227,4 +228,4 @@ const AboutSection = () => {
     );
 };
 
-export default AboutSection;
+export default About;

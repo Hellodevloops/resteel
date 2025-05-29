@@ -8,10 +8,20 @@ import Contact from '@/pages/website/Contact';
 import Index from '@/pages/website/Index';
 import NotFound from '@/pages/website/NotFound';
 import Services from '@/pages/website/Services';
+import Header from '@/components/layout/Header';
+import { Toaster as Sonner } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui/toaster';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import About from '@/pages/website/About';
+import Buildings from '@/pages/website/Buildings';
+import Contact from '@/pages/website/Contact';
+import Index from '@/pages/website/Index';
+import NotFound from '@/pages/website/NotFound';
+import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import BuildingDetail from './BuildingDetail';
-import Cart from './Cart';
+import Career from './Career';
 import Privacy from './Privacy';
 import Terms from './Terms';
 import WebShop from './WebShop';
@@ -34,9 +44,9 @@ const App = () => (
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/terms" element={<Terms />} />
                     <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/webshop" element={<WebShop />} />
-                    <Route path="/cart" element={<Cart />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="career" element={<Career />} />
+                    <Route path="webshop" element={<WebShop />} />
                 </Routes>
             </BrowserRouter>
         </TooltipProvider>

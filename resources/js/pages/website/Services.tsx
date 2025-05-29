@@ -97,8 +97,8 @@ const Services = () => {
                     <div
                         className="absolute inset-0"
                         style={{
-                            backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.05) 0%, transparent 50%), 
-                             radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.05) 0%, transparent 50%), 
+                            backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.05) 0%, transparent 50%),
+                             radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.05) 0%, transparent 50%),
                              radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.05) 0%, transparent 50%)`,
                         }}
                     />
@@ -119,7 +119,7 @@ const Services = () => {
                 style={{ animationDuration: '6s', animationDelay: '-4s' }}
             />
 
-            <div className="relative z-10 py-20 md:py-28">
+            <div className="relative z-10 py-16 md:py-16">
                 <div className="container mx-auto max-w-7xl px-4">
                     {/* Header Section */}
                     <div className="mx-auto mb-20 max-w-4xl text-center">
@@ -207,7 +207,7 @@ const Services = () => {
                                     <div
                                         className="absolute inset-0 opacity-5 transition-opacity duration-300 group-hover:opacity-10"
                                         style={{
-                                            backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), 
+                                            backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
                                            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)`,
                                             backgroundSize: '20px 20px',
                                         }}
