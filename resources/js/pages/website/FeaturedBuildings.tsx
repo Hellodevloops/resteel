@@ -225,13 +225,6 @@ const FeaturedBuildings = () => {
 
             <div className="relative z-10 container mx-auto px-4">
                 <div className="mb-12 text-center">
-                    <div className={`transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                        <div className="mb-6 inline-flex items-center rounded-full border border-white/50 bg-white/80 px-6 py-3 shadow-lg backdrop-blur-sm">
-                            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
-                            <span className="text-sm font-semibold text-slate-700">Available Now</span>
-                        </div>
-                    </div>
-
                     <h2
                         className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
