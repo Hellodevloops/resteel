@@ -60,15 +60,15 @@ const Testimonials = () => {
     };
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-20 md:py-32">
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-16 md:py-16">
             {/* Background Effects */}
             <div className="absolute inset-0 opacity-30">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-blue-600/10"></div>
                 <div
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.08) 0%, transparent 50%), 
-                         radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.08) 0%, transparent 50%), 
+                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.08) 0%, transparent 50%),
+                         radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.08) 0%, transparent 50%),
                          radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.08) 0%, transparent 50%)`,
                     }}
                 ></div>
@@ -101,7 +101,7 @@ const Testimonials = () => {
                     </div>
                     <h2 className="mb-6 text-4xl font-bold text-white md:text-6xl">
                         What Our
-                        <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
+                        <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
                     </h2>
                     <p className="mx-auto max-w-3xl text-xl text-white/80">
                         We've helped businesses across Europe find the perfect second-hand building solutions. Here's what some of our satisfied
@@ -231,7 +231,7 @@ const Testimonials = () => {
 
                 {/* Bottom Stats */}
                 <div
-                    className={`mt-20 transition-all delay-500 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                    className={`mt-30 transition-all delay-500 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 >
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                         {[
