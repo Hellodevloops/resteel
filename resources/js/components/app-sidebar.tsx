@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, BrickWall, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -14,20 +14,20 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Building',
-        href: '/building',
-        icon: LayoutGrid,
+        title: 'Warehouse',
+        href: '/warehouse',
+        icon: BrickWall,
     },
-    {
-        title: 'Service',
-        href: '/service',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Trending',
-        href: '/trending',
-        icon: LayoutGrid,
-    },
+    // {
+    //     title: 'Service',
+    //     href: '/service',
+    //     icon: LayoutGrid,
+    // },
+    // {
+    //     title: 'Trending',
+    //     href: '/trending',
+    //     icon: LayoutGrid,
+    // },
 ];
 
 const footerNavItems: NavItem[] = [
@@ -45,7 +45,7 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
