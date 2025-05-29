@@ -69,7 +69,7 @@ const FeaturedBuildings = () => {
     const filteredBuildings = activeFilter === 'all' ? buildings : buildings.filter((building) => building.type === activeFilter);
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-16 md:py-24">
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-16 md:py-16">
             {/* Background Elements */}
             <div className="absolute inset-0">
                 {/* Floating Elements */}
@@ -97,8 +97,8 @@ const FeaturedBuildings = () => {
                 <div
                     className="absolute inset-0 opacity-20"
                     style={{
-                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%), 
-                                         radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%), 
+                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+                                         radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
                                          radial-gradient(circle at 40% 40%, rgba(71, 85, 105, 0.1) 0%, transparent 50%)`,
                     }}
                 ></div>
@@ -117,7 +117,7 @@ const FeaturedBuildings = () => {
                         className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
                         Featured
-                        <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Buildings</span>
+                        <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Buildings</span>
                     </h2>
 
                     <p

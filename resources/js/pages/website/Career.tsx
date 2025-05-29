@@ -92,10 +92,10 @@ const Career = () => {
             {/* <Header /> */}
             <div className="bg-slate-50">
                 {/* Open Positions Section */}
-                <section className="relative bg-slate-50 py-20">
+                <section className="relative bg-slate-50 py-30">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="mb-16 text-center">
-                            <h2 className="mb-4 text-4xl font-bold text-slate-700">Current Opportunities</h2>
+                            <h2 className="mb-4 text-4xl font-bold text-slate-700">Current <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Opportunities</span> </h2>
                             <p className="mx-auto max-w-3xl text-xl text-slate-600">
                                 Discover your next career move with positions across engineering, operations, and management
                             </p>
