@@ -1,11 +1,11 @@
 import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Buildings = () => {
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const [filter, setFilter] = useState('all');
-    const [selectedBuilding, setSelectedBuilding] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -202,13 +202,13 @@ const Buildings = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3">
-                        <button
-                            onClick={() => setSelectedBuilding(building)}
-                            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
+                        <Link
+                            to={`/buildings/${building.id}`}
+                            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
                         >
                             <Eye className="mr-2 h-4 w-4" />
                             View Details
-                        </button>
+                        </Link>
 
                         {building.hasVideo && (
                             <button
@@ -227,118 +227,6 @@ const Buildings = () => {
 
                 {/* Hover Effect Accent */}
                 <div className="absolute inset-x-0 bottom-0 h-1 scale-x-0 transform bg-gradient-to-r from-orange-500 to-blue-600 transition-transform duration-300 group-hover:scale-x-100"></div>
-            </div>
-        );
-    };
-
-    // Building Detail Modal Component
-    const BuildingDetailModal = ({ building, onClose }) => {
-        if (!building) return null;
-
-        return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 p-4 backdrop-blur-sm">
-                <div className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-white shadow-2xl">
-                    {/* Header */}
-                    <div className="relative h-64 overflow-hidden rounded-t-3xl">
-                        <img src={building.images[0]} alt={building.title} className="h-full w-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-
-                        <button
-                            onClick={onClose}
-                            className="absolute top-4 right-4 rounded-full bg-white/20 p-2 text-white backdrop-blur-sm hover:bg-white/30"
-                        >
-                            ×
-                        </button>
-
-                        <div className="absolute bottom-6 left-6 text-white">
-                            <h2 className="mb-2 text-3xl font-bold">{building.title}</h2>
-                            <div className="flex items-center">
-                                <span className="rounded-full bg-orange-500 px-3 py-1 text-sm font-semibold">{building.status}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-8">
-                        {/* Overview */}
-                        <div className="mb-8">
-                            <h3 className="mb-4 text-xl font-bold text-slate-800">Overview</h3>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div className="rounded-xl bg-slate-50 p-4">
-                                    <div className="mb-2 flex items-center">
-                                        <Square className="mr-2 h-5 w-5 text-orange-500" />
-                                        <span className="font-semibold text-slate-700">Total Area</span>
-                                    </div>
-                                    <span className="text-2xl font-bold text-slate-800">{building.totalArea}</span>
-                                </div>
-                                <div className="rounded-xl bg-slate-50 p-4">
-                                    <div className="mb-2 flex items-center">
-                                        <Building className="mr-2 h-5 w-5 text-blue-600" />
-                                        <span className="font-semibold text-slate-700">Category</span>
-                                    </div>
-                                    <span className="text-lg font-semibold text-slate-800">{building.category}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Construction Details */}
-                        <div className="mb-8">
-                            <h3 className="mb-4 text-xl font-bold text-slate-800">Construction Details</h3>
-                            <div className="rounded-xl bg-gradient-to-r from-slate-50 to-blue-50 p-6">
-                                <p className="leading-relaxed text-slate-700">{building.construction}</p>
-                            </div>
-                        </div>
-
-                        {/* Detailed Specifications */}
-                        <div className="mb-8">
-                            <h3 className="mb-4 text-xl font-bold text-slate-800">Detailed Specifications</h3>
-                            <div className="grid gap-4">
-                                {building.specifications.map((spec, idx) => (
-                                    <div key={idx} className="rounded-xl border border-slate-200 p-6 transition-shadow hover:shadow-lg">
-                                        <h4 className="mb-4 text-lg font-semibold text-slate-800">{spec.name}</h4>
-                                        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                                            <div>
-                                                <span className="text-sm font-medium text-slate-500">Dimensions</span>
-                                                <p className="text-lg font-semibold text-slate-800">{spec.dimensions}</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-sm font-medium text-slate-500">Area</span>
-                                                <p className="text-lg font-semibold text-slate-800">{spec.area}</p>
-                                            </div>
-                                            {spec.gutterHeight && (
-                                                <div>
-                                                    <span className="text-sm font-medium text-slate-500">Gutter Height</span>
-                                                    <p className="text-lg font-semibold text-slate-800">{spec.gutterHeight}</p>
-                                                </div>
-                                            )}
-                                            {spec.ridgeHeight && (
-                                                <div>
-                                                    <span className="text-sm font-medium text-slate-500">Ridge Height</span>
-                                                    <p className="text-lg font-semibold text-slate-800">{spec.ridgeHeight}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex flex-col gap-4 sm:flex-row">
-                            <button className="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                Request Information
-                            </button>
-                            {building.hasVideo && (
-                                <button
-                                    onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
-                                    className="flex-1 rounded-xl border-2 border-blue-600 py-4 text-lg font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
-                                >
-                                    Watch Video Tour
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
             </div>
         );
     };
@@ -518,9 +406,6 @@ const Buildings = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Building Detail Modal */}
-            <BuildingDetailModal building={selectedBuilding} onClose={() => setSelectedBuilding(null)} />
         </div>
     );
 };

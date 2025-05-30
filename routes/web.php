@@ -24,6 +24,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('admin/webshop', function () {
         return Inertia::render('WebShop/Index');
     })->name('webshop.index');
+
+    Route::get('admin/contact', function () {
+        return Inertia::render('Contact/Index');
+    })->name('contact.index');
 });
 
 require __DIR__ . '/settings.php';

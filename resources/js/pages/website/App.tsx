@@ -1,4 +1,3 @@
-
 import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
@@ -7,14 +6,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import About from './About';
 import Buildings from './Buildings';
+import BuildingDetails from './BuildingsDetails';
+import Career from './Career';
 import Contact from './Contact';
+import ContactPage from './ContactPage';
 import Index from './Index';
 import NotFound from './NotFound';
-import Services from './Services';
-// import BuildingDetail from './BuildingDetail';
-import Career from './Career';
-import ContactPage from './ContactPage';
 import Privacy from './Privacy';
+import Services from './Services';
 import Terms from './Terms';
 import WebShop from './WebShop';
 
@@ -24,13 +23,14 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
         <TooltipProvider>
             <Toaster />
-   <Sonner />
+            <Sonner />
             <BrowserRouter>
                 <Header />
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/buildings" element={<Buildings />} />
-                    {/* <Route path="/buildings/:id" element={<BuildingDetail />} /> */}
+                    {/* Fixed route to include :id parameter */}
+                    <Route path="/buildings/:id" element={<BuildingDetails />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
@@ -39,7 +39,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                     <Route path="career" element={<Career />} />
                     <Route path="webshop" element={<WebShop />} />
-          <Route path="contactpage" element={<ContactPage />} />
+                    <Route path="contactpage" element={<ContactPage />} />
                 </Routes>
             </BrowserRouter>
         </TooltipProvider>
