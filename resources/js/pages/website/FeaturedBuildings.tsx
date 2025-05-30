@@ -4,6 +4,7 @@ import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Rule
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+
 // Building types
 const buildingTypes = [
     { id: 'all', label: 'All', icon: Building2 },
@@ -12,7 +13,7 @@ const buildingTypes = [
     { id: 'other', label: 'Other', icon: SquareStack },
 ];
 
-// Updated buildings data to match Buildings.tsx structure
+
 const buildings = [
     {
         id: 1,
@@ -26,6 +27,7 @@ const buildings = [
         totalArea: '16,875 m²',
         hasVideo: false,
         featured: true,
+
     },
     {
         id: 2,
@@ -39,6 +41,7 @@ const buildings = [
         totalArea: '9,350 m²',
         hasVideo: false,
         featured: true,
+
     },
     {
         id: 3,
@@ -52,6 +55,7 @@ const buildings = [
         totalArea: '3,872 m²',
         hasVideo: false,
         featured: true,
+
     },
 ];
 
@@ -59,6 +63,7 @@ const FeaturedBuildings = () => {
     const [activeFilter, setActiveFilter] = useState('all');
     const [isVisible, setIsVisible] = useState(false);
     const [selectedBuilding, setSelectedBuilding] = useState(null);
+
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 100);
@@ -225,6 +230,7 @@ const FeaturedBuildings = () => {
 
             <div className="relative z-10 container mx-auto px-4">
                 <div className="mb-12 text-center">
+
                     <h2
                         className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
@@ -263,6 +269,7 @@ const FeaturedBuildings = () => {
                         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
+
                             ))}
                         </div>
 
@@ -274,7 +281,7 @@ const FeaturedBuildings = () => {
                                 variant="outline"
                                 className="rounded-full border-2 border-slate-300 bg-white/80 px-10 py-4 text-lg font-semibold text-slate-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-transparent hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:text-white hover:shadow-xl"
                             >
-                                <Link to="/buildings">
+                            <Link href="/buildings">
                                     View All Buildings
                                     <ArrowRight className="ml-3 h-5 w-5" />
                                 </Link>

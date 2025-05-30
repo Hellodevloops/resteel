@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import ContactCTA from './Contact';
 import Hero from './Hero';
 import Testimonials from './Testimonials';
+import NewsletterSection from './NewsletterSection';
 
 const Index = () => {
     // Initialize scroll animations
@@ -28,6 +29,7 @@ const Index = () => {
                 {/* <Career /> */}
                 <ContactCTA />
                 {/* <NewsLetter /> */}
+                <NewsletterSection />
             </main>
             <Footer />
         </div>

@@ -14,20 +14,21 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Warehouse',
-        href: '/warehouse',
-        icon: BrickWall,
+
+        title: 'Building',
+        href: '/building',
+        icon: LayoutGrid,
     },
     {
-        title: 'Webshop',
-        href: '/webshop',
-        icon: House,
+        title: 'Service',
+        href: '/service',
+        icon: LayoutGrid,
     },
-    // {
-    //     title: 'Trending',
-    //     href: '/trending',
-    //     icon: LayoutGrid,
-    // },
+    {
+        title: 'Trending',
+        href: '/trending',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
