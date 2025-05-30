@@ -246,8 +246,8 @@ const Buildings = () => {
                         <div
                             className="absolute inset-0"
                             style={{
-                                backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.1) 0%, transparent 50%), 
-                                 radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.1) 0%, transparent 50%), 
+                                backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.1) 0%, transparent 50%),
+                                 radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.1) 0%, transparent 50%),
                                  radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.1) 0%, transparent 50%)`,
                             }}
                         ></div>
@@ -381,7 +381,7 @@ const Buildings = () => {
                     <div
                         className="absolute inset-0"
                         style={{
-                            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(244, 70, 17, 0.3) 0%, transparent 50%), 
+                            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(244, 70, 17, 0.3) 0%, transparent 50%),
                              radial-gradient(circle at 75% 75%, rgba(30, 76, 138, 0.3) 0%, transparent 50%)`,
                         }}
                     ></div>
