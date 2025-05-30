@@ -12,7 +12,6 @@ const buildingTypes = [
     { id: 'other', label: 'Other', icon: SquareStack },
 ];
 
-// Updated buildings data to match Buildings.tsx structure
 const buildings = [
     {
         id: 1,
@@ -160,7 +159,8 @@ const FeaturedBuildings = () => {
                             asChild
                             className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
                         >
-                            <Link href={`/buildings/${building.id}`}>
+                            {/* Link without building ID - always goes to building details page */}
+                            <Link to="/buildingsdetails">
                                 <Eye className="mr-2 h-4 w-4" />
                                 View Details
                             </Link>

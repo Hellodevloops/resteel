@@ -99,7 +99,7 @@ const Testimonials = () => {
                         <Star className="mr-2 h-4 w-4 fill-orange-500 text-orange-500" />
                         Client Success Stories
                     </div>
-                    <h2 className="mb-6 text-4xl font-bold text-white md:text-6xl">
+                    <h2 className="mb-6 text-4xl font-bold text-cyan-600 md:text-6xl">
                         What Our
                         <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
                     </h2>
@@ -163,10 +163,10 @@ const Testimonials = () => {
                                                 <div className="rounded-2xl bg-white/5 p-6 backdrop-blur-sm">
                                                     <h5 className="mb-4 text-lg font-semibold text-white">Project Details</h5>
                                                     <div className="space-y-3">
-                                                        <div className="flex items-center justify-between">
+                                                        {/* <div className="flex items-center justify-between">
                                                             <span className="text-white/70">Project Value</span>
                                                             <span className="font-semibold text-orange-400">{testimonial.projectValue}</span>
-                                                        </div>
+                                                        </div> */}
                                                         <div className="flex items-center justify-between">
                                                             <span className="text-white/70">Location</span>
                                                             <span className="font-semibold text-white">{testimonial.location}</span>
@@ -181,12 +181,12 @@ const Testimonials = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-500/20 to-orange-600/20 p-6 backdrop-blur-sm">
+                                                {/* <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-500/20 to-orange-600/20 p-6 backdrop-blur-sm">
                                                     <div className="text-center">
                                                         <div className="text-2xl font-bold text-white">100%</div>
                                                         <div className="text-sm text-white/80">Project Success Rate</div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </CardContent>

@@ -1,4 +1,5 @@
 import Header from '@/components/layout/Header';
+import { Phone } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ResteelHero = () => {
@@ -54,7 +55,8 @@ const ResteelHero = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{
-                        backgroundImage: `url('/assets/hero-bg.jpg')`,
+
+                        backgroundImage: `url('/assets/hero.jpg')`,
                         transform: `translate3d(0, ${scrollY * 0.5}px, 0)`,
                     }}
                 >
@@ -103,16 +105,17 @@ const ResteelHero = () => {
                 <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 xl:px-16">
                     <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
                         {/* Left Content */}
-                        <div className="text-white px-4 sm:px-0">
-                            <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
+
+                        <div className="px-4 text-white sm:px-0">
+                            {/* <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
                                 <div className="mb-8 inline-flex items-center rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-sm">
                                     <span className="mr-3 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
                                     Industrial Excellence Since 1985
                                 </div>
-                            </div>
+                            </div> */}
 
                             <h1
-                                className={`mb-8 text-5xl leading-tight font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                                className={`mb-8 text-5xl leading-tight text-cyan-600 font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 Engineering
                                 <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Tomorrow's</span>
@@ -120,7 +123,8 @@ const ResteelHero = () => {
                             </h1>
 
                             <p
-                                className={`mb-10 text-xl leading-relaxed text-white/80 transition-all delay-400 duration-1000 lg:text-2xl max-w-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+
+                                className={`mb-10 max-w-2xl text-xl leading-relaxed text-white/80 transition-all delay-400 duration-1000 lg:text-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 Delivering world-class steel fabrication and construction solutions with precision, innovation, and unwavering
                                 commitment to excellence.
@@ -129,16 +133,19 @@ const ResteelHero = () => {
                             <div
                                 className={`flex flex-col gap-6 transition-all delay-600 duration-1000 sm:flex-row ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                <button className="animate-pulse rounded-xl bg-orange-500 px-10 py-5 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
-                                    Start Your Project
-                                </button>
-                                <button className="rounded-xl border-2 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+                                {/* <button className="rounded-xl border-2 bg-orange-500 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
                                     View Portfolio
-                                </button>
+                                </button> */}
+                               <a href="tel:+31 (0) 123 456 789">
+                                    <button className="rounded-xl border-2 bg-cyan-600 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 flex items-center gap-2">
+                                        <Phone className="h-6 w-6" />
+                                        +31 (0) 123 456 789
+                                    </button>
+                                </a>
                             </div>
 
                             {/* Stats */}
-                            <div
+                            {/* <div
                                 className={`mt-16 grid grid-cols-3 gap-8 transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 {stats.map((stat, index) => (
@@ -147,12 +154,13 @@ const ResteelHero = () => {
                                         <div className="text-sm text-white/70 lg:text-base">{stat.label}</div>
                                     </div>
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Right Content - 3D Visual */}
                         <div
-                            className={`relative px-4 sm:px-0 transition-all delay-1000 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+
+                            className={`relative px-4 transition-all delay-1000 duration-1000 sm:px-0 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
                         >
                             <div className="relative">
                                 {/* Main Steel Structure Visualization */}
@@ -222,7 +230,7 @@ const ResteelHero = () => {
                                         <div className="h-3 w-3 rounded-full bg-teal-500"></div>
                                         <div>
                                             <div className="text-xs font-semibold text-slate-700">Quality Assured</div>
-                                            <div className="text-xs text-slate-500">ISO 9001 Certified</div>
+                                            {/* <div className="text-xs text-slate-500">ISO 9001 Certified</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +243,7 @@ const ResteelHero = () => {
                                         <div className="h-3 w-3 animate-pulse rounded-full bg-orange-500"></div>
                                         <div>
                                             <div className="text-xs font-semibold text-slate-700">Real-time Updates</div>
-                                            <div className="text-xs text-slate-500">Project Progress</div>
+                                            {/* <div className="text-xs text-slate-500">Project Progress</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -256,8 +264,10 @@ const ResteelHero = () => {
             <section className="relative bg-white py-20">
                 <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 xl:px-16">
                     <div className="mb-20 text-center">
-                        <h2 className="mb-6 text-4xl font-bold text-slate-700 lg:text-5xl">Why Choose
+
+                        <h2 className="mb-6 text-4xl font-bold text-cyan-600 lg:text-5xl">Why Choose
                              <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Resteel Solutions?</span></h2>
+
                         <p className="mx-auto max-w-3xl text-xl text-slate-600 lg:text-2xl">
                             Combining decades of expertise with cutting-edge technology to deliver exceptional results
                         </p>
@@ -269,10 +279,13 @@ const ResteelHero = () => {
                                 key={index}
                                 className="rounded-2xl border border-gray-200 bg-gradient-to-br from-slate-50 to-white p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl lg:p-10"
                             >
-                                <div className={`h-16 w-16 ${feature.color}/10 mx-auto mb-8 flex items-center justify-center rounded-2xl lg:h-20 lg:w-20`}>
+
+                                <div
+                                    className={`h-16 w-16 ${feature.color}/10 mx-auto mb-8 flex items-center justify-center rounded-2xl lg:h-20 lg:w-20`}
+                                >
                                     <div className={`h-8 w-8 ${feature.color} rounded-lg lg:h-10 lg:w-10`}></div>
                                 </div>
-                                <h3 className="mb-6 text-xl font-semibold text-slate-700 lg:text-2xl">{feature.title}</h3>
+                                <h3 className="mb-6 text-xl font-semibold text-cyan-600 lg:text-2xl">{feature.title}</h3>
                                 <p className="text-slate-600 lg:text-lg">{feature.description}</p>
                             </div>
                         ))}
@@ -284,15 +297,3 @@ const ResteelHero = () => {
 };
 
 export default ResteelHero;
-
-
-
-
-
-
-
-
-
-
-
-

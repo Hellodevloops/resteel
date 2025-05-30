@@ -4,19 +4,21 @@ import {
     Activity,
     AlertTriangle,
     BarChart3,
-    Box,
     Building,
     Calendar,
     CheckCircle,
     Clock,
     Eye,
     Filter,
+    Mail,
     MapPin,
-    Package,
+    Phone,
     Plus,
     Search,
     Settings,
     TrendingUp,
+    User,
+    Users,
     Zap,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -31,82 +33,84 @@ export default function Index() {
         setTimeout(() => setIsVisible(true), 100);
     }, []);
 
-    // Sample warehouse data - replace with actual data from your Laravel backend via props
-    const warehouseData = {
+    // Sample contact data - replace with actual data from your Laravel backend via props
+    const contactData = {
         overview: {
-            totalWarehouses: 12,
-            activeWarehouses: 10,
-            totalCapacity: '125,000 m²',
-            occupancyRate: 78,
-            monthlyRevenue: '$284,500',
-            growthRate: 12.5,
+            totalContacts: 1247,
+            activeContacts: 1156,
+            totalCompanies: 342,
+            conversionRate: 23.5,
+            monthlyLeads: 89,
+            growthRate: 15.2,
         },
-        warehouses: [
+        contacts: [
             {
                 id: 1,
-                name: 'Central Distribution Hub',
-                location: 'Mumbai, Maharashtra',
+                name: 'Sarah Johnson',
+                email: 'sarah.johnson@techcorp.com',
+                phone: '+1 (555) 123-4567',
+                company: 'TechCorp Industries',
                 status: 'active',
-                capacity: '15,000 m²',
-                occupied: '12,500 m²',
-                occupancyRate: 83,
-                type: 'Distribution',
-                lastInspection: '2024-05-15',
-                revenue: '$45,200',
-                alerts: 2,
-            },
-            {
-                id: 2,
-                name: 'North Logistics Center',
-                location: 'Delhi, NCR',
-                status: 'active',
-                capacity: '20,000 m²',
-                occupied: '16,800 m²',
-                occupancyRate: 84,
-                type: 'Storage',
-                lastInspection: '2024-05-20',
-                revenue: '$52,800',
+                type: 'Lead',
+                lastContact: '2024-05-28',
+                source: 'Website',
+                value: '$45,200',
                 alerts: 0,
             },
             {
+                id: 2,
+                name: 'Michael Chen',
+                email: 'mchen@innovategroup.com',
+                phone: '+1 (555) 987-6543',
+                company: 'Innovate Group',
+                status: 'active',
+                type: 'Client',
+                lastContact: '2024-05-25',
+                source: 'Referral',
+                value: '$125,800',
+                alerts: 1,
+            },
+            {
                 id: 3,
-                name: 'South Processing Facility',
-                location: 'Bangalore, Karnataka',
-                status: 'maintenance',
-                capacity: '12,000 m²',
-                occupied: '8,400 m²',
-                occupancyRate: 70,
-                type: 'Processing',
-                lastInspection: '2024-05-10',
-                revenue: '$28,600',
-                alerts: 5,
+                name: 'Emily Rodriguez',
+                email: 'emily.r@startup.io',
+                phone: '+1 (555) 456-7890',
+                company: 'Startup Solutions',
+                status: 'pending',
+                type: 'Prospect',
+                lastContact: '2024-05-20',
+                source: 'LinkedIn',
+                value: '$12,500',
+                alerts: 2,
             },
             {
                 id: 4,
-                name: 'West Coast Storage',
-                location: 'Pune, Maharashtra',
+                name: 'David Thompson',
+                email: 'dthompson@enterprise.com',
+                phone: '+1 (555) 321-0987',
+                company: 'Enterprise Corp',
                 status: 'active',
-                capacity: '18,500 m²',
-                occupied: '14,200 m²',
-                occupancyRate: 77,
-                type: 'Storage',
-                lastInspection: '2024-05-22',
-                revenue: '$41,300',
-                alerts: 1,
+                type: 'Client',
+                lastContact: '2024-05-29',
+                source: 'Trade Show',
+                value: '$89,300',
+                alerts: 0,
             },
         ],
         recentActivity: [
-            { id: 1, action: 'New warehouse added', warehouse: 'East Regional Hub', time: '2 hours ago', type: 'success' },
-            { id: 2, action: 'Maintenance scheduled', warehouse: 'South Processing Facility', time: '4 hours ago', type: 'warning' },
-            { id: 3, action: 'Inspection completed', warehouse: 'North Logistics Center', time: '1 day ago', type: 'success' },
-            { id: 4, action: 'Capacity threshold reached', warehouse: 'Central Distribution Hub', time: '2 days ago', type: 'alert' },
+            { id: 1, action: 'New contact added', contact: 'Alex Martinez', time: '2 hours ago', type: 'success' },
+            { id: 2, action: 'Follow-up scheduled', contact: 'Sarah Johnson', time: '4 hours ago', type: 'warning' },
+            { id: 3, action: 'Meeting completed', contact: 'Michael Chen', time: '1 day ago', type: 'success' },
+            { id: 4, action: 'Response overdue', contact: 'Emily Rodriguez', time: '2 days ago', type: 'alert' },
         ],
     };
 
-    const filteredWarehouses = warehouseData.warehouses.filter((warehouse) => {
+    const filteredContacts = contactData.contacts.filter((contact) => {
         const matchesSearch =
-            warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) || warehouse.location.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesFilter = filterStatus === 'all' || warehouse.status === filterStatus;
+            contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            contact.company.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesFilter = filterStatus === 'all' || contact.status === filterStatus;
         return matchesSearch && matchesFilter;
     });
 
@@ -136,7 +140,7 @@ export default function Index() {
         </div>
     );
 
-    const WarehouseCard = ({ warehouse, index }) => (
+    const ContactCard = ({ contact, index }) => (
         <div
             className={`group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-slate-900/10 ${
                 isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
@@ -147,32 +151,28 @@ export default function Index() {
             <div className="absolute top-4 right-4 z-10">
                 <div
                     className={`flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
-                        warehouse.status === 'active'
+                        contact.status === 'active'
                             ? 'bg-green-100 text-green-700'
-                            : warehouse.status === 'maintenance'
+                            : contact.status === 'pending'
                               ? 'bg-yellow-100 text-yellow-700'
                               : 'bg-red-100 text-red-700'
                     }`}
                 >
                     <div
                         className={`mr-2 h-2 w-2 rounded-full ${
-                            warehouse.status === 'active'
-                                ? 'animate-pulse bg-green-500'
-                                : warehouse.status === 'maintenance'
-                                  ? 'bg-yellow-500'
-                                  : 'bg-red-500'
+                            contact.status === 'active' ? 'animate-pulse bg-green-500' : contact.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'
                         }`}
                     ></div>
-                    {warehouse.status.charAt(0).toUpperCase() + warehouse.status.slice(1)}
+                    {contact.status.charAt(0).toUpperCase() + contact.status.slice(1)}
                 </div>
             </div>
 
             {/* Alerts Badge */}
-            {warehouse.alerts > 0 && (
-                <div className="absolute top-4 left-4 z-0">
-                    <div className="flex items-center rounded-full bg-white px-2 py-1 text-xs font-bold text-white">
-                        {/* <AlertTriangle className="mr-1 h-3 w-3" />
-                        {warehouse.alerts} */}
+            {contact.alerts > 0 && (
+                <div className="absolute top-4 left-4 z-10">
+                    <div className="flex items-center rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">
+                        <AlertTriangle className="mr-1 h-3 w-3" />
+                        {contact.alerts}
                     </div>
                 </div>
             )}
@@ -180,26 +180,36 @@ export default function Index() {
             <div className="p-6">
                 {/* Header */}
                 <div className="mb-4">
-                    <h3 className="mb-2 text-xl font-bold text-slate-800 transition-colors group-hover:text-orange-500">{warehouse.name}</h3>
+                    <h3 className="mb-2 text-xl font-bold text-slate-800 transition-colors group-hover:text-orange-500">{contact.name}</h3>
+                    <div className="mb-1 flex items-center text-sm text-slate-600">
+                        <Building className="mr-1 h-4 w-4" />
+                        {contact.company}
+                    </div>
                     <div className="flex items-center text-sm text-slate-600">
-                        <MapPin className="mr-1 h-4 w-4" />
-                        {warehouse.location}
+                        <Mail className="mr-1 h-4 w-4" />
+                        {contact.email}
                     </div>
                 </div>
 
-                {/* Occupancy Progress */}
+                {/* Contact Info */}
                 <div className="mb-4">
-                    <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-medium text-slate-600">Occupancy Rate</span>
-                        <span className="text-sm font-bold text-slate-800">{warehouse.occupancyRate}%</span>
+                    <div className="mb-2 flex items-center text-sm text-slate-600">
+                        <Phone className="mr-1 h-4 w-4" />
+                        {contact.phone}
                     </div>
-                    <div className="h-2 w-full rounded-full bg-slate-200">
-                        <div
-                            className={`h-2 rounded-full transition-all duration-500 ${
-                                warehouse.occupancyRate >= 80 ? 'bg-red-500' : warehouse.occupancyRate >= 60 ? 'bg-yellow-500' : 'bg-green-500'
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-slate-600">Contact Type</span>
+                        <span
+                            className={`rounded-full px-2 py-1 text-sm font-bold ${
+                                contact.type === 'Client'
+                                    ? 'bg-green-100 text-green-700'
+                                    : contact.type === 'Lead'
+                                      ? 'bg-blue-100 text-blue-700'
+                                      : 'bg-gray-100 text-gray-700'
                             }`}
-                            style={{ width: `${warehouse.occupancyRate}%` }}
-                        ></div>
+                        >
+                            {contact.type}
+                        </span>
                     </div>
                 </div>
 
@@ -207,30 +217,27 @@ export default function Index() {
                 <div className="mb-4 grid grid-cols-2 gap-4">
                     <div className="rounded-xl bg-slate-50 p-3">
                         <div className="mb-1 flex items-center">
-                            <Box className="mr-2 h-4 w-4 text-blue-500" />
-                            <span className="text-xs font-medium text-slate-600">Capacity</span>
+                            <Zap className="mr-2 h-4 w-4 text-green-500" />
+                            <span className="text-xs font-medium text-slate-600">Value</span>
                         </div>
-                        <p className="text-sm font-bold text-slate-800">{warehouse.capacity}</p>
+                        <p className="text-sm font-bold text-slate-800">{contact.value}</p>
                     </div>
                     <div className="rounded-xl bg-slate-50 p-3">
                         <div className="mb-1 flex items-center">
-                            <Zap className="mr-2 h-4 w-4 text-green-500" />
-                            <span className="text-xs font-medium text-slate-600">Revenue</span>
+                            <MapPin className="mr-2 h-4 w-4 text-blue-500" />
+                            <span className="text-xs font-medium text-slate-600">Source</span>
                         </div>
-                        <p className="text-sm font-bold text-slate-800">{warehouse.revenue}</p>
+                        <p className="text-sm font-bold text-slate-800">{contact.source}</p>
                     </div>
                 </div>
 
-                {/* Type and Inspection */}
+                {/* Last Contact */}
                 <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center">
-                        <Package className="mr-2 h-4 w-4 text-orange-500" />
-                        <span className="text-sm font-medium text-slate-600">{warehouse.type}</span>
+                        <Calendar className="mr-2 h-4 w-4 text-orange-500" />
+                        <span className="text-sm font-medium text-slate-600">Last Contact</span>
                     </div>
-                    <div className="flex items-center text-xs text-slate-500">
-                        <Calendar className="mr-1 h-3 w-3" />
-                        Last: {warehouse.lastInspection}
-                    </div>
+                    <div className="text-xs text-slate-500">{contact.lastContact}</div>
                 </div>
 
                 {/* Action Buttons */}
@@ -268,7 +275,7 @@ export default function Index() {
             </div>
             <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-slate-800">{activity.action}</p>
-                <p className="text-sm text-slate-600">{activity.warehouse}</p>
+                <p className="text-sm text-slate-600">{activity.contact}</p>
                 <p className="mt-1 text-xs text-slate-500">{activity.time}</p>
             </div>
         </div>
@@ -276,7 +283,7 @@ export default function Index() {
 
     return (
         <AppLayout>
-            <Head title="Warehouse Management Dashboard" />
+            <Head title="Contact Management Dashboard" />
 
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
                 {/* Header */}
@@ -284,13 +291,13 @@ export default function Index() {
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h1 className="text-3xl font-bold text-slate-800">Warehouse Management</h1>
-                                <p className="mt-1 text-slate-600">Monitor and manage your warehouse operations</p>
+                                <h1 className="text-3xl font-bold text-slate-800">Contact Management</h1>
+                                <p className="mt-1 text-slate-600">Manage your contacts, leads, and client relationships</p>
                             </div>
                             <div className="flex items-center space-x-4">
                                 <button className="flex items-center rounded-xl bg-orange-500 px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-orange-600">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add Warehouse
+                                    Add Contact
                                 </button>
                             </div>
                         </div>
@@ -301,33 +308,33 @@ export default function Index() {
                     {/* Overview Metrics */}
                     <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
                         <MetricCard
-                            title="Total Warehouses"
-                            value={warehouseData.overview.totalWarehouses}
-                            subtitle={`${warehouseData.overview.activeWarehouses} active`}
-                            icon={Building}
+                            title="Total Contacts"
+                            value={contactData.overview.totalContacts}
+                            subtitle={`${contactData.overview.activeContacts} active`}
+                            icon={Users}
                             color="from-blue-500 to-blue-600"
                         />
                         <MetricCard
-                            title="Total Capacity"
-                            value={warehouseData.overview.totalCapacity}
-                            subtitle={`${warehouseData.overview.occupancyRate}% occupied`}
-                            icon={Package}
+                            title="Companies"
+                            value={contactData.overview.totalCompanies}
+                            subtitle="Unique organizations"
+                            icon={Building}
                             color="from-green-500 to-green-600"
                         />
                         <MetricCard
-                            title="Monthly Revenue"
-                            value={warehouseData.overview.monthlyRevenue}
-                            subtitle="Current month"
+                            title="Conversion Rate"
+                            value={`${contactData.overview.conversionRate}%`}
+                            subtitle="Lead to client"
                             icon={TrendingUp}
                             color="from-purple-500 to-purple-600"
-                            trend={warehouseData.overview.growthRate}
                         />
                         <MetricCard
-                            title="Active Operations"
-                            value={warehouseData.overview.activeWarehouses}
-                            subtitle="Running smoothly"
+                            title="Monthly Leads"
+                            value={contactData.overview.monthlyLeads}
+                            subtitle="New this month"
                             icon={Activity}
                             color="from-orange-500 to-orange-600"
+                            trend={contactData.overview.growthRate}
                         />
                     </div>
 
@@ -341,7 +348,7 @@ export default function Index() {
                                         <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-slate-400" />
                                         <input
                                             type="text"
-                                            placeholder="Search warehouses..."
+                                            placeholder="Search contacts..."
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
                                             className="w-full rounded-xl border border-slate-200 py-3 pr-4 pl-10 transition-all focus:border-transparent focus:ring-2 focus:ring-orange-500"
@@ -356,24 +363,24 @@ export default function Index() {
                                         >
                                             <option value="all">All Status</option>
                                             <option value="active">Active</option>
-                                            <option value="maintenance">Maintenance</option>
+                                            <option value="pending">Pending</option>
                                             <option value="inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Warehouses Grid */}
+                            {/* Contacts Grid */}
                             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                                {filteredWarehouses.map((warehouse, index) => (
-                                    <WarehouseCard key={warehouse.id} warehouse={warehouse} index={index} />
+                                {filteredContacts.map((contact, index) => (
+                                    <ContactCard key={contact.id} contact={contact} index={index} />
                                 ))}
                             </div>
 
-                            {filteredWarehouses.length === 0 && (
+                            {filteredContacts.length === 0 && (
                                 <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-lg">
-                                    <Package className="mx-auto mb-4 h-12 w-12 text-slate-400" />
-                                    <h3 className="mb-2 text-lg font-medium text-slate-600">No warehouses found</h3>
+                                    <User className="mx-auto mb-4 h-12 w-12 text-slate-400" />
+                                    <h3 className="mb-2 text-lg font-medium text-slate-600">No contacts found</h3>
                                     <p className="text-slate-500">Try adjusting your search or filter criteria</p>
                                 </div>
                             )}
@@ -390,7 +397,7 @@ export default function Index() {
                                     </h3>
                                 </div>
                                 <div className="max-h-96 overflow-y-auto">
-                                    {warehouseData.recentActivity.map((activity) => (
+                                    {contactData.recentActivity.map((activity) => (
                                         <ActivityItem key={activity.id} activity={activity} />
                                     ))}
                                 </div>
@@ -406,20 +413,20 @@ export default function Index() {
                                 </div>
                                 <div className="space-y-4 p-6">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-slate-600">Average Occupancy</span>
-                                        <span className="text-lg font-bold text-slate-800">78.5%</span>
+                                        <span className="text-sm text-slate-600">Avg. Response Time</span>
+                                        <span className="text-lg font-bold text-slate-800">2.4h</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-slate-600">Total Alerts</span>
-                                        <span className="text-lg font-bold text-red-600">8</span>
+                                        <span className="text-sm text-slate-600">Follow-ups Due</span>
+                                        <span className="text-lg font-bold text-red-600">12</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-slate-600">Pending Inspections</span>
-                                        <span className="text-lg font-bold text-yellow-600">3</span>
+                                        <span className="text-sm text-slate-600">Hot Leads</span>
+                                        <span className="text-lg font-bold text-yellow-600">24</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-slate-600">Monthly Growth</span>
-                                        <span className="text-lg font-bold text-green-600">+12.5%</span>
+                                        <span className="text-lg font-bold text-green-600">+15.2%</span>
                                     </div>
                                 </div>
                             </div>

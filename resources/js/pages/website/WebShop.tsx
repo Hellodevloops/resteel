@@ -86,7 +86,7 @@ const WebShop = () => {
         <>
             <div className="min-h-screen bg-slate-50">
                 {/* Main Content */}
-                <div className="mx-auto max-w-7xl px-4 py-12 py-20 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 py-25  ">
                     {/* Search and Filter Bar */}
                     <div
                         className={`mb-12 transition-all delay-200 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
@@ -135,7 +135,7 @@ const WebShop = () => {
                             className={`transition-all delay-400 duration-1000 lg:col-span-1 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'}`}
                         >
                             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
-                                <h3 className="mb-6 text-xl font-bold text-slate-700">Categories</h3>
+                                <h3 className="mb-6 text-xl font-bold text-cyan-600">Categories</h3>
                                 <div className="space-y-2">
                                     {categories.map((category) => (
                                         <button
@@ -162,9 +162,9 @@ const WebShop = () => {
                         {/* Products Grid */}
                         <div className="lg:col-span-3">
                             <div className="mb-6 flex items-center justify-between">
-                                <h2 className="text-2xl font-bold text-slate-700">
+                                <h2 className="text-2xl font-bold text-cyan-600">
                                     {selectedCategory === 'all' ? 'All Products' : categories.find((c) => c.id === selectedCategory)?.name}
-                                    <span className="ml-2 text-lg text-slate-500">({sortedProducts.length})</span>
+                                    <span className="ml-2 text-lg text-orange-500">({sortedProducts.length})</span>
                                 </h2>
                             </div>
 
