@@ -1,16 +1,4 @@
-import Header from '@/components/layout/Header';
-import { Toaster as Sonner } from '@/components/ui/sonner';
-import { Toaster } from '@/components/ui/toaster';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import About from '@/pages/website/About';
-import Buildings from '@/pages/website/Buildings';
-import Contact from '@/pages/website/Contact';
-import Index from '@/pages/website/Index';
-import NotFound from '@/pages/website/NotFound';
-import Services from '@/pages/website/Services';
-import Header from '@/components/layout/Header';
-import { Toaster as Sonner } from '@/components/ui/sonner';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import About from '@/pages/website/About';
 import Buildings from '@/pages/website/Buildings';
@@ -21,6 +9,7 @@ import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import BuildingDetail from './BuildingDetail';
+import Header from '@/components/layout/Header';
 import Career from './Career';
 import Privacy from './Privacy';
 import Terms from './Terms';
@@ -32,7 +21,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
         <TooltipProvider>
             <Toaster />
-            <Sonner />
+            <Toaster />
             <BrowserRouter>
                 <Header />
                 <Routes>

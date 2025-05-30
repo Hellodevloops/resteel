@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, BrickWall, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, BrickWall, Folder, House, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -18,11 +18,11 @@ const mainNavItems: NavItem[] = [
         href: '/warehouse',
         icon: BrickWall,
     },
-    // {
-    //     title: 'Service',
-    //     href: '/service',
-    //     icon: LayoutGrid,
-    // },
+    {
+        title: 'Webshop',
+        href: '/webshop',
+        icon: House,
+    },
     // {
     //     title: 'Trending',
     //     href: '/trending',
