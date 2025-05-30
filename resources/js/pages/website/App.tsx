@@ -1,21 +1,22 @@
+// App.tsx - Fixed to include :id parameter in route
 import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import About from '@/pages/website/About';
-import Buildings from '@/pages/website/Buildings';
-import Contact from '@/pages/website/Contact';
-import Index from '@/pages/website/Index';
-import NotFound from '@/pages/website/NotFound';
-import Services from '@/pages/website/Services';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import BuildingDetail from './BuildingDetail';
+import About from './About';
+import Buildings from './Buildings';
+import BuildingDetails from './BuildingsDetails';
 import Career from './Career';
+import Contact from './Contact';
+import ContactPage from './ContactPage';
+import Index from './Index';
+import NotFound from './NotFound';
 import Privacy from './Privacy';
+import Services from './Services';
 import Terms from './Terms';
 import WebShop from './WebShop';
-import ContactPage from './ContactPage';
 
 const queryClient = new QueryClient();
 
@@ -29,7 +30,8 @@ const App = () => (
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/buildings" element={<Buildings />} />
-                    {/* <Route path="/buildings/:id" element={<BuildingDetail />} /> */}
+                    {/* Route without ID parameter - always shows building ID 1 */}
+                    <Route path="/buildingsdetails" element={<BuildingDetails />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
