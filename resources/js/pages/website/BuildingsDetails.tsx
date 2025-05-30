@@ -1,6 +1,10 @@
-// BuildingDetails.tsx - Updated to always show building with ID 1
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Eye, Mail, MapPin, Phone, Play, Square } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-// Move your buildingsData object here or import it from a separate file
+// Building data - this would typically come from an API or context
 const buildingsData = {
     1: {
         id: 1,
@@ -42,125 +46,277 @@ const buildingsData = {
 };
 
 const BuildingDetails = () => {
-    // Always get building with ID 1
-    const building = buildingsData[1];
+    const id = 1;
+    const [building, setBuilding] = useState(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [currentThumbnailIndex, setCurrentThumbnailIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // If building not found, show error message
+    useEffect(() => {
+        // Simulate loading building data (in real app, this would be an API call)
+        const fetchBuilding = () => {
+            const buildingId = parseInt(id);
+            const buildingData = buildingsData[buildingId];
+
+            if (buildingData) {
+                setBuilding(buildingData);
+            }
+            setIsLoading(false);
+        };
+
+        fetchBuilding();
+    }, [id]);
+
+    // Auto-rotate thumbnails every 3 seconds
+    useEffect(() => {
+        if (building && building.images.length > 1) {
+            const interval = setInterval(() => {
+                setCurrentThumbnailIndex((prevIndex) => (prevIndex + 1) % building.images.length);
+            }, 3000);
+
+            return () => clearInterval(interval);
+        }
+    }, [building]);
+
+    const handleThumbnailClick = (index) => {
+        setSelectedImageIndex(index);
+        setCurrentThumbnailIndex(index);
+    };
+
+    const nextImage = () => {
+        if (building) {
+            setSelectedImageIndex((prevIndex) => (prevIndex + 1) % building.images.length);
+        }
+    };
+
+    const prevImage = () => {
+        if (building) {
+            setSelectedImageIndex((prevIndex) => (prevIndex === 0 ? building.images.length - 1 : prevIndex - 1));
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-slate-50">
+                <div className="text-center">
+                    <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-orange-500"></div>
+                    <p className="text-slate-600">Loading building details...</p>
+                </div>
+            </div>
+        );
+    }
+
     if (!building) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-100">
+            <div className="flex min-h-screen items-center justify-center bg-slate-50">
                 <div className="text-center">
-                    <h1 className="mb-4 text-4xl font-bold text-gray-800">Building Not Found</h1>
-                    <p className="text-gray-600">The building data is not available.</p>
+                    <h1 className="mb-4 text-2xl font-bold text-slate-800">Building Not Found</h1>
+                    <p className="mb-6 text-slate-600">The building you're looking for doesn't exist.</p>
+                    <Button asChild>
+                        <Link to="/buildings">
+                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            Back to Buildings
+                        </Link>
+                    </Button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <div className="relative h-96 overflow-hidden">
-                <img src={building.images[0]} alt={building.title} className="h-full w-full object-cover" />
-                <div className="bg-opacity-40 absolute inset-0 flex items-center justify-center bg-black">
-                    <div className="text-center text-white">
-                        <h1 className="mb-4 text-5xl font-bold">{building.title}</h1>
-                        <div className="inline-block rounded-full bg-orange-500 px-4 py-2">
-                            <span className="font-semibold">{building.status}</span>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50">
+            {/* Header Section */}
+            <div className="border-b bg-white shadow-sm">
+                <div className="container mx-auto px-4 py-6">
+                    <div className="flex items-center justify-between">
+                        <Button variant="outline" asChild>
+                            <Link to="/buildings">
+                                <ArrowLeft className="mr-2 h-4 w-4" />
+                                Back to Buildings
+                            </Link>
+                        </Button>
+
+                        <div className="flex items-center gap-4">
+                            <Badge variant="secondary" className="bg-orange-500 text-white">
+                                {building.status}
+                            </Badge>
+                            <span className="text-sm text-slate-600">{building.category}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="mx-auto max-w-7xl px-4 py-12">
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
-                    {/* Left Column - Main Info */}
+            <div className="container mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    {/* Image Gallery Section */}
                     <div className="lg:col-span-2">
-                        {/* Description */}
-                        <div className="mb-8 rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-3xl font-bold text-gray-800">Description</h2>
-                            <p className="text-lg leading-relaxed text-gray-600">{building.description}</p>
-                        </div>
+                        {/* Main Image Display */}
+                        <div className="relative mb-6">
+                            <div className="relative h-96 overflow-hidden rounded-2xl shadow-xl md:h-[500px]">
+                                <img src={building.images[selectedImageIndex]} alt={building.title} className="h-full w-full object-cover" />
 
-                        {/* Image Gallery */}
-                        <div className="mb-8 rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-3xl font-bold text-gray-800">Gallery</h2>
-                            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                                {building.images.map((image, index) => (
-                                    <img
-                                        key={index}
-                                        src={image}
-                                        alt={`${building.title} - Image ${index + 1}`}
-                                        className="h-48 w-full rounded-lg object-cover shadow-md transition-shadow hover:shadow-lg"
-                                    />
-                                ))}
+                                {/* Image Navigation */}
+                                <button
+                                    onClick={prevImage}
+                                    className="absolute top-1/2 left-4 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all duration-300 hover:bg-black/70"
+                                >
+                                    <ChevronLeft className="h-6 w-6" />
+                                </button>
+
+                                <button
+                                    onClick={nextImage}
+                                    className="absolute top-1/2 right-4 -translate-y-1/2 transform rounded-full bg-black/50 p-2 text-white transition-all duration-300 hover:bg-black/70"
+                                >
+                                    <ChevronRight className="h-6 w-6" />
+                                </button>
+
+                                {/* Image Counter */}
+                                <div className="absolute right-4 bottom-4 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+                                    {selectedImageIndex + 1} / {building.images.length}
+                                </div>
                             </div>
                         </div>
 
-                        {/* Features */}
-                        <div className="rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-3xl font-bold text-gray-800">Features</h2>
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                {building.features.map((feature, index) => (
-                                    <div key={index} className="flex items-center">
-                                        <div className="mr-3 h-2 w-2 rounded-full bg-orange-500"></div>
-                                        <span className="text-gray-700">{feature}</span>
-                                    </div>
-                                ))}
-                            </div>
+                        {/* Thumbnail Gallery */}
+                        <div className="grid grid-cols-6 gap-3">
+                            {building.images.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className={`relative h-20 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${
+                                        index === selectedImageIndex ? 'scale-105 ring-3 ring-orange-500' : 'hover:scale-105 hover:shadow-md'
+                                    } ${index === currentThumbnailIndex && index !== selectedImageIndex ? 'ring-2 ring-blue-400' : ''}`}
+                                    onClick={() => handleThumbnailClick(index)}
+                                >
+                                    <img src={image} alt={`${building.title} - Image ${index + 1}`} className="h-full w-full object-cover" />
+                                    {index === currentThumbnailIndex && index !== selectedImageIndex && (
+                                        <div className="absolute inset-0 bg-blue-500/20"></div>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Right Column - Details */}
+                    {/* Building Information Section */}
                     <div className="lg:col-span-1">
-                        {/* Basic Info */}
-                        <div className="mb-8 rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-2xl font-bold text-gray-800">Details</h2>
-                            <div className="space-y-4">
-                                <div>
-                                    <span className="font-medium text-gray-500">Category:</span>
-                                    <span className="ml-2 text-gray-800">{building.category}</span>
+                        <div className="sticky top-8 rounded-2xl bg-white p-6 shadow-xl">
+                            {/* Title and Status */}
+                            <h1 className="mb-2 text-3xl font-bold text-slate-800">{building.title}</h1>
+                            <p className="mb-6 text-xl font-semibold text-orange-500">{building.price}</p>
+
+                            {/* Key Information */}
+                            <div className="mb-6 space-y-4">
+                                <div className="flex items-center text-slate-600">
+                                    <MapPin className="mr-3 h-5 w-5 text-orange-500" />
+                                    <span>{building.location}</span>
                                 </div>
-                                <div>
-                                    <span className="font-medium text-gray-500">Location:</span>
-                                    <span className="ml-2 text-gray-800">{building.location}</span>
+                                <div className="flex items-center text-slate-600">
+                                    <Calendar className="mr-3 h-5 w-5 text-orange-500" />
+                                    <span>Built in {building.yearBuilt}</span>
                                 </div>
-                                <div>
-                                    <span className="font-medium text-gray-500">Year Built:</span>
-                                    <span className="ml-2 text-gray-800">{building.yearBuilt}</span>
+                                <div className="flex items-center text-slate-600">
+                                    <Square className="mr-3 h-5 w-5 text-orange-500" />
+                                    <span>Total Area: {building.totalArea}</span>
                                 </div>
-                                <div>
-                                    <span className="font-medium text-gray-500">Total Area:</span>
-                                    <span className="ml-2 text-lg font-bold text-gray-800">{building.totalArea}</span>
-                                </div>
-                                <div>
-                                    <span className="font-medium text-gray-500">Price:</span>
-                                    <span className="ml-2 font-bold text-gray-800">{building.price}</span>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="mb-6 space-y-3">
+                                <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
+                                    <Phone className="mr-2 h-4 w-4" />
+                                    Contact for Details
+                                </Button>
+
+                                <Button variant="outline" className="w-full">
+                                    <Mail className="mr-2 h-4 w-4" />
+                                    Request Information
+                                </Button>
+
+                                {building.hasVideo && (
+                                    <Button
+                                        variant="outline"
+                                        className="w-full border-blue-500 text-blue-500 hover:bg-blue-50"
+                                        onClick={() => building.videoUrls && window.open(building.videoUrls[0], '_blank')}
+                                    >
+                                        <Play className="mr-2 h-4 w-4" />
+                                        Watch Video
+                                    </Button>
+                                )}
+                            </div>
+
+                            {/* Quick Features */}
+                            <div className="border-t pt-6">
+                                <h3 className="mb-3 font-semibold text-slate-800">Key Features</h3>
+                                <div className="space-y-2">
+                                    {building.features.slice(0, 4).map((feature, index) => (
+                                        <div key={index} className="flex items-center text-sm text-slate-600">
+                                            <div className="mr-3 h-2 w-2 rounded-full bg-orange-500"></div>
+                                            {feature}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        {/* Construction Details */}
-                        <div className="mb-8 rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-2xl font-bold text-gray-800">Construction</h2>
-                            <p className="leading-relaxed text-gray-600">{building.construction}</p>
+                {/* Detailed Information Section */}
+                <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                    {/* Description */}
+                    <div className="rounded-2xl bg-white p-8 shadow-xl">
+                        <h2 className="mb-4 text-2xl font-bold text-slate-800">Description</h2>
+                        <p className="mb-6 leading-relaxed text-slate-600">{building.description}</p>
+
+                        <div className="border-t pt-6">
+                            <h3 className="mb-4 font-semibold text-slate-800">Construction Details</h3>
+                            <p className="text-slate-600">{building.construction}</p>
                         </div>
 
-                        {/* Specifications */}
-                        <div className="rounded-lg bg-white p-8 shadow-lg">
-                            <h2 className="mb-6 text-2xl font-bold text-gray-800">Specifications</h2>
-                            <div className="space-y-4">
-                                {building.specifications.map((spec, index) => (
-                                    <div key={index} className="border-b border-gray-200 pb-3">
-                                        <div className="font-semibold text-gray-800">{spec.name}</div>
-                                        <div className="text-sm text-gray-600">{spec.dimensions}</div>
-                                        <div className="text-sm font-medium text-orange-500">{spec.area}</div>
+                        <div className="mt-6 border-t pt-6">
+                            <h3 className="mb-4 font-semibold text-slate-800">All Features</h3>
+                            <div className="grid grid-cols-2 gap-2">
+                                {building.features.map((feature, index) => (
+                                    <div key={index} className="flex items-center text-sm text-slate-600">
+                                        <div className="mr-3 h-2 w-2 rounded-full bg-orange-500"></div>
+                                        {feature}
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
+
+                    {/* Specifications */}
+                    <div className="rounded-2xl bg-white p-8 shadow-xl">
+                        <h2 className="mb-6 text-2xl font-bold text-slate-800">Specifications</h2>
+
+                        <div className="space-y-6">
+                            {building.specifications.map((spec, index) => (
+                                <div key={index} className="border-b border-slate-200 pb-4 last:border-b-0">
+                                    <div className="mb-2 flex items-center justify-between">
+                                        <h3 className="font-semibold text-slate-800">{spec.name}</h3>
+                                        <Badge variant="outline">{spec.area}</Badge>
+                                    </div>
+                                    <p className="text-sm text-slate-600">Dimensions: {spec.dimensions}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="mt-8 border-t pt-6">
+                            <div className="flex items-center justify-between">
+                                <span className="text-lg font-semibold text-slate-800">Total Building Area</span>
+                                <span className="text-2xl font-bold text-orange-500">{building.totalArea}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Related Buildings Section */}
+                <div className="mt-12 text-center">
+                    <Button size="lg" asChild className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-orange-500 hover:to-orange-600">
+                        <Link to="/buildings">
+                            <Eye className="mr-2 h-5 w-5" />
+                            View More Buildings
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </div>
