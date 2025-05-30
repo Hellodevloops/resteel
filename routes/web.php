@@ -7,15 +7,20 @@ Route::get('/', function () {
     return Inertia::render('website/App');
 })->name('home');
 
-// Add this route for the buildings page
-Route::get('/buildings', function () {
-    return Inertia::render('website/Buildings');
-})->name('buildings');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('warehouse', function () {
+        return Inertia::render('Warehouse/Index');
+    })->name('warehouse.index');
+
+    Route::get('webshop', function () {
+        return Inertia::render('WebShop/Index');
+    })->name('webshop.index');
 });
 
 require __DIR__ . '/settings.php';
