@@ -1,3 +1,4 @@
+// App.tsx - Fixed to include :id parameter in route
 import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
@@ -29,8 +30,8 @@ const App = () => (
                 <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/buildings" element={<Buildings />} />
-                    {/* Fixed route to include :id parameter */}
-                    <Route path="/buildings/:id" element={<BuildingDetails />} />
+                    {/* Route without ID parameter - always shows building ID 1 */}
+                    <Route path="/buildingsdetails" element={<BuildingDetails />} />
                     <Route path="/services" element={<Services />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />

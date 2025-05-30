@@ -203,7 +203,7 @@ const Buildings = () => {
                     {/* Action Buttons */}
                     <div className="flex gap-3">
                         <Link
-                            to={`/buildings/${building.id}`}
+                            to={`/buildingsdetails`}
                             className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
                         >
                             <Eye className="mr-2 h-4 w-4" />
