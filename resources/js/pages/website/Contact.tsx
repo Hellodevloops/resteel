@@ -86,8 +86,10 @@ const ContactCTA = () => {
 
     return (
         <>
-            <Head title="Contact Us" />
-            <section id="contact-section" className="relative overflow-hidden bg-slate-50 py-16 md:py-16 lg:py-16">
+
+            <section id="contact-section" className="relative overflow-hidden bg-slate-50 pb-16 pt-30">
+                {/* Animated Background Elements */}
+
                 <div className="absolute inset-0 overflow-hidden">
                     <div
                         className="absolute top-20 -right-32 h-96 w-96 rounded-full bg-gradient-to-br from-orange-500/10 to-orange-600/5 blur-3xl"
@@ -132,12 +134,16 @@ const ContactCTA = () => {
                             <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
                             <span className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Expert Consultation</span>
                         </div>
-                        <h2 className="mb-6 text-4xl leading-tight font-bold text-slate-800 md:text-5xl lg:text-6xl">
+
+                        <h1 className="mb-6 text-4xl leading-tight font-bold text-cyan-600 md:text-5xl lg:text-6xl">
+
                             Ready to Build
-                            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                            <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
                                 Something Great?
                             </span>
-                        </h2>
+
+                        </h1>
+
                         <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-600">
                             Transform your vision into reality with our precision engineering and decades of expertise. Let's discuss your next
                             industrial project.
@@ -162,11 +168,11 @@ const ContactCTA = () => {
                                             <method.icon className="h-7 w-7 md:h-8 md:w-8 text-white" />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="mb-2 text-xl md:text-2xl font-bold text-slate-800">{method.title}</h3>
+                                            <h3 className="mb-2 text-xl md:text-2xl font-bold text-cyan-600">{method.title}</h3>
                                             <p className="mb-4 text-sm md:text-base text-slate-600">{method.subtitle}</p>
                                             <a
                                                 href={method.href}
-                                                className="group/link inline-flex items-center text-base md:text-lg font-semibold text-slate-800 transition-colors hover:text-orange-600"
+                                                className="group/link inline-flex items-center text-base md:text-lg font-semibold text-cyan-600 transition-colors hover:text-orange-600"
                                             >
                                                 <span className="truncate">{method.contact}</span>
                                                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 shrink-0 transition-transform duration-300 group-hover/link:translate-x-1" />
@@ -192,7 +198,10 @@ const ContactCTA = () => {
                                     }}
                                 ></div>
                                 <div className="relative">
-                                    <h3 className="mb-4 md:mb-6 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
+
+                                    <h3 className="mb-4 md:mb-6 text-cyan-600 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
+                                    {/* < pointer-events-none */}
+
                                     <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
                                         Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
                                         your vision to life.
@@ -233,7 +242,7 @@ const ContactCTA = () => {
                                                 <feature.icon className="h-5 w-5 md:h-6 md:w-6 text-white" />
                                             </div>
                                         </div>
-                                        <p className="text-xs md:text-sm font-semibold text-slate-700">{feature.text}</p>
+                                        <p className="text-xs md:text-sm font-semibold text-cyan-600">{feature.text}</p>
                                     </div>
                                 ))}
                             </div>
@@ -244,7 +253,7 @@ const ContactCTA = () => {
                                         <div key={i} className="h-4 w-4 md:h-5 md:w-5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600"></div>
                                     ))}
                                 </div>
-                                <p className="text-xs md:text-sm font-semibold text-slate-700">Trusted by 500+ Industrial Clients</p>
+                                <p className="text-xs md:text-sm font-semibold text-cyan-600">Trusted by 500+ Industrial Clients</p>
                                 <p className="text-xs text-slate-500">Average 4.9/5 satisfaction rating</p>
                             </div>
                         </div>
@@ -262,8 +271,8 @@ const ContactCTA = () => {
                                         <MessageSquare className="h-8 w-8 text-white" />
                                     </div>
                                     <div className="ml-6">
-                                        <h3 className="text-3xl font-bold text-slate-800">Send us a Message</h3>
-                                        <p className="text-lg text-slate-600 mt-2">We'll respond within 24 hours</p>
+                                        <h3 className="text-3xl font-bold text-cyan-600">Send us a <span className=" bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Message</span></h3>
+                                        <p className="text-lg text-cyan-600 mt-2">We'll respond within 24 hours</p>
                                     </div>
                                 </div>
                             </div>
@@ -351,8 +360,12 @@ const ContactCTA = () => {
                                 </Button>
                                 <div className="pt-6 border-t border-slate-200">
                                     <div className="text-center space-y-2">
-                                        <p className="text-sm text-slate-600">Need immediate assistance?</p>
-                                        <p className="text-sm text-slate-500">
+
+                                        <p className="text-sm text-cyan-600">
+                                            Need immediate assistance?
+                                        </p>
+                                        <p className="text-sm text-cyan-600">
+
                                             Call us directly at{' '}
                                             <a href="tel:+31123456789" className="text-orange-600 hover:text-orange-700 font-semibold transition-colors">
                                                 +31 (0) 123 456 789
@@ -380,7 +393,7 @@ const ContactCTA = () => {
                                     <MapPin className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <h4 className="text-lg font-bold text-slate-800 mb-2">Our Location</h4>
+                                    <h4 className="text-lg font-bold text-cyan-600 mb-2">Our Location</h4>
                                     <p className="text-sm text-slate-600 leading-relaxed">
                                         Westerbeemd 2B<br />
                                         5705 DN Helmond<br />

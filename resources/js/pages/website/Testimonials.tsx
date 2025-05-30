@@ -99,7 +99,7 @@ const Testimonials = () => {
                         <Star className="mr-2 h-4 w-4 fill-orange-500 text-orange-500" />
                         Client Success Stories
                     </div>
-                    <h2 className="mb-6 text-4xl font-bold text-white md:text-6xl">
+                    <h2 className="mb-6 text-4xl font-bold text-cyan-600 md:text-6xl">
                         What Our
                         <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
                     </h2>
