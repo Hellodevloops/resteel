@@ -1,10 +1,19 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Award, Clock, Mail, MapPin, Phone, Users, Zap } from 'lucide-react';
+
+import { ArrowRight, Award, Clock, Mail, MapPin, Phone, Users, Zap, Send, User, MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ContactCTA = () => {
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: ''
+    });
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -27,6 +36,28 @@ const ContactCTA = () => {
             observer.disconnect();
         };
     }, []);
+
+
+    const handleInputChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = () => {
+        // Handle form submission here
+        console.log('Form submitted:', formData);
+        // Reset form
+        setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            message: ''
+        });
+        alert('Thank you for your inquiry! We will get back to you within 24 hours.');
+    };
 
     const contactMethods = [
         {
@@ -188,6 +219,8 @@ const ContactCTA = () => {
 
                                 <div className="relative">
                                     <h3 className="mb-4 md:mb-6 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
+
+                                    {/* < pointer-events-none */}
                                     <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
                                         Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
                                         your vision to life.
@@ -252,20 +285,165 @@ const ContactCTA = () => {
                 </div>
             </section>
 
-            {/* Full Width Map Section */}
-            <section className="w-full h-96 md:h-[500px] bg-slate-200 relative overflow-hidden">
 
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    // allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Resteel Location Map"
-                ></iframe>
+            {/* Contact Form and Map Section */}
+            <section className="w-full bg-slate-100">
+                <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+                    {/* Left Column - Contact Form */}
+                    <div className="bg-white p-8 md:p-12 lg:p-16 flex items-center justify-center">
+                        <div className="w-full max-w-lg">
+                            <div className="mb-8">
+                                <div className="flex items-center mb-6">
+                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-xl">
+                                        <MessageSquare className="h-8 w-8 text-white" />
+                                    </div>
+                                    <div className="ml-6">
+                                        <h3 className="text-3xl font-bold text-slate-800">Send us a Message</h3>
+                                        <p className="text-lg text-slate-600 mt-2">We'll respond within 24 hours</p>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div className="space-y-6">
+                                {/* Name and Phone Fields Side by Side */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <User className="h-5 w-5 text-slate-400" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className="w-full pl-12 pr-4 py-4 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 placeholder-slate-500 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none transition-all duration-300"
+                                            placeholder="Your Name *"
+                                        />
+                                    </div>
+
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <Phone className="h-5 w-5 text-slate-400" />
+                                        </div>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleInputChange}
+                                            className="w-full pl-12 pr-4 py-4 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 placeholder-slate-500 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none transition-all duration-300"
+                                            placeholder="Phone Number"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Email and Company Fields Side by Side */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <Mail className="h-5 w-5 text-slate-400" />
+                                        </div>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="w-full pl-12 pr-4 py-4 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 placeholder-slate-500 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none transition-all duration-300"
+                                            placeholder="Email Address *"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <input
+                                            type="text"
+                                            name="company"
+                                            value={formData.company}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-4 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 placeholder-slate-500 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none transition-all duration-300"
+                                            placeholder="Company Name"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Message Field (Full Width) */}
+                                <div>
+                                    <textarea
+                                        name="message"
+                                        required
+                                        rows={5}
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-4 border-2 border-slate-200 rounded-xl bg-slate-50 text-slate-800 placeholder-slate-500 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none transition-all duration-300 resize-none"
+                                        placeholder="Tell us about your project requirements *"
+                                    ></textarea>
+                                </div>
+
+                                {/* Submit Button (Full Width) */}
+                                <Button
+                                    type="button"
+                                    onClick={handleSubmit}
+                                    size="lg"
+                                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-4 text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/25"
+                                >
+                                    Send Message
+                                    <Send className="ml-3 h-6 w-6" />
+                                </Button>
+
+                                {/* Contact Info Footer */}
+                                <div className="pt-6 border-t border-slate-200">
+                                    <div className="text-center space-y-2">
+                                        <p className="text-sm text-slate-600">
+                                            Need immediate assistance?
+                                        </p>
+                                        <p className="text-sm text-slate-500">
+                                            Call us directly at{' '}
+                                            <a href="tel:+31123456789" className="text-orange-600 hover:text-orange-700 font-semibold transition-colors">
+                                                +31 (0) 123 456 789
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Map */}
+                    <div className="relative bg-slate-200 min-h-[500px]">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            title="Resteel Location Map"
+                        ></iframe>
+
+                        {/* Location Info Overlay */}
+                        <div className="absolute top-10 left-10 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-6 max-w-sm">
+                            <div className="flex items-start space-x-4">
+                                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 shadow-lg">
+                                    <MapPin className="h-6 w-6 text-white" />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-slate-800 mb-2">Our Location</h4>
+                                    <p className="text-sm text-slate-600 leading-relaxed">
+                                        Westerbeemd 2B<br />
+                                        5705 DN Helmond<br />
+                                        Netherlands
+                                    </p>
+                                    <div className="mt-4 pt-4 border-t border-slate-200">
+                                        <p className="text-xs text-slate-500">
+                                            Open Monday - Friday<br />
+                                            8:00 AM - 6:00 PM CET
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
     );
