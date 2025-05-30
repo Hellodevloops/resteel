@@ -89,7 +89,7 @@ const Services = () => {
     ];
 
     return (
-        <section id="services-section" className="relative mt-22 overflow-hidden bg-slate-50">
+        <section id="services-section" className="relative  overflow-hidden bg-slate-50">
             {/* Background with Gradient and Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
                 {/* Mesh Pattern Overlay */}
@@ -124,7 +124,7 @@ const Services = () => {
                     {/* Header Section */}
                     <div className="mx-auto mb-20 max-w-4xl text-center">
                         <h2
-                            className={`mb-6 translate-y-0 text-4xl leading-tight font-bold text-slate-700 opacity-100 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl`}
+                            className={`mb-6 translate-y-0 text-4xl leading-tight font-bold text-cyan-600 opacity-100 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl`}
                         >
                             What
                             <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent"> We Do</span>
@@ -139,7 +139,7 @@ const Services = () => {
 
                         {/* Decorative Line */}
                         <div
-                            className={`mx-auto mt-8 h-1 w-24 bg-gradient-to-r from-orange-500 to-blue-600 transition-all delay-600 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+                            className={`mx-auto mt-8 h-1 w-24 bg-gradient-to-r from-orange-500 to-cyan-600 transition-all delay-600 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
                         />
                     </div>
 
@@ -178,7 +178,7 @@ const Services = () => {
                                     </div>
 
                                     {/* Content */}
-                                    <h3 className="mb-4 text-xl font-bold text-slate-700 transition-colors group-hover:text-slate-800">
+                                    <h3 className="mb-4 text-xl font-bold text-cyan-600 transition-colors group-hover:text-cyan-700">
                                         {service.title}
                                     </h3>
 
@@ -190,14 +190,14 @@ const Services = () => {
                                     <div className="mb-6 space-y-2">
                                         {service.features.map((feature, idx) => (
                                             <div key={idx} className="flex items-center text-sm text-slate-600">
-                                                <div className="mr-2 h-1.5 w-1.5 rounded-full bg-orange-500" />
+                                                <div className="mr-2 h-1.5 w-1.5 rounded-full bg-cyan-600" />
                                                 {feature}
                                             </div>
                                         ))}
                                     </div>
 
                                     {/* Action Link */}
-                                    <button className="group/link relative inline-flex items-center font-semibold text-slate-700 transition-all duration-300 hover:text-orange-500">
+                                    <button className="group/link relative inline-flex items-center font-semibold text-cyan-600 transition-all duration-300 hover:text-orange-500">
                                         Learn more
                                         <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
                                         <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-blue-600 transition-all duration-300 group-hover/link:w-full" />
@@ -272,7 +272,7 @@ const Services = () => {
                             </div>
 
                             {/* Contact Info */}
-                            <div className="mt-8 text-sm text-white/70">
+                            <div className="mt-8 text-sm text-white">
                                 <p>Want to become a sales manager in your country? Contact us today!</p>
                             </div>
                         </div>

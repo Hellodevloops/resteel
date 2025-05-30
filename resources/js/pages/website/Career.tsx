@@ -95,7 +95,7 @@ const Career = () => {
                 <section className="relative bg-slate-50 py-30">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="mb-16 text-center">
-                            <h2 className="mb-4 text-4xl font-bold text-slate-700">Current <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Opportunities</span> </h2>
+                            <h2 className="mb-4 text-4xl font-bold text-cyan-600">Current <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Opportunities</span> </h2>
                             <p className="mx-auto max-w-3xl text-xl text-slate-600">
                                 Discover your next career move with positions across engineering, operations, and management
                             </p>
@@ -110,7 +110,7 @@ const Career = () => {
                                     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                                         <div className="flex-1">
                                             <div className="mb-2 flex flex-wrap items-center gap-3">
-                                                <h3 className="text-xl font-semibold text-slate-700">{position.title}</h3>
+                                                <h3 className="text-xl font-semibold text-cyan-600">{position.title}</h3>
                                                 <span className="rounded-full bg-orange-500/10 px-3 py-1 text-sm font-medium text-orange-600">
                                                     {position.department}
                                                 </span>

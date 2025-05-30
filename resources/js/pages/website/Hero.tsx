@@ -1,4 +1,5 @@
 import Header from '@/components/layout/Header';
+import { Phone } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ResteelHero = () => {
@@ -54,7 +55,7 @@ const ResteelHero = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{
-                        backgroundImage: `url('/assets/hero-bg.jpg')`,
+                        backgroundImage: `url('/assets/hero.jpg')`,
                         transform: `translate3d(0, ${scrollY * 0.5}px, 0)`,
                     }}
                 >
@@ -112,7 +113,7 @@ const ResteelHero = () => {
                             </div>
 
                             <h1
-                                className={`mb-8 text-5xl leading-tight font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                                className={`mb-8 text-5xl leading-tight text-cyan-600 font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 Engineering
                                 <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Tomorrow's</span>
@@ -129,12 +130,15 @@ const ResteelHero = () => {
                             <div
                                 className={`flex flex-col gap-6 transition-all delay-600 duration-1000 sm:flex-row ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                <button className="animate-pulse rounded-xl bg-orange-500 px-10 py-5 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
-                                    Start Your Project
-                                </button>
-                                <button className="rounded-xl border-2 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+                                <button className="rounded-xl border-2 bg-orange-500 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
                                     View Portfolio
                                 </button>
+                               <a href="tel:+31 (0) 123 456 789">
+                                    <button className="rounded-xl border-2 bg-cyan-600 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 flex items-center gap-2">
+                                        <Phone className="h-6 w-6" />
+                                        +31 (0) 123 456 789
+                                    </button>
+                                </a>
                             </div>
 
                             {/* Stats */}
@@ -256,7 +260,7 @@ const ResteelHero = () => {
             <section className="relative bg-white py-20">
                 <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 xl:px-16">
                     <div className="mb-20 text-center">
-                        <h2 className="mb-6 text-4xl font-bold text-slate-700 lg:text-5xl">Why Choose
+                        <h2 className="mb-6 text-4xl font-bold text-cyan-600 lg:text-5xl">Why Choose
                              <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Resteel Solutions?</span></h2>
                         <p className="mx-auto max-w-3xl text-xl text-slate-600 lg:text-2xl">
                             Combining decades of expertise with cutting-edge technology to deliver exceptional results
@@ -284,15 +288,3 @@ const ResteelHero = () => {
 };
 
 export default ResteelHero;
-
-
-
-
-
-
-
-
-
-
-
-

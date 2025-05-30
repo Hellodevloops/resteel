@@ -118,9 +118,6 @@ const Header = () => {
 
                                 <li>
                                     <Link
-<<<<<<< HEAD
-                                        to="/contactpage"
-=======
                                         to="/cart"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
@@ -132,8 +129,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/contact"
->>>>>>> debcc0da42aead6725f7f9880600cf64ccd04b6f
+                                        to="/contactpage"
                                         className="group shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
                                     >
                                         <span className="relative z-10">Contact Us</span>
@@ -156,7 +152,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                
+
 
             </header>
         </>

@@ -114,7 +114,7 @@ const FeaturedBuildings = () => {
                     </div>
 
                     <h2
-                        className={`mb-6 text-4xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                        className={`mb-6 text-4xl leading-tight font-bold text-cyan-600 transition-all delay-200 duration-1000 md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
                         Featured
                         <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Buildings</span>
@@ -178,7 +178,7 @@ const FeaturedBuildings = () => {
 
                                     <CardContent className="flex-grow bg-gradient-to-br from-white to-slate-50/50 p-6">
                                         <div className="mb-4 flex items-start justify-between">
-                                            <h3 className="text-xl font-bold text-slate-700 transition-colors duration-300 group-hover:text-orange-500">
+                                            <h3 className="text-xl font-bold text-cyan-500 transition-colors duration-300 group-hover:text-cyan-600">
                                                 {building.title}
                                             </h3>
                                             <Badge
