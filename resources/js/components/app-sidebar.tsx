@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, BrickWall, Folder, House, LayoutGrid } from 'lucide-react';
+import { BookOpen, BrickWall, Folder, House, LayoutGrid, PhoneCall } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -14,20 +14,19 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-
-        title: 'Building',
-        href: '/building',
-        icon: LayoutGrid,
+        title: 'Warehouse',
+        href: '/admin/warehouse',
+        icon: BrickWall,
     },
     {
-        title: 'Service',
-        href: '/service',
-        icon: LayoutGrid,
+        title: 'webshop',
+        href: '/admin/webshop',
+        icon: House,
     },
     {
-        title: 'Trending',
-        href: '/trending',
-        icon: LayoutGrid,
+        title: 'Contacts',
+        href: '/admin/contacts',
+        icon: PhoneCall,
     },
 ];
 
