@@ -1,10 +1,12 @@
 import { Button } from '@/components/ui/button';
+
 import { ArrowRight, Award, Clock, Mail, MapPin, Phone, Users, Zap, Send, User, MessageSquare } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ContactCTA = () => {
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,6 +36,7 @@ const ContactCTA = () => {
             observer.disconnect();
         };
     }, []);
+
 
     const handleInputChange = (e) => {
         setFormData({
@@ -216,6 +219,7 @@ const ContactCTA = () => {
 
                                 <div className="relative">
                                     <h3 className="mb-4 md:mb-6 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
+
                                     {/* < pointer-events-none */}
                                     <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
                                         Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
@@ -280,6 +284,7 @@ const ContactCTA = () => {
                     </div>
                 </div>
             </section>
+
 
             {/* Contact Form and Map Section */}
             <section className="w-full bg-slate-100">

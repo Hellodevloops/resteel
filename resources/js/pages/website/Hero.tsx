@@ -54,6 +54,7 @@ const ResteelHero = () => {
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{
+
                         backgroundImage: `url('/assets/hero.jpg')`,
                         transform: `translate3d(0, ${scrollY * 0.5}px, 0)`,
                     }}
@@ -103,6 +104,7 @@ const ResteelHero = () => {
                 <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12 xl:px-16">
                     <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
                         {/* Left Content */}
+
                         <div className="px-4 text-white sm:px-0">
                             <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
                                 <div className="mb-8 inline-flex items-center rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-sm">
@@ -120,6 +122,7 @@ const ResteelHero = () => {
                             </h1>
 
                             <p
+
                                 className={`mb-10 max-w-2xl text-xl leading-relaxed text-white/80 transition-all delay-400 duration-1000 lg:text-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 Delivering world-class steel fabrication and construction solutions with precision, innovation, and unwavering
@@ -152,6 +155,7 @@ const ResteelHero = () => {
 
                         {/* Right Content - 3D Visual */}
                         <div
+
                             className={`relative px-4 transition-all delay-1000 duration-1000 sm:px-0 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
                         >
                             <div className="relative">
@@ -256,6 +260,7 @@ const ResteelHero = () => {
             <section className="relative bg-white py-20">
                 <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 xl:px-16">
                     <div className="mb-20 text-center">
+
                         <h2 className="mb-6 text-4xl font-bold text-slate-700 lg:text-5xl">
                             Why Choose
                             <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
@@ -273,6 +278,7 @@ const ResteelHero = () => {
                                 key={index}
                                 className="rounded-2xl border border-gray-200 bg-gradient-to-br from-slate-50 to-white p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl lg:p-10"
                             >
+
                                 <div
                                     className={`h-16 w-16 ${feature.color}/10 mx-auto mb-8 flex items-center justify-center rounded-2xl lg:h-20 lg:w-20`}
                                 >

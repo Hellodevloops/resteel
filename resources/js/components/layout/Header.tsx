@@ -1,4 +1,5 @@
-import { Menu, X } from 'lucide-react';
+import { Mail, Menu, Phone, X } from 'lucide-react';
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ const Header = () => {
 
     return (
         <>
+
             {/* Main Header */}
             <header
                 className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
@@ -117,6 +119,7 @@ const Header = () => {
 
                                 <li>
                                     <Link
+
                                         to="/contactpage"
                                         to="/cart"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
@@ -151,6 +154,7 @@ const Header = () => {
                         </button>
                     </div>
                 </div>
+
             </header>
         </>
     );

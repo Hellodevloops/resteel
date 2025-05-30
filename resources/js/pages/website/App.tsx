@@ -1,3 +1,4 @@
+
 import Header from '@/components/layout/Header';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { Toaster } from '@/components/ui/toaster';
@@ -23,7 +24,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
         <TooltipProvider>
             <Toaster />
-            <Sonner />
+   <Sonner />
             <BrowserRouter>
                 <Header />
                 <Routes>
@@ -38,7 +39,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                     <Route path="career" element={<Career />} />
                     <Route path="webshop" element={<WebShop />} />
-                    <Route path="contactpage" element={<ContactPage />} />
+          <Route path="contactpage" element={<ContactPage />} />
                 </Routes>
             </BrowserRouter>
         </TooltipProvider>
