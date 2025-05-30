@@ -1,8 +1,13 @@
-import FeaturedBuildings from '@/components/home/FeaturedBuildings';
-import Hero from '@/components/home/Hero';
+import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
+import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
+import Services from '@/pages/website/Services';
 import { useEffect } from 'react';
+import ContactCTA from './Contact';
+import Hero from './Hero';
+import Testimonials from './Testimonials';
+import NewsletterSection from './NewsletterSection';
 
 const Index = () => {
     // Initialize scroll animations
@@ -18,14 +23,15 @@ const Index = () => {
             <Header />
             <main className="flex-grow">
                 <Hero />
+                <Services />
                 <FeaturedBuildings />
-                {/* <Services />
-                <AboutSection />
                 <Testimonials />
-                <Partners />
-                <ContactCTA /> */}
+                {/* <Career /> */}
+                <ContactCTA />
+                {/* <NewsLetter /> */}
+                <NewsletterSection />
             </main>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 };
