@@ -17,11 +17,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('warehouse', function () {
+    Route::get('admin/warehouse', function () {
         return Inertia::render('Warehouse/Index');
     })->name('warehouse.index');
 
-    Route::get('webshop', function () {
+    Route::get('admin/webshop', function () {
         return Inertia::render('WebShop/Index');
     })->name('webshop.index');
 });
