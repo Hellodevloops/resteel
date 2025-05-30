@@ -107,12 +107,12 @@ const ResteelHero = () => {
                         {/* Left Content */}
 
                         <div className="px-4 text-white sm:px-0">
-                            <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
+                            {/* <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
                                 <div className="mb-8 inline-flex items-center rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-sm">
                                     <span className="mr-3 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
                                     Industrial Excellence Since 1985
                                 </div>
-                            </div>
+                            </div> */}
 
                             <h1
                                 className={`mb-8 text-5xl leading-tight text-cyan-600 font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
@@ -133,9 +133,9 @@ const ResteelHero = () => {
                             <div
                                 className={`flex flex-col gap-6 transition-all delay-600 duration-1000 sm:flex-row ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                <button className="rounded-xl border-2 bg-orange-500 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+                                {/* <button className="rounded-xl border-2 bg-orange-500 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
                                     View Portfolio
-                                </button>
+                                </button> */}
                                <a href="tel:+31 (0) 123 456 789">
                                     <button className="rounded-xl border-2 bg-cyan-600 border-white/30 px-10 py-5 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 flex items-center gap-2">
                                         <Phone className="h-6 w-6" />
@@ -145,7 +145,7 @@ const ResteelHero = () => {
                             </div>
 
                             {/* Stats */}
-                            <div
+                            {/* <div
                                 className={`mt-16 grid grid-cols-3 gap-8 transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
                                 {stats.map((stat, index) => (
@@ -154,7 +154,7 @@ const ResteelHero = () => {
                                         <div className="text-sm text-white/70 lg:text-base">{stat.label}</div>
                                     </div>
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Right Content - 3D Visual */}
@@ -230,7 +230,7 @@ const ResteelHero = () => {
                                         <div className="h-3 w-3 rounded-full bg-teal-500"></div>
                                         <div>
                                             <div className="text-xs font-semibold text-slate-700">Quality Assured</div>
-                                            <div className="text-xs text-slate-500">ISO 9001 Certified</div>
+                                            {/* <div className="text-xs text-slate-500">ISO 9001 Certified</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +243,7 @@ const ResteelHero = () => {
                                         <div className="h-3 w-3 animate-pulse rounded-full bg-orange-500"></div>
                                         <div>
                                             <div className="text-xs font-semibold text-slate-700">Real-time Updates</div>
-                                            <div className="text-xs text-slate-500">Project Progress</div>
+                                            {/* <div className="text-xs text-slate-500">Project Progress</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -285,7 +285,7 @@ const ResteelHero = () => {
                                 >
                                     <div className={`h-8 w-8 ${feature.color} rounded-lg lg:h-10 lg:w-10`}></div>
                                 </div>
-                                <h3 className="mb-6 text-xl font-semibold text-slate-700 lg:text-2xl">{feature.title}</h3>
+                                <h3 className="mb-6 text-xl font-semibold text-cyan-600 lg:text-2xl">{feature.title}</h3>
                                 <p className="text-slate-600 lg:text-lg">{feature.description}</p>
                             </div>
                         ))}

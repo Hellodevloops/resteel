@@ -151,8 +151,8 @@ const Footer = () => {
                             </div>
                             <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
                                 <Mail size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="mailto:info@resteel.com" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    info@resteel.com
+                                <a href="mailto:2ndhand@tradingbv.com" className="text-slate-300 transition-colors hover:text-orange-400">
+                                    2ndhand@tradingbv.com
                                 </a>
                             </div>
                         </address>

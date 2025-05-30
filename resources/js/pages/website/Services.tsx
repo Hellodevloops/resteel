@@ -197,11 +197,11 @@ const Services = () => {
                                     </div>
 
                                     {/* Action Link */}
-                                    <button className="group/link relative inline-flex items-center font-semibold text-cyan-600 transition-all duration-300 hover:text-orange-500">
+                                    {/* <button className="group/link relative inline-flex items-center font-semibold text-cyan-600 transition-all duration-300 hover:text-orange-500">
                                         Learn more
                                         <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
                                         <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-blue-600 transition-all duration-300 group-hover/link:w-full" />
-                                    </button>
+                                    </button> */}
 
                                     {/* Grid Pattern Overlay */}
                                     <div
@@ -253,7 +253,7 @@ const Services = () => {
                     <div
                         className={`text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                     >
-                        <div className="mx-auto max-w-4xl rounded-3xl border border-white/20 bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 p-12 text-white backdrop-blur-sm">
+                        {/* <div className="mx-auto max-w-4xl rounded-3xl border border-white/20 bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 p-12 text-white backdrop-blur-sm">
                             <h3 className="mb-4 text-3xl font-bold">Ready to Start Trading?</h3>
                             <p className="mx-auto mb-8 max-w-2xl text-lg text-white/80">
                                 We can almost always find a suitable buyer for your trade objects. Contact us for both small and large industrial
@@ -271,11 +271,10 @@ const Services = () => {
                                 </button>
                             </div>
 
-                            {/* Contact Info */}
                             <div className="mt-8 text-sm text-white">
                                 <p>Want to become a sales manager in your country? Contact us today!</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

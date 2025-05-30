@@ -1,3 +1,5 @@
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Eye, Mail, MapPin, Phone, Play, Square } from 'lucide-react';
@@ -126,6 +128,7 @@ const BuildingDetails = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50">
             {/* Header Section */}
+            <Header />
             <div className="border-b bg-white shadow-sm">
                 <div className="container mx-auto px-4 py-6">
                     <div className="flex items-center justify-between">
@@ -182,9 +185,8 @@ const BuildingDetails = () => {
                             {building.images.map((image, index) => (
                                 <div
                                     key={index}
-                                    className={`relative h-20 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${
-                                        index === selectedImageIndex ? 'scale-105 ring-3 ring-orange-500' : 'hover:scale-105 hover:shadow-md'
-                                    } ${index === currentThumbnailIndex && index !== selectedImageIndex ? 'ring-2 ring-blue-400' : ''}`}
+                                    className={`relative h-20 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${index === selectedImageIndex ? 'scale-105 ring-3 ring-orange-500' : 'hover:scale-105 hover:shadow-md'
+                                        } ${index === currentThumbnailIndex && index !== selectedImageIndex ? 'ring-2 ring-blue-400' : ''}`}
                                     onClick={() => handleThumbnailClick(index)}
                                 >
                                     <img src={image} alt={`${building.title} - Image ${index + 1}`} className="h-full w-full object-cover" />
@@ -319,6 +321,7 @@ const BuildingDetails = () => {
                     </Button>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

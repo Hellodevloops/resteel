@@ -52,8 +52,8 @@ const ContactCTA = () => {
             icon: Mail,
             title: 'Email Inquiries',
             subtitle: 'Get detailed quotations & technical specifications',
-            contact: 'info@resteel.com',
-            href: 'mailto:info@resteel.com?subject=Premium Steel Solutions Inquiry',
+            contact: '2ndhand@tradingbv.com',
+            href: 'mailto:2ndhand@tradingbv.com?subject=Premium Steel Solutions Inquiry',
             color: 'from-orange-500 to-orange-600',
             accent: 'border-orange-500/30',
         },
@@ -189,7 +189,7 @@ const ContactCTA = () => {
                         <div
                             className={`space-y-6 md:space-y-8 transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}
                         >
-                            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-800 via-slate-700 to-blue-800 p-8 md:p-10 text-white shadow-2xl">
+                            {/* <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-800 via-slate-700 to-blue-800 p-8 md:p-10 text-white shadow-2xl">
                                 <div
                                     className="absolute inset-0 opacity-10"
                                     style={{
@@ -200,7 +200,6 @@ const ContactCTA = () => {
                                 <div className="relative">
 
                                     <h3 className="mb-4 md:mb-6 text-cyan-600 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
-                                    {/* < pointer-events-none */}
 
                                     <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
                                         Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
@@ -228,7 +227,7 @@ const ContactCTA = () => {
                                     className="absolute bottom-4 left-4 h-12 w-12 md:h-16 md:w-16 animate-pulse rounded-full bg-blue-600/20"
                                     style={{ animationDelay: '1s' }}
                                 ></div>
-                            </div>
+                            </div> */}
 
                             <div className="grid grid-cols-2 gap-3 md:gap-4">
                                 {features.map((feature, index) => (

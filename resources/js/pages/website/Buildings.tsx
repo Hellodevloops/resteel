@@ -1,3 +1,4 @@
+import Footer from '@/components/layout/Footer';
 import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -291,12 +292,12 @@ const Buildings = () => {
                         <div
                             className={`flex flex-col gap-4 transition-all delay-600 duration-1000 sm:flex-row sm:justify-center ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
-                            <button className="animate-pulse rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
+                            <Link to="/webshop" className="animate-pulse rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
                                 Browse Inventory
-                            </button>
-                            <button className="rounded-xl border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+                            </Link>
+                            <Link to="/contactpage" className="rounded-xl border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
                                 Contact Sales Team
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -376,7 +377,7 @@ const Buildings = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-20">
+            {/* <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-20">
                 <div className="absolute inset-0 opacity-10">
                     <div
                         className="absolute inset-0"
@@ -405,7 +406,8 @@ const Buildings = () => {
                         </button>
                     </div>
                 </div>
-            </section>
+            </section> */}
+            <Footer />
         </div>
     );
 };
