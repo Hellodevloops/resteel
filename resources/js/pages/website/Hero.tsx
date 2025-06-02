@@ -82,24 +82,6 @@ const ResteelHero = () => {
                     </div>
                 </div>
 
-                {/* Floating Elements - Reduced for mobile */}
-                {/* <div
-                    className="absolute top-16 left-4 h-12 w-12 animate-bounce rounded-full bg-orange-500/20 sm:top-20 sm:left-10 sm:h-20 sm:w-20"
-                    style={{ animationDuration: '6s', animationDelay: '0s' }}
-                ></div> */}
-                {/* <div
-                    className="absolute top-32 right-4 h-10 w-10 animate-bounce rounded-full bg-blue-600/20 sm:top-40 sm:right-20 sm:h-16 sm:w-16"
-                    style={{ animationDuration: '6s', animationDelay: '-2s' }}
-                ></div>
-                <div
-                    className="absolute bottom-32 left-4 h-8 w-8 animate-bounce rounded-full bg-orange-500/30 sm:bottom-40 sm:left-20 sm:h-12 sm:w-12"
-                    style={{ animationDuration: '6s', animationDelay: '-4s' }}
-                ></div>
-                <div
-                    className="absolute right-4 bottom-16 h-16 w-16 animate-bounce rounded-full bg-blue-600/15 sm:right-10 sm:bottom-20 sm:h-24 sm:w-24"
-                    style={{ animationDuration: '6s', animationDelay: '-1s' }}
-                ></div> */}
-
                 {/* Main Content */}
                 <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20 xl:px-16">
                     <div className="grid grid-cols-1 items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
@@ -129,96 +111,6 @@ const ResteelHero = () => {
                                         <span className="whitespace-nowrap">+31 (0) 123 456 789</span>
                                     </button>
                                 </a>
-                            </div>
-                        </div>
-
-                        {/* Right Content - 3D Visual */}
-                        <div
-                            className={`relative order-2 transition-all delay-1000 duration-1000 lg:order-2 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
-                        >
-                            <div className="relative">
-                                {/* Main Steel Structure Visualization */}
-                                <div className="relative h-64 w-full overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-blue-600/20 to-slate-700/30 backdrop-blur-sm sm:h-80 sm:rounded-3xl md:h-96 lg:h-[500px]">
-                                    {/* Grid Pattern */}
-                                    <div
-                                        className="absolute inset-0 opacity-20"
-                                        style={{
-                                            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                       linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                                            backgroundSize: '15px 15px sm:20px 20px',
-                                        }}
-                                    ></div>
-
-                                    {/* Steel Beams Animation - Responsive sizing */}
-                                    <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-                                        <div className="relative scale-75 sm:scale-90 lg:scale-100">
-                                            {/* Horizontal Beams */}
-                                            <div
-                                                className={`h-3 w-48 rounded-lg bg-gradient-to-r from-slate-600 to-slate-800 shadow-lg transition-all delay-1200 duration-1000 sm:h-4 sm:w-56 lg:w-64 ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
-                                            ></div>
-                                            <div
-                                                className={`mt-6 ml-6 h-3 w-36 rounded-lg bg-gradient-to-r from-slate-600 to-slate-800 shadow-lg transition-all delay-1400 duration-1000 sm:mt-8 sm:ml-8 sm:h-4 sm:w-40 lg:w-48 ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
-                                            ></div>
-                                            <div
-                                                className={`mt-6 -ml-3 h-3 w-42 rounded-lg bg-gradient-to-r from-slate-600 to-slate-800 shadow-lg transition-all delay-1600 duration-1000 sm:mt-8 sm:-ml-4 sm:h-4 sm:w-48 lg:w-56 ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
-                                            ></div>
-
-                                            {/* Vertical Supports */}
-                                            <div
-                                                className={`absolute -top-8 left-6 h-24 w-3 rounded-lg bg-gradient-to-b from-blue-600 to-slate-600 shadow-lg transition-all delay-1800 duration-1000 sm:-top-12 sm:left-8 sm:h-32 sm:w-4 ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
-                                            ></div>
-                                            <div
-                                                className={`absolute -top-8 right-6 h-24 w-3 rounded-lg bg-gradient-to-b from-blue-600 to-slate-600 shadow-lg transition-all delay-2000 duration-1000 sm:-top-12 sm:right-8 sm:h-32 sm:w-4 ${isVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
-                                            ></div>
-
-                                            {/* Accent Elements */}
-                                            {/* <div className="absolute top-1 left-8 h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:top-2 sm:left-12 sm:h-3 sm:w-3"></div>
-                                            <div
-                                                className="absolute top-1 right-8 h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:top-2 sm:right-12 sm:h-3 sm:w-3"
-                                                style={{ animationDelay: '0.5s' }}
-                                            ></div> */}
-                                        </div>
-                                    </div>
-
-                                    {/* Floating Particles */}
-                                    {/* <div
-                                        className="absolute top-6 left-6 h-1.5 w-1.5 animate-bounce rounded-full bg-orange-500/60 sm:top-10 sm:left-10 sm:h-2 sm:w-2"
-                                        style={{ animationDuration: '3s' }}
-                                    ></div>
-                                    <div
-                                        className="absolute top-12 right-10 h-1 w-1 animate-bounce rounded-full bg-white/60 sm:top-20 sm:right-15"
-                                        style={{ animationDuration: '4s', animationDelay: '-1s' }}
-                                    ></div>
-                                    <div
-                                        className="absolute bottom-12 left-10 h-1 w-1 animate-bounce rounded-full bg-blue-600/60 sm:bottom-20 sm:left-15 sm:h-1.5 sm:w-1.5"
-                                        style={{ animationDuration: '5s', animationDelay: '-3s' }}
-                                    ></div> */}
-                                </div>
-
-                                {/* Floating Cards - Responsive positioning and sizing */}
-                                <div
-                                    className="absolute -top-2 -right-2 animate-bounce rounded-xl bg-white/95 p-2 shadow-2xl backdrop-blur-sm sm:-top-4 sm:-right-4 sm:rounded-2xl sm:p-4"
-                                    style={{ animationDuration: '4s' }}
-                                >
-                                    <div className="flex items-center space-x-2 sm:space-x-3">
-                                        <div className="h-2 w-2 rounded-full bg-teal-500 sm:h-3 sm:w-3"></div>
-                                        <div>
-                                            <div className="text-xs font-semibold text-slate-700">Quality Assured</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div
-                                    className="absolute -bottom-2 -left-2 animate-bounce rounded-xl bg-white/95 p-2 shadow-2xl backdrop-blur-sm sm:-bottom-4 sm:-left-4 sm:rounded-2xl sm:p-4"
-                                    style={{ animationDuration: '4s', animationDelay: '-2s' }}
-                                >
-                                    <div className="flex items-center space-x-2 sm:space-x-3">
-                                        <div className="h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:h-3 sm:w-3"></div>
-                                        <div>
-                                            <div className="text-xs font-semibold text-slate-700">Real-time Updates</div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

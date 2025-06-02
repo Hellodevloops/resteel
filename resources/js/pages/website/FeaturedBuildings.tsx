@@ -79,7 +79,7 @@ const FeaturedBuildings = () => {
             <div
                 className={
                     // Added min-h to ensure consistent card height
-                    'group relative min-h-[600px] overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ' +
+                    'group relative mx-3 min-h-[600px] w-10/12 overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20' +
                     (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0')
                 }
                 style={{ animationDelay: `${800 + index * 100}ms` }}
@@ -233,7 +233,7 @@ const FeaturedBuildings = () => {
                     </div>
 
                     <TabsContent value={activeFilter} className="mt-0">
-                        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid w-full grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
                             ))}

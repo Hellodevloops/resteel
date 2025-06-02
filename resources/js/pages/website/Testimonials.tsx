@@ -74,20 +74,6 @@ const Testimonials = () => {
                 ></div>
             </div>
 
-            {/* Floating Elements */}
-            {/* <div
-                className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/20"
-                style={{ animationDuration: '8s', animationDelay: '0s' }}
-            ></div>
-            <div
-                className="absolute top-40 right-20 h-12 w-12 animate-bounce rounded-full bg-blue-600/20"
-                style={{ animationDuration: '8s', animationDelay: '-3s' }}
-            ></div>
-            <div
-                className="absolute bottom-40 left-20 h-20 w-20 animate-bounce rounded-full bg-orange-500/15"
-                style={{ animationDuration: '8s', animationDelay: '-6s' }}
-            ></div> */}
-
             <div className="relative z-10 container mx-auto px-4">
                 {/* Header */}
                 <div
@@ -163,10 +149,6 @@ const Testimonials = () => {
                                                 <div className="rounded-2xl bg-white/5 p-6 backdrop-blur-sm">
                                                     <h5 className="mb-4 text-lg font-semibold text-white">Project Details</h5>
                                                     <div className="space-y-3">
-                                                        {/* <div className="flex items-center justify-between">
-                                                            <span className="text-white/70">Project Value</span>
-                                                            <span className="font-semibold text-orange-400">{testimonial.projectValue}</span>
-                                                        </div> */}
                                                         <div className="flex items-center justify-between">
                                                             <span className="text-white/70">Location</span>
                                                             <span className="font-semibold text-white">{testimonial.location}</span>
@@ -180,13 +162,6 @@ const Testimonials = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                {/* <div className="rounded-2xl border border-orange-500/30 bg-gradient-to-br from-orange-500/20 to-orange-600/20 p-6 backdrop-blur-sm">
-                                                    <div className="text-center">
-                                                        <div className="text-2xl font-bold text-white">100%</div>
-                                                        <div className="text-sm text-white/80">Project Success Rate</div>
-                                                    </div>
-                                                </div> */}
                                             </div>
                                         </div>
                                     </CardContent>
@@ -232,21 +207,7 @@ const Testimonials = () => {
                 {/* Bottom Stats */}
                 <div
                     className={`mt-30 transition-all delay-500 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                >
-                    {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-                        {[
-                            { number: '500+', label: 'Happy Clients', icon: '👥' },
-                            { number: '38', label: 'Years Experience', icon: '🏗️' },
-                            { number: '99%', label: 'Success Rate', icon: '⭐' },
-                            { number: '€50M+', label: 'Projects Value', icon: '💰' },
-                        ].map((stat, index) => (
-                            <div key={index} className="text-center">
-                                <div className="mb-2 text-4xl">{stat.icon}</div>
-                                <div className="mb-1 text-3xl font-bold text-orange-500">{stat.number}</div>
-                                <div className="text-sm text-white/70">{stat.label}</div>
-                            </div> */}
-                    {/* ))} */}
-                </div>
+                ></div>
             </div>
         </section>
     );
