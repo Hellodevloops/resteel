@@ -2,9 +2,9 @@ import { ArrowRight } from 'lucide-react';
 
 const NewsletterSection = () => {
     return (
-        <section className="relative bg-white text-white py-16">
+        <section className="relative bg-white py-16 text-white">
             <div className="relative container mx-auto px-4 md:px-6 lg:px-8">
-                <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 p-6 md:p-8 backdrop-blur-sm max-w-2xl mx-auto">
+                <div className="relative mx-auto max-w-2xl rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 p-6 backdrop-blur-sm md:p-8">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-10">
                         <div
@@ -26,15 +26,18 @@ const NewsletterSection = () => {
                     </div>
 
                     {/* Floating Elements */}
-                    <div className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10" style={{ animationDuration: '6s' }}></div>
-                    <div
+                    {/* <div
+                        className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10"
+                        style={{ animationDuration: '6s' }}
+                    ></div> */}
+                    {/* <div
                         className="absolute top-40 right-20 h-12 w-12 animate-bounce rounded-full bg-blue-600/10"
                         style={{ animationDuration: '8s', animationDelay: '-2s' }}
                     ></div>
                     <div
                         className="absolute right-32 bottom-32 h-20 w-20 animate-bounce rounded-full bg-orange-500/5"
                         style={{ animationDuration: '7s', animationDelay: '-4s' }}
-                    ></div>
+                    ></div> */}
 
                     <div className="relative">
                         <h4 className="mb-3 text-lg font-semibold text-white md:text-xl">Stay Updated</h4>

@@ -1,7 +1,7 @@
-import { Mail, Menu, Phone, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
+import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,7 +22,6 @@ const Header = () => {
 
     return (
         <>
-
             {/* Main Header */}
             <header
                 className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
@@ -35,7 +34,7 @@ const Header = () => {
                     <div className="flex items-center justify-between py-4">
                         {/* Logo */}
                         <div className="flex items-center">
-                            <Link to="/" className="group flex items-center gap-3">
+                            <Link href="/" className="group flex items-center gap-3">
                                 <img src={'/assets/ResteelSolutionsLogo.png'} className="h-14 px-10" />
                             </Link>
                         </div>
@@ -85,7 +84,7 @@ const Header = () => {
                             <ul className="flex items-center space-x-8">
                                 <li>
                                     <Link
-                                        to="/"
+                                        href="/"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
@@ -96,7 +95,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/webshop"
+                                        href="/webshop"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
@@ -107,7 +106,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        to="/career"
+                                        href="/career"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
@@ -119,8 +118,7 @@ const Header = () => {
 
                                 <li>
                                     <Link
-
-                                        to="/cart"
+                                        href="/cart"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}
@@ -131,9 +129,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-
-                                        to="/contactpage"
-
+                                        href="/contactpage"
                                         className="group shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
                                     >
                                         <span className="relative z-10">Contact Us</span>
@@ -155,8 +151,6 @@ const Header = () => {
                         </button>
                     </div>
                 </div>
-
-
             </header>
         </>
     );

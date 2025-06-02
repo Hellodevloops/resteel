@@ -1,4 +1,4 @@
-import { ArrowRight, Building2, Handshake, MapPin, Package, Truck, Users, Wrench } from 'lucide-react';
+import { Building2, Handshake, MapPin, Package, Truck, Users, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Services = () => {
@@ -40,9 +40,9 @@ const Services = () => {
             title: 'Assembly & Disassembly',
             description: 'Professional dismantling and reconstruction services with experienced teams handling projects of all sizes.',
             icon: Wrench,
-            gradient: 'from-orange-500 to-orange-600',
-            accentColor: 'bg-orange-500',
-            hoverGlow: 'hover:shadow-orange-500/25',
+            gradient: 'from-blue-600 to-slate-700',
+            accentColor: 'bg-blue-600',
+            hoverGlow: 'hover:shadow-blue-500/25',
             features: ['Expert Dismantling', 'Careful Reconstruction', 'Site Management', 'Quality Assurance'],
         },
         {
@@ -50,9 +50,9 @@ const Services = () => {
             title: 'Transport & Logistics',
             description: 'Complete transportation solutions throughout Europe and beyond, managing shipping outside the EU with ease.',
             icon: Truck,
-            gradient: 'from-teal-500 to-teal-600',
-            accentColor: 'bg-teal-500',
-            hoverGlow: 'hover:shadow-teal-500/25',
+            gradient: 'from-blue-600 to-slate-700',
+            accentColor: 'bg-blue-600',
+            hoverGlow: 'hover:shadow-blue-500/25',
             features: ['Europe-wide Transport', 'International Shipping', 'Logistics Management', 'Safe Delivery'],
         },
         {
@@ -60,9 +60,9 @@ const Services = () => {
             title: 'Equipment Trading',
             description: 'Comprehensive trading in machinery, forklifts, racks, and construction materials with extensive industry connections.',
             icon: Package,
-            gradient: 'from-purple-600 to-purple-700',
-            accentColor: 'bg-purple-600',
-            hoverGlow: 'hover:shadow-purple-500/25',
+            gradient: 'from-blue-600 to-slate-700',
+            accentColor: 'bg-blue-600',
+            hoverGlow: 'hover:shadow-blue-500/25',
             features: ['Machinery Trading', 'Forklift Sales', 'Storage Racks', 'Construction Materials'],
         },
     ];
@@ -89,7 +89,7 @@ const Services = () => {
     ];
 
     return (
-        <section id="services-section" className="relative  overflow-hidden bg-slate-50">
+        <section id="services-section" className="relative overflow-hidden bg-slate-50">
             {/* Background with Gradient and Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
                 {/* Mesh Pattern Overlay */}
@@ -104,20 +104,6 @@ const Services = () => {
                     />
                 </div>
             </div>
-
-            {/* Floating Elements */}
-            <div
-                className="absolute top-20 left-10 h-20 w-20 animate-bounce rounded-full bg-orange-500/10"
-                style={{ animationDuration: '6s', animationDelay: '0s' }}
-            />
-            <div
-                className="absolute top-40 right-20 h-16 w-16 animate-bounce rounded-full bg-blue-600/10"
-                style={{ animationDuration: '6s', animationDelay: '-2s' }}
-            />
-            <div
-                className="absolute bottom-40 left-20 h-12 w-12 animate-bounce rounded-full bg-teal-500/10"
-                style={{ animationDuration: '6s', animationDelay: '-4s' }}
-            />
 
             <div className="relative z-10 py-16 md:py-16">
                 <div className="container mx-auto max-w-7xl px-4">
@@ -170,11 +156,6 @@ const Services = () => {
                                         >
                                             <IconComponent className="h-8 w-8 text-white" />
                                         </div>
-
-                                        {/* Floating Indicator */}
-                                        {hoveredCard === service.id && (
-                                            <div className="absolute -top-2 -right-2 h-4 w-4 animate-pulse rounded-full bg-orange-500" />
-                                        )}
                                     </div>
 
                                     {/* Content */}
@@ -196,13 +177,6 @@ const Services = () => {
                                         ))}
                                     </div>
 
-                                    {/* Action Link */}
-                                    {/* <button className="group/link relative inline-flex items-center font-semibold text-cyan-600 transition-all duration-300 hover:text-orange-500">
-                                        Learn more
-                                        <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-                                        <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-blue-600 transition-all duration-300 group-hover/link:w-full" />
-                                    </button> */}
-
                                     {/* Grid Pattern Overlay */}
                                     <div
                                         className="absolute inset-0 opacity-5 transition-opacity duration-300 group-hover:opacity-10"
@@ -217,65 +191,10 @@ const Services = () => {
                         })}
                     </div>
 
-                    {/* What We Do Section */}
-                    {/* <div
-                        className={`mb-20 rounded-3xl border border-white/20 bg-white/80 p-12 backdrop-blur-sm transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    >
-                        <div className="mb-12 text-center">
-                            <h3 className="mb-4 text-3xl font-bold text-slate-700">What We Do</h3>
-                            <p className="mx-auto max-w-3xl text-lg text-slate-600"></p>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                            {additionalServices.map((service, index) => {
-                                const IconComponent = service.icon;
-                                return (
-                                    <div
-                                        key={index}
-                                        className="group rounded-2xl p-6 text-center transition-all duration-300 hover:bg-white/60 hover:shadow-lg"
-                                    >
-                                        <div className="mb-4 flex justify-center">
-                                            <div
-                                                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-colors group-hover:bg-white`}
-                                            >
-                                                <IconComponent className={`h-6 w-6 ${service.color}`} />
-                                            </div>
-                                        </div>
-                                        <h4 className="mb-2 text-lg font-semibold text-slate-700">{service.title}</h4>
-                                        <p className="text-sm text-slate-600">{service.description}</p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div> */}
-
                     {/* Call to Action */}
                     <div
                         className={`text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    >
-                        {/* <div className="mx-auto max-w-4xl rounded-3xl border border-white/20 bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 p-12 text-white backdrop-blur-sm">
-                            <h3 className="mb-4 text-3xl font-bold">Ready to Start Trading?</h3>
-                            <p className="mx-auto mb-8 max-w-2xl text-lg text-white/80">
-                                We can almost always find a suitable buyer for your trade objects. Contact us for both small and large industrial
-                                projects.
-                            </p>
-
-                            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                                <button className="group rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
-                                    Contact Us
-                                    <ArrowRight className="ml-2 inline h-5 w-5 transition-transform group-hover:translate-x-1" />
-                                </button>
-
-                                <button className="rounded-xl border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
-                                    Become Sales Manager
-                                </button>
-                            </div>
-
-                            <div className="mt-8 text-sm text-white">
-                                <p>Want to become a sales manager in your country? Contact us today!</p>
-                            </div>
-                        </div> */}
-                    </div>
+                    ></div>
                 </div>
             </div>
         </section>

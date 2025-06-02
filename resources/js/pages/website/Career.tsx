@@ -1,4 +1,5 @@
 import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import { Award, Clock, MapPin, Star, TrendingUp, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -47,35 +48,35 @@ const Career = () => {
         {
             title: 'Senior Structural Engineer',
             department: 'Engineering',
-            location: 'Mumbai, India',
+            location: 'Waterbeemd 2B, 5705 DN, Helmond, The Netherlands',
             type: 'Full-time',
             experience: '5+ years',
         },
         {
             title: 'Project Manager - Steel Fabrication',
             department: 'Operations',
-            location: 'Pune, India',
+            location: 'Waterbeemd 2B, 5705 DN, Helmond, The Netherlands',
             type: 'Full-time',
             experience: '7+ years',
         },
         {
             title: 'CAD Designer',
             department: 'Design',
-            location: 'Ahmedabad, India',
+            location: 'Waterbeemd 2B, 5705 DN, Helmond, The Netherlands',
             type: 'Full-time',
             experience: '3+ years',
         },
         {
             title: 'Quality Control Inspector',
             department: 'Quality Assurance',
-            location: 'Chennai, India',
+            location: 'Waterbeemd 2B, 5705 DN, Helmond, The Netherlands',
             type: 'Full-time',
             experience: '4+ years',
         },
         {
             title: 'Sales Engineer',
             department: 'Business Development',
-            location: 'Delhi, India',
+            location: 'Waterbeemd 2B, 5705 DN, Helmond, The Netherlands',
             type: 'Full-time',
             experience: '2+ years',
         },
@@ -89,13 +90,19 @@ const Career = () => {
 
     return (
         <>
-            {/* <Header /> */}
+            {/* <Header /> */}x
+            <Header />
             <div className="bg-slate-50">
                 {/* Open Positions Section */}
                 <section className="relative bg-slate-50 py-30">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="mb-16 text-center">
-                            <h2 className="mb-4 text-4xl font-bold text-cyan-600">Current <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Opportunities</span> </h2>
+                            <h2 className="mb-4 text-4xl font-bold text-cyan-600">
+                                Current{' '}
+                                <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
+                                    Opportunities
+                                </span>{' '}
+                            </h2>
                             <p className="mx-auto max-w-3xl text-xl text-slate-600">
                                 Discover your next career move with positions across engineering, operations, and management
                             </p>

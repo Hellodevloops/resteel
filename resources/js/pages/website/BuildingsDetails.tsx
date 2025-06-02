@@ -2,9 +2,9 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft, Calendar, ChevronLeft, ChevronRight, Eye, Mail, MapPin, Phone, Play, Square } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 // Building data - this would typically come from an API or context
 const buildingsData = {
@@ -185,8 +185,9 @@ const BuildingDetails = () => {
                             {building.images.map((image, index) => (
                                 <div
                                     key={index}
-                                    className={`relative h-20 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${index === selectedImageIndex ? 'scale-105 ring-3 ring-orange-500' : 'hover:scale-105 hover:shadow-md'
-                                        } ${index === currentThumbnailIndex && index !== selectedImageIndex ? 'ring-2 ring-blue-400' : ''}`}
+                                    className={`relative h-20 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${
+                                        index === selectedImageIndex ? 'scale-105 ring-3 ring-orange-500' : 'hover:scale-105 hover:shadow-md'
+                                    } ${index === currentThumbnailIndex && index !== selectedImageIndex ? 'ring-2 ring-blue-400' : ''}`}
                                     onClick={() => handleThumbnailClick(index)}
                                 >
                                     <img src={image} alt={`${building.title} - Image ${index + 1}`} className="h-full w-full object-cover" />
@@ -314,7 +315,7 @@ const BuildingDetails = () => {
                 {/* Related Buildings Section */}
                 <div className="mt-12 text-center">
                     <Button size="lg" asChild className="bg-gradient-to-r from-slate-600 to-slate-700 hover:from-orange-500 hover:to-orange-600">
-                        <Link to="/buildings">
+                        <Link href="/buildings">
                             <Eye className="mr-2 h-5 w-5" />
                             View More Buildings
                         </Link>
