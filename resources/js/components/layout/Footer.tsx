@@ -10,7 +10,6 @@ const Footer = () => {
                 <div
                     className="absolute inset-0"
                     style={{
-
                         backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.1) 0%, transparent 50%),
                          radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.1) 0%, transparent 50%),
                          radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.1) 0%, transparent 50%)`,
@@ -19,7 +18,6 @@ const Footer = () => {
                 <div
                     className="absolute inset-0 opacity-30"
                     style={{
-
                         backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
                         backgroundSize: '40px 40px',
@@ -28,15 +26,15 @@ const Footer = () => {
             </div>
 
             {/* Floating Elements */}
-            <div className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10" style={{ animationDuration: '6s' }}></div>
-            <div
+            {/* <div className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10" style={{ animationDuration: '6s' }}></div> */}
+            {/* <div
                 className="absolute top-40 right-20 h-12 w-12 animate-bounce rounded-full bg-blue-600/10"
                 style={{ animationDuration: '8s', animationDelay: '-2s' }}
             ></div>
             <div
                 className="absolute right-32 bottom-32 h-20 w-20 animate-bounce rounded-full bg-orange-500/5"
                 style={{ animationDuration: '7s', animationDelay: '-4s' }}
-            ></div>
+            ></div> */}
 
             <div className="relative container mx-auto px-4 py-16 md:py-20">
                 {/* Main Footer Content */}
@@ -168,8 +166,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="mt-12 border-t border-white/10 pt-8">
-
-                    <div className="flex flex-col items-center justify-between gap-4 md:flex CPS row">
+                    <div className="CPS row flex flex-col items-center justify-between gap-4 md:flex">
                         <p className="text-slate-400">
                             © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 1985.
                         </p>

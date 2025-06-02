@@ -84,14 +84,14 @@ const About = () => {
 
             {/* Floating Elements */}
             <div className="absolute top-32 left-20 h-4 w-4 animate-bounce rounded-full bg-orange-500/20" style={{ animationDuration: '6s' }}></div>
-            <div
+            {/* <div
                 className="absolute top-40 right-32 h-3 w-3 animate-bounce rounded-full bg-blue-600/20"
                 style={{ animationDuration: '8s', animationDelay: '-2s' }}
             ></div>
             <div
                 className="absolute bottom-40 left-32 h-5 w-5 animate-bounce rounded-full bg-teal-500/20"
                 style={{ animationDuration: '7s', animationDelay: '-4s' }}
-            ></div>
+            ></div> */}
 
             <div className="relative z-10 container mx-auto px-4">
                 <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
@@ -201,9 +201,9 @@ const About = () => {
                                     </p>
 
                                     {/* Hover Effect Indicator */}
-                                    <div
+                                    {/* <div
                                         className={`absolute top-4 right-4 h-2 w-2 rounded-full ${card.accent} animate-pulse opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
-                                    ></div>
+                                    ></div> */}
                                 </div>
                             ))}
                         </div>

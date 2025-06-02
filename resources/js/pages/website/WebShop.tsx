@@ -1,4 +1,5 @@
 import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import { Eye, Heart, Search, ShoppingCart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -86,7 +87,8 @@ const WebShop = () => {
         <>
             <div className="min-h-screen bg-slate-50">
                 {/* Main Content */}
-                <div className="mx-auto max-w-7xl px-4 py-25  ">
+                <Header />
+                <div className="mx-auto max-w-7xl px-4 py-25">
                     {/* Search and Filter Bar */}
                     <div
                         className={`mb-12 transition-all delay-200 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}

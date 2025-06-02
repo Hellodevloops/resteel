@@ -242,7 +242,7 @@ const Partners = () => {
             </div>
 
             {/* Floating Elements */}
-            <div
+            {/* <div
                 className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/10"
                 style={{ animationDuration: '6s', animationDelay: '0s' }}
             />
@@ -253,7 +253,7 @@ const Partners = () => {
             <div
                 className="absolute bottom-40 left-20 h-10 w-10 animate-bounce rounded-full bg-orange-500/15"
                 style={{ animationDuration: '6s', animationDelay: '-4s' }}
-            />
+            /> */}
         </section>
     );
 };

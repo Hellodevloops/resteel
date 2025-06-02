@@ -83,11 +83,11 @@ const ResteelHero = () => {
                 </div>
 
                 {/* Floating Elements - Reduced for mobile */}
-                <div
+                {/* <div
                     className="absolute top-16 left-4 h-12 w-12 animate-bounce rounded-full bg-orange-500/20 sm:top-20 sm:left-10 sm:h-20 sm:w-20"
                     style={{ animationDuration: '6s', animationDelay: '0s' }}
-                ></div>
-                <div
+                ></div> */}
+                {/* <div
                     className="absolute top-32 right-4 h-10 w-10 animate-bounce rounded-full bg-blue-600/20 sm:top-40 sm:right-20 sm:h-16 sm:w-16"
                     style={{ animationDuration: '6s', animationDelay: '-2s' }}
                 ></div>
@@ -98,7 +98,7 @@ const ResteelHero = () => {
                 <div
                     className="absolute right-4 bottom-16 h-16 w-16 animate-bounce rounded-full bg-blue-600/15 sm:right-10 sm:bottom-20 sm:h-24 sm:w-24"
                     style={{ animationDuration: '6s', animationDelay: '-1s' }}
-                ></div>
+                ></div> */}
 
                 {/* Main Content */}
                 <div className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-12 lg:py-20 xl:px-16">
@@ -172,16 +172,16 @@ const ResteelHero = () => {
                                             ></div>
 
                                             {/* Accent Elements */}
-                                            <div className="absolute top-1 left-8 h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:top-2 sm:left-12 sm:h-3 sm:w-3"></div>
+                                            {/* <div className="absolute top-1 left-8 h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:top-2 sm:left-12 sm:h-3 sm:w-3"></div>
                                             <div
                                                 className="absolute top-1 right-8 h-2 w-2 animate-pulse rounded-full bg-orange-500 sm:top-2 sm:right-12 sm:h-3 sm:w-3"
                                                 style={{ animationDelay: '0.5s' }}
-                                            ></div>
+                                            ></div> */}
                                         </div>
                                     </div>
 
                                     {/* Floating Particles */}
-                                    <div
+                                    {/* <div
                                         className="absolute top-6 left-6 h-1.5 w-1.5 animate-bounce rounded-full bg-orange-500/60 sm:top-10 sm:left-10 sm:h-2 sm:w-2"
                                         style={{ animationDuration: '3s' }}
                                     ></div>
@@ -192,7 +192,7 @@ const ResteelHero = () => {
                                     <div
                                         className="absolute bottom-12 left-10 h-1 w-1 animate-bounce rounded-full bg-blue-600/60 sm:bottom-20 sm:left-15 sm:h-1.5 sm:w-1.5"
                                         style={{ animationDuration: '5s', animationDelay: '-3s' }}
-                                    ></div>
+                                    ></div> */}
                                 </div>
 
                                 {/* Floating Cards - Responsive positioning and sizing */}

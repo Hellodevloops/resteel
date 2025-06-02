@@ -1,7 +1,18 @@
 import Footer from '@/components/layout/Footer';
-import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
+import Header from '@/components/layout/Header';
+import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
+import { Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
+// Utility function to truncate text to 19 words
+const truncateText = (text: string, maxWords: number = 19) => {
+    const words = text.split(' ');
+    if (words.length > maxWords) {
+        return words.slice(0, maxWords).join(' ') + '...';
+    }
+    return text;
+};
 
 const Buildings = () => {
     const [scrollY, setScrollY] = useState(0);
@@ -15,7 +26,6 @@ const Buildings = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Add your buildings data here
     const buildingsData = [
         {
             id: 1,
@@ -116,117 +126,124 @@ const Buildings = () => {
 
     const filteredBuildings = buildingsData.filter((building) => filter === 'all' || building.type === filter);
 
-    const BuildingCard = ({ building, index }) => {
+    const BuildingCard = ({ building, index }: { building: (typeof buildingsData)[0]; index: number }) => {
         return (
             <div
-                className={`group relative mt-22 overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20 ${
-                    isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-                }`}
-                style={{ animationDelay: `${index * 150}ms` }}
+                className={
+                    'group relative min-h-[500px] overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-900/20 sm:min-h-[600px] sm:rounded-3xl sm:hover:-translate-y-3 ' +
+                    (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0')
+                }
+                style={{ animationDelay: `${800 + index * 100}ms` }}
             >
-                {/* Image Section */}
-                <div className="relative h-72 overflow-hidden">
+                {/* Image Section with responsive height */}
+                <div className="relative h-48 overflow-hidden sm:h-56 md:h-72">
                     <img
                         src={building.images[0]}
                         alt={building.title}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
-
-                    {/* Status Badge */}
-                    <div className="absolute top-4 left-4">
-                        <div className="flex items-center rounded-full bg-orange-500 px-4 py-2 text-sm font-bold text-white shadow-lg">
-                            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-white"></span>
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                        <div className="flex items-center rounded-full bg-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-lg sm:px-4 sm:py-2 sm:text-sm">
+                            <span className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-white sm:mr-2 sm:h-2 sm:w-2"></span>
                             {building.status}
                         </div>
                     </div>
-
-                    {/* Video Badge */}
                     {building.hasVideo && (
-                        <div className="absolute top-4 right-4">
-                            <div className="flex items-center rounded-full bg-blue-600/90 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm">
-                                <Play className="mr-1 h-3 w-3" />
-                                Video Available
+                        <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                            <div className="flex items-center rounded-full bg-blue-600/90 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm sm:px-3 sm:py-2">
+                                <Play className="mr-1 h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                                <span className="xs:inline hidden">Video Available</span>
+                                <span className="xs:hidden">Video</span>
                             </div>
                         </div>
                     )}
-
-                    {/* Category Label */}
-                    <div className="absolute bottom-4 left-4">
-                        <div className="rounded-lg bg-white/10 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">{building.category}</div>
+                    <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+                        <div className="rounded-lg bg-white/10 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-3 sm:text-sm">
+                            {building.category}
+                        </div>
                     </div>
                 </div>
 
-                {/* Content Section */}
-                <div className="p-6">
-                    {/* Title */}
-                    <h3 className="mb-4 text-xl font-bold text-slate-800 transition-colors group-hover:text-orange-500">{building.title}</h3>
+                {/* Content Section with responsive padding and layout */}
+                <div className="flex h-[calc(100%-12rem)] flex-col p-4 sm:h-[calc(100%-14rem)] sm:p-6 md:h-[calc(100%-18rem)]">
+                    {/* Title with responsive text size */}
+                    <h3 className="mb-3 text-lg leading-tight font-bold text-slate-800 transition-colors group-hover:text-orange-500 sm:mb-4 sm:text-xl">
+                        {truncateText(building.title, window.innerWidth < 640 ? 12 : 19)}
+                    </h3>
 
-                    {/* Total Area Display */}
-                    <div className="mb-4 flex items-center justify-between rounded-xl bg-slate-50 p-4">
+                    {/* Total Area Display with responsive padding */}
+                    <div className="mb-3 flex items-center justify-between rounded-lg bg-slate-50 p-3 sm:mb-4 sm:rounded-xl sm:p-4">
                         <div className="flex items-center">
-                            <Square className="mr-2 h-5 w-5 text-orange-500" />
-                            <span className="text-sm font-medium text-slate-600">Total Area</span>
+                            <Square className="mr-1.5 h-4 w-4 text-orange-500 sm:mr-2 sm:h-5 sm:w-5" />
+                            <span className="text-xs font-medium text-slate-600 sm:text-sm">Total Area</span>
                         </div>
-                        <span className="text-lg font-bold text-slate-800">{building.totalArea}</span>
+                        <span className="text-base font-bold text-slate-800 sm:text-lg">{building.totalArea}</span>
                     </div>
 
-                    {/* Construction Info */}
-                    <div className="mb-6">
+                    {/* Construction Info with responsive spacing */}
+                    <div className="mb-4 flex-1 sm:mb-6">
                         <div className="mb-2 flex items-center">
-                            <Building className="mr-2 h-4 w-4 text-slate-500" />
-                            <span className="text-sm font-semibold text-slate-600">Construction</span>
+                            <Building className="mr-1.5 h-3.5 w-3.5 text-slate-500 sm:mr-2 sm:h-4 sm:w-4" />
+                            <span className="text-xs font-semibold text-slate-600 sm:text-sm">Construction</span>
                         </div>
-                        <p className="text-sm leading-relaxed text-slate-600">{building.construction}</p>
+                        <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
+                            {truncateText(building.construction, window.innerWidth < 640 ? 15 : 19)}
+                        </p>
                     </div>
 
-                    {/* Specifications Preview */}
-                    <div className="mb-6">
-                        <div className="mb-3 flex items-center">
-                            <Ruler className="mr-2 h-4 w-4 text-slate-500" />
-                            <span className="text-sm font-semibold text-slate-600">Specifications</span>
+                    {/* Specifications Preview with responsive layout */}
+                    <div className="mb-4 sm:mb-6">
+                        <div className="mb-2 flex items-center sm:mb-3">
+                            <Ruler className="mr-1.5 h-3.5 w-3.5 text-slate-500 sm:mr-2 sm:h-4 sm:w-4" />
+                            <span className="text-xs font-semibold text-slate-600 sm:text-sm">Specifications</span>
                         </div>
-                        <div className="space-y-2">
-                            {building.specifications.slice(0, 2).map((spec, idx) => (
-                                <div key={idx} className="flex items-center justify-between text-sm">
-                                    <span className="font-medium text-slate-700">{spec.name}</span>
-                                    <span className="text-slate-600">{spec.dimensions}</span>
+                        <div className="space-y-1.5 sm:space-y-2">
+                            {building.specifications.slice(0, window.innerWidth < 640 ? 1 : 2).map((spec, idx) => (
+                                <div key={idx} className="flex items-center justify-between text-xs sm:text-sm">
+                                    <span className="mr-2 flex-1 font-medium text-slate-700">
+                                        {truncateText(spec.name, window.innerWidth < 640 ? 10 : 19)}
+                                    </span>
+                                    <span className="text-right whitespace-nowrap text-slate-600">{spec.dimensions}</span>
                                 </div>
                             ))}
-                            {building.specifications.length > 2 && (
-                                <div className="text-sm font-medium text-orange-500">+{building.specifications.length - 2} more...</div>
+                            {building.specifications.length > (window.innerWidth < 640 ? 1 : 2) && (
+                                <div className="text-xs font-medium text-orange-500 sm:text-sm">
+                                    +{building.specifications.length - (window.innerWidth < 640 ? 1 : 2)} more...
+                                </div>
                             )}
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-3">
-                        <Link
-                            to={`/buildingsdetails`}
-                            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
+                    {/* Action Buttons with responsive layout */}
+                    <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+                        <Button
+                            asChild
+                            className="flex flex-1 items-center justify-center rounded-lg bg-gradient-to-r from-slate-600 to-slate-700 py-2.5 text-xs font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg sm:rounded-xl sm:py-3 sm:text-sm"
                         >
-                            <Eye className="mr-2 h-4 w-4" />
-                            View Details
-                        </Link>
+                            <Link href="/buildingsdetails">
+                                <Eye className="mr-1.5 h-3.5 w-3.5 sm:mr-2 sm:h-4 sm:w-4" />
+                                View Details
+                            </Link>
+                        </Button>
 
-                        {building.hasVideo && (
-                            <button
-                                onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
-                                className="flex items-center justify-center rounded-xl border-2 border-blue-600 px-4 py-3 text-sm font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
-                            >
-                                <Play className="h-4 w-4" />
+                        <div className="flex gap-2 sm:gap-3">
+                            {building.hasVideo && (
+                                <button
+                                    onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
+                                    className="flex flex-1 items-center justify-center rounded-lg border-2 border-blue-600 px-3 py-2.5 text-xs font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white sm:flex-none sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm"
+                                >
+                                    <Play className="h-3.5 w-3.5 sm:mr-1 sm:h-4 sm:w-4" />
+                                    <span className="ml-1 hidden sm:inline">Play</span>
+                                </button>
+                            )}
+                            <button className="flex flex-1 items-center justify-center rounded-lg border-2 border-orange-500 px-3 py-2.5 text-xs font-semibold text-orange-500 transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:text-white sm:flex-none sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">
+                                <ExternalLink className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             </button>
-                        )}
-
-                        <button className="flex items-center justify-center rounded-xl border-2 border-orange-500 px-4 py-3 text-sm font-semibold text-orange-500 transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:text-white">
-                            <ExternalLink className="h-4 w-4" />
-                        </button>
+                        </div>
                     </div>
                 </div>
 
-                {/* Hover Effect Accent */}
                 <div className="absolute inset-x-0 bottom-0 h-1 scale-x-0 transform bg-gradient-to-r from-orange-500 to-blue-600 transition-transform duration-300 group-hover:scale-x-100"></div>
             </div>
         );
@@ -234,14 +251,13 @@ const Buildings = () => {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            {/* Hero Section */}
+            {/* Hero Section with mobile optimizations */}
             <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-                {/* Background with parallax */}
+                <Header />
                 <div
                     className="absolute inset-0 bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800"
-                    style={{ transform: `translate3d(0, ${scrollY * 0.5}px, 0)` }}
+                    style={{ transform: `translate3d(0, ${scrollY * 0.3}px, 0)` }}
                 >
-                    {/* Mesh Pattern Overlay */}
                     <div className="absolute inset-0 opacity-30">
                         <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-blue-600/10"></div>
                         <div
@@ -255,35 +271,24 @@ const Buildings = () => {
                     </div>
                 </div>
 
-                {/* Floating Elements */}
-                <div
-                    className="absolute top-20 left-10 h-20 w-20 animate-bounce rounded-full bg-orange-500/20"
-                    style={{ animationDuration: '6s', animationDelay: '0s' }}
-                ></div>
-                <div
-                    className="absolute top-40 right-20 h-16 w-16 animate-bounce rounded-full bg-blue-600/20"
-                    style={{ animationDuration: '6s', animationDelay: '-2s' }}
-                ></div>
-
-                {/* Hero Content */}
-                <div className="relative z-10 mx-auto max-w-7xl px-4 pt-20 sm:px-6 lg:px-8">
+                <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-20 lg:px-8">
                     <div className="text-center text-white">
                         <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
-                            <div className="mb-6 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm">
-                                <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
+                            <div className="mb-4 inline-flex items-center rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm sm:mb-6 sm:px-4 sm:py-2 sm:text-sm">
+                                <span className="mr-1.5 h-1.5 w-1.5 animate-pulse rounded-full bg-orange-500 sm:mr-2 sm:h-2 sm:w-2"></span>
                                 Premium Industrial Buildings
                             </div>
                         </div>
 
                         <h1
-                            className={`mb-6 text-5xl leading-tight font-bold transition-all delay-200 duration-1000 lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                            className={`mb-4 text-3xl leading-tight font-bold transition-all delay-200 duration-1000 sm:mb-6 sm:text-5xl lg:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
                             Available
                             <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Buildings</span>
                         </h1>
 
                         <p
-                            className={`mb-8 text-xl leading-relaxed text-white/80 transition-all delay-400 duration-1000 lg:text-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                            className={`mb-6 px-4 text-base leading-relaxed text-white/80 transition-all delay-400 duration-1000 sm:mb-8 sm:px-0 sm:text-xl lg:text-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
                             Discover our extensive inventory of second-hand industrial buildings, warehouses, and commercial structures ready for
                             purchase and relocation.
@@ -291,57 +296,39 @@ const Buildings = () => {
 
                         <div
                             className={`flex flex-col gap-4 transition-all delay-600 duration-1000 sm:flex-row sm:justify-center ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                        >
-                            <Link to="/webshop" className="animate-pulse rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25">
-                                Browse Inventory
-                            </Link>
-                            <Link to="/contactpage" className="rounded-xl border-2 border-white/30 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
-                                Contact Sales Team
-                            </Link>
-                        </div>
+                        ></div>
                     </div>
                 </div>
             </section>
 
-            {/* Filter Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-16">
-                {/* Background Elements */}
+            {/* Filter Section with mobile optimizations */}
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-12 sm:py-16">
                 <div className="absolute inset-0">
-                    {/* Floating Elements */}
-                    <div
-                        className="absolute top-20 left-10 h-20 w-20 animate-bounce rounded-full bg-orange-500/10"
-                        style={{ animationDuration: '8s', animationDelay: '0s' }}
-                    ></div>
-                    <div
-                        className="absolute top-40 right-20 h-16 w-16 animate-bounce rounded-full bg-blue-600/10"
-                        style={{ animationDuration: '8s', animationDelay: '-3s' }}
-                    ></div>
-
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-blue-600/5"></div>
                 </div>
 
                 <div className="relative z-10 mx-auto max-w-7xl px-4">
-                    <div className="flex flex-col items-center gap-8">
+                    <div className="flex flex-col items-center gap-6 sm:gap-8">
                         <div className="text-center">
-                            <h2 className="mb-2 text-3xl font-bold text-slate-800">Filter Buildings</h2>
-                            <p className="text-slate-600">Find the perfect building for your needs</p>
+                            <h2 className="mb-2 text-2xl font-bold text-slate-800 sm:text-3xl">Filter Buildings</h2>
+                            <p className="text-sm text-slate-600 sm:text-base">Find the perfect building for your needs</p>
                         </div>
 
-                        <div className="flex flex-wrap justify-center gap-4">
+                        <div className="flex max-w-full flex-wrap justify-center gap-2 sm:gap-4">
                             {buildingTypes.map((type, index) => (
                                 <button
                                     key={type.id}
                                     onClick={() => setFilter(type.id)}
-                                    className={`rounded-xl px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 ${
+                                    className={`rounded-lg px-3 py-2 text-xs font-semibold transition-all duration-300 hover:scale-105 sm:rounded-xl sm:px-6 sm:py-3 sm:text-sm ${
                                         filter === type.id
                                             ? `bg-gradient-to-r ${type.color} text-white shadow-lg`
                                             : 'border-2 border-white/50 bg-white/80 text-slate-600 backdrop-blur-sm hover:border-orange-500 hover:text-orange-500'
-                                    }`}
+                                    } whitespace-nowrap`}
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
-                                    <type.icon className="mr-2 inline h-4 w-4" />
-                                    {type.label}
+                                    <type.icon className="mr-1 inline h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                                    <span className="xs:inline hidden">{type.label}</span>
+                                    <span className="xs:hidden">{type.label.split(' ')[0]}</span>
                                 </button>
                             ))}
                         </div>
@@ -349,25 +336,25 @@ const Buildings = () => {
                 </div>
             </section>
 
-            {/* Buildings Grid */}
-            <section className="bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-20">
+            {/* Buildings Grid with mobile optimizations */}
+            <section className="bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-12 sm:py-20">
                 <div className="mx-auto max-w-7xl px-4">
                     {filteredBuildings.length > 0 ? (
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
                             ))}
                         </div>
                     ) : (
-                        <div className="py-20 text-center">
-                            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm">
-                                <Building className="h-12 w-12 text-slate-400" />
+                        <div className="px-4 py-12 text-center sm:py-20">
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm sm:mb-6 sm:h-24 sm:w-24">
+                                <Building className="h-8 w-8 text-slate-400 sm:h-12 sm:w-12" />
                             </div>
-                            <h3 className="mb-4 text-2xl font-bold text-slate-700">No buildings found</h3>
-                            <p className="mb-6 text-slate-500">Try adjusting your filter to see more results</p>
+                            <h3 className="mb-3 text-xl font-bold text-slate-700 sm:mb-4 sm:text-2xl">No buildings found</h3>
+                            <p className="mb-4 text-sm text-slate-500 sm:mb-6 sm:text-base">Try adjusting your filter to see more results</p>
                             <button
                                 onClick={() => setFilter('all')}
-                                className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-3 font-semibold text-white transition-all duration-300 hover:scale-105"
+                                className="rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 sm:rounded-xl sm:px-8 sm:py-3 sm:text-base"
                             >
                                 Show All Buildings
                             </button>
@@ -376,37 +363,6 @@ const Buildings = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
-            {/* <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-20">
-                <div className="absolute inset-0 opacity-10">
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(244, 70, 17, 0.3) 0%, transparent 50%),
-                             radial-gradient(circle at 75% 75%, rgba(30, 76, 138, 0.3) 0%, transparent 50%)`,
-                        }}
-                    ></div>
-                </div>
-
-                <div className="relative z-10 mx-auto max-w-4xl px-4 text-center text-white">
-                    <h2 className="mb-6 text-4xl font-bold lg:text-5xl">
-                        Ready to Start
-                        <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Your Project?</span>
-                    </h2>
-                    <p className="mx-auto mb-8 max-w-2xl text-xl text-white/80">
-                        Our team of experts is ready to help you find the perfect building solution. Contact us today for personalized assistance.
-                    </p>
-                    <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-                        <button className="rounded-xl bg-orange-500 px-8 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600">
-                            <ArrowRight className="mr-2 inline h-5 w-5" />
-                            Get Started Today
-                        </button>
-                        <button className="rounded-xl border-2 border-white/30 px-8 py-4 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
-                            Schedule Consultation
-                        </button>
-                    </div>
-                </div>
-            </section> */}
             <Footer />
         </div>
     );

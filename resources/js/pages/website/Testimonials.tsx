@@ -75,7 +75,7 @@ const Testimonials = () => {
             </div>
 
             {/* Floating Elements */}
-            <div
+            {/* <div
                 className="absolute top-20 left-10 h-16 w-16 animate-bounce rounded-full bg-orange-500/20"
                 style={{ animationDuration: '8s', animationDelay: '0s' }}
             ></div>
@@ -86,7 +86,7 @@ const Testimonials = () => {
             <div
                 className="absolute bottom-40 left-20 h-20 w-20 animate-bounce rounded-full bg-orange-500/15"
                 style={{ animationDuration: '8s', animationDelay: '-6s' }}
-            ></div>
+            ></div> */}
 
             <div className="relative z-10 container mx-auto px-4">
                 {/* Header */}
@@ -233,7 +233,7 @@ const Testimonials = () => {
                 <div
                     className={`mt-30 transition-all delay-500 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 >
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+                    {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                         {[
                             { number: '500+', label: 'Happy Clients', icon: '👥' },
                             { number: '38', label: 'Years Experience', icon: '🏗️' },
@@ -244,9 +244,8 @@ const Testimonials = () => {
                                 <div className="mb-2 text-4xl">{stat.icon}</div>
                                 <div className="mb-1 text-3xl font-bold text-orange-500">{stat.number}</div>
                                 <div className="text-sm text-white/70">{stat.label}</div>
-                            </div>
-                        ))}
-                    </div>
+                            </div> */}
+                    {/* ))} */}
                 </div>
             </div>
         </section>
