@@ -1,495 +1,362 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
-import Footer from '@/components/layout/Footer';
-import { CheckCircle, DollarSign, FileText, Heart, Eye, Package, Plus, Save, Star, Tag, Image as ImageIcon } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { Inertia } from '@inertiajs/inertia';
-import { usePage } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import { Plus, Pencil, Trash2, Eye, Search, Filter, Grid, List, Package, TrendingUp, Star } from 'lucide-react';
+import { useForm } from '@inertiajs/react';
+import { useState, useEffect, useMemo } from 'react';
 
-const WebShop = ({ products = [] }) => {
-    const [activeTab, setActiveTab] = useState('list');
-    const [isVisible, setIsVisible] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        price: '',
-        image: null,
-        description: '',
-        rating: '5.0',
-        status: 'inStock',
-        features: [''],
-    });
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { flash } = usePage().props;
+interface Product {
+    id: number;
+    name: string;
+    price: string;
+    description: string;
+    rating: string;
+    status: 'inStock' | 'soldOut';
+    features: string[];
+    image: string | null;
+    created_at: string;
+    updated_at: string;
+}
 
+interface Props {
+    products: Product[];
+    filters: {
+        search?: string;
+        status?: string;
+    };
+}
+
+export default function Index(props: Props) {
+    // Ensure we have valid props with defaults
+    const initialProducts = Array.isArray(props.products) ? props.products : [];
+    const initialFilters = props.filters || {};
+    
+    const { delete: destroy } = useForm();
+    const [searchTerm, setSearchTerm] = useState(initialFilters.search || '');
+    const [statusFilter, setStatusFilter] = useState(initialFilters.status || 'all');
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [products, setProducts] = useState<Product[]>([]);
+
+    // Initialize products after mount
     useEffect(() => {
-        setTimeout(() => setIsVisible(true), 100);
-    }, []);
+        setProducts(initialProducts);
+    }, [initialProducts]);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-        setErrors((prev) => ({ ...prev, [name]: '' }));
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setFormData((prev) => ({
-            ...prev,
-            image: file || null,
-        }));
-        setErrors((prev) => ({ ...prev, image: '' }));
-    };
-
-    const handleFeatureChange = (index, value) => {
-        const newFeatures = [...formData.features];
-        newFeatures[index] = value;
-        setFormData((prev) => ({
-            ...prev,
-            features: newFeatures,
-        }));
-        setErrors((prev) => ({ ...prev, features: '' }));
-    };
-
-    const addFeature = () => {
-        setFormData((prev) => ({
-            ...prev,
-            features: [...prev.features, ''],
-        }));
-    };
-
-    const removeFeature = (index) => {
-        const newFeatures = formData.features.filter((_, i) => i !== index);
-        setFormData((prev) => ({
-            ...prev,
-            features: newFeatures.length ? newFeatures : [''],
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        const formDataToSend = new FormData();
-        formDataToSend.append('name', formData.name);
-        formDataToSend.append('price', parseFloat(formData.price).toString());
-        if (formData.image) {
-            formDataToSend.append('image', formData.image);
+    const handleDelete = (id: number) => {
+        if (confirm('Are you sure you want to delete this product?')) {
+            destroy(route('admin.webshops.destroy', id), {
+                preserveScroll: true,
+            });
         }
-        formDataToSend.append('description', formData.description);
-        formDataToSend.append('rating', parseFloat(formData.rating).toString());
-        formDataToSend.append('status', formData.status);
-        formData.features.forEach((feature, index) => {
-            formDataToSend.append(`features[${index}]`, feature);
-        });
-
-        Inertia.post('/webshops', formDataToSend, {
-            onSuccess: () => {
-                setIsSubmitting(false);
-                setErrors({});
-                setFormData({
-                    name: '',
-                    price: '',
-                    image: null,
-                    description: '',
-                    rating: '5.0',
-                    status: 'inStock',
-                    features: [''],
-                });
-            },
-            onError: (errors) => {
-                setIsSubmitting(false);
-                setErrors(errors);
-                console.log('Validation errors:', errors);
-            },
-        });
     };
 
-    const addToCart = (productId) => {
-        console.log(`Added product ${productId} to cart`);
-    };
+    // Filter products using useMemo to prevent unnecessary recalculations
+    const filteredProducts = useMemo(() => {
+        return products.filter(product => {
+            if (!product || typeof product !== 'object') return false;
+            
+            const matchesSearch = (product.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                                (product.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+            const matchesStatus = statusFilter === 'all' || product.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+    }, [products, searchTerm, statusFilter]);
+
+    // Calculate stats
+    const stats = useMemo(() => {
+        const totalProducts = products.length;
+        const inStock = products.filter(p => p.status === 'inStock').length;
+        const soldOut = products.filter(p => p.status === 'soldOut').length;
+        const avgRating = products.length > 0 
+            ? (products.reduce((sum, p) => sum + parseFloat(p.rating || '0'), 0) / products.length).toFixed(1)
+            : '0.0';
+        
+        return { totalProducts, inStock, soldOut, avgRating };
+    }, [products]);
 
     return (
         <AppLayout>
             <Head title="WebShop Management" />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50">
                 {/* Header */}
-                <div className="border-b border-slate-200 bg-white shadow-sm">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="flex items-center gap-3">
-                                    <Package className="h-8 w-8 text-orange-500" />
-                                    <h1 className="text-3xl font-bold text-slate-800">WebShop Management</h1>
-                                </div>
-                                <p className="mt-1 text-slate-600">Manage your products and inventory</p>
-                            </div>
+                <div className="bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-sm">
+                    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                             <div className="flex items-center space-x-4">
-                                <button
-                                    onClick={() => setActiveTab('create')}
-                                    className="flex items-center rounded-xl bg-orange-500 px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-orange-600"
-                                >
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    Add Product
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <div className="flex gap-4 border-b border-slate-200">
-                        <button
-                            onClick={() => setActiveTab('list')}
-                            className={`px-6 py-3 font-semibold transition-all duration-300 ${
-                                activeTab === 'list'
-                                    ? 'border-b-2 border-orange-500 text-orange-500'
-                                    : 'text-slate-600 hover:text-orange-500'
-                            }`}
-                        >
-                            List View
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('create')}
-                            className={`px-6 py-3 font-semibold transition-all duration-300 ${
-                                activeTab === 'create'
-                                    ? 'border-b-2 border-orange-500 text-orange-500'
-                                    : 'text-slate-600 hover:text-orange-500'
-                            }`}
-                        >
-                            Create Product
-                        </button>
-                    </div>
-                </div>
-
-                {/* Main Content */}
-                <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                    {flash?.message && (
-                        <div className="mb-6 rounded-xl bg-teal-100 p-4 text-teal-800">{flash.message}</div>
-                    )}
-                    {Object.keys(errors).length > 0 && (
-                        <div className="mb-6 rounded-xl bg-red-100 p-4 text-red-800">
-                            <p>Please fix the following errors:</p>
-                            <ul className="list-disc pl-5">
-                                {Object.entries(errors).map(([field, message]) => (
-                                    message && <li key={field}>{message}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                    {activeTab === 'list' && (
-                        <div>
-                            <h2 className="mb-6 text-2xl font-bold text-slate-700">Our Products</h2>
-                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                                {products.length > 0 ? (
-                                    products.map((product, index) => (
-                                        <div
-                                            key={product.id}
-                                            className={`group rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl ${
-                                                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                                            }`}
-                                            style={{ transitionDelay: `${600 + index * 100}ms` }}
-                                        >
-                                            {/* Product Image */}
-                                            <div className="relative overflow-hidden rounded-t-2xl">
-                                                <div className="aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200">
-                                                    {product.image ? (
-                                                        <img
-                                                            src={product.image}
-                                                            alt={product.name}
-                                                            className="h-full w-full object-cover"
-                                                        />
-                                                    ) : (
-                                                        <div className="flex h-full w-full items-center justify-center text-slate-400">
-                                                            <div className="text-center">
-                                                                <div className="mb-2 text-4xl">🏗️</div>
-                                                                <div className="text-sm">Product Image</div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                {/* Overlay Actions */}
-                                                <div className="absolute inset-0 bg-black/20 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                                                    <div className="absolute top-4 right-4 flex gap-2">
-                                                        <button className="rounded-full bg-white/90 p-2 text-slate-600 transition-all duration-300 hover:scale-110 hover:bg-white">
-                                                            <Heart className="h-5 w-5" />
-                                                        </button>
-                                                        <button className="rounded-full bg-white/90 p-2 text-slate-600 transition-all duration-300 hover:scale-110 hover:bg-white">
-                                                            <Eye className="h-5 w-5" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                {/* Stock Status */}
-                                                <div className="absolute top-4 left-4">
-                                                    <span
-                                                        className={`rounded-full px-3 py-1 text-xs font-medium ${
-                                                            product.status === 'inStock'
-                                                                ? 'bg-teal-500 text-white'
-                                                                : 'bg-red-500 text-white'
-                                                        }`}
-                                                    >
-                                                        {product.status === 'inStock' ? 'In Stock' : 'soldOut'}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            {/* Product Info */}
-                                            <div className="p-6">
-                                                <div className="mb-3 flex items-start justify-between">
-                                                    <h3 className="text-lg font-bold text-slate-700 transition-colors duration-300 group-hover:text-orange-500">
-                                                        {product.name}
-                                                    </h3>
-                                                    <div className="flex items-center gap-1 text-sm text-amber-500">
-                                                        <Star className="h-4 w-4 fill-current" />
-                                                        <span className="text-slate-600">{product.rating}</span>
-                                                    </div>
-                                                </div>
-                                                <p className="mb-4 line-clamp-2 text-sm text-slate-600">{product.description}</p>
-                                                {/* Features */}
-                                                <div className="mb-4">
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {product.features.slice(0, 2).map((feature, idx) => (
-                                                            <span
-                                                                key={idx}
-                                                                className="rounded-full bg-blue-50 px-2 py-1 text-xs text-blue-600"
-                                                            >
-                                                                {feature}
-                                                            </span>
-                                                        ))}
-                                                        {product.features.length > 2 && (
-                                                            <span className="rounded-full bg-slate-100 px-2 py-1 text-xs text-slate-500">
-                                                                +{product.features.length - 2} more
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                {/* Price and Action */}
-                                                <div className="flex items-center justify-between">
-                                                    <div className="text-2xl font-bold text-slate-700">
-                                                        €{parseFloat(product.price).toLocaleString()}
-                                                    </div>
-                                                    <button
-                                                        onClick={() => addToCart(product.id)}
-                                                        disabled={product.status !== 'inStock'}
-                                                        className={`rounded-xl px-6 py-3 font-semibold transition-all duration-300 ${
-                                                            product.status === 'inStock'
-                                                                ? 'bg-orange-500 text-white shadow-lg hover:scale-105 hover:bg-orange-600 hover:shadow-orange-500/25'
-                                                                : 'cursor-not-allowed bg-slate-200 text-slate-400'
-                                                        }`}
-                                                    >
-                                                        {product.status === 'inStock' ? 'Add to Cart' : 'soldOut'}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-lg">
-                                        <Package className="mx-auto mb-4 h-12 w-12 text-slate-400" />
-                                        <h3 className="mb-2 text-lg font-medium text-slate-600">No products found</h3>
-                                        <p className="text-slate-500">No products available at the moment</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {activeTab === 'create' && (
-                        <div className="overflow-hidden rounded-2xl bg-white shadow-2xl">
-                            <div className="border-b border-gray-200 px-8 py-6" style={{ backgroundColor: '#003d82' }}>
-                                <h2 className="flex items-center gap-2 text-xl font-semibold text-white">
-                                    <Plus className="h-6 w-6" />
-                                    Create New Product
-                                </h2>
-                                <p className="mt-1 text-blue-100">Fill in the details to add a new product to the webshop</p>
-                            </div>
-                            <form onSubmit={handleSubmit} className="p-8">
-                                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                                    {/* Left Column */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <Tag className="h-4 w-4" />
-                                                Product Name
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                value={formData.name}
-                                                onChange={handleInputChange}
-                                                placeholder="e.g., Storage Building 6m x 12m Insulated"
-                                                className={`w-full rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.name ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            />
-                                            {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-                                        </div>
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <DollarSign className="h-4 w-4" />
-                                                Price (€)
-                                            </label>
-                                            <input
-                                                type="number"
-                                                name="price"
-                                                value={formData.price}
-                                                onChange={handleInputChange}
-                                                placeholder="26995.00"
-                                                step="0.01"
-                                                min="0"
-                                                className={`w-full rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.price ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            />
-                                            {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
-                                        </div>
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <Package className="h-4 w-4" />
-                                                Status
-                                            </label>
-                                            <select
-                                                name="status"
-                                                value={formData.status}
-                                                onChange={handleInputChange}
-                                                className={`w-full rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.status ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            >
-                                                <option value="inStock">In Stock</option>
-                                                <option value="soldOut">soldOut</option>
-                                            </select>
-                                            {errors.status && <p className="mt-1 text-sm text-red-600">{errors.status}</p>}
-                                        </div>
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <Star className="h-4 w-4" />
-                                                Rating
-                                            </label>
-                                            <input
-                                                type="number"
-                                                name="rating"
-                                                value={formData.rating}
-                                                onChange={handleInputChange}
-                                                min="0"
-                                                max="5"
-                                                step="0.1"
-                                                className={`w-full rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.rating ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            />
-                                            {errors.rating && <p className="mt-1 text-sm text-red-600">{errors.rating}</p>}
-                                        </div>
-                                    </div>
-                                    {/* Right Column */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <ImageIcon className="h-4 w-4" />
-                                                Product Image
-                                            </label>
-                                            <input
-                                                type="file"
-                                                name="image"
-                                                accept="image/*"
-                                                onChange={handleFileChange}
-                                                className={`w-full rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.image ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            />
-                                            {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image}</p>}
-                                        </div>
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <FileText className="h-4 w-4" />
-                                                Description
-                                            </label>
-                                            <textarea
-                                                name="description"
-                                                value={formData.description}
-                                                onChange={handleInputChange}
-                                                placeholder="Complete building package storage building with premium insulation for temperature control."
-                                                rows="4"
-                                                className={`w-full resize-none rounded-xl border-2 px-4 py-3 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                    errors.description ? 'border-red-500' : 'border-[#003d82]'
-                                                }`}
-                                            />
-                                            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
-                                        </div>
-                                        <div>
-                                            <label className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#454545' }}>
-                                                <Star className="h-4 w-4" />
-                                                Product Features
-                                            </label>
-                                            <div className="space-y-3">
-                                                {formData.features.map((feature, index) => (
-                                                    <div key={index} className="flex gap-2">
-                                                        <input
-                                                            type="text"
-                                                            value={feature}
-                                                            onChange={(e) => handleFeatureChange(index, e.target.value)}
-                                                            placeholder="e.g., Premium Insulation"
-                                                            className={`flex-1 rounded-xl border-2 px-4 py-2 transition-all duration-300 focus:ring-2 focus:outline-none ${
-                                                                errors.features ? 'border-red-500' : 'border-[#003d82]'
-                                                            }`}
-                                                        />
-                                                        {formData.features.length > 1 && (
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => removeFeature(index)}
-                                                                className="rounded-xl px-3 py-2 text-white transition-all duration-300 hover:scale-105"
-                                                                style={{ backgroundColor: '#ea5504' }}
-                                                            >
-                                                                ×
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                ))}
-                                                {errors.features && <p className="mt-1 text-sm text-red-600">{errors.features}</p>}
-                                                <button
-                                                    type="button"
-                                                    onClick={addFeature}
-                                                    className="w-full rounded-xl border-2 border-dashed px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-[1.02]"
-                                                    style={{ borderColor: '#003d82', color: '#003d82' }}
-                                                >
-                                                    + Add Feature
-                                                </button>
-                                            </div>
-                                        </div>
+                                <div className="flex-shrink-0">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+                                        <Package className="w-6 h-6 text-white" />
                                     </div>
                                 </div>
-                                <div className="mt-8 border-t border-slate-200 pt-6">
+                                <div>
+                                    <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                                        Product Management
+                                    </h1>
+                                    <p className="mt-2 text-slate-600 font-medium">
+                                        Streamline your inventory with intelligent controls
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-3">
+                                <Link
+                                    href={route('admin.webshops.create')}
+                                    className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 ease-out"
+                                >
+                                    <Plus className="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" />
+                                    Create Product
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Stats Cards */}
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-600">Total Products</p>
+                                        <p className="text-2xl font-bold text-slate-900">{stats.totalProducts}</p>
+                                    </div>
+                                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                                        <Package className="w-5 h-5 text-blue-600" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-600">In Stock</p>
+                                        <p className="text-2xl font-bold text-emerald-600">{stats.inStock}</p>
+                                    </div>
+                                    <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                                        <TrendingUp className="w-5 h-5 text-emerald-600" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-600">Sold Out</p>
+                                        <p className="text-2xl font-bold text-red-500">{stats.soldOut}</p>
+                                    </div>
+                                    <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                                        <Package className="w-5 h-5 text-red-500" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-600">Avg Rating</p>
+                                        <p className="text-2xl font-bold text-amber-500">{stats.avgRating}</p>
+                                    </div>
+                                    <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+                                        <Star className="w-5 h-5 text-amber-500" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Filters and Controls */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+                    <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 p-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                            {/* Search */}
+                            <div className="lg:col-span-6 relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <Search className="h-5 w-5 text-slate-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    placeholder="Search products by name or description..."
+                                    className="block w-full pl-12 pr-4 py-3 border-0 rounded-2xl bg-slate-50/80 ring-1 ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all duration-200 text-slate-900 font-medium"
+                                />
+                            </div>
+
+                            {/* Status Filter */}
+                            <div className="lg:col-span-3 relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <Filter className="h-5 w-5 text-slate-400" />
+                                </div>
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="block w-full pl-12 pr-10 py-3 border-0 rounded-2xl bg-slate-50/80 ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 focus:bg-white appearance-none transition-all duration-200 text-slate-900 font-medium"
+                                >
+                                    <option value="all">All Status</option>
+                                    <option value="inStock">In Stock</option>
+                                    <option value="soldOut">Sold Out</option>
+                                </select>
+                            </div>
+
+                            {/* View Mode Toggle */}
+                            <div className="lg:col-span-3 flex justify-end">
+                                <div className="inline-flex bg-slate-100 rounded-2xl p-1 shadow-inner">
                                     <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="flex w-full items-center justify-center gap-3 rounded-xl px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
-                                        style={{ backgroundColor: '#003d82' }}
+                                        onClick={() => setViewMode('grid')}
+                                        className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
+                                            viewMode === 'grid'
+                                                ? 'bg-white text-indigo-600 shadow-sm'
+                                                : 'text-slate-500 hover:text-slate-700'
+                                        }`}
                                     >
-                                        {isSubmitting ? (
-                                            <>
-                                                <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                                                Adding Product...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Save className="h-5 w-5" />
-                                                Add Product to WebShop
-                                            </>
-                                        )}
+                                        <Grid className="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('list')}
+                                        className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ${
+                                            viewMode === 'list'
+                                                ? 'bg-white text-indigo-600 shadow-sm'
+                                                : 'text-slate-500 hover:text-slate-700'
+                                        }`}
+                                    >
+                                        <List className="w-5 h-5" />
                                     </button>
                                 </div>
-                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Products Display */}
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pb-12">
+                    {filteredProducts.length > 0 ? (
+                        <div className={viewMode === 'grid' 
+                            ? "grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+                            : "space-y-6"
+                        }>
+                            {filteredProducts.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className={`group bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/20 overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ${
+                                        viewMode === 'list' ? 'flex' : ''
+                                    }`}
+                                >
+                                    {/* Product Image */}
+                                    <div className={`${viewMode === 'list' ? 'w-64 flex-shrink-0' : 'aspect-w-4 aspect-h-3'} bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden`}>
+                                        {product.image ? (
+                                            <img
+                                                src={product.image}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                        ) : (
+                                            <div className="flex items-center justify-center h-full">
+                                                <div className="text-center">
+                                                    <Package className="w-12 h-12 text-slate-300 mx-auto mb-2" />
+                                                    <span className="text-slate-400 font-medium">No image</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div className="absolute top-4 right-4">
+                                            <span
+                                                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border ${
+                                                    product.status === 'inStock'
+                                                        ? 'bg-emerald-100/80 text-emerald-700 border-emerald-200'
+                                                        : 'bg-red-100/80 text-red-700 border-red-200'
+                                                }`}
+                                            >
+                                                {product.status === 'inStock' ? 'In Stock' : 'Sold Out'}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Product Info */}
+                                    <div className={`p-6 ${viewMode === 'list' ? 'flex-1 flex flex-col justify-between' : ''}`}>
+                                        <div className="flex-1">
+                                            <div className="flex items-start justify-between mb-4">
+                                                <div className="flex-1">
+                                                    <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors duration-200 mb-2">
+                                                        {product.name}
+                                                    </h3>
+                                                    <p className={`text-slate-600 leading-relaxed ${viewMode === 'list' ? '' : 'line-clamp-2'}`}>
+                                                        {product.description}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div>
+                                                    <p className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                                                        €{parseFloat(product.price).toLocaleString()}
+                                                    </p>
+                                                    <div className="flex items-center mt-2">
+                                                        <div className="flex items-center">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <Star
+                                                                    key={i}
+                                                                    className={`w-4 h-4 ${
+                                                                        i < Math.floor(parseFloat(product.rating))
+                                                                            ? 'text-amber-400 fill-current'
+                                                                            : 'text-slate-300'
+                                                                    }`}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                        <span className="ml-2 text-sm font-semibold text-slate-600">
+                                                            {product.rating}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Action Buttons */}
+                                        <div className="flex items-center space-x-3">
+                                            <Link
+                                                href={route('admin.webshops.show', product.id)}
+                                                className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-all duration-200 group/btn"
+                                            >
+                                                <Eye className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
+                                                View
+                                            </Link>
+                                            <Link
+                                                href={route('admin.webshops.edit', product.id)}
+                                                className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold rounded-xl transition-all duration-200 group/btn shadow-lg hover:shadow-xl"
+                                            >
+                                                <Pencil className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(product.id!)}
+                                                className="inline-flex items-center justify-center p-2.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold rounded-xl transition-all duration-200 group/btn shadow-lg hover:shadow-xl"
+                                            >
+                                                <Trash2 className="w-4 h-4 group-hover/btn:scale-110 transition-transform duration-200" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/20">
+                            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-100 to-purple-100 mb-6">
+                                <Package className="h-10 w-10 text-indigo-500" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-3">No products found</h3>
+                            <p className="text-slate-600 mb-8 max-w-md mx-auto leading-relaxed">
+                                {searchTerm || statusFilter !== 'all'
+                                    ? 'Try adjusting your search criteria or filters to find what you\'re looking for'
+                                    : 'Start building your product catalog by creating your first item'}
+                            </p>
+                            <Link
+                                href={route('admin.webshops.create')}
+                                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-300"
+                            >
+                                <Plus className="w-5 h-5 mr-3" />
+                                Create Your First Product
+                            </Link>
                         </div>
                     )}
                 </div>
             </div>
-            <Footer />
         </AppLayout>
     );
-};
-
-export default WebShop;
+}
