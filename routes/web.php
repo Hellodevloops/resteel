@@ -32,10 +32,14 @@ Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.f
 Route::get('/api/featured-warehouses', [WarehouseController::class, 'featured'])->name('api.featured-warehouses');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard route - also make it available as admin.dashboard
     Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
 
     // Admin prefix group for other routes
     Route::prefix('admin')->name('admin.')->group(function () {
+        // Admin dashboard route
+        Route::get('/dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
+
         // Admin warehouse routes
         Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
         Route::get('/warehouses/create', [WarehouseController::class, 'create'])->name('warehouses.create');

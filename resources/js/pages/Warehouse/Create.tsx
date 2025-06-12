@@ -1,12 +1,22 @@
+import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { Building, Sparkles } from 'lucide-react';
 import WarehouseForm from './Form';
 
 export default function Create() {
+    // Define breadcrumbs
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('admin.dashboard') },
+        { title: 'Warehouses', href: route('admin.warehouses.index') },
+        { title: 'Create', href: route('admin.warehouses.create') },
+    ];
+
     return (
         <AppLayout>
             <Head title="Create Warehouse - Admin" />
+            <AppSidebarHeader breadcrumbs={breadcrumbs} />
 
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
                 {/* Enhanced Header with Breadcrumb */}
@@ -14,13 +24,6 @@ export default function Create() {
                     <div className="absolute inset-0 bg-gradient-to-r from-[#434B4D]/5 via-[#1E2460]/5 to-[#E75B12]/5"></div>
 
                     <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                        {/* Breadcrumb Navigation */}
-                        <nav className="mb-6 flex items-center space-x-2 text-sm text-gray-500">
-                            <span className="text-gray-400">Warehouses</span>
-                            <span>/</span>
-                            <span className="font-medium text-gray-900">Create Warehouse</span>
-                        </nav>
-
                         {/* Header Content */}
                         <div className="flex items-start justify-between">
                             <div className="flex items-center space-x-4">

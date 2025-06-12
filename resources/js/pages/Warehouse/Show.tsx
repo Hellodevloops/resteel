@@ -1,4 +1,6 @@
+import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
 import { Warehouse } from '@/types/warehouse';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Box, Calendar, CheckCircle, Edit, MapPin, Package, Trash2, XCircle, Zap } from 'lucide-react';
@@ -18,9 +20,17 @@ export default function Show({ warehouse }: Props) {
         }
     };
 
+    // Define breadcrumbs
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('admin.dashboard') },
+        { title: 'Warehouses', href: route('admin.warehouses.index') },
+        { title: warehouse.name, href: route('admin.warehouses.show', warehouse.id) },
+    ];
+
     return (
         <AppLayout>
             <Head title={`${warehouse.name} - Admin`} />
+            <AppSidebarHeader breadcrumbs={breadcrumbs} />
 
             <div className="min-h-screen bg-slate-50">
                 {/* Header */}
@@ -105,14 +115,14 @@ export default function Show({ warehouse }: Props) {
                                                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                                                             warehouse.status === 'active'
                                                                 ? 'bg-green-100 text-green-800'
-                                                                : warehouse.status === 'maintenance'
+                                                                : warehouse.status === 'under_maintenance'
                                                                   ? 'bg-yellow-100 text-yellow-800'
                                                                   : 'bg-red-100 text-red-800'
                                                         }`}
                                                     >
                                                         {warehouse.status === 'active' ? (
                                                             <CheckCircle className="mr-1 h-4 w-4" />
-                                                        ) : warehouse.status === 'maintenance' ? (
+                                                        ) : warehouse.status === 'under_maintenance' ? (
                                                             <CheckCircle className="mr-1 h-4 w-4" />
                                                         ) : (
                                                             <XCircle className="mr-1 h-4 w-4" />

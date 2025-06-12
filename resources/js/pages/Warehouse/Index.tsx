@@ -1,4 +1,6 @@
+import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     Activity,
@@ -99,6 +101,12 @@ export default function Index({ warehouseData }: Props) {
         const matchesFilter = filterStatus === 'all' || warehouse.status === filterStatus;
         return matchesSearch && matchesFilter;
     });
+
+    // Define breadcrumbs
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Dashboard', href: route('admin.dashboard') },
+        { title: 'Warehouses', href: route('admin.warehouses.index') },
+    ];
 
     const MetricCard = ({ title, value, subtitle, icon: Icon, color, trend }: MetricCardProps) => (
         <div
@@ -269,26 +277,25 @@ export default function Index({ warehouseData }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Warehouse Management Dashboard" />
+            <Head title="Warehouses - Admin" />
+            <AppSidebarHeader breadcrumbs={breadcrumbs} />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+            <div className="min-h-screen bg-slate-50">
                 {/* Header */}
-                <div className="border-b border-slate-200 bg-white shadow-sm">
+                <div className="bg-white shadow">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h1 className="text-3xl font-bold text-slate-800">Warehouse Management</h1>
-                                <p className="mt-1 text-slate-600">Monitor and manage your warehouse operations</p>
+                                <h1 className="text-3xl font-bold text-[#434B4D]">Warehouses</h1>
+                                <p className="mt-1 text-sm text-slate-500">Manage your warehouse inventory</p>
                             </div>
-                            <div className="flex items-center space-x-4">
-                                <Link
-                                    href={route('admin.warehouses.create')}
-                                    className="flex items-center rounded-xl bg-[#E75B12] px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-[#FF6A1C]"
-                                >
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    Add Warehouse
-                                </Link>
-                            </div>
+                            <Link
+                                href={route('admin.warehouses.create')}
+                                className="inline-flex items-center rounded-md border border-transparent bg-[#1E2460] px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase ring-[#1E2460]/30 transition hover:bg-[#30378E] focus:ring focus:outline-none active:bg-[#1E2460] disabled:opacity-25"
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Warehouse
+                            </Link>
                         </div>
                     </div>
                 </div>
