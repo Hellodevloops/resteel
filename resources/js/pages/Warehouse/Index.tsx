@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import {
     Activity,
     AlertTriangle,
@@ -21,87 +21,77 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export default function Index() {
+// Note: The `route()` function is globally available in Inertia applications
+// when using the @inertiajs/inertia-laravel package, so we don't need to import it
+
+interface Warehouse {
+    id: number;
+    name: string;
+    location: string;
+    status: string;
+    capacity: string;
+    occupied: string;
+    occupancy_rate: number;
+    type: string;
+    last_inspection: string;
+    revenue: string;
+    alerts: number;
+    // Add any other fields that are returned from the backend
+}
+
+interface Activity {
+    id: number;
+    action: string;
+    warehouse: string;
+    time: string;
+    type: string;
+}
+
+interface Overview {
+    totalWarehouses: number;
+    activeWarehouses: number;
+    totalCapacity: string;
+    occupancyRate: number;
+    monthlyRevenue: string;
+    growthRate: number;
+}
+
+interface WarehouseData {
+    overview: Overview;
+    warehouses: Warehouse[];
+    recentActivity: Activity[];
+}
+
+interface Props {
+    warehouseData: WarehouseData;
+}
+
+interface MetricCardProps {
+    title: string;
+    value: number | string;
+    subtitle: string;
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+    trend?: number;
+}
+
+interface WarehouseCardProps {
+    warehouse: Warehouse;
+    index: number;
+}
+
+interface ActivityItemProps {
+    activity: Activity;
+}
+
+export default function Index({ warehouseData }: Props) {
     const [isVisible, setIsVisible] = useState(false);
-    const [selectedMetric, setSelectedMetric] = useState('overview');
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 100);
     }, []);
-
-    // Sample warehouse data - replace with actual data from your Laravel backend via props
-    const warehouseData = {
-        overview: {
-            totalWarehouses: 12,
-            activeWarehouses: 10,
-            totalCapacity: '125,000 m²',
-            occupancyRate: 78,
-            monthlyRevenue: '$284,500',
-            growthRate: 12.5,
-        },
-        warehouses: [
-            {
-                id: 1,
-                name: 'Central Distribution Hub',
-                location: 'Mumbai, Maharashtra',
-                status: 'active',
-                capacity: '15,000 m²',
-                occupied: '12,500 m²',
-                occupancyRate: 83,
-                type: 'Distribution',
-                lastInspection: '2024-05-15',
-                revenue: '$45,200',
-                alerts: 2,
-            },
-            {
-                id: 2,
-                name: 'North Logistics Center',
-                location: 'Delhi, NCR',
-                status: 'active',
-                capacity: '20,000 m²',
-                occupied: '16,800 m²',
-                occupancyRate: 84,
-                type: 'Storage',
-                lastInspection: '2024-05-20',
-                revenue: '$52,800',
-                alerts: 0,
-            },
-            {
-                id: 3,
-                name: 'South Processing Facility',
-                location: 'Bangalore, Karnataka',
-                status: 'maintenance',
-                capacity: '12,000 m²',
-                occupied: '8,400 m²',
-                occupancyRate: 70,
-                type: 'Processing',
-                lastInspection: '2024-05-10',
-                revenue: '$28,600',
-                alerts: 5,
-            },
-            {
-                id: 4,
-                name: 'West Coast Storage',
-                location: 'Pune, Maharashtra',
-                status: 'active',
-                capacity: '18,500 m²',
-                occupied: '14,200 m²',
-                occupancyRate: 77,
-                type: 'Storage',
-                lastInspection: '2024-05-22',
-                revenue: '$41,300',
-                alerts: 1,
-            },
-        ],
-        recentActivity: [
-            { id: 1, action: 'New warehouse added', warehouse: 'East Regional Hub', time: '2 hours ago', type: 'success' },
-            { id: 2, action: 'Maintenance scheduled', warehouse: 'South Processing Facility', time: '4 hours ago', type: 'warning' },
-            { id: 3, action: 'Inspection completed', warehouse: 'North Logistics Center', time: '1 day ago', type: 'success' },
-            { id: 4, action: 'Capacity threshold reached', warehouse: 'Central Distribution Hub', time: '2 days ago', type: 'alert' },
-        ],
-    };
 
     const filteredWarehouses = warehouseData.warehouses.filter((warehouse) => {
         const matchesSearch =
@@ -110,7 +100,7 @@ export default function Index() {
         return matchesSearch && matchesFilter;
     });
 
-    const MetricCard = ({ title, value, subtitle, icon: Icon, color, trend }) => (
+    const MetricCard = ({ title, value, subtitle, icon: Icon, color, trend }: MetricCardProps) => (
         <div
             className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${color} p-6 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl ${
                 isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
@@ -136,7 +126,7 @@ export default function Index() {
         </div>
     );
 
-    const WarehouseCard = ({ warehouse, index }) => (
+    const WarehouseCard = ({ warehouse, index }: WarehouseCardProps) => (
         <div
             className={`group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-slate-900/10 ${
                 isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
@@ -180,7 +170,7 @@ export default function Index() {
             <div className="p-6">
                 {/* Header */}
                 <div className="mb-4">
-                    <h3 className="mb-2 text-xl font-bold text-slate-800 transition-colors group-hover:text-orange-500">{warehouse.name}</h3>
+                    <h3 className="mb-2 text-xl font-bold text-slate-800 transition-colors group-hover:text-[#E75B12]">{warehouse.name}</h3>
                     <div className="flex items-center text-sm text-slate-600">
                         <MapPin className="mr-1 h-4 w-4" />
                         {warehouse.location}
@@ -191,14 +181,14 @@ export default function Index() {
                 <div className="mb-4">
                     <div className="mb-2 flex items-center justify-between">
                         <span className="text-sm font-medium text-slate-600">Occupancy Rate</span>
-                        <span className="text-sm font-bold text-slate-800">{warehouse.occupancyRate}%</span>
+                        <span className="text-sm font-bold text-slate-800">{warehouse.occupancy_rate}%</span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-slate-200">
                         <div
                             className={`h-2 rounded-full transition-all duration-500 ${
-                                warehouse.occupancyRate >= 80 ? 'bg-red-500' : warehouse.occupancyRate >= 60 ? 'bg-yellow-500' : 'bg-green-500'
+                                warehouse.occupancy_rate >= 80 ? 'bg-red-500' : warehouse.occupancy_rate >= 60 ? 'bg-yellow-500' : 'bg-green-500'
                             }`}
-                            style={{ width: `${warehouse.occupancyRate}%` }}
+                            style={{ width: `${warehouse.occupancy_rate}%` }}
                         ></div>
                     </div>
                 </div>
@@ -224,21 +214,24 @@ export default function Index() {
                 {/* Type and Inspection */}
                 <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center">
-                        <Package className="mr-2 h-4 w-4 text-orange-500" />
+                        <Package className="mr-2 h-4 w-4 text-[#E75B12]" />
                         <span className="text-sm font-medium text-slate-600">{warehouse.type}</span>
                     </div>
                     <div className="flex items-center text-xs text-slate-500">
                         <Calendar className="mr-1 h-3 w-3" />
-                        Last: {warehouse.lastInspection}
+                        Last: {warehouse.last_inspection}
                     </div>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex space-x-2">
-                    <button className="flex flex-1 items-center justify-center rounded-xl bg-orange-500 px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-orange-600">
+                    <Link
+                        href={route('admin.warehouses.show', { warehouse: warehouse.id })}
+                        className="flex flex-1 items-center justify-center rounded-xl bg-[#E75B12] px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#FF6A1C]"
+                    >
                         <Eye className="mr-2 h-4 w-4" />
                         View Details
-                    </button>
+                    </Link>
                     <button className="rounded-xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-slate-200">
                         <Settings className="h-4 w-4" />
                     </button>
@@ -247,7 +240,7 @@ export default function Index() {
         </div>
     );
 
-    const ActivityItem = ({ activity }) => (
+    const ActivityItem = ({ activity }: ActivityItemProps) => (
         <div className="flex items-start space-x-3 border-b border-slate-100 p-4 transition-colors last:border-b-0 hover:bg-slate-50">
             <div
                 className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
@@ -288,10 +281,13 @@ export default function Index() {
                                 <p className="mt-1 text-slate-600">Monitor and manage your warehouse operations</p>
                             </div>
                             <div className="flex items-center space-x-4">
-                                <button className="flex items-center rounded-xl bg-orange-500 px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-orange-600">
+                                <Link
+                                    href={route('admin.warehouses.create')}
+                                    className="flex items-center rounded-xl bg-[#E75B12] px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-[#FF6A1C]"
+                                >
                                     <Plus className="mr-2 h-4 w-4" />
                                     Add Warehouse
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -305,21 +301,21 @@ export default function Index() {
                             value={warehouseData.overview.totalWarehouses}
                             subtitle={`${warehouseData.overview.activeWarehouses} active`}
                             icon={Building}
-                            color="from-blue-500 to-blue-600"
+                            color="from-[#434B4D] to-[#565E61]" /* RAL 7015 - Slate Grey */
                         />
                         <MetricCard
                             title="Total Capacity"
                             value={warehouseData.overview.totalCapacity}
                             subtitle={`${warehouseData.overview.occupancyRate}% occupied`}
                             icon={Package}
-                            color="from-green-500 to-green-600"
+                            color="from-[#1E2460] to-[#30378E]" /* RAL 5005 - Signal Blue */
                         />
                         <MetricCard
                             title="Monthly Revenue"
                             value={warehouseData.overview.monthlyRevenue}
                             subtitle="Current month"
                             icon={TrendingUp}
-                            color="from-purple-500 to-purple-600"
+                            color="from-[#565E61] to-[#434B4D]" /* RAL 7015 - Slate Grey (reversed) */
                             trend={warehouseData.overview.growthRate}
                         />
                         <MetricCard
@@ -327,7 +323,7 @@ export default function Index() {
                             value={warehouseData.overview.activeWarehouses}
                             subtitle="Running smoothly"
                             icon={Activity}
-                            color="from-orange-500 to-orange-600"
+                            color="from-[#E75B12] to-[#FF6A1C]" /* RAL 2004 - Pure Orange */
                         />
                     </div>
 
@@ -344,7 +340,7 @@ export default function Index() {
                                             placeholder="Search warehouses..."
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
-                                            className="w-full rounded-xl border border-slate-200 py-3 pr-4 pl-10 transition-all focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                                            className="w-full rounded-xl border border-slate-200 py-3 pr-4 pl-10 transition-all focus:border-transparent focus:ring-2 focus:ring-[#E75B12]"
                                         />
                                     </div>
                                     <div className="relative">
@@ -352,7 +348,7 @@ export default function Index() {
                                         <select
                                             value={filterStatus}
                                             onChange={(e) => setFilterStatus(e.target.value)}
-                                            className="appearance-none rounded-xl border border-slate-200 bg-white py-3 pr-8 pl-10 transition-all focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                                            className="appearance-none rounded-xl border border-slate-200 bg-white py-3 pr-8 pl-10 transition-all focus:border-transparent focus:ring-2 focus:ring-[#E75B12]"
                                         >
                                             <option value="all">All Status</option>
                                             <option value="active">Active</option>
@@ -385,7 +381,7 @@ export default function Index() {
                             <div className="mb-6 rounded-2xl border border-slate-200 bg-white shadow-lg">
                                 <div className="border-b border-slate-200 p-6">
                                     <h3 className="flex items-center text-lg font-semibold text-slate-800">
-                                        <Activity className="mr-2 h-5 w-5 text-orange-500" />
+                                        <Activity className="mr-2 h-5 w-5 text-[#E75B12]" />
                                         Recent Activity
                                     </h3>
                                 </div>
@@ -400,26 +396,30 @@ export default function Index() {
                             <div className="rounded-2xl border border-slate-200 bg-white shadow-lg">
                                 <div className="border-b border-slate-200 p-6">
                                     <h3 className="flex items-center text-lg font-semibold text-slate-800">
-                                        <BarChart3 className="mr-2 h-5 w-5 text-orange-500" />
+                                        <BarChart3 className="mr-2 h-5 w-5 text-[#E75B12]" />
                                         Quick Stats
                                     </h3>
                                 </div>
                                 <div className="space-y-4 p-6">
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-slate-600">Average Occupancy</span>
-                                        <span className="text-lg font-bold text-slate-800">78.5%</span>
+                                        <span className="text-lg font-bold text-slate-800">{warehouseData.overview.occupancyRate}%</span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-slate-600">Total Alerts</span>
-                                        <span className="text-lg font-bold text-red-600">8</span>
+                                        <span className="text-lg font-bold text-red-600">
+                                            {warehouseData.warehouses.reduce((total, warehouse) => total + warehouse.alerts, 0)}
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-slate-600">Pending Inspections</span>
-                                        <span className="text-lg font-bold text-yellow-600">3</span>
+                                        <span className="text-lg font-bold text-yellow-600">
+                                            {warehouseData.warehouses.filter((w) => w.status === 'maintenance').length}
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-slate-600">Monthly Growth</span>
-                                        <span className="text-lg font-bold text-green-600">+12.5%</span>
+                                        <span className="text-lg font-bold text-green-600">+{warehouseData.overview.growthRate}%</span>
                                     </div>
                                 </div>
                             </div>

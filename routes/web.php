@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WarehouseController;
 
 // Home route
 Route::get('/', function () {
@@ -29,10 +30,19 @@ Route::get('/webshop', [WebShopController::class, 'frontend'])->name('webshop.fr
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');
-    Route::get('admin/warehouse', fn() => Inertia::render('Warehouse/Index'))->name('warehouse.index');
 
-    // Admin contact routes
+    // Admin prefix group for other routes
     Route::prefix('admin')->name('admin.')->group(function () {
+        // Admin warehouse routes
+        Route::get('/warehouses', [WarehouseController::class, 'index'])->name('warehouses.index');
+        Route::get('/warehouses/create', [WarehouseController::class, 'create'])->name('warehouses.create');
+        Route::post('/warehouses', [WarehouseController::class, 'store'])->name('warehouses.store');
+        Route::get('/warehouses/{warehouse}', [WarehouseController::class, 'show'])->name('warehouses.show');
+        Route::get('/warehouses/{warehouse}/edit', [WarehouseController::class, 'edit'])->name('warehouses.edit');
+        Route::put('/warehouses/{warehouse}', [WarehouseController::class, 'update'])->name('warehouses.update');
+        Route::delete('/warehouses/{warehouse}', [WarehouseController::class, 'destroy'])->name('warehouses.destroy');
+
+        // Admin contact routes
         Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
         Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
         Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
@@ -50,6 +60,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/webshops/{webshop}', [WebShopController::class, 'update'])->name('webshops.update');
         Route::delete('/webshops/{webshop}', [WebShopController::class, 'destroy'])->name('webshops.destroy');
     });
+
+    // For backward compatibility, keep the old routes but redirect them to the new ones
+    Route::redirect('admin/warehouse', '/admin/warehouses')->name('warehouse.index');
+    Route::redirect('admin/warehouse/create', '/admin/warehouses/create')->name('warehouse.create');
+    Route::redirect('admin/warehouse/{warehouse}', '/admin/warehouses/{warehouse}')->name('warehouse.show');
+    Route::redirect('admin/warehouse/{warehouse}/edit', '/admin/warehouses/{warehouse}/edit')->name('warehouse.edit');
 });
 
 require __DIR__ . '/settings.php';
