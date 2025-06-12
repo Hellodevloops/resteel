@@ -15,10 +15,10 @@ return new class extends Migration
       $table->id();
       $table->string('name');
       $table->string('location');
-      $table->enum('status', ['active', 'maintenance', 'inactive'])->default('active');
+      $table->enum('status', ['active', 'leased', 'under_maintenance', 'coming_soon', 'inactive'])->default('active');
       $table->string('capacity')->nullable();
       $table->string('occupied')->nullable();
-      $table->integer('occupancy_rate')->default(0);
+      $table->float('occupancy_rate')->default(0);
       $table->string('type')->nullable();
       $table->date('last_inspection')->nullable();
       $table->string('revenue')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration
       $table->string('year_built')->nullable();
       $table->string('price')->nullable();
       $table->string('total_area')->nullable();
+      $table->string('unit_of_measurement')->default('m²');
       $table->boolean('has_video')->default(false);
       $table->json('video_urls')->nullable();
       $table->json('features')->nullable();
@@ -38,6 +39,24 @@ return new class extends Migration
       $table->string('loading_dock_dimensions')->nullable();
       $table->string('loading_dock_area')->nullable();
       $table->string('category')->nullable();
+      $table->string('ceiling_height')->nullable();
+      $table->string('floor_load_capacity')->nullable();
+      $table->integer('number_of_loading_docks')->default(0);
+      $table->integer('parking_spaces')->default(0);
+      $table->json('security_features')->nullable();
+      $table->json('utilities')->nullable();
+      $table->json('certificates')->nullable();
+      $table->date('availability_date')->nullable();
+      $table->string('lease_terms')->nullable();
+      $table->string('contact_person')->nullable();
+      $table->string('contact_email')->nullable();
+      $table->string('contact_phone')->nullable();
+      $table->string('address')->nullable();
+      $table->string('postal_code')->nullable();
+      $table->string('city')->nullable();
+      $table->string('country')->nullable();
+      $table->string('latitude')->nullable();
+      $table->string('longitude')->nullable();
       $table->timestamps();
     });
   }

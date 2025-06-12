@@ -55,7 +55,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/webshop"
+                                        href="/webshops"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}

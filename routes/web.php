@@ -26,7 +26,10 @@ Route::get('/contact', fn() => Inertia::render('website/ContactPage'))->name('co
 Route::post('/contacts', [ContactController::class, 'store'])->name('public.contacts.store');
 
 // Public webshop route (calls controller, not just Inertia page)
-Route::get('/webshop', [WebShopController::class, 'frontend'])->name('webshop.frontend');
+Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.frontend');
+
+// Public API routes
+Route::get('/api/featured-warehouses', [WarehouseController::class, 'featured'])->name('api.featured-warehouses');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', fn() => Inertia::render('dashboard'))->name('dashboard');

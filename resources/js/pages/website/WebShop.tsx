@@ -1,7 +1,7 @@
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { usePage } from '@inertiajs/react';
-import { Eye, Heart, Search, ShoppingCart, Star } from 'lucide-react';
+import { Search, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 type Product = {
@@ -90,16 +90,7 @@ const WebShop = () => {
                             </div>
 
                             {/* Cart only, removed sort */}
-                            <div className="flex items-center gap-4">
-                                <button className="relative rounded-xl bg-orange-500 p-3 text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600">
-                                    <ShoppingCart className="h-6 w-6" />
-                                    {cartItems > 0 && (
-                                        <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
-                                            {cartItems}
-                                        </span>
-                                    )}
-                                </button>
-                            </div>
+                            <div className="flex items-center gap-4"></div>
                         </div>
                     </div>
 
@@ -167,16 +158,6 @@ const WebShop = () => {
                                             </div>
 
                                             {/* Overlay Actions */}
-                                            <div className="absolute inset-0 bg-black/20 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                                                <div className="absolute top-4 right-4 flex gap-2">
-                                                    <button className="rounded-full bg-white/90 p-2 text-slate-600 transition-all duration-300 hover:scale-110 hover:bg-white">
-                                                        <Heart className="h-5 w-5" />
-                                                    </button>
-                                                    <button className="rounded-full bg-white/90 p-2 text-slate-600 transition-all duration-300 hover:scale-110 hover:bg-white">
-                                                        <Eye className="h-5 w-5" />
-                                                    </button>
-                                                </div>
-                                            </div>
 
                                             {/* Stock Status */}
                                             <div className="absolute top-4 left-4">

@@ -2,6 +2,7 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
+import axios from 'axios';
 import { Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -40,109 +41,64 @@ const useResponsiveBreakpoints = () => {
     return breakpoint;
 };
 
+// Interface for building data
+interface Building {
+    id: number;
+    title: string;
+    status: string;
+    type: string;
+    category: string;
+    construction: string;
+    image: string;
+    specifications: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+    totalArea: string;
+    hasVideo: boolean;
+    videoUrls?: string[];
+    featured: boolean;
+    year_built?: string;
+    location?: string;
+    description?: string;
+}
+
 const Buildings = () => {
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const [filter, setFilter] = useState('all');
     const { isMobile, isTablet, isDesktop } = useResponsiveBreakpoints();
+    const [buildings, setBuildings] = useState<Building[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
         setTimeout(() => setIsVisible(true), 100);
+
+        // Fetch warehouse data from the backend
+        const fetchWarehouses = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('/api/featured-warehouses');
+                if (response.data && response.data.warehouses) {
+                    setBuildings(response.data.warehouses);
+                } else {
+                    setError('No warehouses found');
+                }
+            } catch (err) {
+                console.error('Error fetching warehouses:', err);
+                setError('Failed to load warehouses');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchWarehouses();
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    const buildingsData = [
-        {
-            id: 1,
-            title: '3 Warehouses',
-            status: 'SALE',
-            type: 'warehouses',
-            category: 'Industrial Warehouses',
-            construction: 'Steel construction',
-            images: ['/assets/3_Warehouses.png'],
-            specifications: [
-                { name: 'Warehouse 1', dimensions: '44 x 88 m²', area: '3,872 m²' },
-                { name: 'Warehouse 2', dimensions: '50 x 50 m²', area: '2,500 m²' },
-                { name: 'Warehouse 3', dimensions: '20 x 50 m²', area: '1,000 m²' },
-            ],
-            totalArea: '7,372 m²',
-            hasVideo: false,
-            featured: true,
-        },
-        {
-            id: 2,
-            title: '3 Business Premises',
-            status: 'SALE',
-            type: 'business-premises',
-            category: 'Industrial Buildings',
-            construction: 'Steel construction, Roof plates sandwich 60mm, Wall plates sandwich 40mm, Possibly Ytong concrete wall panels',
-            images: ['/assets/3_Business_Premises.png'],
-            specifications: [
-                {
-                    name: 'Hall No.1',
-                    dimensions: '75 x 225 m',
-                    area: '16,875 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-                {
-                    name: 'Hall No.2',
-                    dimensions: '50 x 90 m',
-                    area: '4,500 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-                {
-                    name: 'Hall No.3',
-                    dimensions: '75 x 190 m',
-                    area: '14,250 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-            ],
-            totalArea: '35,625 m²',
-            hasVideo: true,
-            videoLinks: ['https://youtu.be/OFdFeEPyapU?si=q3J5k0PIjzAp2wH2', 'https://youtu.be/hP-YuahiFBQ?si=VaFagc0fpMFYSKYF'],
-            featured: true,
-        },
-        {
-            id: 3,
-            title: 'Mystery Box: 37.000m2 (3 warehouses available soon)',
-            status: 'SALE',
-            type: 'mystery-warehouses',
-            category: 'Industrial Warehouses',
-            construction: 'Steel construction, Sandwich wall panels and glass, Isolated roof panels, Windows and doors included',
-            images: ['/assets/Mystery_Box.webp'],
-            specifications: [
-                {
-                    name: 'Hall No.1',
-                    dimensions: '75 x 225 m',
-                    area: '16,875 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-                {
-                    name: 'Hall No.2',
-                    dimensions: '50 x 90 m',
-                    area: '4,500 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-                {
-                    name: 'Hall No.3',
-                    dimensions: '75 x 190 m',
-                    area: '14,250 m²',
-                    gutterHeight: '8.80 meters',
-                    ridgeHeight: '12.5 meters',
-                },
-            ],
-            totalArea: '37,000 m²',
-            hasVideo: false,
-            featured: true,
-        },
-    ];
 
     const buildingTypes = [
         { id: 'all', label: 'All Buildings', shortLabel: 'All', icon: Building2, color: 'from-slate-600 to-slate-700' },
@@ -151,7 +107,7 @@ const Buildings = () => {
         { id: 'industrial', label: 'Industrial', shortLabel: 'Industrial', icon: SquareStack, color: 'from-teal-500 to-teal-600' },
     ];
 
-    const filteredBuildings = buildingsData.filter((building) => filter === 'all' || building.type === filter);
+    const filteredBuildings = filter === 'all' ? buildings : buildings.filter((building) => building.type === filter);
 
     const getTextTruncation = () => ({
         title: isMobile ? 6 : isTablet ? 10 : 15,
@@ -159,7 +115,7 @@ const Buildings = () => {
         specsToShow: isMobile ? 1 : 2,
     });
 
-    const BuildingCard = ({ building, index }: { building: (typeof buildingsData)[0]; index: number }) => {
+    const BuildingCard = ({ building, index }: { building: Building; index: number }) => {
         const truncation = getTextTruncation();
 
         return (
@@ -170,7 +126,7 @@ const Buildings = () => {
                 {/* Mobile-optimized Image Section */}
                 <div className={`relative overflow-hidden ${isMobile ? 'h-36' : 'h-48 md:h-56 lg:h-64'}`}>
                     <img
-                        src={building.images[0]}
+                        src={building.image}
                         alt={building.title}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                         loading="lazy"
@@ -201,42 +157,38 @@ const Buildings = () => {
                         </div>
                     )}
 
-                    {/* Mobile-optimized Category Badge */}
+                    {/* Category Badge */}
                     <div className={`absolute ${isMobile ? 'bottom-2 left-2' : 'bottom-3 left-3 lg:bottom-4 lg:left-4'}`}>
                         <div
-                            className={`rounded-md bg-white/10 font-medium text-white backdrop-blur-sm ${isMobile ? 'px-2 py-1 text-xs' : 'px-2.5 py-1 text-sm lg:rounded-lg lg:px-3'}`}
+                            className={`rounded-lg bg-white/10 font-medium text-white backdrop-blur-sm ${isMobile ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm'}`}
                         >
-                            {isMobile ? building.category.split(' ')[0] : building.category}
+                            {building.category}
                         </div>
                     </div>
                 </div>
 
-                {/* Mobile-optimized Content Section */}
-                <div
-                    className={`flex flex-col ${isMobile ? 'h-[calc(100%-9rem)] p-3' : 'h-[calc(100%-12rem)] p-4 md:h-[calc(100%-14rem)] lg:h-[calc(100%-16rem)] lg:p-6'}`}
-                >
-                    {/* Mobile-optimized Title */}
+                {/* Content Section */}
+                <div className={`flex flex-col ${isMobile ? 'p-3' : 'p-4 lg:p-6'}`}>
+                    {/* Title with responsive truncation */}
                     <h3
-                        className={`leading-tight font-bold text-slate-800 transition-colors group-hover:text-orange-500 ${isMobile ? 'mb-2 text-sm' : 'mb-3 text-lg lg:mb-4 lg:text-xl'}`}
+                        className={`mb-2 font-bold text-slate-800 transition-colors group-hover:text-orange-500 ${isMobile ? 'text-base' : 'text-lg lg:text-xl'}`}
                     >
                         {truncateText(building.title, truncation.title)}
                     </h3>
 
-                    {/* Mobile-optimized Total Area Display */}
-                    <div className={`flex items-center justify-between rounded-lg bg-slate-50 ${isMobile ? 'mb-2 p-2' : 'mb-3 p-3 lg:mb-4 lg:p-4'}`}>
+                    {/* Total Area Display */}
+                    <div className={`mb-3 flex items-center justify-between rounded-lg bg-slate-50 ${isMobile ? 'p-2' : 'p-3 lg:p-4'}`}>
                         <div className="flex items-center">
-                            <Square className={`text-orange-500 ${isMobile ? 'mr-1 h-3 w-3' : 'mr-1.5 h-4 w-4 lg:mr-2 lg:h-5 lg:w-5'}`} />
-                            <span className={`font-medium text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>
-                                {isMobile ? 'Area' : 'Total Area'}
-                            </span>
+                            <Square className={`text-orange-500 ${isMobile ? 'mr-1.5 h-4 w-4' : 'mr-2 h-5 w-5'}`} />
+                            <span className={`font-medium text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>Total Area</span>
                         </div>
                         <span className={`font-bold text-slate-800 ${isMobile ? 'text-sm' : 'text-base lg:text-lg'}`}>{building.totalArea}</span>
                     </div>
 
-                    {/* Mobile-optimized Construction Info */}
-                    <div className={`flex-1 ${isMobile ? 'mb-3' : 'mb-4 lg:mb-6'}`}>
-                        <div className={`flex items-center ${isMobile ? 'mb-1' : 'mb-2'}`}>
-                            <Building className={`text-slate-500 ${isMobile ? 'mr-1 h-3 w-3' : 'mr-1.5 h-3.5 w-3.5 lg:mr-2 lg:h-4 lg:w-4'}`} />
+                    {/* Construction Info with responsive truncation */}
+                    <div className={`mb-3 ${isMobile ? 'flex-none' : 'flex-1'}`}>
+                        <div className="mb-1 flex items-center">
+                            <Building className={`text-slate-500 ${isMobile ? 'mr-1.5 h-3 w-3' : 'mr-2 h-4 w-4'}`} />
                             <span className={`font-semibold text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>Construction</span>
                         </div>
                         <p className={`leading-relaxed text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>
@@ -244,63 +196,57 @@ const Buildings = () => {
                         </p>
                     </div>
 
-                    {/* Mobile-optimized Specifications Preview */}
-                    {!isMobile && (
-                        <div className="mb-4 lg:mb-6">
-                            <div className="mb-2 flex items-center lg:mb-3">
-                                <Ruler className="mr-1.5 h-3.5 w-3.5 text-slate-500 lg:mr-2 lg:h-4 lg:w-4" />
-                                <span className="text-sm font-semibold text-slate-600">Specifications</span>
-                            </div>
-                            <div className="space-y-1.5 lg:space-y-2">
-                                {building.specifications.slice(0, truncation.specsToShow).map((spec, idx) => (
-                                    <div key={idx} className="flex items-center justify-between text-sm">
-                                        <span className="mr-2 flex-1 truncate font-medium text-slate-700">{spec.name}</span>
-                                        <span className="text-right text-xs whitespace-nowrap text-slate-600">
-                                            {isTablet ? spec.area : spec.dimensions}
-                                        </span>
-                                    </div>
-                                ))}
-                                {building.specifications.length > truncation.specsToShow && (
-                                    <div className="text-sm font-medium text-orange-500">
-                                        +{building.specifications.length - truncation.specsToShow} more...
-                                    </div>
-                                )}
-                            </div>
+                    {/* Specifications Preview */}
+                    <div className="mb-4">
+                        <div className="mb-1 flex items-center">
+                            <Ruler className={`text-slate-500 ${isMobile ? 'mr-1.5 h-3 w-3' : 'mr-2 h-4 w-4'}`} />
+                            <span className={`font-semibold text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>Specifications</span>
                         </div>
-                    )}
+                        <div className="space-y-1">
+                            {building.specifications.slice(0, truncation.specsToShow).map((spec, idx) => (
+                                <div key={idx} className="flex items-center justify-between">
+                                    <span className={`font-medium text-slate-700 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+                                        {truncateText(spec.name, truncation.title)}
+                                    </span>
+                                    <span className={`text-slate-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>{spec.dimensions}</span>
+                                </div>
+                            ))}
+                            {building.specifications.length > truncation.specsToShow && (
+                                <div className={`font-medium text-orange-500 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+                                    +{building.specifications.length - truncation.specsToShow} more...
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
-                    {/* Mobile-first Action Buttons */}
-                    <div className={`flex ${isMobile ? 'flex-col gap-2' : 'flex-row gap-3'}`}>
+                    {/* Action Buttons */}
+                    <div className="mt-auto flex gap-2">
                         <Button
                             asChild
-                            className={`flex flex-1 items-center justify-center rounded-lg bg-gradient-to-r from-slate-600 to-slate-700 font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg ${isMobile ? 'py-2 text-xs' : 'py-2.5 text-sm lg:py-3'}`}
+                            className={`flex flex-1 items-center justify-center rounded-lg bg-gradient-to-r from-slate-600 to-slate-700 font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg ${isMobile ? 'py-2 text-xs' : 'py-2.5 text-sm'}`}
                         >
-                            <Link href="/buildingsdetails">
-                                <Eye className={`${isMobile ? 'mr-1 h-3 w-3' : 'mr-1.5 h-3.5 w-3.5 lg:mr-2 lg:h-4 lg:w-4'}`} />
-                                <span>{isMobile ? 'Details' : 'View Details'}</span>
+                            <Link href={`/buildingsdetails?id=${building.id}`}>
+                                <Eye className={`${isMobile ? 'mr-1 h-3 w-3' : 'mr-2 h-4 w-4'}`} />
+                                View Details
                             </Link>
                         </Button>
-
-                        <div className={`flex ${isMobile ? 'gap-2' : 'gap-3'}`}>
-                            {building.hasVideo && (
-                                <button
-                                    onClick={() => building.videoLinks && window.open(building.videoLinks[0], '_blank')}
-                                    className={`flex items-center justify-center rounded-lg border-2 border-blue-600 font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white ${isMobile ? 'flex-1 px-2 py-2 text-xs' : 'flex-none px-3 py-2.5 text-sm lg:px-4 lg:py-3'}`}
-                                >
-                                    <Play className={`${isMobile ? 'h-3 w-3' : 'mr-1 h-3.5 w-3.5 lg:h-4 lg:w-4'}`} />
-                                    {!isMobile && <span className="ml-1">Play</span>}
-                                </button>
-                            )}
+                        {building.hasVideo && building.videoUrls && building.videoUrls.length > 0 && (
                             <button
-                                className={`flex items-center justify-center rounded-lg border-2 border-orange-500 font-semibold text-orange-500 transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:text-white ${isMobile ? 'flex-1 px-2 py-2 text-xs' : 'flex-none px-3 py-2.5 text-sm lg:px-4 lg:py-3'}`}
+                                onClick={() => window.open(building.videoUrls![0], '_blank')}
+                                className={`flex items-center justify-center rounded-lg border-2 border-blue-600 font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white ${isMobile ? 'px-2 py-2 text-xs' : 'px-3 py-2.5 text-sm'}`}
                             >
-                                <ExternalLink className={`${isMobile ? 'h-3 w-3' : 'h-3.5 w-3.5 lg:h-4 lg:w-4'}`} />
+                                <Play className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
                             </button>
-                        </div>
+                        )}
+                        <button
+                            className={`flex items-center justify-center rounded-lg border-2 border-orange-500 font-semibold text-orange-500 transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:text-white ${isMobile ? 'px-2 py-2 text-xs' : 'px-3 py-2.5 text-sm'}`}
+                        >
+                            <ExternalLink className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
+                        </button>
                     </div>
                 </div>
 
-                {/* Hover accent line */}
+                {/* Hover effect line */}
                 <div className="absolute inset-x-0 bottom-0 h-1 scale-x-0 transform bg-gradient-to-r from-orange-500 to-blue-600 transition-transform duration-300 group-hover:scale-x-100"></div>
             </div>
         );
@@ -404,7 +350,33 @@ const Buildings = () => {
             {/* Mobile-optimized Buildings Grid */}
             <section className={`bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 ${isMobile ? 'py-6' : 'py-12 lg:py-20'}`}>
                 <div className="mx-auto max-w-11/12 px-4 sm:px-6 lg:px-8">
-                    {filteredBuildings.length > 0 ? (
+                    {loading ? (
+                        <div className={`text-center ${isMobile ? 'px-4 py-8' : 'py-20'}`}>
+                            <div
+                                className={`mx-auto flex items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm ${isMobile ? 'mb-4 h-16 w-16' : 'mb-6 h-20 w-20 lg:h-24 lg:w-24'}`}
+                            >
+                                <Building className={`text-slate-400 ${isMobile ? 'h-8 w-8' : 'h-10 w-10 lg:h-12 lg:w-12'}`} />
+                            </div>
+                            <h3 className={`font-bold text-slate-700 ${isMobile ? 'mb-2 text-lg' : 'mb-3 text-xl lg:mb-4 lg:text-2xl'}`}>
+                                Loading...
+                            </h3>
+                        </div>
+                    ) : error ? (
+                        <div className={`text-center ${isMobile ? 'px-4 py-8' : 'py-20'}`}>
+                            <div
+                                className={`mx-auto flex items-center justify-center rounded-full bg-white/80 shadow-lg backdrop-blur-sm ${isMobile ? 'mb-4 h-16 w-16' : 'mb-6 h-20 w-20 lg:h-24 lg:w-24'}`}
+                            >
+                                <Building className={`text-slate-400 ${isMobile ? 'h-8 w-8' : 'h-10 w-10 lg:h-12 lg:w-12'}`} />
+                            </div>
+                            <h3 className={`font-bold text-slate-700 ${isMobile ? 'mb-2 text-lg' : 'mb-3 text-xl lg:mb-4 lg:text-2xl'}`}>{error}</h3>
+                            <button
+                                onClick={() => setFilter('all')}
+                                className={`rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 font-semibold text-white transition-all duration-300 hover:scale-105 ${isMobile ? 'px-6 py-2.5 text-sm' : 'px-8 py-3 text-base'}`}
+                            >
+                                Show All Buildings
+                            </button>
+                        </div>
+                    ) : filteredBuildings.length > 0 ? (
                         <div className={`grid ${isMobile ? 'grid-cols-1 gap-6' : 'grid-cols-2 gap-8 lg:grid-cols-3 lg:gap-10 xl:gap-12'}`}>
                             {filteredBuildings.map((building, index) => (
                                 <BuildingCard key={building.id} building={building} index={index} />
