@@ -131,13 +131,11 @@ const Footer = () => {
                                     +31 (0) 123 456 789
                                 </a>
                             </div>
-                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10 md:p-3">
-                                <Mail size={16} className="text-slate-400 transition-colors group-hover:text-orange-400 md:h-5 md:w-5" />
-                                <a
-                                    href="mailto:2ndhand@tradingbv.com"
-                                    className="text-sm break-all text-slate-300 transition-colors hover:text-orange-400 md:text-base"
-                                >
-                                    2ndhand@tradingbv.com
+
+                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
+                                <Mail size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
+                                <a href="mailto:Info@2ndhandholding.com" className="text-slate-300 transition-colors hover:text-orange-400">
+                                    Info@2ndhandholding.com
                                 </a>
                             </div>
                         </address>

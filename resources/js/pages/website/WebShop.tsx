@@ -1,84 +1,67 @@
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import { usePage } from '@inertiajs/react';
 import { Eye, Heart, Search, ShoppingCart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+type Product = {
+    id: number;
+    name: string;
+    price: number;
+    image?: string;
+    category?: string;
+    description: string;
+    rating: number;
+    status?: string;
+    inStock?: boolean;
+    features: string[];
+};
+
+type Filters = {
+    search?: string;
+    status?: string;
+    sort?: string;
+};
+
 const WebShop = () => {
+    const { products = [], filters = {} } = usePage().props as { products: Product[]; filters: Filters };
+
     const [isVisible, setIsVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [sortBy, setSortBy] = useState('name');
+    const [searchTerm, setSearchTerm] = useState(filters.search || '');
     const [cartItems, setCartItems] = useState(0);
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 100);
     }, []);
 
-    const products = [
-        {
-            id: 1,
-            name: 'Storage Building 6m x 12m Insulated',
-            price: 26995.0,
-            image: '/assets/Measurements_6m_x_12m_insulated.webp',
-            category: 'insulated',
-            description: 'Complete building package storage building with premium insulation for temperature control.',
-            rating: 4.8,
-            inStock: true,
-            features: ['Premium Insulation', 'Galvanized Steel', 'Weather Resistant', '25 Year Warranty'],
-        },
-        {
-            id: 2,
-            name: 'Storage Building 6m x 12m Non-Insulated',
-            price: 18995.0,
-            image: '/assets/Measurements_6m_x_12m_insulated.webp',
-            category: 'non-insulated',
-            description: 'Complete building package storage building with durable construction.',
-            rating: 4.6,
-            inStock: true,
-            features: ['Galvanized Steel', 'Weather Resistant', 'Easy Assembly', '20 Year Warranty'],
-        },
-        {
-            id: 3,
-            name: 'Storage Building 6m x 6m Insulated',
-            price: 18795.0,
-            image: '/assets/Measurements_6m_x_12m_insulated.webp',
-            category: 'insulated',
-            description: 'Complete building package storage building perfect for smaller spaces.',
-            rating: 4.7,
-            inStock: true,
-            features: ['Compact Design', 'Premium Insulation', 'Galvanized Steel', '25 Year Warranty'],
-        },
-    ];
-
+    // Derive categories from products
+    const allCategories = Array.from(new Set(products.flatMap((p) => (p.category ? [p.category] : []))));
     const categories = [
         { id: 'all', name: 'All Products', count: products.length },
-        { id: 'insulated', name: 'Insulated Buildings', count: products.filter((p) => p.category === 'insulated').length },
-        { id: 'non-insulated', name: 'Non-Insulated', count: products.filter((p) => p.category === 'non-insulated').length },
-        { id: 'workshop', name: 'Workshops', count: products.filter((p) => p.category === 'workshop').length },
-        { id: 'garage', name: 'Garages', count: products.filter((p) => p.category === 'garage').length },
-        { id: 'agricultural', name: 'Agricultural', count: products.filter((p) => p.category === 'agricultural').length },
+        ...allCategories.map((cat) => ({
+            id: cat,
+            name: cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' '),
+            count: products.filter((p) => p.category === cat).length,
+        })),
     ];
 
-    const filteredProducts = products.filter((product) => {
+    // Add inStock property if not present, based on status
+    const normalizedProducts = products.map((product) => ({
+        ...product,
+        inStock: typeof product.inStock === 'boolean' ? product.inStock : product.status ? product.status === 'inStock' : true,
+    }));
+
+    const filteredProducts = normalizedProducts.filter((product) => {
         const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
-    const sortedProducts = [...filteredProducts].sort((a, b) => {
-        switch (sortBy) {
-            case 'price-low':
-                return a.price - b.price;
-            case 'price-high':
-                return b.price - a.price;
-            case 'rating':
-                return b.rating - a.rating;
-            default:
-                return a.name.localeCompare(b.name);
-        }
-    });
+    // Remove sorting, just use filteredProducts
+    const sortedProducts = filteredProducts;
 
-    const addToCart = (productId) => {
+    const addToCart = (productId: number) => {
         setCartItems((prev) => prev + 1);
         // Add animation or notification logic here
     };
@@ -106,19 +89,8 @@ const WebShop = () => {
                                 />
                             </div>
 
-                            {/* Sort and Cart */}
+                            {/* Cart only, removed sort */}
                             <div className="flex items-center gap-4">
-                                <select
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value)}
-                                    className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-700 transition-all duration-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none"
-                                >
-                                    <option value="name">Sort by Name</option>
-                                    <option value="price-low">Price: Low to High</option>
-                                    <option value="price-high">Price: High to Low</option>
-                                    <option value="rating">Highest Rated</option>
-                                </select>
-
                                 <button className="relative rounded-xl bg-orange-500 p-3 text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600">
                                     <ShoppingCart className="h-6 w-6" />
                                     {cartItems > 0 && (
