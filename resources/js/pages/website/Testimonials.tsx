@@ -40,10 +40,8 @@ const Testimonials = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // Trigger animations on mount
         setTimeout(() => setIsVisible(true), 100);
 
-        // Auto-rotate testimonials
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % testimonials.length);
         }, 6000);
@@ -60,136 +58,97 @@ const Testimonials = () => {
     };
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-16 md:py-16">
-            {/* Background Effects */}
-            <div className="absolute inset-0 opacity-30">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-blue-600/10"></div>
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.08) 0%, transparent 50%),
-                         radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.08) 0%, transparent 50%),
-                         radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.08) 0%, transparent 50%)`,
-                    }}
-                ></div>
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-12 md:py-20 lg:py-24">
+            {/* Simplified Background Effects */}
+            <div className="absolute inset-0 opacity-20">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-blue-600/5"></div>
             </div>
 
-            <div className="relative z-10 container mx-auto px-4">
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div
-                    className={`mb-16 text-center transition-all duration-1000 ${
+                    className={`mx-auto mb-12 max-w-2xl text-center transition-all duration-1000 ${
                         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                     }`}
                 >
-                    <div className="mb-6 inline-flex items-center rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white/90 backdrop-blur-sm">
+                    <div className="mb-4 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm">
                         <Star className="mr-2 h-4 w-4 fill-orange-500 text-orange-500" />
                         Client Success Stories
                     </div>
-                    <h2 className="mb-6 text-4xl font-bold text-cyan-600 md:text-6xl">
+                    <h2 className="mb-4 text-3xl font-light text-cyan-600 sm:text-4xl lg:text-5xl">
                         What Our
-                        <span className="ms-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
+                        <span className="ml-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
                     </h2>
-                    <p className="mx-auto max-w-3xl text-xl text-white/80">
-                        We've helped businesses across Europe find the perfect second-hand building solutions. Here's what some of our satisfied
-                        clients have to say about their experience.
-                    </p>
+                    <p className="text-lg font-light text-white/80">Trusted by businesses across Europe for quality building solutions</p>
                 </div>
 
-                {/* Main Testimonial Display */}
-                <div className="mx-auto max-w-5xl">
-                    <div className="relative min-h-[400px]">
-                        {testimonials.map((testimonial, index) => (
-                            <div
-                                key={testimonial.id}
-                                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                                    index === activeIndex
-                                        ? 'translate-x-0 scale-100 opacity-100'
-                                        : index < activeIndex
-                                          ? '-translate-x-full scale-95 opacity-0'
-                                          : 'translate-x-full scale-95 opacity-0'
-                                }`}
-                            >
-                                <Card className="border-0 bg-white/10 shadow-2xl backdrop-blur-xl">
-                                    <CardContent className="p-8 md:p-12">
-                                        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-                                            {/* Quote Section */}
-                                            <div className="lg:col-span-2">
-                                                <Quote className="mb-6 h-12 w-12 text-orange-500" />
-                                                <blockquote className="mb-8 text-2xl leading-relaxed font-medium text-white md:text-3xl">
+                {/* Testimonial Cards */}
+                <div className="relative mx-auto max-w-4xl">
+                    <div className="relative overflow-hidden">
+                        <div
+                            className="flex transition-transform duration-700 ease-in-out"
+                            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+                        >
+                            {testimonials.map((testimonial, index) => (
+                                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
+                                    <Card className="border-0 bg-white/10 shadow-xl backdrop-blur-lg">
+                                        <CardContent className="p-8 sm:p-10 lg:p-12">
+                                            {/* Quote */}
+                                            <div className="mb-8">
+                                                <Quote className="mb-6 h-8 w-8 text-orange-500" />
+                                                <blockquote className="text-xl leading-relaxed font-light text-white sm:text-2xl">
                                                     "{testimonial.quote}"
                                                 </blockquote>
-
-                                                {/* Rating */}
-                                                <div className="mb-6 flex items-center space-x-1">
-                                                    {[...Array(testimonial.rating)].map((_, i) => (
-                                                        <Star key={i} className="h-5 w-5 fill-orange-500 text-orange-500" />
-                                                    ))}
-                                                </div>
-
-                                                {/* Author Info */}
-                                                <div className="flex items-start space-x-4">
-                                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600">
-                                                        <span className="text-2xl font-bold text-white">
-                                                            {testimonial.author
-                                                                .split(' ')
-                                                                .map((n) => n[0])
-                                                                .join('')}
-                                                        </span>
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="text-xl font-semibold text-white">{testimonial.author}</h4>
-                                                        <p className="text-white/70">{testimonial.position}</p>
-                                                        <p className="font-semibold text-orange-400">{testimonial.company}</p>
-                                                    </div>
-                                                </div>
                                             </div>
 
-                                            {/* Project Details */}
-                                            <div className="space-y-6">
-                                                <div className="rounded-2xl bg-white/5 p-6 backdrop-blur-sm">
-                                                    <h5 className="mb-4 text-lg font-semibold text-white">Project Details</h5>
-                                                    <div className="space-y-3">
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-white/70">Location</span>
-                                                            <span className="font-semibold text-white">{testimonial.location}</span>
-                                                        </div>
-                                                        <div className="flex items-center justify-between">
-                                                            <span className="text-white/70">Rating</span>
-                                                            <div className="flex items-center space-x-1">
-                                                                <span className="font-semibold text-white">{testimonial.rating}.0</span>
-                                                                <Star className="h-4 w-4 fill-orange-500 text-orange-500" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            {/* Rating */}
+                                            <div className="mb-6 flex items-center">
+                                                {[...Array(testimonial.rating)].map((_, i) => (
+                                                    <Star key={i} className="mr-1 h-4 w-4 fill-orange-500 text-orange-500" />
+                                                ))}
+                                            </div>
+
+                                            {/* Author Section */}
+                                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                                <div className="mb-4 sm:mb-0">
+                                                    <div className="text-lg font-medium text-white">{testimonial.author}</div>
+                                                    <div className="text-sm text-white/70">{testimonial.position}</div>
+                                                    <div className="text-sm font-medium text-orange-400">{testimonial.company}</div>
+                                                </div>
+
+                                                <div className="text-right">
+                                                    <div className="text-sm text-white/60">{testimonial.location}</div>
+                                                    <div className="text-sm font-medium text-cyan-400">{testimonial.projectValue}</div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        ))}
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
-                    {/* Navigation Controls */}
-                    <div className="mt-12 flex items-center justify-center space-x-8">
+                    {/* Navigation */}
+                    <div className="mt-8 flex items-center justify-center space-x-6">
                         {/* Previous Button */}
                         <button
                             onClick={prevTestimonial}
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-white/20"
+                            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
+                            aria-label="Previous testimonial"
                         >
-                            <ChevronLeft className="h-6 w-6" />
+                            <ChevronLeft className="h-5 w-5" />
                         </button>
 
                         {/* Dots Indicator */}
-                        <div className="flex space-x-3">
+                        <div className="flex space-x-2">
                             {testimonials.map((_, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setActiveIndex(index)}
-                                    className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                                        index === activeIndex ? 'w-8 bg-orange-500' : 'bg-white/30 hover:bg-white/50'
+                                    className={`h-2 w-2 rounded-full transition-all duration-200 ${
+                                        index === activeIndex ? 'w-6 bg-orange-500' : 'bg-white/30 hover:bg-white/50'
                                     }`}
-                                    aria-label={`View testimonial ${index + 1}`}
+                                    aria-label={`Go to testimonial ${index + 1}`}
                                 />
                             ))}
                         </div>
@@ -197,17 +156,18 @@ const Testimonials = () => {
                         {/* Next Button */}
                         <button
                             onClick={nextTestimonial}
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-white/20"
+                            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
+                            aria-label="Next testimonial"
                         >
-                            <ChevronRight className="h-6 w-6" />
+                            <ChevronRight className="h-5 w-5" />
                         </button>
                     </div>
                 </div>
 
-                {/* Bottom Stats */}
-                <div
-                    className={`mt-30 transition-all delay-500 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                ></div>
+                {/* Mobile Swipe Indicator */}
+                <div className="mt-6 text-center sm:hidden">
+                    <p className="text-sm text-white/50">Swipe or use arrows to navigate</p>
+                </div>
             </div>
         </section>
     );

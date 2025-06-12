@@ -1,9 +1,9 @@
-import { Building2, Handshake, MapPin, Package, Truck, Users, Wrench } from 'lucide-react';
+import { Building2, Package, Truck, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Services = () => {
     const [isVisible, setIsVisible] = useState(false);
-    const [hoveredCard, setHoveredCard] = useState(null);
+    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -27,73 +27,50 @@ const Services = () => {
         {
             id: 1,
             title: 'Purchase & Sale',
-            description:
-                'Expert buying and selling of second-hand agricultural and industrial halls, plus used steel constructions across all sectors.',
+            description: 'Expert buying and selling of second-hand agricultural and industrial halls.',
             icon: Building2,
             gradient: 'from-blue-600 to-slate-700',
             accentColor: 'bg-blue-600',
             hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Agricultural Halls', 'Industrial Buildings', 'Steel Constructions', 'Cross-Border Trading'],
+            features: ['Agricultural Halls', 'Industrial Buildings', 'Steel Constructions'],
         },
         {
             id: 2,
             title: 'Assembly & Disassembly',
-            description: 'Professional dismantling and reconstruction services with experienced teams handling projects of all sizes.',
+            description: 'Professional dismantling and reconstruction services for all project sizes.',
             icon: Wrench,
             gradient: 'from-blue-600 to-slate-700',
             accentColor: 'bg-blue-600',
             hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Expert Dismantling', 'Careful Reconstruction', 'Site Management', 'Quality Assurance'],
+            features: ['Expert Dismantling', 'Careful Reconstruction', 'Quality Assurance'],
         },
         {
             id: 3,
             title: 'Transport & Logistics',
-            description: 'Complete transportation solutions throughout Europe and beyond, managing shipping outside the EU with ease.',
+            description: 'Complete transportation solutions throughout Europe and beyond.',
             icon: Truck,
             gradient: 'from-blue-600 to-slate-700',
             accentColor: 'bg-blue-600',
             hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Europe-wide Transport', 'International Shipping', 'Logistics Management', 'Safe Delivery'],
+            features: ['Europe-wide Transport', 'International Shipping', 'Safe Delivery'],
         },
         {
             id: 4,
             title: 'Equipment Trading',
-            description: 'Comprehensive trading in machinery, forklifts, racks, and construction materials with extensive industry connections.',
+            description: 'Comprehensive trading in machinery, forklifts, and construction materials.',
             icon: Package,
             gradient: 'from-blue-600 to-slate-700',
             accentColor: 'bg-blue-600',
             hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Machinery Trading', 'Forklift Sales', 'Storage Racks', 'Construction Materials'],
+            features: ['Machinery Trading', 'Forklift Sales', 'Construction Materials'],
         },
     ];
-
-    const additionalServices = [
-        {
-            title: 'European Coverage',
-            description: 'Active throughout Europe with no project boundaries',
-            icon: MapPin,
-            color: 'text-blue-600',
-        },
-        {
-            title: 'Buyer Matching',
-            description: 'Finding suitable buyers for your trade objects',
-            icon: Handshake,
-            color: 'text-orange-500',
-        },
-        {
-            title: 'Sales Partnership',
-            description: 'Opportunities to become a sales manager in your country',
-            icon: Users,
-            color: 'text-teal-500',
-        },
-    ];
-
     return (
         <section id="services-section" className="relative overflow-hidden bg-slate-50">
             {/* Background with Gradient and Pattern */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
-                {/* Mesh Pattern Overlay */}
-                <div className="absolute inset-0 opacity-30">
+                {/* Mesh Pattern Overlay - Hidden on mobile */}
+                <div className="absolute inset-0 hidden opacity-30 sm:block">
                     <div
                         className="absolute inset-0"
                         style={{
@@ -105,38 +82,43 @@ const Services = () => {
                 </div>
             </div>
 
-            <div className="relative z-10 py-16 md:py-16">
+            <div className="relative z-10 py-8 sm:py-12 md:py-16">
                 <div className="container mx-auto max-w-7xl px-4">
                     {/* Header Section */}
-                    <div className="mx-auto mb-20 max-w-4xl text-center">
-                        <h2
-                            className={`mb-6 translate-y-0 text-4xl leading-tight font-bold text-cyan-600 opacity-100 transition-all delay-200 duration-1000 md:text-5xl lg:text-6xl`}
-                        >
+                    <div className="mx-auto mb-10 max-w-4xl text-center sm:mb-16 md:mb-20">
+                        <h2 className={`mb-4 text-2xl font-bold text-cyan-600 sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl`}>
                             What
-                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent"> We Do</span>
+                            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent sm:ml-2 sm:inline">
+                                We Do
+                            </span>
                         </h2>
 
                         <p
-                            className={`mx-auto max-w-3xl text-xl leading-relaxed text-slate-600 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                            className={`mx-auto max-w-3xl text-base leading-relaxed text-slate-600 transition-all delay-400 duration-1000 sm:text-xl ${
+                                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                            }`}
                         >
-                            We take care of the purchase, sale, assembly, disassembly and transport and are active throughout Europe. Our core
-                            business is 2nd hand buildings alongside all common trade operations.
+                            We take care of the purchase, sale, assembly, disassembly and transport across Europe, specializing in 2nd hand buildings.
                         </p>
 
-                        {/* Decorative Line */}
+                        {/* Decorative Line - Hidden on mobile */}
                         <div
-                            className={`mx-auto mt-8 h-1 w-24 bg-gradient-to-r from-orange-500 to-cyan-600 transition-all delay-600 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+                            className={`mx-auto mt-6 hidden h-1 w-24 bg-gradient-to-r from-orange-500 to-cyan-600 transition-all delay-600 duration-1000 sm:mt-8 sm:block ${
+                                isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+                            }`}
                         />
                     </div>
 
                     {/* Main Services Grid */}
-                    <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
                         {mainServices.map((service, index) => {
                             const IconComponent = service.icon;
                             return (
                                 <div
                                     key={service.id}
-                                    className={`group relative overflow-hidden rounded-3xl border border-white/20 bg-white/80 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-4 hover:scale-105 hover:shadow-2xl ${service.hoverGlow} ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}
+                                    className={`group relative overflow-hidden rounded-lg border border-white/20 bg-white/80 p-4 backdrop-blur-sm transition-all duration-500 sm:rounded-2xl sm:p-6 md:p-8 ${
+                                        service.hoverGlow
+                                    } ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'} sm:hover:-translate-y-2 sm:hover:scale-105 sm:hover:shadow-xl`}
                                     style={{
                                         animationDelay: `${index * 200}ms`,
                                         transitionDelay: `${index * 100}ms`,
@@ -144,42 +126,44 @@ const Services = () => {
                                     onMouseEnter={() => setHoveredCard(service.id)}
                                     onMouseLeave={() => setHoveredCard(null)}
                                 >
-                                    {/* Background Gradient Effect */}
+                                    {/* Background Gradient Effect - Hidden on mobile */}
                                     <div
-                                        className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
+                                        className={`absolute inset-0 hidden bg-gradient-to-br ${service.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5 sm:block`}
                                     />
 
                                     {/* Icon Container */}
-                                    <div className="relative mb-6">
+                                    <div className="relative mb-4 sm:mb-6">
                                         <div
-                                            className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${service.gradient} shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+                                            className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${
+                                                service.gradient
+                                            } shadow-lg transition-transform duration-300 sm:h-16 sm:w-16 sm:rounded-2xl ${
+                                                hoveredCard === service.id ? 'scale-110 rotate-3' : ''
+                                            }`}
                                         >
-                                            <IconComponent className="h-8 w-8 text-white" />
+                                            <IconComponent className="h-6 w-6 text-white sm:h-8 sm:w-8" />
                                         </div>
                                     </div>
 
                                     {/* Content */}
-                                    <h3 className="mb-4 text-xl font-bold text-cyan-600 transition-colors group-hover:text-cyan-700">
-                                        {service.title}
-                                    </h3>
+                                    <h3 className="mb-2 text-lg font-bold text-cyan-600 transition-colors sm:mb-4 sm:text-xl">{service.title}</h3>
 
-                                    <p className="mb-6 leading-relaxed text-slate-600 transition-colors group-hover:text-slate-700">
+                                    <p className="mb-4 text-sm leading-relaxed text-slate-600 transition-colors sm:mb-6 sm:text-base">
                                         {service.description}
                                     </p>
 
                                     {/* Features List */}
-                                    <div className="mb-6 space-y-2">
+                                    <div className="space-y-1.5 sm:space-y-2">
                                         {service.features.map((feature, idx) => (
-                                            <div key={idx} className="flex items-center text-sm text-slate-600">
-                                                <div className="mr-2 h-1.5 w-1.5 rounded-full bg-cyan-600" />
+                                            <div key={idx} className="flex items-center text-xs text-slate-600 sm:text-sm">
+                                                <div className="mr-2 h-1 w-1 rounded-full bg-cyan-600 sm:h-1.5 sm:w-1.5" />
                                                 {feature}
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* Grid Pattern Overlay */}
+                                    {/* Grid Pattern Overlay - Hidden on mobile */}
                                     <div
-                                        className="absolute inset-0 opacity-5 transition-opacity duration-300 group-hover:opacity-10"
+                                        className="absolute inset-0 hidden opacity-5 transition-opacity duration-300 group-hover:opacity-10 sm:block"
                                         style={{
                                             backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
                                            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)`,
@@ -190,11 +174,6 @@ const Services = () => {
                             );
                         })}
                     </div>
-
-                    {/* Call to Action */}
-                    <div
-                        className={`text-center transition-all delay-1000 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    ></div>
                 </div>
             </div>
         </section>
