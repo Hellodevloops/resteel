@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\WebShop;
@@ -129,7 +130,7 @@ class WebShopController extends Controller
                     $oldPath = str_replace('/storage/', '', $webshop->image);
                     Storage::disk('public')->delete($oldPath);
                 }
-                
+
                 $path = $request->file('image')->store('products', 'public');
                 $validated['image'] = Storage::url($path);
             }
@@ -177,7 +178,7 @@ class WebShopController extends Controller
                 'updated_at' => $product->updated_at->toDateString(),
             ];
         });
-
+        // dd($products);
         return Inertia::render('website/WebShop', [
             'products' => $products,
             'filters' => request()->only(['search', 'status', 'sort']),

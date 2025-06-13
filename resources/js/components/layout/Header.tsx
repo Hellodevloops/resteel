@@ -39,46 +39,6 @@ const Header = () => {
                             </Link>
                         </div>
 
-                        {/* Desktop Contact Info */}
-                        {/* <div className="hidden items-center gap-8 xl:flex">
-                            <a
-                                href="tel:+31123456789"
-                                className={`group flex items-center gap-3 transition-all duration-300 hover:scale-105 ${
-                                    isScrolled ? 'text-slate-600 hover:text-orange-500' : 'text-white/90 hover:text-orange-400'
-                                }`}
-                            >
-                                <div
-                                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
-                                        isScrolled ? 'bg-orange-500/10 group-hover:bg-orange-500/20' : 'bg-white/10 group-hover:bg-white/20'
-                                    }`}
-                                >
-                                    <Phone size={18} className={isScrolled ? 'text-orange-500' : 'text-white'} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-xs font-medium opacity-70">Call Us</span>
-                                    <span className="font-semibold">+31 (0) 123 456 789</span>
-                                </div>
-                            </a>
-                            <a
-                                href="mailto:info@resteel-solutions.com"
-                                className={`group flex items-center gap-3 transition-all duration-300 hover:scale-105 ${
-                                    isScrolled ? 'text-slate-600 hover:text-orange-500' : 'text-white/90 hover:text-orange-400'
-                                }`}
-                            >
-                                <div
-                                    className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
-                                        isScrolled ? 'bg-orange-500/10 group-hover:bg-orange-500/20' : 'bg-white/10 group-hover:bg-white/20'
-                                    }`}
-                                >
-                                    <Mail size={18} className={isScrolled ? 'text-orange-500' : 'text-white'} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-xs font-medium opacity-70">Email Us</span>
-                                    <span className="font-semibold">info@resteel-solutions.com</span>
-                                </div>
-                            </a>
-                        </div> */}
-
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:block">
                             <ul className="flex items-center space-x-8">
@@ -95,7 +55,7 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/webshop"
+                                        href="/webshops"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
                                         }`}

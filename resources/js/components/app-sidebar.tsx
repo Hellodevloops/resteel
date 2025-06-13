@@ -20,7 +20,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'webshop',
-        href: '/admin/webshop',
+        href: '/admin/webshops',
         icon: House,
     },
     {

@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from '@inertiajs/react';
+import axios from 'axios';
 import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 // Utility function to truncate text to 19 words
 const truncateText = (text: string, maxWords: number = 19) => {
+    if (!text) return '';
     const words = text.split(' ');
     if (words.length > maxWords) {
         return words.slice(0, maxWords).join(' ') + '...';
@@ -21,60 +23,66 @@ const buildingTypes = [
     { id: 'other', label: 'Other', icon: SquareStack },
 ];
 
-// Sample building data (unchanged)
-const buildings = [
-    {
-        id: 1,
-        title: 'Hall No.1',
-        status: 'SALE',
-        type: 'halls',
-        category: 'Industrial Halls',
-        construction: 'Steel, Roof plates sandwich 60mm, Wall plates sandwich 40mm, Ytong',
-        image: 'https://www.tradingbv.com/wp-content/uploads/2025/02/Schermafbeelding-2024-10-16-134435.png',
-        specifications: [{ name: 'Main Hall', dimensions: '75 x 225 m', area: '16,875 m²' }],
-        totalArea: '16,875 m²',
-        hasVideo: false,
-        featured: true,
-    },
-    {
-        id: 2,
-        title: 'Business Premises',
-        status: 'SALE',
-        type: 'other',
-        category: 'Business Buildings',
-        construction: 'Steel, Wall sandwich and glass, Roof with insulation, Doors included',
-        image: 'https://www.tradingbv.com/wp-content/uploads/2025/02/4.png',
-        specifications: [{ name: 'Loading Dock', dimensions: '85 x 110 m', area: '9,350 m²' }],
-        totalArea: '9,350 m²',
-        hasVideo: false,
-        featured: true,
-    },
-    {
-        id: 3,
-        title: 'Warehouse',
-        status: 'SALE',
-        type: 'warehouses',
-        category: 'Industrial Warehouses',
-        construction: 'Steel construction',
-        image: 'https://www.tradingbv.com/wp-content/uploads/2024/06/20240523_101558000_iOS-2048x1152.jpg',
-        specifications: [{ name: 'Warehouse', dimensions: '44 x 88 m', area: '3,872 m²' }],
-        totalArea: '3,872 m²',
-        hasVideo: false,
-        featured: true,
-    },
-];
+// Define the building type interface
+interface Building {
+    id: number;
+    title: string;
+    status: string;
+    type: string;
+    category: string;
+    construction: string;
+    image: string;
+    specifications: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+    totalArea: string;
+    hasVideo: boolean;
+    videoUrls?: string[];
+    featured: boolean;
+    year_built?: string;
+    location?: string;
+    description?: string;
+}
 
 const FeaturedBuildings = () => {
     const [activeFilter, setActiveFilter] = useState('all');
     const [isVisible, setIsVisible] = useState(false);
+    const [buildings, setBuildings] = useState<Building[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        // Animation delay
         setTimeout(() => setIsVisible(true), 100);
+
+        // Fetch warehouse data from the backend
+        const fetchWarehouses = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('/api/featured-warehouses');
+                if (response.data && response.data.warehouses) {
+                    // Limit to only 3 warehouses
+                    const limitedWarehouses = response.data.warehouses.slice(0, 3);
+                    setBuildings(limitedWarehouses);
+                } else {
+                    setError('No warehouses found');
+                }
+            } catch (err) {
+                console.error('Error fetching warehouses:', err);
+                setError('Failed to load warehouses');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchWarehouses();
     }, []);
 
     const filteredBuildings = activeFilter === 'all' ? buildings : buildings.filter((building) => building.type === activeFilter);
 
-    const BuildingCard = ({ building, index }: { building: (typeof buildings)[0]; index: number }) => {
+    const BuildingCard = ({ building, index }: { building: Building; index: number }) => {
         return (
             <div
                 className={
@@ -161,14 +169,14 @@ const FeaturedBuildings = () => {
                             asChild
                             className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
                         >
-                            <Link href="/buildingsdetails">
+                            <Link href={`/buildingsdetails?id=${building.id}`}>
                                 <Eye className="mr-2 h-4 w-4" />
                                 View Details
                             </Link>
                         </Button>
-                        {building.hasVideo && (
+                        {building.hasVideo && building.videoUrls && building.videoUrls.length > 0 && (
                             <button
-                                onClick={() => building.videoUrls && window.open(building.videoUrls[0], '_blank')}
+                                onClick={() => window.open(building.videoUrls![0], '_blank')}
                                 className="flex items-center justify-center rounded-xl border-2 border-blue-600 px-4 py-3 text-sm font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
                             >
                                 <Play className="h-4 w-4" />
@@ -233,11 +241,26 @@ const FeaturedBuildings = () => {
                     </div>
 
                     <TabsContent value={activeFilter} className="mt-0">
-                        <div className="grid w-full grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredBuildings.map((building, index) => (
-                                <BuildingCard key={building.id} building={building} index={index} />
-                            ))}
-                        </div>
+                        {loading ? (
+                            <div className="flex justify-center p-8">
+                                <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
+                                <span className="ml-2">Loading buildings...</span>
+                            </div>
+                        ) : error ? (
+                            <div className="flex justify-center p-8">
+                                <div className="rounded-lg bg-red-50 p-4 text-red-600">{error}</div>
+                            </div>
+                        ) : filteredBuildings.length === 0 ? (
+                            <div className="flex justify-center p-8">
+                                <div className="rounded-lg bg-slate-50 p-4 text-slate-600">No buildings found in this category.</div>
+                            </div>
+                        ) : (
+                            <div className="grid w-full grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                                {filteredBuildings.map((building, index) => (
+                                    <BuildingCard key={building.id} building={building} index={index} />
+                                ))}
+                            </div>
+                        )}
                         <div
                             className={`mt-12 flex justify-center transition-all delay-1200 duration-1000 sm:mt-16 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                         >
@@ -248,7 +271,7 @@ const FeaturedBuildings = () => {
                             >
                                 <Link href="/buildings">
                                     View All Buildings
-                                    <ArrowRight className="ml-2 h-4 w-4 sm:ml-3 sm:h-5 sm:w-5" />
+                                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                                 </Link>
                             </Button>
                         </div>
