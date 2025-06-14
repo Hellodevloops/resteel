@@ -1,24 +1,37 @@
 import '../css/app.css';
-
+import React, { Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 
+// Grab the DOM element
+const el = document.getElementById('app')!;
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// Render the Inertia app with i18n context and suspense
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
-
-        root.render(<App {...props} />);
-    },
-    progress: {
-        color: '#4B5563',
-    },
+  resolve: (name) =>
+    resolvePageComponent(
+      `./pages/${name}.tsx`,
+      import.meta.glob('./pages/**/*.tsx')
+    ),
+  setup({ el, App, props }) {
+    createRoot(el).render(
+      <React.StrictMode>
+        <I18nextProvider i18n={i18n}>
+          <Suspense fallback={<div>Loading translations...</div>}>
+            <App {...props} />
+          </Suspense>
+        </I18nextProvider>
+      </React.StrictMode>
+    );
+  },
+  title: (title) => `${title} - ${appName}`,
+  progress: { color: '#4B5563' },
 });
 
-// This will set light / dark mode on load...
+// Set light / dark mode on load
 initializeTheme();

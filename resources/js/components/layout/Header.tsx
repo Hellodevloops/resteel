@@ -1,182 +1,155 @@
-import { Link } from '@inertiajs/react';
-import { Mail, Menu, Phone, X } from 'lucide-react';
+//rescource/js/components/layout/Header.tsx
+import { Menu, X } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const Header = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
+interface SharedProps {
+  locale: string;
+  supported_locales: string[];
+}
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 80) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-        };
+const labels: Record<string, string> = {
+  en: 'English',
+  nl: 'Nederlands',
+  de: 'Deutsch',
+};
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(true);
+  const { t } = useTranslation();
+  const { locale, supported_locales } = usePage<{ props: SharedProps }>().props;
 
-    return (
-        <header
-            className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-                isScrolled ? 'shadow-soft bg-white/95 py-2 backdrop-blur-md' : 'bg-transparent py-4'
-            }`}
-        >
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="flex items-center justify-between">
-                    <Link href="/" className="flex items-center">
-                        <span className="text-resteel-primary font-serif text-2xl font-bold">
-                            Resteel<span className="text-resteel-accent">.</span>
-                        </span>
-                    </Link>
+  useEffect(() => {
+    const handleScroll = () => {
+      // if (window.scrollY > 80) {
+      //     setIsScrolled(true);
+      // } else {
+      //     setIsScrolled(false);
+      // }
+    };
 
-                    {/* Top contact info - visible on medium screens and up */}
-                    <div className="hidden items-center gap-6 text-sm lg:flex">
-                        <a
-                            href="tel:+31123456789"
-                            className="text-resteel-secondary hover:text-resteel-primary flex items-center gap-2 transition-colors"
-                        >
-                            <div className="bg-resteel-light flex h-8 w-8 items-center justify-center rounded-full">
-                                <Phone size={16} className="text-resteel-primary" />
-                            </div>
-                            <span className="font-medium">+31 (0) 123 456 789</span>
-                        </a>
-                        <a
-                            href="mailto:info@resteel.com"
-                            className="text-resteel-secondary hover:text-resteel-primary flex items-center gap-2 transition-colors"
-                        >
-                            <div className="bg-resteel-light flex h-8 w-8 items-center justify-center rounded-full">
-                                <Mail size={16} className="text-resteel-primary" />
-                            </div>
-                            <span className="font-medium">info@resteel.com</span>
-                        </a>
-                    </div>
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:block">
-                        <ul className="flex space-x-8">
-                            <li>
-                                <Link href="/" className="hover:text-resteel-accent group relative py-2 font-medium transition-colors">
-                                    Home
-                                    <span className="bg-resteel-accent absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/buildings" className="hover:text-resteel-accent group relative py-2 font-medium transition-colors">
-                                    Buildings
-                                    <span className="bg-resteel-accent absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/services" className="hover:text-resteel-accent group relative py-2 font-medium transition-colors">
-                                    Services
-                                    <span className="bg-resteel-accent absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/about" className="hover:text-resteel-accent group relative py-2 font-medium transition-colors">
-                                    About
-                                    <span className="bg-resteel-accent absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/contact" className="hover:text-resteel-accent group relative py-2 font-medium transition-colors">
-                                    Contact
-                                    <span className="bg-resteel-accent absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="text-resteel-secondary hover:text-resteel-primary transition-colors md:hidden"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
-                    >
-                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                </div>
+  return (
+    <>
+      {/* Main Header */}
+      <header
+        className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
+          isScrolled
+            ? 'shadow-luxury border-b border-slate-200/50 bg-white/95 backdrop-blur-xl'
+            : 'border-b border-white/10 bg-white/10 backdrop-blur-sm'
+        } ${!isScrolled ? 'lg:top-8' : ''}`}
+      >
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between py-4">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="group flex items-center gap-3">
+                <img src={'/assets/ResteelSolutionsLogo.png'} className="h-14 px-10" />
+              </Link>
             </div>
 
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div className="shadow-soft absolute w-full border-t border-gray-100 bg-white/95 backdrop-blur-md md:hidden">
-                    <div className="container mx-auto px-4 py-6">
-                        <nav>
-                            <ul className="flex flex-col space-y-6">
-                                <li>
-                                    <Link
-                                        href="/"
-                                        className="hover:text-resteel-accent block text-lg font-medium transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Home
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/buildings"
-                                        className="hover:text-resteel-accent block text-lg font-medium transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Buildings
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/services"
-                                        className="hover:text-resteel-accent block text-lg font-medium transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Services
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/about"
-                                        className="hover:text-resteel-accent block text-lg font-medium transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        About
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        href="/contact"
-                                        className="hover:text-resteel-accent block text-lg font-medium transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        Contact
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:block">
+              <ul className="flex items-center space-x-8">
+                <li>
+                  <Link
+                    href="/"
+                    className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                      isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
+                    }`}
+                  >
+                    {t('Home')}
+                    <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/webshops"
+                    className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                      isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
+                    }`}
+                  >
+                    {t('Web Shop')}
+                    <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/career"
+                    className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                      isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
+                    }`}
+                  >
+                    {t('Career')}
+                    <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/cart"
+                    className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                      isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-white hover:text-orange-400'
+                    }`}
+                  >
+                    {t('Cart')} 🛒
+                    <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/contactpage"
+                    className="group shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
+                  >
+                    <span className="relative z-10">{t('Contact Us')}</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  </Link>
+                </li>
+                {/* Language Switcher */}
+                <li>
+                  <select
+                    value={locale}
+                    onChange={e =>
+                      Inertia.get(
+                        route('locale.change', e.target.value),
+                        {},
+                        { preserveState: true, preserveScroll: true }
+                      )
+                    }
+                    className="border rounded p-2 bg-white text-sm"
+                  >
+                    {supported_locales.map(loc => (
+                      <option key={loc} value={loc}>
+                        {labels[loc] || loc}
+                      </option>
+                    ))}
+                  </select>
+                </li>
+              </ul>
+            </nav>
 
-                        <div className="mt-8 space-y-4 border-t border-gray-100 pt-6">
-                            <a
-                                href="tel:+31123456789"
-                                className="text-resteel-secondary hover:text-resteel-accent flex items-center gap-3 transition-colors"
-                            >
-                                <Phone size={20} className="text-resteel-primary" />
-                                <span className="font-medium">+31 (0) 123 456 789</span>
-                            </a>
-                            <a
-                                href="mailto:info@resteel.com"
-                                className="text-resteel-secondary hover:text-resteel-accent flex items-center gap-3 transition-colors"
-                            >
-                                <Mail size={20} className="text-resteel-primary" />
-                                <span className="font-medium">info@resteel.com</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </header>
-    );
+            {/* Mobile Menu Button */}
+            <button
+              className={`relative flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 lg:hidden ${
+                isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close Menu' : 'Open Menu'}
+            >
+              <div className="relative">
+                {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </div>
+            </button>
+          </div>
+        </div>
+      </header>
+    </>
+  );
 };
 
 export default Header;
