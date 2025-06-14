@@ -1,11 +1,15 @@
+import { useEffect } from 'react';
+
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
 import Services from '@/pages/website/Services';
-import { useEffect } from 'react';
+import Hero from '@/components/hero';
+import FeaturesPreview from '@/components/FeaturesPreview';
+import CarouselSection from '@/components/CarouselSection';
 import ContactCTA from './Contact';
-import Hero from './Hero';
+// import Hero from './Hero';
 import NewsletterSection from './NewsletterSection';
 import Testimonials from './Testimonials';
 
@@ -23,6 +27,8 @@ const Index = () => {
             <Header />
             <main className="flex-grow">
                 <Hero />
+                <FeaturesPreview />
+                <CarouselSection />
                 <Services />
                 <FeaturedBuildings />
                 <Testimonials />

@@ -113,6 +113,21 @@
     --sidebar-ring: oklch(0.87 0 0);
 }
 
+/* :root {
+  --color-steel-blue: #0076A8;
+  --color-vibrant-orange: #FF6600;
+  --color-charcoal: #3C3F48;
+  --color-light-gray: #F5F7FA;
+
+  --text-primary: var(--color-charcoal);
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
+
+  --bg-dark-overlay: rgba(15, 23, 42, 0.9);  
+  --badge-bg: #FFE5CC;
+  --badge-text: var(--color-vibrant-orange);
+} */
+
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
@@ -158,4 +173,14 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+
+/* Add to global.css or tailwind base styles */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
