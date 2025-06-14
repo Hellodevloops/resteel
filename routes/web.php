@@ -75,5 +75,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('admin/warehouse/{warehouse}/edit', '/admin/warehouses/{warehouse}/edit')->name('warehouse.edit');
 });
 
+Route::get('/locale/{locale}', function ($locale) {
+    if (in_array($locale, config('app.supported_locales'))) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('locale.change');
+
+
+
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
