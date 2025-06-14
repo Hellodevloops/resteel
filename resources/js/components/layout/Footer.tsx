@@ -25,7 +25,7 @@ const Footer = () => {
                 ></div>
             </div>
 
-            <div className="relative container mx-auto px-4 py-8 md:py-16 lg:py-20">
+            <div className="relative container max-w-7xl mx-auto  px-4 py-8 md:py-16 lg:py-20">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-4 lg:gap-16">
                     {/* Company Info */}
@@ -64,9 +64,9 @@ const Footer = () => {
                                     href="https://youtube.com"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border-red-500/50 bg-gradient-to-br from-red-600/20 to-red-500/10 transition-all duration-300 hover:scale-110 hover:border-red-400 hover:bg-gradient-to-br hover:from-red-500/30 hover:to-red-400/20 hover:shadow-lg hover:shadow-red-500/25 md:h-12 md:w-12"
+                                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-red-400 hover:bg-gradient-to-br hover:from-red-500/30 hover:to-red-400/20 hover:shadow-lg hover:shadow-red-500/25 md:h-12 md:w-12"
                                 >
-                                    <Youtube size={18} className="text-red-400 transition-colors group-hover:text-red-300 md:h-5 md:w-5" />
+                                    <Youtube size={18} className="   transition-colors group-hover:text-red-300 md:h-5 md:w-5" />
                                     <span className="sr-only">YouTube</span>
                                     {/* Accent glow effect */}
                                     <div className="absolute inset-0 rounded-xl bg-red-500/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
@@ -95,11 +95,12 @@ const Footer = () => {
                                             href={link.href}
                                             className="group flex items-center text-slate-300 transition-all duration-300 hover:text-orange-400"
                                         >
+                                            <span className="transition-transform duration-300 group-hover:translate-x-2">{link.label}</span>
+
                                             <ArrowRight
                                                 size={14}
-                                                className="mr-2 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                                                className="ml-4 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
                                             />
-                                            <span className="transition-transform duration-300 group-hover:translate-x-2">{link.label}</span>
                                         </Link>
                                     </li>
                                 ))}
@@ -143,7 +144,7 @@ const Footer = () => {
                 </div>
 
                 {/* Stats Section - Simplified on mobile */}
-                <div className="mt-8 border-t border-white/10 pt-6 md:mt-16 md:pt-12">
+                {/* <div className="mt-8 border-t border-white/10 pt-6 md:mt-16 md:pt-12">
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
                         {[
                             { number: '500+', label: 'Projects' },
@@ -170,7 +171,7 @@ const Footer = () => {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
 
                 {/* Bottom Bar */}
                 <div className="mt-8 border-t border-white/10 pt-6 md:mt-12 md:pt-8">

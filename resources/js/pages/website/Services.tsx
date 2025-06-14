@@ -1,183 +1,109 @@
-import { Building2, Package, Truck, Wrench } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Building2, Package, Truck, Wrench } from "lucide-react";
 
-const Services = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+// Brand color constants
+const steelBlue = "#0076A8";
+const charcoal = "#3C3F48";
+const vibrantOrange = "#FF6600";
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 },
-        );
+const services = [
+  {
+    title: "Purchase & Sale",
+    icon: <Package className="h-5 w-5" style={{ color: steelBlue }} />,
+    description:
+      "We specialize in the acquisition and resale of pre-owned agricultural and industrial buildings.",
+    points: ["Agricultural Halls", "Industrial Buildings", "Steel Constructions"],
+  },
+  {
+    title: "Assembly & Disassembly",
+    icon: <Wrench className="h-5 w-5" style={{ color: steelBlue }} />,
+    description:
+      "Expert dismantling and reconstruction services, safely executed by experienced teams.",
+    points: ["Expert Dismantling", "Careful Reassembly", "Structural Safety"],
+  },
+  {
+    title: "Transport & Logistics",
+    icon: <Truck className="h-5 w-5" style={{ color: steelBlue }} />,
+    description:
+      "End-to-end logistics solutions including secure transport across Europe.",
+    points: ["Cross-border Shipping", "Load Planning", "Reliable Delivery"],
+  },
+  {
+    title: "Equipment Trading",
+    icon: <Building2 className="h-5 w-5" style={{ color: steelBlue }} />,
+    description:
+      "Machinery, forklifts, and surplus materials available for immediate use or resale.",
+    points: ["Forklift Sales", "Machinery Deals", "Site Equipment"],
+  },
+];
 
-        const section = document.getElementById('services-section');
-        if (section) {
-            observer.observe(section);
-        }
+export default function WhatWeDo() {
+  return (
+    <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-14">
+          <h2
+            className="text-5xl font-bold"
+            style={{ color: charcoal }}
+          >
+            What We{" "}
+            <span style={{ color: steelBlue }}>
+              Provide
+            </span>
+          </h2>
+          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+            From procurement and installation to logistics and equipment resale — Resteel delivers end-to-end solutions for 2nd-hand steel structures across Europe.
+          </p>
+        </div>
 
-        return () => observer.disconnect();
-    }, []);
+        {/* Services Grid */}
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((service, idx) => (
+            <Card
+              key={idx}
+              className="bg-white border border-slate-200 transition-all hover:shadow-md hover:border-slate-500"
 
-    const mainServices = [
-        {
-            id: 1,
-            title: 'Purchase & Sale',
-            description: 'Expert buying and selling of second-hand agricultural and industrial halls.',
-            icon: Building2,
-            gradient: 'from-blue-600 to-slate-700',
-            accentColor: 'bg-blue-600',
-            hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Agricultural Halls', 'Industrial Buildings', 'Steel Constructions'],
-        },
-        {
-            id: 2,
-            title: 'Assembly & Disassembly',
-            description: 'Professional dismantling and reconstruction services for all project sizes.',
-            icon: Wrench,
-            gradient: 'from-blue-600 to-slate-700',
-            accentColor: 'bg-blue-600',
-            hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Expert Dismantling', 'Careful Reconstruction', 'Quality Assurance'],
-        },
-        {
-            id: 3,
-            title: 'Transport & Logistics',
-            description: 'Complete transportation solutions throughout Europe and beyond.',
-            icon: Truck,
-            gradient: 'from-blue-600 to-slate-700',
-            accentColor: 'bg-blue-600',
-            hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Europe-wide Transport', 'International Shipping', 'Safe Delivery'],
-        },
-        {
-            id: 4,
-            title: 'Equipment Trading',
-            description: 'Comprehensive trading in machinery, forklifts, and construction materials.',
-            icon: Package,
-            gradient: 'from-blue-600 to-slate-700',
-            accentColor: 'bg-blue-600',
-            hoverGlow: 'hover:shadow-blue-500/25',
-            features: ['Machinery Trading', 'Forklift Sales', 'Construction Materials'],
-        },
-    ];
-    return (
-        <section id="services-section" className="relative overflow-hidden bg-slate-50">
-            {/* Background with Gradient and Pattern */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50">
-                {/* Mesh Pattern Overlay - Hidden on mobile */}
-                <div className="absolute inset-0 hidden opacity-30 sm:block">
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.05) 0%, transparent 50%),
-                             radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.05) 0%, transparent 50%),
-                             radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.05) 0%, transparent 50%)`,
-                        }}
-                    />
+            >
+              <CardHeader className="flex flex-col items-start gap-4 pb-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
+                  {service.icon}
                 </div>
-            </div>
-
-            <div className="relative z-10 py-8 sm:py-12 md:py-16">
-                <div className="container mx-auto max-w-7xl px-4">
-                    {/* Header Section */}
-                    <div className="mx-auto mb-10 max-w-4xl text-center sm:mb-16 md:mb-20">
-                        <h2 className={`mb-4 text-2xl font-bold text-cyan-600 sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl`}>
-                            What
-                            <span className="block bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent sm:ml-2 sm:inline">
-                                We Do
-                            </span>
-                        </h2>
-
-                        <p
-                            className={`mx-auto max-w-3xl text-base leading-relaxed text-slate-600 transition-all delay-400 duration-1000 sm:text-xl ${
-                                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                            }`}
-                        >
-                            We take care of the purchase, sale, assembly, disassembly and transport across Europe, specializing in 2nd hand buildings.
-                        </p>
-
-                        {/* Decorative Line - Hidden on mobile */}
-                        <div
-                            className={`mx-auto mt-6 hidden h-1 w-24 bg-gradient-to-r from-orange-500 to-cyan-600 transition-all delay-600 duration-1000 sm:mt-8 sm:block ${
-                                isVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-                            }`}
-                        />
-                    </div>
-
-                    {/* Main Services Grid */}
-                    <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
-                        {mainServices.map((service, index) => {
-                            const IconComponent = service.icon;
-                            return (
-                                <div
-                                    key={service.id}
-                                    className={`group relative overflow-hidden rounded-lg border border-white/20 bg-white/80 p-4 backdrop-blur-sm transition-all duration-500 sm:rounded-2xl sm:p-6 md:p-8 ${
-                                        service.hoverGlow
-                                    } ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'} sm:hover:-translate-y-2 sm:hover:scale-105 sm:hover:shadow-xl`}
-                                    style={{
-                                        animationDelay: `${index * 200}ms`,
-                                        transitionDelay: `${index * 100}ms`,
-                                    }}
-                                    onMouseEnter={() => setHoveredCard(service.id)}
-                                    onMouseLeave={() => setHoveredCard(null)}
-                                >
-                                    {/* Background Gradient Effect - Hidden on mobile */}
-                                    <div
-                                        className={`absolute inset-0 hidden bg-gradient-to-br ${service.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5 sm:block`}
-                                    />
-
-                                    {/* Icon Container */}
-                                    <div className="relative mb-4 sm:mb-6">
-                                        <div
-                                            className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${
-                                                service.gradient
-                                            } shadow-lg transition-transform duration-300 sm:h-16 sm:w-16 sm:rounded-2xl ${
-                                                hoveredCard === service.id ? 'scale-110 rotate-3' : ''
-                                            }`}
-                                        >
-                                            <IconComponent className="h-6 w-6 text-white sm:h-8 sm:w-8" />
-                                        </div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <h3 className="mb-2 text-lg font-bold text-cyan-600 transition-colors sm:mb-4 sm:text-xl">{service.title}</h3>
-
-                                    <p className="mb-4 text-sm leading-relaxed text-slate-600 transition-colors sm:mb-6 sm:text-base">
-                                        {service.description}
-                                    </p>
-
-                                    {/* Features List */}
-                                    <div className="space-y-1.5 sm:space-y-2">
-                                        {service.features.map((feature, idx) => (
-                                            <div key={idx} className="flex items-center text-xs text-slate-600 sm:text-sm">
-                                                <div className="mr-2 h-1 w-1 rounded-full bg-cyan-600 sm:h-1.5 sm:w-1.5" />
-                                                {feature}
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Grid Pattern Overlay - Hidden on mobile */}
-                                    <div
-                                        className="absolute inset-0 hidden opacity-5 transition-opacity duration-300 group-hover:opacity-10 sm:block"
-                                        style={{
-                                            backgroundImage: `linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                                           linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)`,
-                                            backgroundSize: '20px 20px',
-                                        }}
-                                    />
-                                </div>
-                            );
-                        })}
-                    </div>
+                <CardTitle
+                  className="text-base font-semibold"
+                  style={{ color: charcoal }}
+                >
+                  {service.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 space-y-4">
+                <p>{service.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {service.points.map((point, index) => (
+                    <Badge
+                      key={index}
+                      variant="outline"
+                      style={{
+                        borderColor: steelBlue,
+                        color: steelBlue,
+                        backgroundColor: "#F0F9FF",
+                      }}
+                    >
+                      {point}
+                    </Badge>
+                  ))}
                 </div>
-            </div>
-        </section>
-    );
-};
-
-export default Services;
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

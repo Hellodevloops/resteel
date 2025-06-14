@@ -11,7 +11,7 @@ export default function Edit({ product }: Props) {
     return (
         <AppLayout>
             <Head title={`Edit ${product.name} - WebShop Admin`} />
-            
+
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
                 <div className="bg-white shadow">
@@ -29,7 +29,7 @@ export default function Edit({ product }: Props) {
 
                 {/* Main Content */}
                 <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                    <div className="px-4 py-6 sm:px-0">
+                    <div className=" ">
                         <div className="bg-white rounded-lg shadow-sm">
                             <ProductForm product={product} isEditing />
                         </div>
@@ -38,4 +38,4 @@ export default function Edit({ product }: Props) {
             </div>
         </AppLayout>
     );
-} 
+}

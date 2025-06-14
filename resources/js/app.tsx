@@ -9,7 +9,7 @@ import i18n from './i18n';
 
 // Grab the DOM element
 const el = document.getElementById('app')!;
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Resteel';
 
 // Render the Inertia app with i18n context and suspense
 createInertiaApp({

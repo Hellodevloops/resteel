@@ -1,78 +1,85 @@
-import { ArrowRight, Mail } from 'lucide-react';
+import { Mail, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Clock, Users, Zap } from "lucide-react";
+
+// Brand color constants
+const steelBlue = "#0076A8";
+const charcoal = "#3C3F48";
+const vibrantOrange = "#FF6600";
+
+const features = [
+  { icon: Clock, text: "24/7 Project Support" },
+  { icon: Users, text: "500+ Satisfied Clients" },
+  { icon: Zap, text: "Weekly updates" },
+];
 
 const NewsletterSection = () => {
-    return (
-        <section className="bg-white py-12 md:py-16">
-            <div className="container mx-auto px-4 md:px-6 lg:px-8">
-                <div className="mx-auto max-w-4xl">
-                    {/* Header Section */}
-                    <div className="mb-8 text-center md:mb-10">
-                        {/* <div className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500/10 to-orange-600/10 px-4 py-2">
-                            <Mail className="mr-2 h-4 w-4 text-orange-500" />
-                            <span className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Newsletter</span>
-                        </div> */}
+  return (
+    <section className="py-20 bg-gradient-to-br from-slate-50 via-slate-100 to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left - Text */}
+          <div className="space-y-5">
+            <h2 className="text-4xl font-bold" style={{ color: charcoal }}>
+              Stay Updated with{" "}
+            </h2>
+            <h2 className="text-4xl font-bold" style={{ color: steelBlue }}>
+              Industry Insights
+            </h2>
+            <p className="text-lg text-slate-600 max-w-md">
+              Get the latest updates on steel solutions, trends, and engineering
+              innovation—delivered to your inbox every week.
+            </p>
+          </div>
 
-                        <h2 className="mb-3 text-3xl font-bold text-cyan-600 md:text-4xl">
-                            Stay Updated with{' '}
-                            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Industry Insights</span>
-                        </h2>
-
-                        <p className="mx-auto max-w-2xl text-lg text-slate-600">
-                            Get the latest updates on steel solutions, industry trends, and engineering innovations delivered to your inbox.
-                        </p>
-                    </div>
-
-                    {/* Newsletter Form */}
-                    <div className="mx-auto max-w-2xl">
-                        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-8">
-                            <form className="flex flex-col gap-4 sm:flex-row sm:gap-3">
-                                <div className="relative flex-1">
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                        <Mail className="h-5 w-5 text-slate-400" />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        placeholder="Enter your email address"
-                                        className="w-full rounded-xl border-2 border-slate-200 bg-white py-4 pr-4 pl-12 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                        required
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="group rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4 font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-orange-700 hover:shadow-xl hover:shadow-orange-500/25 sm:px-8"
-                                >
-                                    <span className="flex items-center justify-center">
-                                        Subscribe
-                                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                                    </span>
-                                </button>
-                            </form>
-
-                            <div className="mt-4 text-center">
-                                <p className="text-sm text-slate-500">Join 500+ industry professionals. Unsubscribe anytime.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="mt-8 grid grid-cols-1 gap-4 text-center sm:grid-cols-3 md:mt-10">
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <div className="mb-2 text-2xl font-bold text-cyan-600">500+</div>
-                            <div className="text-sm text-slate-600">Subscribers</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <div className="mb-2 text-2xl font-bold text-cyan-600">Weekly</div>
-                            <div className="text-sm text-slate-600">Updates</div>
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <div className="mb-2 text-2xl font-bold text-cyan-600">Expert</div>
-                            <div className="text-sm text-slate-600">Insights</div>
-                        </div>
-                    </div>
+          {/* Right - Form & Stats */}
+          <div className="space-y-6">
+            <Card className="p-6 md:p-8 border border-slate-200 bg-white shadow-sm">
+              <form className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="relative w-full">
+                  <Mail className="absolute left-3 top-2 h-5 w-5" style={{ color: steelBlue }} />
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="pl-10"
+                    required
+                  />
                 </div>
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="text-white transition"
+                  style={{
+                    background: `linear-gradient(to right, ${vibrantOrange}, #e65c00)`,
+                  }}
+                >
+                  Subscribe
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </form>
+            </Card>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+              {features.map((feature, index) => (
+                <Card key={index} className="p-4 text-center bg-white shadow-md">
+                  <div
+                    className="mb-2 mx-auto w-10 h-10 flex items-center justify-center rounded-full"
+                    style={{ backgroundColor: steelBlue }}
+                  >
+                    <feature.icon className="h-5 w-5 text-white" />
+                  </div>
+                  <p className="text-sm font-medium text-slate-700">{feature.text}</p>
+                </Card>
+              ))}
             </div>
-        </section>
-    );
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default NewsletterSection;

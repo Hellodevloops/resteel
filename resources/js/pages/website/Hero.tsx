@@ -115,7 +115,7 @@ const ResteelHero = () => {
             </section>
 
             {/* Features Preview Section */}
-            <section className="relative bg-white py-8 sm:py-16 lg:py-20">
+            {/* <section className="relative bg-white py-8 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-16">
                     <div className="mb-8 text-center sm:mb-16 lg:mb-20">
                         <h2 className="mb-3 text-xl font-bold text-cyan-600 sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl">
@@ -147,7 +147,7 @@ const ResteelHero = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 };
