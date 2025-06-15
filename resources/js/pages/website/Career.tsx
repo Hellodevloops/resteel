@@ -1,6 +1,6 @@
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
-import { Award, Clock, MapPin, Star, TrendingUp, Users } from 'lucide-react';
+// pages/career.tsx
+import Layout from './Layout';
+import { Award, Clock, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Career = () => {
@@ -11,38 +11,10 @@ const Career = () => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', handleScroll);
 
-        // Trigger animations on mount
         setTimeout(() => setIsVisible(true), 100);
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    const benefits = [
-        {
-            icon: <Award className="h-6 w-6" />,
-            title: 'Competitive Package',
-            description: 'Industry-leading salary with performance bonuses',
-            color: 'bg-orange-500',
-        },
-        {
-            icon: <TrendingUp className="h-6 w-6" />,
-            title: 'Career Growth',
-            description: 'Clear advancement paths and skill development programs',
-            color: 'bg-blue-600',
-        },
-        {
-            icon: <Users className="h-6 w-6" />,
-            title: 'Team Culture',
-            description: 'Collaborative environment with industry experts',
-            color: 'bg-teal-500',
-        },
-        {
-            icon: <Star className="h-6 w-6" />,
-            title: 'Excellence Focus',
-            description: 'Work on prestigious projects with cutting-edge technology',
-            color: 'bg-slate-600',
-        },
-    ];
 
     const openPositions = [
         {
@@ -82,16 +54,8 @@ const Career = () => {
         },
     ];
 
-    const stats = [
-        { number: '150+', label: 'Team Members' },
-        { number: '25', label: 'Average Age' },
-        { number: '95%', label: 'Employee Retention' },
-    ];
-
     return (
-        <>
-            {/* <Header /> */}x
-            <Header />
+        <Layout title="Careers | Resteel">
             <div className="bg-slate-50">
                 {/* Open Positions Section */}
                 <section className="relative bg-slate-50 py-30">
@@ -151,18 +115,17 @@ const Career = () => {
                         </div>
 
                         <div className="mt-12 text-center">
-                            <p className="mb-6 text-slate-600">Don't see the right fit? We're always looking for exceptional talent.</p>
+                            <p className="mb-6 text-slate-600">
+                                Don't see the right fit? We're always looking for exceptional talent.
+                            </p>
                             <button className="rounded-xl bg-slate-700 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-slate-800 hover:shadow-xl">
                                 Submit Your Resume
                             </button>
                         </div>
                     </div>
                 </section>
-
-                {/* CTA Section */}
             </div>
-            <Footer />
-        </>
+        </Layout>
     );
 };
 

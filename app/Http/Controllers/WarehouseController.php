@@ -47,6 +47,33 @@ class WarehouseController extends Controller
       ]
     ]);
   }
+  public function warehosue_view_api()
+{
+    $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $warehouses
+    ]);
+}
+
+public function warehouse_detail_api($id)
+{
+    $warehouse = Warehouse::find($id);
+
+    if (!$warehouse) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Warehouse not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $warehouse
+    ]);
+}
+
 
   /**
    * Show the form for creating a new warehouse.

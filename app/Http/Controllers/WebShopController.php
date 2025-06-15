@@ -184,4 +184,31 @@ class WebShopController extends Controller
             'filters' => request()->only(['search', 'status', 'sort']),
         ]);
     }
+
+    public function webshop_view_api()
+    {
+        $webshop = WebShop::orderBy('created_at', 'desc')->get();
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $webshop
+        ]);
+    }
+    
+    public function webshop_detail_api($id)
+    {
+        $webshop = WebShop::find($id);
+    
+        if (!$webshop) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'WebShop not found'
+            ], 404);
+        }
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $webshop
+        ]);
+    }
 }

@@ -13,7 +13,9 @@ Route::get('/', function () {
 
 // Public website pages
 Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('buildings');
-Route::get('/buildingsdetails', fn() => Inertia::render('website/BuildingsDetails'))->name('buildingsdetails');
+Route::get('/building-details/{id}', function ($id) {
+    return Inertia::render('website/BuildingsDetails', ['id' => $id]);
+})->name('buildingsdetails');
 Route::get('/services', fn() => Inertia::render('website/Services'))->name('services');
 Route::get('/about', fn() => Inertia::render('website/About'))->name('about');
 Route::get('/terms', fn() => Inertia::render('website/Terms'))->name('terms');
@@ -22,6 +24,11 @@ Route::get('/career', fn() => Inertia::render('website/Career'))->name('career')
 Route::get('/cart', fn() => Inertia::render('website/Cart'))->name('cart');
 Route::get('/contact', fn() => Inertia::render('website/ContactPage'))->name('contact');
 
+Route::get('/api/webshop/{id}', [WebShopController::class, 'webshop_detail_api']);
+Route::get('/api/webshop', [WebShopController::class, 'webshop_view_api']);
+
+Route::get('/api/warehouses/{id}', [WarehouseController::class, 'warehouse_detail_api']);
+Route::get('/api/warehouses', [WarehouseController::class, 'warehosue_view_api']);
 // Public contact form route
 Route::post('/contacts', [ContactController::class, 'store'])->name('public.contacts.store');
 
