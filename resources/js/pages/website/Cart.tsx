@@ -1,108 +1,113 @@
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
-import { ArrowRight, Clock, Minus, Plus, Shield, ShoppingBag, Star, Trash2, Truck } from 'lucide-react';
+// pages/cart.tsx
+import Layout from './Layout';
+import {
+  ArrowRight,
+  Clock,
+  Minus,
+  Plus,
+  Shield,
+  ShoppingBag,
+  Star,
+  Trash2,
+  Truck,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Cart = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [headerHeight, setHeaderHeight] = useState(0);
-    const [cartItems, setCartItems] = useState([
-        {
-            id: 1,
-            name: 'Steel I-Beam Grade A36',
-            specifications: '8" x 6" x 20ft',
-            price: 245.5,
-            quantity: 3,
-            image: '/api/placeholder/120/120',
-            inStock: true,
-            category: 'Structural Steel',
-        },
-        {
-            id: 2,
-            name: 'Reinforcement Bar Bundle',
-            specifications: '#4 rebar, 40ft length',
-            price: 89.99,
-            quantity: 2,
-            image: '/api/placeholder/120/120',
-            inStock: true,
-            category: 'Reinforcement',
-        },
-        {
-            id: 3,
-            name: 'Custom Steel Plate',
-            specifications: '1/2" x 24" x 48"',
-            price: 156.75,
-            quantity: 1,
-            image: '/api/placeholder/120/120',
-            inStock: false,
-            category: 'Custom Fabrication',
-        },
-        {
-            id: 4,
-            name: 'Angle Iron L-Bracket',
-            specifications: '2" x 2" x 1/4" x 10ft',
-            price: 34.2,
-            quantity: 5,
-            image: '/api/placeholder/120/120',
-            inStock: true,
-            category: 'Structural Steel',
-        },
-    ]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
-    useEffect(() => {
-        // Set initial header height
-        const header = document.querySelector('header');
-        if (header) {
-            setHeaderHeight(header.offsetHeight);
-        }
-        // Update header height on resize
-        const handleResize = () => {
-            if (header) {
-                setHeaderHeight(header.offsetHeight);
-            }
-        };
-        window.addEventListener('resize', handleResize);
-        // Fade-in animation
-        setTimeout(() => setIsVisible(true), 100);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+  const [cartItems, setCartItems] = useState([
+    {
+      id: 1,
+      name: 'Steel I-Beam Grade A36',
+      specifications: '8" x 6" x 20ft',
+      price: 245.5,
+      quantity: 3,
+      image: '/api/placeholder/120/120',
+      inStock: true,
+      category: 'Structural Steel',
+    },
+    {
+      id: 2,
+      name: 'Reinforcement Bar Bundle',
+      specifications: '#4 rebar, 40ft length',
+      price: 89.99,
+      quantity: 2,
+      image: '/api/placeholder/120/120',
+      inStock: true,
+      category: 'Reinforcement',
+    },
+    {
+      id: 3,
+      name: 'Custom Steel Plate',
+      specifications: '1/2" x 24" x 48"',
+      price: 156.75,
+      quantity: 1,
+      image: '/api/placeholder/120/120',
+      inStock: false,
+      category: 'Custom Fabrication',
+    },
+    {
+      id: 4,
+      name: 'Angle Iron L-Bracket',
+      specifications: '2" x 2" x 1/4" x 10ft',
+      price: 34.2,
+      quantity: 5,
+      image: '/api/placeholder/120/120',
+      inStock: true,
+      category: 'Structural Steel',
+    },
+  ]);
 
-    const updateQuantity = (id: number, newQuantity: number) => {
-        if (newQuantity < 1) return;
-        setCartItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item)));
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (header) setHeaderHeight(header.offsetHeight);
+    const handleResize = () => {
+      if (header) setHeaderHeight(header.offsetHeight);
     };
+    window.addEventListener('resize', handleResize);
+    setTimeout(() => setIsVisible(true), 100);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    const removeItem = (id: number) => {
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
+  const updateQuantity = (id: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    setCartItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
+    );
+  };
 
-    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const tax = subtotal * 0.08;
-    const shipping = subtotal > 500 ? 0 : 49.99;
-    const total = subtotal + tax + shipping;
+  const removeItem = (id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
 
-    const benefits = [
-        {
-            icon: <Truck className="h-5 w-5" />,
-            title: 'Free Shipping',
-            subtitle: 'On orders over $500',
-        },
-        {
-            icon: <Shield className="h-5 w-5" />,
-            title: 'Quality Guarantee',
-            subtitle: 'ISO 9001 certified materials',
-        },
-        {
-            icon: <Clock className="h-5 w-5" />,
-            title: 'Fast Processing',
-            subtitle: 'Ships within 2-3 business days',
-        },
-    ];
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.08;
+  const shipping = subtotal > 500 ? 0 : 49.99;
+  const total = subtotal + tax + shipping;
 
-    return (
-        <>
-            <Header />
-            <div className="min-h-screen bg-slate-50" style={{ paddingTop: `${headerHeight}px` }}>
+  const benefits = [
+    {
+      icon: <Truck className="h-5 w-5" />,
+      title: 'Free Shipping',
+      subtitle: 'On orders over $500',
+    },
+    {
+      icon: <Shield className="h-5 w-5" />,
+      title: 'Quality Guarantee',
+      subtitle: 'ISO 9001 certified materials',
+    },
+    {
+      icon: <Clock className="h-5 w-5" />,
+      title: 'Fast Processing',
+      subtitle: 'Ships within 2-3 business days',
+    },
+  ];
+
+  return (
+    <Layout title="Your Cart | Resteel">
+      <div className="min-h-screen bg-slate-50" style={{ paddingTop: `${headerHeight}px` }}>
                 {/* Header Section */}
                 <div className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800">
                     <div className="absolute inset-0 opacity-30">
@@ -297,10 +302,10 @@ const Cart = () => {
                         </div>
                     </div>
                 </div>
-                <Footer />
+                
             </div>
-        </>
-    );
+    </Layout>
+  );
 };
 
 export default Cart;

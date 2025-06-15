@@ -8,65 +8,27 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
+import axios from "axios";
 
 const steelBlue = "#0076A8";
 const vibrantOrange = "#FF6600";
 const charcoal = "#3C3F48";
 
-const carouselItems = [
-  {
-    id: 1,
-    image: "/assets/1.png",
-    title: "Steel Warehouse",
-    badge: "New",
-    description: "Modular steel structures ready for storage.",
-    cta: "Explore More",
-  },
-  {
-    id: 2,
-    image: "/assets/3.jpg",
-    title: "Agri Shed",
-    badge: "Featured",
-    description: "Efficient structures for agriculture.",
-    cta: "Explore More",
-  },
-  {
-    id: 3,
-    image: "/assets/5.jpg",
-    title: "Industrial Hall",
-    badge: "Hot",
-    description: "Large-scale halls for operations.",
-    cta: "Explore More",
-  },
-  {
-    id: 4,
-    image: "/assets/6.jpg",
-    title: "Custom Frame",
-    badge: "Limited",
-    description: "Tailor your design easily.",
-    cta: "Explore More",
-  },
-  {
-    id: 5,
-    image: "/assets/7.jpg",
-    title: "Used Steel Kit",
-    badge: "Stock",
-    description: "Reliable second-hand options.",
-    cta: "Explore More",
-  },
-  {
-    id: 6,
-    image: "/assets/8.jpg",
-    title: "Demo Offer",
-    badge: "Demo",
-    description: "Limited-time offers on display units.",
-    cta: "Explore More",
-  },
-];
+interface WebShopItem {
+  id: number;
+  name: string;
+  price: string;
+  image: string;
+  description: string;
+  rating: string;
+  status: string;
+  features: string[];
+}
 
 const CarouselSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [items, setItems] = useState<WebShopItem[]>([]);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -76,6 +38,20 @@ const CarouselSection = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const fetchWebshopItems = async () => {
+      try {
+        const res = await axios.get("/api/webshop");
+        if (res.data?.status === "success") {
+          setItems(res.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch webshop items:", error);
+      }
+    };
+    fetchWebshopItems();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,7 +66,7 @@ const CarouselSection = () => {
           container.scrollBy({ left: scrollAmount, behavior: "smooth" });
         }
       }
-    }, 1000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [isHovered]);
@@ -101,11 +77,13 @@ const CarouselSection = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-3xl md:text-5xl  font-bold" style={{ color:charcoal  }}>
+            <h2 className="text-3xl md:text-5xl font-bold" style={{ color: charcoal }}>
               Discover Our{" "}
               <span style={{ color: steelBlue }}>Latest Structures</span>
             </h2>
-            <p className="text-slate-600 mt-2">Innovative, affordable, and ready-to-install units</p>
+            <p className="text-slate-600 mt-2">
+              Innovative, affordable, and ready-to-install units
+            </p>
           </div>
           <Button
             variant="link"
@@ -124,7 +102,7 @@ const CarouselSection = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {carouselItems.map((item) => (
+            {items.map((item) => (
               <Card
                 key={item.id}
                 className="min-w-[300px] max-w-sm snap-start shrink-0 bg-white border border-slate-200 shadow-md hover:shadow-lg"
@@ -132,30 +110,44 @@ const CarouselSection = () => {
                 {/* Image Section */}
                 <div className="relative h-40 w-full overflow-hidden">
                   <img
-                    src={item.image}
-                    alt={item.title}
+                    src={
+                      item.image?.startsWith("/storage")
+                        ? `${location.origin}${item.image}`
+                        : item.image
+                    }
+                    alt={item.name}
                     className="object-cover h-full w-full"
                   />
                   <Badge className="absolute top-3 right-3 bg-orange-100 text-orange-600">
-                    {item.badge}
+                    {item.status}
                   </Badge>
                 </div>
 
                 {/* Text Content */}
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 pt-4">
                   <CardTitle className="text-base font-semibold text-slate-800">
-                    {item.title}
+                    {item.name}
                   </CardTitle>
-                  <p className="text-sm text-slate-600">{item.description}</p>
-
+                  <p className="text-sm text-slate-600 line-clamp-2">{item.description}</p>
+                  <p className="text-sm text-slate-800 font-bold">₹ {item.price}</p>
+                  <div className="flex gap-2 flex-wrap">
+                    {item.features?.slice(0, 2).map((feat, i) => (
+                      <Badge
+                        key={i}
+                        className="bg-slate-100 text-slate-600 border border-slate-200"
+                      >
+                        {feat}
+                      </Badge>
+                    ))}
+                  </div>
                   {/* CTA Button */}
                   <Button
                     variant="link"
                     className="px-0 text-sm font-medium"
                     style={{ color: steelBlue }}
                   >
-                    {item.cta}
-                    <ArrowRight className=" h-4 w-4" />
+                    Explore More
+                    <ArrowRight className="h-4 w-4 ml-1" />
                   </Button>
                 </CardContent>
               </Card>
@@ -163,7 +155,7 @@ const CarouselSection = () => {
           </div>
 
           {/* Arrow Controls */}
-          <div className="absolute right-4 flex gap-2">
+          <div className="absolute right-4 flex gap-2 top-1/2 -translate-y-1/2">
             <Button
               variant="outline"
               size="icon"

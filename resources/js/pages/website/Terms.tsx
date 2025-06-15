@@ -1,19 +1,12 @@
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
-import { useEffect } from 'react';
+// pages/terms.tsx
+import Layout from './Layout';
 
 const Terms = () => {
-    useEffect(() => {
-        document.title = 'Terms of Service | Resteel';
-    }, []);
-
     return (
-        <>
-            <Header />
-
-            <main className="pt-28">
+        <Layout title="Terms of Service | Resteel">
+           
                 {/* Hero Banner */}
-                <section className="bg-resteel-primary py-12 text-white md:py-20">
+                <section className="bg-resteel-primary  text-white ">
                     <div className="container mx-auto px-4">
                         <h1 className="mb-4 text-3xl font-bold md:text-5xl">Terms of Service</h1>
                         <p className="text-lg text-white/90">Last updated: May 21, 2025</p>
@@ -104,10 +97,8 @@ const Terms = () => {
                         </div>
                     </div>
                 </section>
-            </main>
-
-            <Footer />
-        </>
+            
+        </Layout>
     );
 };
 

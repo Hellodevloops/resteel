@@ -56,15 +56,22 @@ class ContactController extends Controller
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
         ]);
-
+    
         $contact = Contact::create([
             ...$validated,
             'alerts' => 0,
             'last_contact' => now(),
         ]);
-
-        return Redirect::route('admin.contacts.show', $contact->id)
-            ->with('success', 'Contact created successfully.');
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Contact created successfully.',
+            'data' => [
+                'id' => $contact->id,
+                'name' => $contact->name,
+                'email' => $contact->email,
+            ]
+        ], 201);
     }
 
     public function show(Contact $contact)
