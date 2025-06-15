@@ -24,33 +24,27 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy Laravel app
+# Copy Laravel application code
 COPY . .
 
-# Ensure Laravel directories exist
+# Ensure Laravel required directories exist
 RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
-
-# Set permissions
-RUN chown -R unit:unit /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Install PHP dependencies
 RUN composer install --prefer-dist --optimize-autoloader --no-interaction
 
-# Install Node.js dependencies and build assets
+# Install Node.js dependencies and build frontend assets
 RUN npm install --legacy-peer-deps && npm run build
-
-# Create the storage symbolic link
-RUN php artisan storage:link
-
-# Optional: Laravel optimizations
-# RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # Copy Unit configuration
 COPY unit.json /docker-entrypoint.d/unit.json
 
-# Expose port
+# Expose Unit port
 EXPOSE 8000
 
-# Start Unit
-CMD ["unitd", "--no-daemon"]
+# Runtime commands: fix volume permissions, link storage, start Unit
+CMD bash -c "\
+    chown -R unit:unit /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache && \
+    php artisan storage:link || true && \
+    unitd --no-daemon"
