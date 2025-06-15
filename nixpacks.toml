@@ -7,6 +7,19 @@ cmds = [
     "cp /assets/worker-*.conf /etc/supervisor/conf.d/",
     "cp /assets/supervisord.conf /etc/supervisord.conf",
     "chmod +x /assets/start.sh",
+    "apt update",
+    "apt install ffmpeg -y",
+    "apt install nano",
+    "ffmpeg -version",
+    "apt install yt-dlp -y",
+    "mkdir -p /app/storage/app/public/audio",
+    "mkdir -p /app/storage/app/public/vtt",
+    "chown -R www-data:www-data /app/storage/app/public/audio",
+    "chown -R www-data:www-data /app/storage/app/public/vtt",
+    "chmod -R 775 /app/storage/app/public/audio",
+    "chmod -R 775 /app/storage/app/public/vtt",
+    "chmod -R 775 /app/storage/logs",
+    "php artisan storage:link",
     "..."
 ]
 
@@ -72,26 +85,123 @@ stderr_logfile=/var/log/worker-phpfpm.log
 "worker-laravel.conf" = '''
 [program:worker-laravel]
 process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --sleep=3 --tries=3 --max-time=3600'
+command=bash -c 'exec php /app/artisan queue:work --sleep=3 --tries=3 --max-time=1800'
 autostart=true
 autorestart=true
 stopasgroup=true
 killasgroup=true
-numprocs=12 # To reduce memory/CPU usage, change to 2.
+numprocs=1
 startsecs=0
 stopwaitsecs=3600
 stdout_logfile=/var/log/worker-laravel.log
 stderr_logfile=/var/log/worker-laravel.log
 '''
-"worker-inertia-ssr.conf" = '''
-[program:inertia-ssr]
+
+"worker-mqtt-handler.conf" = '''
+[program:worker-mqtt-handler]
 process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan inertia:start-ssr'
+command=bash -c 'exec php /app/artisan translation:mqtt-handler'
 autostart=true
 autorestart=true
-stderr_logfile=/var/log/worker-inertia-ssr.log
-stdout_logfile=/var/log/worker-inertia-ssr.log
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-mqtt-handler.log
+stderr_logfile=/var/log/worker-mqtt-handler.log
 '''
+
+"worker-queue-en.conf" = '''
+[program:worker-queue-en]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=en-v1,en-v2 --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-en.log
+stderr_logfile=/var/log/worker-queue-en.log
+'''
+
+"worker-queue-gu.conf" = '''
+[program:worker-queue-gu]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=gu-v1,gu-v2 --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-gu.log
+stderr_logfile=/var/log/worker-queue-gu.log
+'''
+
+"worker-queue-hi.conf" = '''
+[program:worker-queue-hi]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=hi-v1,hi-v2 --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-hi.log
+stderr_logfile=/var/log/worker-queue-hi.log
+'''
+
+"worker-queue-default.conf" = '''
+[program:worker-queue-default]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=default --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-default.log
+stderr_logfile=/var/log/worker-queue-default.log
+'''
+
+"worker-queue-low.conf" = '''
+[program:worker-queue-low]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=low --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-low.log
+stderr_logfile=/var/log/worker-queue-low.log
+'''
+
+"worker-queue-r1.conf" = '''
+[program:worker-queue-r1]
+process_name=%(program_name)s_%(process_num)02d
+command=bash -c 'exec php /app/artisan queue:work --queue=r1 --sleep=3 --tries=3 --max-time=1800'
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+numprocs=1
+startsecs=0
+stopwaitsecs=3600
+stdout_logfile=/var/log/worker-queue-r1.log
+stderr_logfile=/var/log/worker-queue-r1.log
+'''
+
 "php-fpm.conf" = '''
 [www]
 listen = 127.0.0.1:9000
@@ -100,13 +210,15 @@ group = www-data
 listen.owner = www-data
 listen.group = www-data
 pm = dynamic
-pm.max_children = 50
-pm.min_spare_servers = 4
-pm.max_spare_servers = 32
-pm.start_servers = 18
+pm.max_children = 3
+pm.start_servers = 1
+pm.min_spare_servers = 1
+pm.max_spare_servers = 2
 clear_env = no
-php_admin_value[post_max_size] = 35M
-php_admin_value[upload_max_filesize] = 30M
+php_admin_value[memory_limit] = 2G
+php_admin_value[upload_max_filesize] = 2048M
+php_admin_value[post_max_size] = 2048M
+php_admin_value[max_execution_time] = 300
 '''
 
 "nginx.template.conf" = '''
@@ -147,12 +259,11 @@ http {
 
         add_header X-Content-Type-Options "nosniff";
 
-        client_max_body_size 35M;
-     
+        client_max_body_size 2048M;
+
         index index.php;
-     
+
         charset utf-8;
-     
 
         $if(NIXPACKS_PHP_FALLBACK_PATH) (
             location / {
@@ -163,23 +274,27 @@ http {
                 try_files $uri $uri/ /index.php?$query_string;
            }
         )
-     
+
         location = /favicon.ico { access_log off; log_not_found off; }
         location = /robots.txt  { access_log off; log_not_found off; }
-     
+
         $if(IS_LARAVEL) (
             error_page 404 /index.php;
         ) else ()
-     
+
         location ~ \.php$ {
-         fastcgi_buffer_size 8k;
             fastcgi_pass 127.0.0.1:9000;
+            fastcgi_buffers 128 4k;
+            fastcgi_buffer_size 12k;
+            fastcgi_busy_buffers_size 16k;
+            fastcgi_read_timeout 300s;
             fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
             include $!{nginx}/conf/fastcgi_params;
             include $!{nginx}/conf/fastcgi.conf;
-            
+
+            fastcgi_param PHP_VALUE "upload_max_filesize=2048M \n post_max_size=2048M";
         }
-     
+
         location ~ /\.(?!well-known).* {
             deny all;
         }
