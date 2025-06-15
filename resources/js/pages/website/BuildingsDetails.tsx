@@ -149,7 +149,7 @@ const BuildingDetails = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container  max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <div className="relative mb-6">

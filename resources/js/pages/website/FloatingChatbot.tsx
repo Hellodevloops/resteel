@@ -80,7 +80,7 @@ const FloatingChatbot: React.FC = () => {
     const handleNext = () => {
         const currentField = steps[currentStep].field as keyof ContactFormData;
         const currentValue = data[currentField];
-        
+
         // Validate required fields
         if (!currentValue && !steps[currentStep].optional) {
             setErrors({ [currentField]: `${steps[currentStep].question.replace('?', '')} is required` });
@@ -95,17 +95,17 @@ const FloatingChatbot: React.FC = () => {
                 return;
             }
         }
-        
+
         // Clear any existing errors
         setErrors({});
-        
+
         // Skip optional fields if empty
         if (!currentValue && steps[currentStep].optional) {
-            setChatMessages(prev => [...prev, 
+            setChatMessages(prev => [...prev,
                 { type: 'bot', text: 'No problem! Let\'s continue.' }
             ]);
         } else {
-            setChatMessages(prev => [...prev, 
+            setChatMessages(prev => [...prev,
                 { type: 'user', text: String(currentValue) },
                 { type: 'bot', text: currentStep === steps.length - 1 ? 'Perfect! Let me submit your information.' : 'Great! Next question:' }
             ]);
@@ -120,7 +120,7 @@ const FloatingChatbot: React.FC = () => {
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
-    
+
         try {
             const response = await axios.post('/contacts', data, {
                 headers: {
@@ -129,9 +129,9 @@ const FloatingChatbot: React.FC = () => {
                 },
                 withCredentials: true, // important for Laravel session cookies
             });
-    
+
             const result = response.data;
-    
+
             if (result.success) {
                 setChatMessages(prev => [
                     ...prev,
@@ -158,7 +158,7 @@ const FloatingChatbot: React.FC = () => {
             }
         } catch (error: any) {
             console.error('Error submitting form:', error);
-    
+
             if (error.response?.status === 419) {
                 setChatMessages(prev => [
                     ...prev,
@@ -180,7 +180,7 @@ const FloatingChatbot: React.FC = () => {
             setIsSubmitting(false);
         }
     };
-    
+
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -235,7 +235,7 @@ const FloatingChatbot: React.FC = () => {
                                 </div>
                             </div>
                         ))}
-                        
+
                         {/* Current Question */}
                         {!isSubmitted && currentStepData && (
                             <div className="flex justify-start">
@@ -322,7 +322,7 @@ const FloatingChatbot: React.FC = () => {
             {/* Floating Button */}
             <button
                 onClick={toggleChatbot}
-                className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 shadow-lg transition-all duration-300 hover:bg-blue-700 hover:scale-110 hover:shadow-xl"
+                className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 shadow-lg transition-all duration-300 hover:bg-blue-700 hover:scale-110 hover:shadow-xl"
                 aria-label="Open chat"
             >
                 {isOpen ? (
@@ -330,12 +330,12 @@ const FloatingChatbot: React.FC = () => {
                 ) : (
                     <MessageCircle className="h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" />
                 )}
-                
+
                 {/* Pulse animation */}
                 {!isOpen && (
                     <div className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping"></div>
                 )}
-                
+
                 {/* Tooltip */}
                 {!isOpen && (
                     <div className="absolute right-full mr-3 hidden group-hover:block">

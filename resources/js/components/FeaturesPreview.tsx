@@ -1,77 +1,50 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ShieldCheck,
-  Clock3,
-  Wrench,
-} from "lucide-react";
-
-// Brand color constants
-const steelBlue = "#0076A8";
-const charcoal = "#3C3F48";
-const vibrantOrange = "#FF6600";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CheckCircle, Globe, Hammer, ShieldCheck } from "lucide-react"
 
 const features = [
   {
-    title: "Precision Engineering",
-    description: "Millimeter-perfect fabrication using advanced CAD/CAM systems.",
-    icon: <Wrench className="h-8 w-8"/>,
+    icon: <Globe className="h-6 w-6 text-[var(--primary)]" />,
+    title: "Europe-Wide Reach",
+    description: "We advertise your listings across 20+ countries through our network of verified buyers and partners."
   },
   {
-    title: "On-Time Delivery",
-    description: "Rigorous project management to keep your timelines secure.",
-    icon: <Clock3 className="h-8 w-8"/>,
+    icon: <Hammer className="h-6 w-6 text-[var(--primary)]" />,
+    title: "End-to-End Support",
+    description: "We manage the full lifecycle — disassembly, transport, and reassembly included."
   },
   {
-    title: "Reliable Structures",
-    description: "Certified safety and reliability in every build.",
-    icon: <ShieldCheck className="h-8 w-8" />,
-  },
-];
+    icon: <ShieldCheck className="h-6 w-6 text-[var(--primary)]" />,
+    title: "20+ Years of Trust",
+    description: "Since 2005, we’ve helped hundreds of industrial and agri businesses relocate or resell steel halls."
+  }
+]
 
-const FeaturesPreview = () => {
+export default function WhyChooseUs() {
   return (
-    <section className="bg-gradient-to-br from-slate-50 via-white to-slate-100 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-16">
-        <div className="text-center mb-14">
-          <h2 className="text-5xl  font-bold"  style={{ color: charcoal }}>
-            Why Choose{" "}
-            <span className=" " style={{ color: steelBlue }}>
-            Us
-            </span>
-          </h2>
-          <p className="mt-4 text-lg text-slate-600 max-w-3xl mx-auto" >
-            Combining expertise with cutting-edge technology.
-          </p>
-        </div>
+    <section className="py-20 px-6 bg-slate-100">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="mt-4 text-4xl md:text-5xl font-bold text-charcoal">Why Choose <span className="text-[var(--primary)]">Us</span></h2>
+        <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+         We combine decades of experience with a broad European network to make steel trading fast, transparent, and effective
+        </p>
+        {/* <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+          Combining experience with industry-specific knowledge, we make relocation, reuse, and resale simple and secure.
+        </p> */}
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="text-slate-500 transition-transform hover:-translate-y-0.5 hover:shadow-xl border border-slate-200 bg-white rounded-2xl hover:border-slate-600"
-            >
-              <CardHeader className="flex flex-col items-center space-y-4 pt-6" style={{ color: steelBlue }}>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {features.map((feature, idx) => (
+            <Card key={idx} className="shadow-md hover:shadow-lg transition bg-white duration-200">
+              <CardHeader className="flex flex-col items-center">
                 {feature.icon}
-                <CardTitle className="text-xl font-semibold text-slate-600 text-center">
-                  {feature.title}
-                </CardTitle>
+                <CardTitle className="text-lg mt-2">{feature.title}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-center text-slate-600 px-4 pb-6">
-                  {feature.description}
-                </p>
+              <CardContent className="text-sm text-center text-gray-600">
+                {feature.description}
               </CardContent>
             </Card>
           ))}
         </div>
       </div>
     </section>
-  );
-};
-
-export default FeaturesPreview;
+  )
+}
