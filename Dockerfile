@@ -1,3 +1,4 @@
+# Base image
 FROM unit:1.34.1-php8.3
 
 # Install dependencies including Node.js and npm
@@ -24,29 +25,60 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Create storage directories
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Set permissions
-RUN chown -R unit:unit /var/www/html/storage bootstrap/cache && chmod -R 775 /var/www/html/storage
-
 # Copy application files
 COPY . .
 
-# Set permissions again after copying files
-RUN chown -R unit:unit storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
+# Create storage directories and set permissions
+RUN mkdir -p /var/www/html/storage/app/public \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/testing \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache
+
+# Make sure unit user exists before trying to set permissions
+RUN if ! id -u unit > /dev/null 2>&1; then \
+        # Create unit user and group if they don't exist
+        groupadd -g 1000 unit && \
+        useradd -u 1000 -g unit -s /bin/bash -d /var/www/html unit; \
+    fi
+
+# Set correct permissions
+RUN chown -R unit:unit /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache \
+    # Make storage directory writable by the web server
+    && find /var/www/html/storage -type d -exec chmod 775 {} \; \
+    && find /var/www/html/storage -type f -exec chmod 664 {} \;
 
 # Install PHP dependencies
 RUN composer install --prefer-dist --optimize-autoloader --no-interaction
 
-# Install Node.js dependencies and run Laravel build (adjust as needed)
+# Create storage symbolic link
+RUN php artisan storage:link
+
+# Install Node.js dependencies and run Laravel build
 RUN npm install --legacy-peer-deps && npm run build
 
 # Copy Unit configuration
 COPY unit.json /docker-entrypoint.d/unit.json
 
-# Expose portAdd commentMore actions
+# Fix permissions again after all operations
+RUN chown -R unit:unit /var/www/html \
+    && find /var/www/html/storage -type d -exec chmod 775 {} \; \
+    && find /var/www/html/storage -type f -exec chmod 664 {} \; \
+    && chmod -R 775 /var/www/html/bootstrap/cache
+
+# Add health check to verify PHP-FPM and Laravel availability
+HEALTHCHECK --interval=10s --timeout=5s --start-period=60s --retries=2 \
+    CMD curl -f https://new.boondockecho.com || exit 1
+
+# Expose port
 EXPOSE 8000
+
+# Define persistent storage volume (uncomment if needed)
+# VOLUME ["/var/www/html/storage", "/var/www/html/bootstrap/cache"]
 
 # Start Unit
 CMD ["unitd", "--no-daemon"]
