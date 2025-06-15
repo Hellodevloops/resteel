@@ -1,4 +1,4 @@
-FROM unit:1.34.1-php8.3Add commentMore actions
+FROM unit:1.34.1-php8.3
 
 # Install dependencies including Node.js and npm
 RUN apt update && apt install -y \
