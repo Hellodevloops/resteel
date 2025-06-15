@@ -8,16 +8,11 @@ cmds = [
     "cp /assets/supervisord.conf /etc/supervisord.conf",
     "chmod +x /assets/start.sh",
     "apt update",
-    "apt install ffmpeg -y",
+ 
     "apt install nano",
     "ffmpeg -version",
     "apt install yt-dlp -y",
-    "mkdir -p /app/storage/app/public/audio",
-    "mkdir -p /app/storage/app/public/vtt",
-    "chown -R www-data:www-data /app/storage/app/public/audio",
-    "chown -R www-data:www-data /app/storage/app/public/vtt",
-    "chmod -R 775 /app/storage/app/public/audio",
-    "chmod -R 775 /app/storage/app/public/vtt",
+ 
     "chmod -R 775 /app/storage/logs",
     "php artisan storage:link",
     "..."
@@ -97,110 +92,13 @@ stdout_logfile=/var/log/worker-laravel.log
 stderr_logfile=/var/log/worker-laravel.log
 '''
 
-"worker-mqtt-handler.conf" = '''
-[program:worker-mqtt-handler]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan translation:mqtt-handler'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-mqtt-handler.log
-stderr_logfile=/var/log/worker-mqtt-handler.log
-'''
 
-"worker-queue-en.conf" = '''
-[program:worker-queue-en]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=en-v1,en-v2 --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-en.log
-stderr_logfile=/var/log/worker-queue-en.log
-'''
 
-"worker-queue-gu.conf" = '''
-[program:worker-queue-gu]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=gu-v1,gu-v2 --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-gu.log
-stderr_logfile=/var/log/worker-queue-gu.log
-'''
 
-"worker-queue-hi.conf" = '''
-[program:worker-queue-hi]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=hi-v1,hi-v2 --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-hi.log
-stderr_logfile=/var/log/worker-queue-hi.log
-'''
 
-"worker-queue-default.conf" = '''
-[program:worker-queue-default]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=default --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-default.log
-stderr_logfile=/var/log/worker-queue-default.log
-'''
 
-"worker-queue-low.conf" = '''
-[program:worker-queue-low]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=low --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-low.log
-stderr_logfile=/var/log/worker-queue-low.log
-'''
 
-"worker-queue-r1.conf" = '''
-[program:worker-queue-r1]
-process_name=%(program_name)s_%(process_num)02d
-command=bash -c 'exec php /app/artisan queue:work --queue=r1 --sleep=3 --tries=3 --max-time=1800'
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-numprocs=1
-startsecs=0
-stopwaitsecs=3600
-stdout_logfile=/var/log/worker-queue-r1.log
-stderr_logfile=/var/log/worker-queue-r1.log
-'''
+
 
 "php-fpm.conf" = '''
 [www]
