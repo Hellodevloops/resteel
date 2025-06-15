@@ -105,7 +105,7 @@ const ContactCTA = () => {
   };
 
   return (
-    <section id="contact-section" className="py-20 bg-slate-50">
+    <section id="contact-section" className="py-20 bg-slate-200/80">
       <div className="container max-w-7xl mx-auto px-4 space-y-16">
         <div className="text-center">
           <span
@@ -180,34 +180,40 @@ const ContactCTA = () => {
           </Card>
 
           {/* Contact Info Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-6 mx-5">
+
             <Card className="p-6 flex items-start gap-4">
-              <div className="p-3 rounded-xl text-white" style={{ backgroundColor: steelBlue }}>
+                 <div className="flex items-start gap-4">
+
+              <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                 <Mail className="h-6 w-6" />
               </div>
               <div>
                 <p className="font-semibold">Email Inquiries</p>
-                <a href="mailto:Info@2ndhandholding.com" className="text-sm hover:underline" style={{ color: steelBlue }}>
+                <a href="mailto:Info@2ndhandholding.com" className="text-md hover:underline" style={{ color: steelBlue }}>
                   Info@2ndhandholding.com
                 </a>
+              </div>
               </div>
             </Card>
 
             <Card className="p-6 flex items-start gap-4">
-              <div className="p-3 rounded-xl text-white" style={{ backgroundColor: steelBlue }}>
+                 <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                 <Phone className="h-6 w-6" />
               </div>
               <div>
                 <p className="font-semibold">Direct Consultation</p>
-                <a href="tel:+31123456789" className="text-sm hover:underline" style={{ color: steelBlue }}>
+                <a href="tel:+31123456789" className="text-md hover:underline" style={{ color: steelBlue }}>
                   +31 (0) 123 456 789
                 </a>
+              </div>
               </div>
             </Card>
 
             <Card className="p-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl text-white" style={{ backgroundColor: steelBlue }}>
+                <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>

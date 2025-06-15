@@ -17,6 +17,7 @@ import {
   SquareStack,
   Warehouse
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
@@ -31,10 +32,7 @@ const buildingTypes = [
 const truncateText = (text, maxWords = 19) => {
   if (!text) return '';
   const words = text.split(' ');
-  if (words.length > maxWords) {
-    return words.slice(0, maxWords).join(' ') + '...';
-  }
-  return text;
+  return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
 };
 
 const FeaturedBuildings = () => {
@@ -78,12 +76,13 @@ const FeaturedBuildings = () => {
     fetchWarehouses();
   }, []);
 
-  const BuildingCard = ({ building, index }) => (
-    <div
-      className={`group relative mx-auto max-w-7xl w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-500 hover:shadow-xl hover:-translate-y-1 ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-      }`}
-      style={{ animationDelay: `${300 + index * 100}ms` }}
+  const BuildingCard = ({ building }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.4 }}
+      className="group relative w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all"
     >
       <div className="relative h-64 overflow-hidden">
         <img src={building.image} alt={building.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -103,7 +102,7 @@ const FeaturedBuildings = () => {
           </div>
         )}
         <div className="absolute bottom-4 left-4">
-          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800">{building.category}</span>
+          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800 uppercase">{building.category}</span>
         </div>
       </div>
 
@@ -144,8 +143,10 @@ const FeaturedBuildings = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
-            <Eye className="mr-2 h-4 w-4" /> Details
+          <Button asChild className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
+            <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
+              <Eye className="mr-2 h-4 w-4" /> Details
+            </a>
           </Button>
 
           {building.hasVideo && (
@@ -163,40 +164,35 @@ const FeaturedBuildings = () => {
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
-    <section className="bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 py-16">
-      <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2
-            className={`text-3xl font-bold sm:text-4xl md:text-5xl transition-all duration-700 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-            }`}
-            style={{ color: charcoal }}
-          >
+    <section className="bg-slate-200/80 py-16">
+      <div className="container mx-auto max-w-7xl px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 text-center"
+        >
+          <h2 className="mt-4 text-4xl md:text-5xl font-bold" style={{ color: charcoal }}>
             Featured <span className="text-orange-500" style={{ color: steelBlue }}>Buildings</span>
           </h2>
-          <p className={`mx-auto max-w-2xl text-base mt-2 text-gray-600 sm:text-lg transition-all duration-700 delay-200 ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
+          <p className="mx-auto max-w-2xl text-base mt-2 text-gray-600 sm:text-lg">
             Explore our curated selection of premium second-hand buildings, ready for relocation with expert precision.
           </p>
-        </div>
+        </motion.div>
 
         <Tabs defaultValue="all" className="w-full">
-          <div className={`mb-8 flex justify-center transition-all duration-700 delay-400 ${
-            isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-          }`}>
-            <TabsList className="inline-flex rounded-xl bg-gray-200 p-2">
+          <div className="mb-8 flex justify-center">
+            <TabsList className="inline-flex rounded-xl bg-gray-200 p-2 py-6">
               {buildingTypes.map((type) => (
                 <TabsTrigger
                   key={type.id}
                   value={type.id}
-                  className="flex items-center rounded-lg px-4 py-3 text-lg font-medium text-gray-700 transition-all data-[state=active]:bg-orange-500 data-[state=active]:text-white hover:bg-gray-200"
+                  className="flex items-center rounded-lg px-4  py-4 mx-1 text-md text-tight font-medium text-gray-700 transition-all data-[state=active]:bg-orange-500 data-[state=active]:text-white hover:bg-gray-300"
                 >
-                  <type.icon className="mr-2 h-4 w-4" />
                   {type.label}
                 </TabsTrigger>
               ))}
@@ -210,29 +206,58 @@ const FeaturedBuildings = () => {
 
             return (
               <TabsContent key={type.id} value={type.id} className="mt-0">
-                {filtered.length === 0 ? (
-                  <div className="flex justify-center py-12">
-                    <div className="rounded-lg bg-gray-100 px-6 py-4 text-gray-600">
-                      No buildings found in this category.
-                    </div>
-                  </div>
-                ) : (
-                  <div className="grid gap-y-6 md:grid-cols-2 lg:grid-cols-3">
-                    {filtered.map((b, i) => (
-                      <BuildingCard key={b.id} building={b} index={i} />
-                    ))}
-                  </div>
-                )}
-               <div className="mt-12 flex justify-center">
-  <Link href="/buildings">
-    <Button
-      variant="outline"
-      className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3"
-    >
-      View All Buildings <ArrowRight className="ml-2 h-4 w-4" />
-    </Button>
-  </Link>
-</div>
+                <AnimatePresence mode="wait">
+                  {filtered.length === 0 ? (
+                    <motion.div
+                      key="empty"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex justify-center py-12"
+                    >
+                      <div className="rounded-lg bg-gray-100 px-6 py-4 text-gray-600">
+                        No buildings found in this category.
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="grid"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={{
+                        hidden: {},
+                        visible: {
+                          transition: {
+                            staggerChildren: 0.1,
+                            delayChildren: 0.2,
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          transition: { duration: 0.3 },
+                        },
+                      }}
+                      className="grid gap-y-6 md:grid-cols-2 lg:grid-cols-3"
+                    >
+                      {filtered.map((b) => (
+                        <BuildingCard key={b.id} building={b} />
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="mt-12 flex justify-center">
+                  <Link href="/buildings">
+                    <Button
+                      variant="outline"
+                      className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3"
+                    >
+                      View All Buildings <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
               </TabsContent>
             );
           })}
