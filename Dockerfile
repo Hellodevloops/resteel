@@ -1,6 +1,6 @@
-FROM unit:1.34.1-php8.3
+FROM unit:1.34.1-php8.3Add commentMore actions
 
-# Install system dependencies and Node.js
+# Install dependencies including Node.js and npm
 RUN apt update && apt install -y \
     curl unzip git libicu-dev libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libssl-dev \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -10,11 +10,11 @@ RUN apt update && apt install -y \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-# PHP configuration
+# Configure PHP settings
 RUN echo "opcache.enable=1" > /usr/local/etc/php/conf.d/custom.ini \
     && echo "opcache.jit=tracing" >> /usr/local/etc/php/conf.d/custom.ini \
     && echo "opcache.jit_buffer_size=256M" >> /usr/local/etc/php/conf.d/custom.ini \
-    && echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "memory_limit=512M" > /usr/local/etc/php/conf.d/custom.ini \
     && echo "upload_max_filesize=64M" >> /usr/local/etc/php/conf.d/custom.ini \
     && echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/custom.ini
 
@@ -24,27 +24,29 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy Laravel application code
+# Create storage directories
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Set permissions
+RUN chown -R unit:unit /var/www/html/storage bootstrap/cache && chmod -R 775 /var/www/html/storage
+
+# Copy application files
 COPY . .
 
-# Ensure Laravel required directories exist
-RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache
+# Set permissions again after copying files
+RUN chown -R unit:unit storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 
 # Install PHP dependencies
 RUN composer install --prefer-dist --optimize-autoloader --no-interaction
 
-# Install Node.js dependencies and build frontend assets
+# Install Node.js dependencies and run Laravel build (adjust as needed)
 RUN npm install --legacy-peer-deps && npm run build
 
 # Copy Unit configuration
 COPY unit.json /docker-entrypoint.d/unit.json
 
-# Expose Unit port
+# Expose portAdd commentMore actions
 EXPOSE 8000
 
-# Runtime commands: fix volume permissions, link storage, start Unit
-CMD bash -c "\
-    chown -R unit:unit /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache && \
-    php artisan storage:link || true && \
-    unitd --no-daemon"
+# Start Unit
+CMD ["unitd", "--no-daemon"]
