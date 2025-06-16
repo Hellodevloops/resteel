@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-
+import { Link } from '@inertiajs/react';
 const Hero: React.FC = () => {
   return (
     <section className="relative h-[90vh] w-full overflow-hidden bg-slate-950">
@@ -46,19 +46,27 @@ const Hero: React.FC = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-8 flex flex-col sm:flex-row gap-4"
         >
-          <Button
-            size="lg"
-            className="bg-orange-600/80 hover:bg-orange-600/90 text-white shadow-lg rounded  rounded-10"
-          >
-           Browse Structures
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className=" text-slate-800 shadow-md rounded  rounded-10"
-          >
-            Sell Your Property
-          </Button>
+          
+        
+          <Link href="/webshop">
+            <Button
+              size="lg"
+              className="bg-orange-600/80 hover:bg-orange-600/90 text-white shadow-lg rounded rounded-10"
+            >
+              Browse Structures
+            </Button>
+          </Link>
+
+          <Link href="/contact">
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-slate-800 shadow-md rounded rounded-10"
+            >
+              Sell Your Property
+            </Button>
+          </Link>
+ 
         </motion.div>
       </div>
     </section>

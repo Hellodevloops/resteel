@@ -7,7 +7,7 @@ const Footer = () => {
       {/* Top shimmer gradient */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40" />
 
-      <div className="container mx-auto max-w-7xl px-4 py-12 md:py-16 relative z-10">
+      <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16 relative z-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
           {/* Company Info */}
           <div className="lg:col-span-2">
@@ -42,10 +42,10 @@ const Footer = () => {
             <ul className="space-y-3 text-slate-300">
               {[
                 { label: 'Home', href: '/' },
-                { label: 'Buildings', href: '/buildings' },
-                { label: 'Services', href: '/services' },
-                // { label: 'About Us', href: '/about' },
-                { label: 'Contact', href: '/contact' },
+                { label: 'About Us', href: '/about' },
+                { label: 'Browse Structures', href: '/buildings' },
+                // { label: 'Services', href: '/services' },
+                { label: 'Contact Us', href: '/contact' },
               ].map(({ label, href }) => (
                 <li key={href}>
                   <Link
@@ -68,20 +68,20 @@ const Footer = () => {
             <h4 className="text-xl font-semibold mb-4">Contact Us</h4>
             <address className="space-y-4 not-italic text-slate-300">
               <div className="flex items-start gap-3">
-                <MapPin size={25} className="text-slate-400 mt-1" />
+                <MapPin size={20} className="text-slate-400 mt-1" />
                 <span>
                   <span className="block md:hidden">Helmond, Netherlands</span>
                   <span className="hidden md:block">Westerbeemd 2B, 5705 DN Helmond, Netherlands</span>
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone size={18} className="text-slate-400" />
+                <Phone size={20} className="text-slate-400" />
                 <a href="tel:+31123456789" className="hover:text-orange-400 transition-colors">
                   +31 (0) 123 456 789
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail size={18} className="text-slate-400" />
+                <Mail size={20} className="text-slate-400" />
                 <a
                   href="mailto:Info@2ndhandholding.com"
                   className="hover:text-orange-400 transition-colors"

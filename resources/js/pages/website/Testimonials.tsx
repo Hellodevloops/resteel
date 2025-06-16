@@ -1,83 +1,110 @@
 'use client';
 
+import { useRef, useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
-
-const steelBlue = "#0076A8";
-// const charcoal = "#3C3F48";
-// const vibrantOrange = "#FF6600";
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "Resteel made our entire site relocation process seamless. From disassembly to customs clearance and reassembly abroad, their technical and logistical precision was unmatched.",
+    quote: "Resteel made our entire site relocation process seamless...",
     author: "Stefan Döring",
     position: "RheinBuild GmbH",
   },
   {
-    quote: "We saved over 40% on our structural build by opting for repurposed steel through Resteel. Their team was transparent, timely, and incredibly well-organized throughout the transaction.",
+    quote: "We saved over 40% on our structural build...",
     author: "Anita Kovács",
     position: "Danube Construction",
   },
   {
-    quote: "International coordination is always a challenge, but Resteel handled every moving piece — permits, transport, and compliance — with speed and accuracy. Highly recommended for any cross-border project.",
+    quote: "International coordination is always a challenge...",
     author: "Gilles Moreau",
     position: "ProStruct Industries",
   },
   {
-    quote: "Resteel proved to be a reliable partner for second-hand infrastructure. They ensured we met all national safety standards while significantly reducing our steel procurement timeline.",
+    quote: "Resteel proved to be a reliable partner...",
     author: "Jakub Nowak",
     position: "AgroFab Polska",
   },
   {
-    quote: "When we urgently needed a large-scale steel hall for expansion, Resteel sourced, inspected, and delivered it within 10 days. Their access to stock and technical insight are unparalleled.",
+    quote: "When we urgently needed a large-scale steel hall...",
     author: "Luca Bianchi",
     position: "Infrastrutture SRL",
   },
 ];
 
-const MarqueeTestimonials = () => {
+const TestimonialsCarousel = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const scrollAmount = typeof window !== 'undefined' && window.innerWidth < 768 ? 250 : 360;
+
+  const scrollNext = () => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+    if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
+      setTimeout(() => {
+        container.scrollTo({ left: 0, behavior: 'auto' });
+      }, 600);
+    }
+  };
+
+  const scrollPrev = () => {
+    const container = containerRef.current;
+    if (!container) return;
+    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (!isHovered) {
+      intervalRef.current = setInterval(scrollNext, 5000);
+    }
+    return () => clearInterval(intervalRef.current!);
+  }, [isHovered]);
+
   return (
-    <section className="bg-slate-100 py-12 overflow-hidden relative">
-      <div className="text-center mb-10">
-        <h2 className="mt-4 text-4xl md:text-5xl font-bold text-[#3C3F48]">
-          What Our Clients <span style={{ color: steelBlue }}>Say</span>
+    <section className="bg-slate-100 py-12 ">
+      {/* Inline Scrollbar Hide Styles */}
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 ">
+      <div className="text-center mb-10 px-4">
+        <h2 className="text-4xl md:text-5xl font-bold text-[#3C3F48]">
+          What Our Clients <span className="text-[#0076A8]">Say</span>
         </h2>
         <p className="mt-2 text-lg text-gray-600">
           Real results from real businesses across Europe and beyond
         </p>
       </div>
 
-      <style>
-        {`
-          @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .marquee-row {
-            display: flex;
-            white-space: nowrap;
-            flex-wrap: nowrap;
-          }
-          .marquee-animate {
-            animation: marquee 50s linear infinite;
-          }
-          .pause-on-hover:hover {
-            animation-play-state: paused;
-          }
-        `}
-      </style>
-
-      <div className="overflow-hidden">
-        <div className="marquee-row marquee-animate pause-on-hover">
+      <div
+        className="relative max-w-screen-xl mx-auto px-4"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Carousel Track */}
+        <div
+          ref={containerRef}
+          className="flex overflow-x-auto overflow-y-hidden scroll-smooth no-scrollbar gap-6 pb-6"
+        >
           {[...testimonials, ...testimonials].map((t, idx) => (
             <Card
               key={idx}
-              className="mx-4 w-[28rem] max-w-[90vw] flex-shrink-0 border border-gray-100 shadow-sm"
+              className="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] xl:w-[25vw] max-w-[350px] border border-gray-200 shadow-sm"
             >
               <CardContent className="p-6 h-full flex flex-col justify-between">
-                <p className="text-base text-[#3C3F48] leading-relaxed break-words whitespace-normal overflow-hidden">
-                  “{t.quote}”
-                </p>
+                <p className="text-base text-[#3C3F48] leading-relaxed">“{t.quote}”</p>
                 <div className="mt-4 font-semibold text-[#0076A8]">{t.author}</div>
                 <div className="text-sm text-gray-500">{t.position}</div>
                 <div className="mt-2 flex">
@@ -89,9 +116,30 @@ const MarqueeTestimonials = () => {
             </Card>
           ))}
         </div>
+
+        {/* Navigation Buttons */}
+        <div className="absolute   right-4   flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={scrollPrev}
+            className="rounded-full h-10 w-10 bg-white shadow hover:bg-gray-100"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={scrollNext}
+            className="rounded-full h-10 w-10 bg-white shadow hover:bg-gray-100"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
       </div>
     </section>
   );
 };
 
-export default MarqueeTestimonials;
+export default TestimonialsCarousel;

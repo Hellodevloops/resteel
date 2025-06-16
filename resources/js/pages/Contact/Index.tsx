@@ -3,6 +3,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { Search, Eye, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
+const steelBlue = "#0076A8";
+const vibrantOrange = "#FF6600";
+const charcoal = "#3C3F48";
+
 interface Contact {
     id: number;
     name: string;
@@ -17,6 +21,7 @@ interface Contact {
     alerts: number;
     last_contact: string;
 }
+
 
 interface Props {
     contacts: Contact[];
@@ -68,7 +73,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                             <Link
                                 href="/admin/contacts/create"
                                 className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
+                           style={{ backgroundColor: steelBlue }} >
                                 Add New Contact
                             </Link>
                         </div>
@@ -85,13 +90,13 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                 placeholder="Search contacts..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full  border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
 
                     {/* Contact List */}
-                    <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <div className="bg-white  shadow overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
@@ -164,7 +169,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                     {recentActivity.length > 0 && (
                         <div className="mt-8">
                             <h2 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h2>
-                            <div className="bg-white shadow rounded-lg overflow-hidden">
+                            <div className="bg-white shadow  overflow-hidden">
                                 <ul className="divide-y divide-gray-200">
                                     {recentActivity.map((activity) => (
                                         <li key={activity.id} className="px-6 py-4">
