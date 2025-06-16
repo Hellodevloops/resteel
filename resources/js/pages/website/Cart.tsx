@@ -109,7 +109,7 @@ const Cart = () => {
     <Layout title="Your Cart | Resteel">
       <div className="min-h-screen bg-slate-50" style={{ paddingTop: `${headerHeight}px` }}>
                 {/* Header Section */}
-                <div className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800">
+                <div className="relative overflow-hidden bg-gradient-to-tr from-slate-900 via-slate-700 to-slate-900">
                     <div className="absolute inset-0 opacity-30">
                         <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-blue-600/10"></div>
                     </div>

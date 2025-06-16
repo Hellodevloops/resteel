@@ -1,11 +1,23 @@
+import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
 import {
   Plus, Pencil, Trash2, Eye, Search, Filter, Grid, List,
-  Package, TrendingUp, Star
+  Package, TrendingUp, Star,
+  BookCheck
 } from 'lucide-react';
 import { useForm } from '@inertiajs/react';
 import { useState, useEffect, useMemo } from 'react';
+import { type BreadcrumbItem } from '@/types';
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Warehouses', href: route('admin.warehouses.index') },
+    ];
+
+    
+const steelBlue = "#0076A8";
+const vibrantOrange = "#FF6600";
+const charcoal = "#3C3F48";
 
 interface Product {
   id: number;
@@ -65,19 +77,20 @@ export default function Index({ products: initialProducts = [], filters: initial
 
   return (
     <AppLayout>
-      <Head title="WebShop Management" />
+      <Head title="WebShop Management" /> 
+            {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
       <div className="min-h-screen bg-slate-50">
         <div className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">Product Management</h1>
-                <p className="text-slate-600">Manage your product listings</p>
+                <h1 className="text-2xl font-bold text-slate-900">Structure Management</h1>
+                <p className="text-slate-600">Manage your st  ructure listings</p>
               </div>
               <Link
                 href={route('admin.webshops.create')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow"
+                className="inline-flex items-center gap-2  p-2 text-white   rounded-xl shadow" style={{ backgroundColor: steelBlue }}
               >
                 <Plus className="w-5 h-5" />
                 Create Product
@@ -87,7 +100,7 @@ export default function Index({ products: initialProducts = [], filters: initial
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
               <StatCard icon={<Package className="text-blue-600" />} label="Total" value={stats.total} />
               <StatCard icon={<TrendingUp className="text-green-600" />} label="In Stock" value={stats.inStock} />
-              <StatCard icon={<Package className="text-red-600" />} label="Sold Out" value={stats.soldOut} />
+              <StatCard icon={<BookCheck className="text-red-600" />} label="Sold Out" value={stats.soldOut} />
               <StatCard icon={<Star className="text-amber-500" />} label="Avg Rating" value={stats.avgRating} />
             </div>
           </div>

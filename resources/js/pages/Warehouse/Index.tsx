@@ -101,7 +101,7 @@ export default function Index({ warehouseData }: Props) {
     return (
         <AppLayout>
             <Head title="Warehouses - Admin" />
-            <AppSidebarHeader breadcrumbs={breadcrumbs} />
+            {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
             <div className="min-h-screen bg-background">
                 {/* Header */}
@@ -135,8 +135,8 @@ export default function Index({ warehouseData }: Props) {
                         {/* Main Content */}
                         <div className="lg:col-span-4">
                             {/* Search and Filter */}
-                            <Card className="mb-6 rounded-sm">
-                                <CardContent className="p-4">
+                            <Card className="mb-6 rounded-sm border border-none">
+                                <CardContent className="">
                                     <div className="flex flex-col gap-4 sm:flex-row">
                                         <div className="relative flex-1">
                                             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />

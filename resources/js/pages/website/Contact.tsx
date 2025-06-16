@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -9,16 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// Brand color constants
+// Brand colors
 const steelBlue = "#0076A8";
 const charcoal = "#3C3F48";
 const vibrantOrange = "#FF6600";
@@ -26,19 +23,17 @@ const vibrantOrange = "#FF6600";
 const ContactCTA = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-
   const [data, setData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
     message: "",
-    status: "pending", // hidden
-    type: "Lead",       // hidden
-    source: "Website Form", // preset
-    value: "",          // hidden
+    status: "pending",
+    type: "Lead",
+    source: "Website Form",
+    value: "",
   });
-
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
 
@@ -89,7 +84,7 @@ const ContactCTA = () => {
     try {
       await axios.post("/contacts", {
         ...data,
-        value: data.value ? parseFloat(data.value) : null, // still sent, default is null
+        value: data.value ? parseFloat(data.value) : null,
       });
       reset();
       alert("Thank you for your inquiry! We will get back to you within 24 hours.");
@@ -105,37 +100,37 @@ const ContactCTA = () => {
   };
 
   return (
-    <section id="contact-section" className="py-20 bg-slate-200/80">
+    <section id="contact-section" className="py-25  bg-slate-200/80">
       <div className="container max-w-7xl mx-auto px-4 space-y-16">
         <div className="text-center">
           <span
-            className="inline-block px-3 py-1 rounded-full text-xs font-medium"
+            className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-2"
             style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
           >
             Expert Consultation
           </span>
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold" style={{ color: charcoal }}>
+          <h2 className="text-4xl md:text-5xl font-bold" style={{ color: charcoal }}>
             Ready to Build <span style={{ color: steelBlue }}>Something Great?</span>
           </h2>
           <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
-            Transform your vision into reality with our precision engineering and decades of expertise. Let's discuss your next industrial project.
+            Transform your vision into reality with our precision engineering and decades of expertise.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 ">
-          <Card className="shadow-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Form */}
+          <Card className="shadow-md">
             <CardHeader>
-              <CardTitle className="text-3xl font-semibold" style={{ color: steelBlue }}>
+              <CardTitle className="text-2xl md:text-3xl font-semibold" style={{ color: steelBlue }}>
                 Send us a message
               </CardTitle>
               <CardDescription className="text-md">
                 We'll respond as soon as possible.
               </CardDescription>
             </CardHeader>
-            <CardContent className="mt-4">
+            <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Contact Fields */}
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="name">Name *</Label>
                     <Input id="name" value={data.name} onChange={handleChange} />
@@ -148,7 +143,7 @@ const ContactCTA = () => {
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="email">Email *</Label>
                     <Input id="email" type="email" value={data.email} onChange={handleChange} />
@@ -169,23 +164,22 @@ const ContactCTA = () => {
 
                 <Button
                   type="submit"
-                  className="w-full text-white mt-4"
+                  className="w-full text-white mt-6 flex items-center justify-center gap-2"
                   style={{ backgroundColor: vibrantOrange }}
                   disabled={loading}
                 >
-                  {loading ? "Sending..." : "Send Message"} <Send className="ml-2 h-5 w-5" />
+                  {loading ? "Sending..." : "Send Message"} <Send className="h-5 w-5" />
                 </Button>
               </form>
             </CardContent>
           </Card>
 
-          {/* Contact Info Sidebar */}
-          <div className="space-y-6 mx-5">
-
+          {/* Contact Info */}
+          <div className="flex flex-col gap-6">
             <Card className="p-6 flex items-start gap-4">
-                 <div className="flex items-start gap-4">
+               <div className="flex items-start gap-4">
 
-              <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
+              <div className="p-3 rounded-xl text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                 <Mail className="h-6 w-6" />
               </div>
               <div>
@@ -198,8 +192,8 @@ const ContactCTA = () => {
             </Card>
 
             <Card className="p-6 flex items-start gap-4">
-                 <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
+               <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                 <Phone className="h-6 w-6" />
               </div>
               <div>
@@ -213,7 +207,7 @@ const ContactCTA = () => {
 
             <Card className="p-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl text-white"  style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
+                <div className="p-3 rounded-xl text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
@@ -225,7 +219,7 @@ const ContactCTA = () => {
                 </div>
               </div>
               <iframe
-                className="mt-4 w-full h-40 rounded-md border"
+                className=" w-full h-30 rounded-md border"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

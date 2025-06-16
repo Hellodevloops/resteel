@@ -333,7 +333,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.name}
                             onChange={(e) => setData('name', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.name ? 'border-red-300' : ''
                             }`}
                         />
@@ -350,7 +350,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.location}
                             onChange={(e) => setData('location', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.location ? 'border-red-300' : ''
                             }`}
                         />
@@ -366,7 +366,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             id="category"
                             value={data.category}
                             onChange={(e) => setData('category', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.category ? 'border-red-300' : ''
                             }`}
                         >
@@ -394,7 +394,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             id="status"
                             value={data.status}
                             onChange={(e) => setData('status', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.status ? 'border-red-300' : ''
                             }`}
                         >
@@ -419,7 +419,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             id="type"
                             value={data.type}
                             onChange={(e) => setData('type', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.type ? 'border-red-300' : ''
                             }`}
                         >
@@ -445,7 +445,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="date"
                             value={data.last_inspection || ''}
                             onChange={(e) => setData('last_inspection', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.last_inspection ? 'border-red-300' : ''
                             }`}
                         />
@@ -467,7 +467,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.capacity}
                             onChange={(e) => setData('capacity', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.capacity ? 'border-red-300' : ''
                             }`}
                         />
@@ -483,7 +483,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.occupied}
                             onChange={(e) => setData('occupied', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.occupied ? 'border-red-300' : ''
                             }`}
                         />
@@ -501,7 +501,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             max="100"
                             value={data.occupancy_rate}
                             onChange={(e) => setData('occupancy_rate', parseFloat(e.target.value) || 0)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.occupancy_rate ? 'border-red-300' : ''
                             }`}
                         />
@@ -523,7 +523,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             min="0"
                             value={data.alerts}
                             onChange={(e) => setData('alerts', parseInt(e.target.value) || 0)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.alerts ? 'border-red-300' : ''
                             }`}
                         />
@@ -557,7 +557,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         rows={4}
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
-                        className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                        className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                             errors.description ? 'border-red-300' : ''
                         }`}
                         placeholder="Detailed description of the warehouse..."
@@ -577,7 +577,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         type="text"
                         value={data.year_built}
                         onChange={(e) => setData('year_built', e.target.value)}
-                        className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                        className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                             errors.year_built ? 'border-red-300' : ''
                         }`}
                     />
@@ -592,7 +592,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         type="text"
                         value={data.construction}
                         onChange={(e) => setData('construction', e.target.value)}
-                        className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                        className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                             errors.construction ? 'border-red-300' : ''
                         }`}
                     />
@@ -617,7 +617,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 type="text"
                                 value={data.price}
                                 onChange={(e) => setData('price', e.target.value)}
-                                className={`mt-1 block w-full rounded-lg border-gray-200 pl-7 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                                className={`mt-1 block w-full  border-gray-200 pl-7 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                     errors.price ? 'border-red-300' : ''
                                 }`}
                                 placeholder="0.00"
@@ -639,7 +639,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 type="text"
                                 value={data.revenue}
                                 onChange={(e) => setData('revenue', e.target.value)}
-                                className={`mt-1 block w-full rounded-lg border-gray-200 pl-7 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                                className={`mt-1 block w-full  border-gray-200 pl-7 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                     errors.revenue ? 'border-red-300' : ''
                                 }`}
                                 placeholder="0.00"
@@ -657,7 +657,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     <button
                         type="button"
                         onClick={addFeature}
-                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
+                        className="inline-flex items-center  bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
                     >
                         <Plus className="mr-1 h-4 w-4" />
                         Add Feature
@@ -671,13 +671,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 value={feature || ''}
                                 onChange={(e) => updateFeature(idx, e.target.value)}
                                 placeholder={`Feature ${idx + 1}`}
-                                className="flex-1 rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
+                                className="flex-1  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
                             />
                             {(data.features || []).length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeFeature(idx)}
-                                    className="rounded-lg p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                    className=" p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -695,7 +695,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         <button
                             type="button"
                             onClick={addVideoUrl}
-                            className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
+                            className="inline-flex items-center  bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
                         >
                             <Plus className="mr-1 h-4 w-4" />
                             Add Video URL
@@ -709,13 +709,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     value={url || ''}
                                     onChange={(e) => updateVideoUrl(idx, e.target.value)}
                                     placeholder={`Video URL ${idx + 1}`}
-                                    className="flex-1 rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
+                                    className="flex-1  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
                                 />
                                 {(data.video_urls || []).length > 1 && (
                                     <button
                                         type="button"
                                         onClick={() => removeVideoUrl(idx)}
-                                        className="rounded-lg p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                        className=" p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                     >
                                         <X className="h-5 w-5" />
                                     </button>
@@ -733,7 +733,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     <button
                         type="button"
                         onClick={addSecurityFeature}
-                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
+                        className="inline-flex items-center  bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
                     >
                         <Plus className="mr-1 h-4 w-4" />
                         Add Security Feature
@@ -747,13 +747,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 value={feature || ''}
                                 onChange={(e) => updateSecurityFeature(idx, e.target.value)}
                                 placeholder={`Security Feature ${idx + 1}`}
-                                className="flex-1 rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
+                                className="flex-1  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
                             />
                             {(data.security_features || []).length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeSecurityFeature(idx)}
-                                    className="rounded-lg p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                    className=" p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -770,7 +770,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     <button
                         type="button"
                         onClick={addUtility}
-                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
+                        className="inline-flex items-center  bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
                     >
                         <Plus className="mr-1 h-4 w-4" />
                         Add Utility
@@ -784,13 +784,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 value={utility || ''}
                                 onChange={(e) => updateUtility(idx, e.target.value)}
                                 placeholder={`Utility ${idx + 1}`}
-                                className="flex-1 rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
+                                className="flex-1  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
                             />
                             {(data.utilities || []).length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeUtility(idx)}
-                                    className="rounded-lg p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                    className=" p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -807,7 +807,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     <button
                         type="button"
                         onClick={addCertificate}
-                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
+                        className="inline-flex items-center  bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#E75B12] transition-colors duration-200 hover:bg-orange-100"
                     >
                         <Plus className="mr-1 h-4 w-4" />
                         Add Certificate
@@ -821,13 +821,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 value={certificate || ''}
                                 onChange={(e) => updateCertificate(idx, e.target.value)}
                                 placeholder={`Certificate ${idx + 1}`}
-                                className="flex-1 rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
+                                className="flex-1  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12]"
                             />
                             {(data.certificates || []).length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeCertificate(idx)}
-                                    className="rounded-lg p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                    className=" p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -843,7 +843,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     <label htmlFor="total_area" className="block text-sm font-medium text-gray-700">
                         Total Area
                     </label>
-                    <div className="mt-1 flex rounded-lg shadow-sm">
+                    <div className="mt-1 flex  shadow-sm">
                         <input
                             id="total_area"
                             type="text"
@@ -883,7 +883,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.ceiling_height}
                             onChange={(e) => setData('ceiling_height', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.ceiling_height ? 'border-red-300' : ''
                             }`}
                         />
@@ -900,7 +900,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.floor_load_capacity}
                             onChange={(e) => setData('floor_load_capacity', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.floor_load_capacity ? 'border-red-300' : ''
                             }`}
                         />
@@ -918,7 +918,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             min="0"
                             value={data.number_of_loading_docks}
                             onChange={(e) => setData('number_of_loading_docks', parseInt(e.target.value) || 0)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.number_of_loading_docks ? 'border-red-300' : ''
                             }`}
                         />
@@ -936,7 +936,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             min="0"
                             value={data.parking_spaces}
                             onChange={(e) => setData('parking_spaces', parseInt(e.target.value) || 0)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.parking_spaces ? 'border-red-300' : ''
                             }`}
                         />
@@ -953,7 +953,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="date"
                             value={data.availability_date || ''}
                             onChange={(e) => setData('availability_date', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.availability_date ? 'border-red-300' : ''
                             }`}
                         />
@@ -970,7 +970,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.lease_terms}
                             onChange={(e) => setData('lease_terms', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.lease_terms ? 'border-red-300' : ''
                             }`}
                         />
@@ -993,7 +993,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.contact_person}
                             onChange={(e) => setData('contact_person', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.contact_person ? 'border-red-300' : ''
                             }`}
                         />
@@ -1010,7 +1010,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="email"
                             value={data.contact_email}
                             onChange={(e) => setData('contact_email', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.contact_email ? 'border-red-300' : ''
                             }`}
                         />
@@ -1027,7 +1027,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="tel"
                             value={data.contact_phone}
                             onChange={(e) => setData('contact_phone', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.contact_phone ? 'border-red-300' : ''
                             }`}
                         />
@@ -1050,7 +1050,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.address}
                             onChange={(e) => setData('address', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.address ? 'border-red-300' : ''
                             }`}
                         />
@@ -1067,7 +1067,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.postal_code}
                             onChange={(e) => setData('postal_code', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.postal_code ? 'border-red-300' : ''
                             }`}
                         />
@@ -1084,7 +1084,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.city}
                             onChange={(e) => setData('city', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.city ? 'border-red-300' : ''
                             }`}
                         />
@@ -1101,7 +1101,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.country}
                             onChange={(e) => setData('country', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.country ? 'border-red-300' : ''
                             }`}
                         />
@@ -1118,7 +1118,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.latitude}
                             onChange={(e) => setData('latitude', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.latitude ? 'border-red-300' : ''
                             }`}
                         />
@@ -1134,7 +1134,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             type="text"
                             value={data.longitude}
                             onChange={(e) => setData('longitude', e.target.value)}
-                            className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                            className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                 errors.longitude ? 'border-red-300' : ''
                             }`}
                         />
@@ -1316,7 +1316,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     placeholder="e.g. 20m x 30m"
                                     value={data.main_hall_dimensions}
                                     onChange={(e) => setData('main_hall_dimensions', e.target.value)}
-                                    className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                                    className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                         errors.main_hall_dimensions ? 'border-red-300' : ''
                                     }`}
                                 />
@@ -1325,7 +1325,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 <label htmlFor="main_hall_area" className="block text-sm font-medium text-gray-700">
                                     Area
                                 </label>
-                                <div className="mt-1 flex rounded-lg shadow-sm">
+                                <div className="mt-1 flex  shadow-sm">
                                     <input
                                         id="main_hall_area"
                                         type="text"
@@ -1357,7 +1357,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     placeholder="e.g. 5m x 8m"
                                     value={data.office_space_dimensions}
                                     onChange={(e) => setData('office_space_dimensions', e.target.value)}
-                                    className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                                    className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                         errors.office_space_dimensions ? 'border-red-300' : ''
                                     }`}
                                 />
@@ -1366,7 +1366,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 <label htmlFor="office_space_area" className="block text-sm font-medium text-gray-700">
                                     Area
                                 </label>
-                                <div className="mt-1 flex rounded-lg shadow-sm">
+                                <div className="mt-1 flex  shadow-sm">
                                     <input
                                         id="office_space_area"
                                         type="text"
@@ -1398,7 +1398,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     placeholder="e.g. 10m x 15m"
                                     value={data.loading_dock_dimensions}
                                     onChange={(e) => setData('loading_dock_dimensions', e.target.value)}
-                                    className={`mt-1 block w-full rounded-lg border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
+                                    className={`mt-1 block w-full  border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#E75B12] focus:ring-[#E75B12] ${
                                         errors.loading_dock_dimensions ? 'border-red-300' : ''
                                     }`}
                                 />
@@ -1407,7 +1407,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 <label htmlFor="loading_dock_area" className="block text-sm font-medium text-gray-700">
                                     Area
                                 </label>
-                                <div className="mt-1 flex rounded-lg shadow-sm">
+                                <div className="mt-1 flex  shadow-sm">
                                     <input
                                         id="loading_dock_area"
                                         type="text"
@@ -1432,7 +1432,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                 <button
                     type="submit"
                     disabled={processing}
-                    className="inline-flex items-center rounded-lg bg-gradient-to-r from-[#E75B12] to-[#FF6A1C] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#FF6A1C] hover:to-[#E75B12] focus:ring-2 focus:ring-[#E75B12] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex items-center  bg-gradient-to-r from-[#E75B12] to-[#FF6A1C] px-6 py-3 text-base font-medium text-white shadow-sm hover:from-[#FF6A1C] hover:to-[#E75B12] focus:ring-2 focus:ring-[#E75B12] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     {processing ? 'Saving...' : isEditing ? 'Update Warehouse' : 'Create Warehouse'}
                 </button>
