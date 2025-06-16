@@ -1,8 +1,7 @@
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Clock, Users, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Clock, Users, Zap } from "lucide-react";
 
 // Brand color constants
 const steelBlue = "#0076A8";
@@ -37,11 +36,21 @@ const NewsletterSection = () => {
           {/* Right - Form & Stats */}
           <div className="space-y-6">
             <Card className="p-6 md:p-8 border border-slate-200 bg-white shadow-sm">
-              <form className="flex flex-col sm:flex-row items-center gap-4">
+              <form
+                action="https://devloops.us17.list-manage.com/subscribe/post?u=a0091f78f874cb693028bc8d9&amp;id=997de3977b"
+                method="post"
+                target="_blank"
+                noValidate
+                className="flex flex-col sm:flex-row items-center gap-4"
+              >
                 <div className="relative w-full">
-                  <Mail className="absolute left-3 top-2 h-5 w-5" style={{ color: steelBlue }} />
+                  <Mail
+                    className="absolute left-3 top-2 h-5 w-5"
+                    style={{ color: steelBlue }}
+                  />
                   <Input
                     type="email"
+                    name="EMAIL"
                     placeholder="Enter your email"
                     className="pl-10"
                     required
@@ -49,6 +58,7 @@ const NewsletterSection = () => {
                 </div>
                 <Button
                   type="submit"
+                  name="subscribe"
                   size="lg"
                   className="text-white transition"
                   style={{
@@ -71,7 +81,9 @@ const NewsletterSection = () => {
                   >
                     <feature.icon className="h-5 w-5 text-white" />
                   </div>
-                  <p className="text-sm font-medium text-slate-700">{feature.text}</p>
+                  <p className="text-sm font-medium text-slate-700">
+                    {feature.text}
+                  </p>
                 </Card>
               ))}
             </div>
