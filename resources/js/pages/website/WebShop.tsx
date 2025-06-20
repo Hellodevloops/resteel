@@ -237,10 +237,10 @@ const WebShop = () => {
 
                         <div className="flex flex-wrap gap-2">
                           {product.features.slice(0, 3).map((feature, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">{feature}</Badge>
+                            <span key={idx} variant="outline" className="text-xs border border-1 border-gray-600 p-1 rounded  ">{feature}</span>
                           ))}
                           {product.features.length > 3 && (
-                            <Badge variant="secondary" className="text-xs">+{product.features.length - 3}</Badge>
+                            <span variant="secondary" className="text-xs border border-1 border-gray-600 p-1 rounded ">+{product.features.length - 3}</span>
                           )}
                         </div>
 

@@ -162,7 +162,7 @@ const Buildings = () => {
     const truncation = getTextTruncation();
 
     return (
-      <div className="rounded-xl bg-white p-4 shadow-md hover:shadow-lg transition-all">
+      <div className="rounded-xl bg-white p-4 shadow-md hover:shadow-lg transition-all pt-10">
         <img
           src={building.image}
           alt={building.title}
@@ -202,7 +202,7 @@ const Buildings = () => {
   return (
     <div className="bg-slate-50 min-h-screen">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-7xl mx-auto px-4 py-8 pt-10">
         <h1 className="text-3xl font-bold mb-6">Available Buildings</h1>
 
         <div className="flex gap-4 mb-8 flex-wrap">

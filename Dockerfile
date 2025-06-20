@@ -72,7 +72,9 @@ RUN chown -R unit:unit /var/www/html \
 
 # Add health check to verify PHP-FPM and Laravel availability
 HEALTHCHECK --interval=10s --timeout=5s --start-period=60s --retries=2 \
-    CMD curl -f https://www.google.com || exit 1
+
+  CMD curl -f https://www.google.com || exit 1
+
 
 # Expose port
 EXPOSE 8000
