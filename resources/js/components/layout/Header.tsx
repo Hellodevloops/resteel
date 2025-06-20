@@ -57,7 +57,7 @@ const Header: React.FC = () => {
                                 href="/webshops"
                                 className="text-sm font-medium text-slate-700 hover:text-orange-500"
                             >
-                                {t('Web Shop')}
+                                {t('Shop')}
                             </Link>
                             {/* <Link
                                 href="/cart"
@@ -154,7 +154,7 @@ const Header: React.FC = () => {
                                 {t('Contact Us')}
                             </Link>
                         </div>
-                        
+
                     )}
                 </div>
             </header>

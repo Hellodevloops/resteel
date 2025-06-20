@@ -82,10 +82,14 @@ const FeaturedBuildings = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.4 }}
-      className="group relative w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all"
+      className="group relative w-full overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all"
     >
       <div className="relative h-64 overflow-hidden">
-        <img src={building.image} alt={building.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        <img
+          src={building.image}
+          alt={building.title}
+          className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="absolute top-4 left-4">
           <span className="inline-flex items-center rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white">
@@ -102,7 +106,9 @@ const FeaturedBuildings = () => {
           </div>
         )}
         <div className="absolute bottom-4 left-4">
-          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800 uppercase">{building.category}</span>
+          <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800 uppercase">
+            {building.category}
+          </span>
         </div>
       </div>
 
@@ -159,7 +165,10 @@ const FeaturedBuildings = () => {
             </Button>
           )}
 
-          <Button variant="outline" className="rounded-lg border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
+          <Button
+            variant="outline"
+            className="rounded-lg border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white"
+          >
             <ExternalLink className="h-4 w-4" />
           </Button>
         </div>
@@ -169,7 +178,7 @@ const FeaturedBuildings = () => {
 
   return (
     <section className="bg-slate-200/80 py-16">
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -239,7 +248,7 @@ const FeaturedBuildings = () => {
                           transition: { duration: 0.3 },
                         },
                       }}
-                      className="grid gap-y-6 md:grid-cols-2 lg:grid-cols-3"
+                      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10"
                     >
                       {filtered.map((b) => (
                         <BuildingCard key={b.id} building={b} />

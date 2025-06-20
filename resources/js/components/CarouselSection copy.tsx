@@ -86,7 +86,7 @@ const CarouselSection = () => {
             </p>
           </div>
           <Button
-            onClick={() => window.location.href = `/webshops`}
+            onClick={() => window.location.href = "/webshops"}
             size="lg"
             variant="link"
             className="text-lg px-0 font-medium"
@@ -153,17 +153,15 @@ const CarouselSection = () => {
         </div> */}
 
         {/* CTA */}
-        <div className="flex justify-end mt-4 gap-4">
+        {/* <div className="flex justify-end mt-4 gap-4">
           <Button
             variant="link"
-            onClick={() => window.location.href = `/webshops`}
-            size="sm"
             className="px-0 text-sm font-medium "
             style={{ color: steelBlue }}
           >
             Explore More <ArrowRight className="h-4 w-4 ml-1" />
           </Button>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   ))}

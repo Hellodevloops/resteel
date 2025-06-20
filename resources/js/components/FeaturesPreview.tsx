@@ -22,7 +22,7 @@ const features = [
 export default function WhyChooseUs() {
   return (
     <section className="py-20 px-6 bg-slate-100">
-      <div className="max-w-6xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto text-center">
         <h2 className="mt-4 text-4xl md:text-5xl font-bold text-charcoal">Why Choose <span className="text-[var(--primary)]">Us</span></h2>
         <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
          We combine decades of experience with a broad European network to make steel trading fast, transparent, and effective

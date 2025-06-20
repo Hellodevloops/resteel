@@ -7,7 +7,7 @@ const Footer = () => {
       {/* Top shimmer gradient */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40" />
 
-      <div className="container mx-auto max-w-6xl px-4 py-12 md:py-16 relative z-10">
+      <div className="container mx-auto max-w-7xl px-4 py-12 md:py-16 relative z-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
           {/* Company Info */}
           <div className="lg:col-span-2">

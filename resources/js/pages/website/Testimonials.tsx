@@ -78,7 +78,7 @@ const TestimonialsCarousel = () => {
           scrollbar-width: none;
         }
       `}</style>
-         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 ">
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 ">
       <div className="text-center mb-10 px-4">
         <h2 className="text-4xl md:text-5xl font-bold text-[#3C3F48]">
           What Our Clients <span className="text-[#0076A8]">Say</span>

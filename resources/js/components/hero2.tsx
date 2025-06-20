@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-4 max-w-3xl text-lg md:text-xl text-slate-900 "
+          className="mt-4 max-w-3xl text-lg md:text-xl text-white/80 leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
         >
       From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.
         </motion.p>
@@ -46,8 +46,8 @@ const Hero: React.FC = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-8 flex flex-col sm:flex-row gap-4"
         >
-          
-        
+
+
           <Link href="/webshop">
             <Button
               size="lg"
@@ -66,7 +66,7 @@ const Hero: React.FC = () => {
               Sell Your Property
             </Button>
           </Link>
- 
+
         </motion.div>
       </div>
     </section>
