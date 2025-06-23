@@ -59,12 +59,12 @@ export function useAppearance() {
         // Store in cookie for SSR...
         setCookie('appearance', mode);
 
-        applyTheme(mode);
+        applyTheme('light');
     }, []);
 
     useEffect(() => {
         const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
-        updateAppearance(savedAppearance || 'system');
+        updateAppearance(savedAppearance || 'light');
 
         return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
     }, [updateAppearance]);

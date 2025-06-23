@@ -1,9 +1,10 @@
-import { Menu, X, ShoppingCart } from 'lucide-react';
-import { Link, usePage } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 import { Inertia } from '@inertiajs/inertia';
+import { Link, usePage } from '@inertiajs/react';
+import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/ui/button';
+
 interface SharedProps {
     locale: string;
     supported_locales: string[];
@@ -32,10 +33,10 @@ const Header: React.FC = () => {
     return (
         <>
             <header
-                className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ${
+                className={`fixed top-0 left-0 z-[100] w-full transition-all duration-500 ${
                     isScrolled
-                        ? 'text-slate-700 shadow-luxury border-b border-slate-200/50 bg-white/95 backdrop-blur-xl  dark:border-slate-900/50 dark:bg-slate-900/95'
-                        : 'text-slate-700 border-b border-white/90 bg-white/90 backdrop-blur-sm dark:border-slate-900/50 dark:bg-slate-900/90'
+                        ? 'shadow-luxury border-b border-slate-200/50 bg-white text-slate-700 backdrop-blur-xl dark:border-slate-900/50 dark:bg-slate-900/95'
+                        : 'border-b border-white/90 bg-white text-slate-700 backdrop-blur-sm dark:border-slate-900/50 dark:bg-slate-900/90'
                 }`}
             >
                 <div className="container mx-auto px-4 md:px-6">
@@ -46,17 +47,14 @@ const Header: React.FC = () => {
                                 <img
                                     src="/assets/ResteelSolutionsLogo.png"
                                     alt="Resteel Solutions Logo"
-                                    className="h-10 sm:h-12 md:h-14 lg:h-14 px-2 sm:px-4 transition-all duration-300"
+                                    className="h-10 px-2 transition-all duration-300 sm:h-12 sm:px-4 md:h-14 lg:h-14"
                                 />
                             </Link>
                         </div>
 
                         {/* Mobile Webshop + Cart */}
                         <div className="flex items-center space-x-4 lg:hidden">
-                            <Link
-                                href="/webshops"
-                                className="text-sm font-medium text-slate-700 hover:text-orange-500"
-                            >
+                            <Link href="/webshops" className="text-sm font-medium text-slate-700 hover:text-orange-500">
                                 {t('Shop')}
                             </Link>
                             {/* <Link
@@ -67,10 +65,8 @@ const Header: React.FC = () => {
                                 <ShoppingCart className="h-5 w-5  text-slate-700 hover:text-orange-500" />
                             </Link> */}
                             <button
-                                className={`flex items-center justify-center h-10 w-10 rounded-xl transition-all duration-300 ${
-                                    isScrolled
-                                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
+                                    isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                 }`}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 aria-label="Toggle menu"
@@ -93,9 +89,7 @@ const Header: React.FC = () => {
                                         <Link
                                             href={href}
                                             className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
-                                                isScrolled
-                                                    ? 'text-slate-700 hover:text-orange-500'
-                                                    : 'text-slate-700 hover:text-orange-400'
+                                                isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-slate-700 hover:text-orange-400'
                                             }`}
                                         >
                                             {label}
@@ -103,25 +97,24 @@ const Header: React.FC = () => {
                                         </Link>
                                     </li>
                                 ))}
-                               <li>
-  <Button asChild className="relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-glow hover:shadow-md hover:shadow-orange-500/25">
-    <Link href="/contact">
-      <span className="relative z-10">Contact Us</span>
-      <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    </Link>
-  </Button>
-</li>
+                                <li>
+                                    <Button
+                                        asChild
+                                        className="shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:from-orange-600 hover:to-orange-700 hover:shadow-md hover:shadow-orange-500/25"
+                                    >
+                                        <Link href="/contact">
+                                            <span className="relative z-10">Contact Us</span>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                                        </Link>
+                                    </Button>
+                                </li>
                                 <li>
                                     <select
                                         value={locale}
                                         onChange={(e) =>
-                                            Inertia.get(
-                                                route('locale.change', e.target.value),
-                                                {},
-                                                { preserveState: true, preserveScroll: true }
-                                            )
+                                            Inertia.get(route('locale.change', e.target.value), {}, { preserveState: true, preserveScroll: true })
                                         }
-                                        className="border rounded p-2 bg-white text-sm"
+                                        className="rounded border bg-white p-2 text-sm"
                                     >
                                         {supported_locales.map((loc) => (
                                             <option key={loc} value={loc}>
@@ -136,25 +129,24 @@ const Header: React.FC = () => {
 
                     {/* Mobile Menu Content */}
                     {isMenuOpen && (
-                        <div className="lg:hidden mt-2 space-y-4 mb-5">
-                            <Link href="/" className="block text-slate-700 font-medium">
+                        <div className="mt-2 mb-5 space-y-4 lg:hidden">
+                            <Link href="/" className="block font-medium text-slate-700">
                                 {t('Home')}
                             </Link>
-                            <Link href="/about" className="block text-slate-700 font-medium">
+                            <Link href="/about" className="block font-medium text-slate-700">
                                 {t('About Us')}
                             </Link>
-                            <Link href="/webshops" className="block text-slate-700 font-medium">
+                            <Link href="/webshops" className="block font-medium text-slate-700">
                                 {t('Shop')}
                             </Link>
 
                             {/* <Link href="/career" className="block text-slate-700 font-medium">
                                 {t('Career')}
                             </Link> */}
-                            <Link href="/contact" className="block text-slate-700 font-medium">
+                            <Link href="/contact" className="block font-medium text-slate-700">
                                 {t('Contact Us')}
                             </Link>
                         </div>
-
                     )}
                 </div>
             </header>
