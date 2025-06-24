@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
 import { Inertia } from '@inertiajs/inertia';
 import { Link, usePage } from '@inertiajs/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,6 +22,10 @@ const Header: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(true);
     const { t } = useTranslation();
     const { locale, supported_locales } = usePage<{ props: SharedProps }>().props;
+
+    // Cart functionality
+    const { getCartItemsCount } = useCart();
+    const cartItemsCount = getCartItemsCount();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,13 +62,14 @@ const Header: React.FC = () => {
                             <Link href="/webshops" className="text-sm font-medium text-slate-700 hover:text-orange-500">
                                 {t('Shop')}
                             </Link>
-                            {/* <Link
-                                href="/cart"
-                                aria-label="Cart"
-                                className="relative"
-                            >
-                                <ShoppingCart className="h-5 w-5  text-slate-700 hover:text-orange-500" />
-                            </Link> */}
+                            <Link href="/cart" aria-label="Cart" className="relative">
+                                <ShoppingCart className="h-5 w-5 text-slate-700 hover:text-orange-500" />
+                                {cartItemsCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
+                                        {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                                    </span>
+                                )}
+                            </Link>
                             <button
                                 className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
                                     isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -83,7 +89,6 @@ const Header: React.FC = () => {
                                     { href: '/about', label: t('About Us') },
                                     { href: '/webshops', label: t('Shop') },
                                     // { href: '/career', label: t('Career') },
-                                    // { href: '/cart', label: t('Cart') },
                                 ].map(({ href, label }) => (
                                     <li key={href}>
                                         <Link
@@ -97,6 +102,26 @@ const Header: React.FC = () => {
                                         </Link>
                                     </li>
                                 ))}
+                                {/* Cart with indicator */}
+                                <li>
+                                    <Link
+                                        href="/cart"
+                                        className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
+                                            isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-slate-700 hover:text-orange-400'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <ShoppingCart className="h-5 w-5" />
+                                            <span>{t('Cart')}</span>
+                                            {cartItemsCount > 0 && (
+                                                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
+                                                    {cartItemsCount > 9 ? '9+' : cartItemsCount}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
+                                    </Link>
+                                </li>
                                 <li>
                                     <Button
                                         asChild
@@ -139,10 +164,6 @@ const Header: React.FC = () => {
                             <Link href="/webshops" className="block font-medium text-slate-700">
                                 {t('Shop')}
                             </Link>
-
-                            {/* <Link href="/career" className="block text-slate-700 font-medium">
-                                {t('Career')}
-                            </Link> */}
                             <Link href="/contact" className="block font-medium text-slate-700">
                                 {t('Contact Us')}
                             </Link>
