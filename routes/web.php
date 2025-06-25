@@ -10,6 +10,12 @@ use App\Http\Controllers\WarehouseController;
 Route::get('/', function () {
     return Inertia::render('website/Home');
 })->name('home');
+Route::get('/admin/settings', function () {
+    return Inertia::render('SiteSettings/Show');
+})->name('settings');
+Route::get('/admin/settings/edit', function () {
+    return Inertia::render('SiteSettings/Edit');
+})->name('settings.edit');
 
 // Public website pages
 Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('buildings');

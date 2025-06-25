@@ -1,10 +1,9 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, BrickWall, Folder, House, LayoutGrid, PhoneCall } from 'lucide-react';
+import { BrickWall, House, PhoneCall, Settings2Icon } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -27,6 +26,11 @@ const mainNavItems: NavItem[] = [
         title: 'Contacts',
         href: '/admin/contacts',
         icon: PhoneCall,
+    },
+    {
+        title: 'Settings',
+        href: '/admin/settings',
+        icon: Settings2Icon,
     },
 ];
 

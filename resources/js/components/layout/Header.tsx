@@ -40,8 +40,8 @@ const Header: React.FC = () => {
             <header
                 className={`fixed top-0 left-0 z-[100] w-full transition-all duration-500 ${
                     isScrolled
-                        ? 'shadow-luxury border-b border-slate-200/50 bg-white text-slate-700 backdrop-blur-xl dark:border-slate-900/50 dark:bg-slate-900/95'
-                        : 'border-b border-white/90 bg-white text-slate-700 backdrop-blur-sm dark:border-slate-900/50 dark:bg-slate-900/90'
+                        ? 'shadow-luxury border-b border-slate-200/50 bg-white text-slate-700 backdrop-blur-xl'
+                        : 'border-b border-white/90 bg-white text-slate-700 backdrop-blur-sm'
                 }`}
             >
                 <div className="container mx-auto px-4 md:px-6">
