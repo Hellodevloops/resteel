@@ -67,8 +67,8 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                     <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800">Contact List</h1>
-                                <p className="mt-1 text-gray-600">View and manage your contacts</p>
+                        <h1 className="text-2xl font-bold text-gray-800">Contact List</h1>
+                        <p className="mt-1 text-gray-600">View and manage your contacts</p>
                             </div>
                             <Link
                                 href="/admin/contacts/create"

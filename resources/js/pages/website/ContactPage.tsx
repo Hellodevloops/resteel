@@ -1,17 +1,16 @@
-import Footer from '@/components/layout/Footer';
+'use client';
+
+import Layout from './Layout';
 import ContactCTA from './Contact';
-import Header from '@/components/layout/Header';
 
 const ContactPage = () => {
-    return (
-        <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">
-                <ContactCTA />
-            </main>
-            <Footer />
-        </div>
-    );
+  return (
+    <Layout title="Contact Us | Resteel">
+      <main className="min-h-screen mt-16 sm:mt-20">
+        <ContactCTA />
+      </main>
+    </Layout>
+  );
 };
 
 export default ContactPage;
