@@ -18,33 +18,36 @@ const dashboardCards = [
         description: 'Manage your warehouse inventory and operations',
         href: '/admin/warehouse',
         icon: BrickWall,
-        color: 'bg-blue-700/10 text-blue-700 dark:bg-blue-600/20 dark:text-blue-400',
-        hoverColor: 'group-hover:bg-blue-700/20 dark:group-hover:bg-blue-600/30',
+        color: 'bg-blue-700/10 text-blue-700',
+        hoverColor: 'group-hover:bg-blue-700/20',
         gradient: 'from-blue-700/8 via-blue-600/12 to-blue-700/16',
         shadowColor: 'group-hover:shadow-blue-700/30',
-        borderGlow: 'group-hover:border-blue-600/60 dark:group-hover:border-blue-500/40',
+        borderGlow: 'group-hover:border-blue-600/60',
+        isActive: true,
     },
     {
         title: 'WebShop',
         description: 'Manage your online store and products',
         href: '/admin/webshops',
         icon: Home,
-        color: 'bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-300',
-        hoverColor: 'group-hover:bg-blue-600/20 dark:group-hover:bg-blue-500/30',
+        color: 'bg-blue-600/10 text-blue-600',
+        hoverColor: 'group-hover:bg-blue-600/20',
         gradient: 'from-blue-600/6 via-blue-500/10 to-blue-600/14',
         shadowColor: 'group-hover:shadow-blue-600/25',
-        borderGlow: 'group-hover:border-blue-500/55 dark:group-hover:border-blue-400/35',
+        borderGlow: 'group-hover:border-blue-500/55',
+        isActive: false,
     },
     {
         title: 'Contacts',
         description: 'Manage your business contacts and communications',
         href: '/admin/contacts',
         icon: PhoneCall,
-        color: 'bg-blue-800/10 text-blue-800 dark:bg-blue-700/20 dark:text-blue-500',
-        hoverColor: 'group-hover:bg-blue-800/20 dark:group-hover:bg-blue-700/30',
+        color: 'bg-blue-800/10 text-blue-800',
+        hoverColor: 'group-hover:bg-blue-800/20',
         gradient: 'from-blue-800/10 via-blue-700/14 to-blue-800/18',
         shadowColor: 'group-hover:shadow-blue-800/35',
-        borderGlow: 'group-hover:border-blue-700/65 dark:group-hover:border-blue-600/45',
+        borderGlow: 'group-hover:border-blue-700/65',
+        isActive: false,
     },
 ];
 
@@ -72,13 +75,22 @@ export default function Dashboard() {
                                 className="group block transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
                             >
                                 <Card
-                                    className={`relative h-full cursor-pointer overflow-hidden bg-gradient-to-br ${card.gradient} border-sidebar-border/40 dark:border-sidebar-border/20 border-2 ${card.borderGlow} transition-all duration-500 hover:shadow-2xl ${card.shadowColor} backdrop-blur-sm`}
+                                    className={`relative h-full cursor-pointer overflow-hidden bg-gradient-to-br ${card.gradient} border-sidebar-border/40 border-2 ${card.borderGlow} transition-all duration-500 hover:shadow-2xl ${card.shadowColor} backdrop-blur-sm`}
                                 >
+                                    {/* Active Badge */}
+                                    {card.isActive && (
+                                        <div className="absolute top-4 right-4 z-10">
+                                            <span className="text-bold inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 font-medium text-green-800">
+                                                Active
+                                            </span>
+                                        </div>
+                                    )}
+
                                     {/* Animated background overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent text-[#0076A8] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                                     {/* Subtle animated border glow */}
-                                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-current to-transparent opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-20" />
+                                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-current to-transparent text-[#0076A8] opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-20" />
 
                                     <CardHeader className="relative pt-8 pb-6">
                                         <div className="flex items-start justify-between">
@@ -86,12 +98,14 @@ export default function Dashboard() {
                                                 <div
                                                     className={`flex h-16 w-16 items-center justify-center rounded-2xl transition-all duration-500 ${card.color} ${card.hoverColor} shadow-lg group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl`}
                                                 >
-                                                    <Icon className="h-8 w-8 transition-all duration-500 group-hover:scale-110" />
+                                                    <Icon className="h-8 w-8 text-[#0076A8] transition-all duration-500 group-hover:scale-110" />
                                                 </div>
                                                 <div className="flex-1">
-                                                    <CardTitle className="group-hover:text-foreground/90 text-2xl font-bold tracking-tight transition-all duration-300">
-                                                        {card.title}
-                                                    </CardTitle>
+                                                    <div className="group">
+                                                        <CardTitle className="text-2xl font-bold tracking-tight text-[#0076A8] transition-all duration-300 group-hover:text-[#0076A8]">
+                                                            {card.title}
+                                                        </CardTitle>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <ArrowRight className="text-muted-foreground group-hover:text-foreground h-6 w-6 opacity-0 transition-all duration-500 group-hover:translate-x-2 group-hover:opacity-100" />
@@ -124,8 +138,8 @@ export default function Dashboard() {
                 </div>
 
                 {/* Enhanced Placeholder Section */}
-                <div className="border-sidebar-border/40 dark:border-sidebar-border/20 from-background via-muted/5 to-muted/10 relative min-h-[60vh] flex-1 overflow-hidden rounded-2xl border-2 border-dashed bg-gradient-to-br">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/10 dark:stroke-neutral-100/10" />
+                <div className="border-sidebar-border/40 from-background via-muted/5 to-muted/10 relative min-h-[60vh] flex-1 overflow-hidden rounded-2xl border-2 border-dashed bg-gradient-to-br">
+                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/10" />
 
                     {/* Content overlay */}
                     {/* <div className="absolute inset-0 flex items-center justify-center">
