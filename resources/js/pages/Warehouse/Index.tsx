@@ -1,26 +1,14 @@
-import { AppSidebarHeader } from '@/components/app-sidebar-header';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import {
-    Building2,
-    MapPin,
-    Package,
-    Plus,
-    Search,
-    Settings,
-    Eye,
-    Filter,
-    Calendar,
-} from 'lucide-react';
+import { Building2, Calendar, Eye, MapPin, Package, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
 
 interface Warehouse {
     id: number;
@@ -69,15 +57,12 @@ export default function Index({ warehouseData }: Props) {
 
     const filteredWarehouses = warehouseData.warehouses.filter((warehouse) => {
         const matchesSearch =
-            warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-            warehouse.location.toLowerCase().includes(searchTerm.toLowerCase());
+            warehouse.name.toLowerCase().includes(searchTerm.toLowerCase()) || warehouse.location.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesFilter = filterStatus === 'all' || warehouse.status === filterStatus;
         return matchesSearch && matchesFilter;
     });
 
-    const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Warehouses', href: route('admin.warehouses.index') },
-    ];
+    const breadcrumbs: BreadcrumbItem[] = [{ title: 'Warehouses', href: route('admin.warehouses.index') }];
 
     const getStatusBadge = (status: string) => {
         switch (status) {
@@ -103,20 +88,18 @@ export default function Index({ warehouseData }: Props) {
             <Head title="Warehouses - Admin" />
             {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
-            <div className="min-h-screen bg-background">
+            <div className="bg-background min-h-screen">
                 {/* Header */}
-                <div className="border-b bg-background">
+                <div className="bg-background border-b">
                     <div className="container mx-auto px-6 py-6">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-primary">
-                                    <Building2 className="h-5 w-5 text-primary-foreground" />
+                                <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-sm">
+                                    <Building2 className="text-primary-foreground h-5 w-5" />
                                 </div>
                                 <div>
                                     <h1 className="text-xl font-semibold">Warehouses</h1>
-                                    <p className="text-sm text-muted-foreground">
-                                        Manage your warehouse inventory
-                                    </p>
+                                    <p className="text-muted-foreground text-sm">Manage your warehouse inventory</p>
                                 </div>
                             </div>
                             <Button asChild className="rounded-sm">
@@ -135,11 +118,11 @@ export default function Index({ warehouseData }: Props) {
                         {/* Main Content */}
                         <div className="lg:col-span-4">
                             {/* Search and Filter */}
-                            <Card className="mb-6 rounded-sm border border-none">
+                            <div className="mb-6 rounded-sm border border-none">
                                 <CardContent className="">
                                     <div className="flex flex-col gap-4 sm:flex-row">
                                         <div className="relative flex-1">
-                                            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                            <Search className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                                             <Input
                                                 placeholder="Search warehouses..."
                                                 value={searchTerm}
@@ -160,7 +143,7 @@ export default function Index({ warehouseData }: Props) {
                                         </Select>
                                     </div>
                                 </CardContent>
-                            </Card>
+                            </div>
 
                             {/* Warehouses Grid */}
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -170,7 +153,7 @@ export default function Index({ warehouseData }: Props) {
                                             <div className="flex items-start justify-between">
                                                 <div>
                                                     <CardTitle className="text-lg">{warehouse.name}</CardTitle>
-                                                    <CardDescription className="flex items-center mt-1">
+                                                    <CardDescription className="mt-1 flex items-center">
                                                         <MapPin className="mr-1 h-3 w-3" />
                                                         {warehouse.location}
                                                     </CardDescription>
@@ -180,7 +163,7 @@ export default function Index({ warehouseData }: Props) {
                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                             {/* Occupancy */}
-                                            
+
                                             {/* Stats */}
                                             <div className="grid grid-cols-2 gap-4 text-sm">
                                                 <div>
@@ -196,10 +179,10 @@ export default function Index({ warehouseData }: Props) {
                                             {/* Type and Inspection */}
                                             <div className="flex items-center justify-between text-sm">
                                                 <div className="flex items-center">
-                                                    <Package className="mr-1 h-3 w-3 text-muted-foreground" />
+                                                    <Package className="text-muted-foreground mr-1 h-3 w-3" />
                                                     <span>{warehouse.type}</span>
                                                 </div>
-                                                <div className="flex items-center text-muted-foreground">
+                                                <div className="text-muted-foreground flex items-center">
                                                     <Calendar className="mr-1 h-3 w-3" />
                                                     <span>Last: {warehouse.last_inspection}</span>
                                                 </div>
@@ -215,9 +198,9 @@ export default function Index({ warehouseData }: Props) {
                                                         View Details
                                                     </Link>
                                                 </Button>
-                                                <Button variant="outline" size="sm" className="rounded-sm">
+                                                {/* <Button variant="outline" size="sm" className="rounded-sm">
                                                     <Settings className="h-3 w-3" />
-                                                </Button>
+                                                </Button> */}
                                             </div>
                                         </CardContent>
                                     </Card>
@@ -228,18 +211,15 @@ export default function Index({ warehouseData }: Props) {
                             {filteredWarehouses.length === 0 && (
                                 <Card className="rounded-sm">
                                     <CardContent className="py-12 text-center">
-                                        <Package className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+                                        <Package className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
                                         <h3 className="mb-2 text-lg font-medium">No warehouses found</h3>
-                                        <p className="text-muted-foreground">
-                                            Try adjusting your search or filter criteria
-                                        </p>
+                                        <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
                                     </CardContent>
                                 </Card>
                             )}
                         </div>
 
                         {/* Sidebar */}
-                       
                     </div>
                 </div>
             </div>

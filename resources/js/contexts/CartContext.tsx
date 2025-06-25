@@ -47,11 +47,11 @@ const loadCartFromStorage = (): CartItem[] => {
             const parsedCart = JSON.parse(savedCart);
             // Validate that parsedCart is an array
             if (Array.isArray(parsedCart)) {
-                console.log('📦 Cart loaded from localStorage:', parsedCart.length, 'items');
+                // console.log('📦 Cart loaded from localStorage:', parsedCart.length, 'items');
                 return parsedCart;
             }
         } else {
-            console.log('📦 No cart found in localStorage, starting with empty cart');
+            // console.log('📦 No cart found in localStorage, starting with empty cart');
         }
     } catch (error) {
         console.error('❌ Failed to load cart from localStorage:', error);
@@ -64,7 +64,7 @@ const saveCartToStorage = (cartItems: CartItem[]) => {
     try {
         if (typeof window === 'undefined') return; // SSR check
         localStorage.setItem('resteel-cart', JSON.stringify(cartItems));
-        console.log('💾 Cart saved to localStorage:', cartItems.length, 'items');
+        // console.log('💾 Cart saved to localStorage:', cartItems.length, 'items');
     } catch (error) {
         console.error('❌ Failed to save cart to localStorage:', error);
     }
@@ -132,11 +132,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
                     // Update quantity if item already exists
                     const updatedItems = [...prev];
                     updatedItems[existingItemIndex].quantity += quantity;
-                    console.log('🔄 Updated existing item in cart:', cartItem.name, 'new quantity:', updatedItems[existingItemIndex].quantity);
+                    // console.log('🔄 Updated existing item in cart:', cartItem.name, 'new quantity:', updatedItems[existingItemIndex].quantity);
                     return updatedItems;
                 } else {
                     // Add new item
-                    console.log('➕ Added new item to cart:', cartItem.name, 'quantity:', quantity);
+                    // console.log('➕ Added new item to cart:', cartItem.name, 'quantity:', quantity);
                     return [...prev, cartItem];
                 }
             });
