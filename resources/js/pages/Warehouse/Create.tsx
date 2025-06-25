@@ -1,5 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -36,18 +34,18 @@ export default function Create() {
                 </div>
 
                 {/* Main Content - Full Screen */}
-                <div className="container mx-auto px-6 py-6">
+                <div className="container mx-auto">
                     <div className="h-full">
-                        <Card className="h-full rounded-sm">
-                            <CardHeader className="pb-4">
+                        {/* <Card className="h-full rounded-sm"> */}
+                        {/* <CardHeader className="pb-4">
                                 <CardTitle className="text-lg font-medium">Warehouse Information</CardTitle>
                                 <CardDescription>Fill in the details below to create your new warehouse</CardDescription>
-                            </CardHeader>
-                            <Separator />
-                            <CardContent className="p-6">
-                                <WarehouseForm />
-                            </CardContent>
-                        </Card>
+                            </CardHeader> */}
+                        {/* <Separator /> */}
+                        {/* <CardContent className="p-6"> */}
+                        <WarehouseForm />
+                        {/* </CardContent> */}
+                        {/* </Card> */}
                     </div>
                 </div>
             </div>
