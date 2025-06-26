@@ -56,13 +56,13 @@ class ContactController extends Controller
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
         ]);
-    
+
         $contact = Contact::create([
             ...$validated,
             'alerts' => 0,
             'last_contact' => now(),
         ]);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Contact created successfully.',

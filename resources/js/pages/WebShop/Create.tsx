@@ -224,43 +224,6 @@ export default function Create({ errors: serverErrors = {}, flash = {} }) {
 
                     {/* Sidebar */}
                     <div className="space-y-6 lg:col-span-4">
-                        <div className="rounded-2xl border bg-white p-6 shadow">
-                            <h3 className="flex items-center text-sm font-medium text-purple-900">
-                                <div className="mr-2 h-2 w-2 rounded-full bg-purple-500"></div>
-                                SEO Preview
-                            </h3>
-                            <div className="mt-4 space-y-2">
-                                <p className="text-xs font-medium text-blue-600">Your Store › Products</p>
-                                <p className="text-lg font-medium text-slate-800">New Product Title</p>
-                                <p className="text-sm text-slate-600">This is how your product may appear in search results.</p>
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl border border-amber-100 bg-amber-50 p-6 shadow">
-                            <h3 className="flex items-center text-sm font-semibold text-amber-800">
-                                <Sparkles className="mr-2 h-4 w-4 text-amber-600" />
-                                Pro Tips
-                            </h3>
-                            <ul className="mt-4 space-y-3 text-sm text-amber-700">
-                                <li className="flex items-start">
-                                    <span className="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-amber-500"></span>
-                                    Use high-quality images for better conversions.
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-amber-500"></span>
-                                    Write detailed descriptions with keywords.
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-amber-500"></span>
-                                    Set competitive pricing for your market.
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-amber-500"></span>
-                                    Double-check all fields before submitting.
-                                </li>
-                            </ul>
-                        </div>
-
                         {/* Error Prevention Tips */}
                         {(hasServerErrors || clientErrors.length > 0) && (
                             <div className="rounded-2xl border border-red-100 bg-red-50 p-6 shadow">

@@ -88,7 +88,7 @@ export default function Index({ products: initialProducts = [], filters: initial
                                 <Plus className="h-5 w-5" />
                                 Create Product
                             </Link>
-                        </div>
+                            </div>
 
                         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                             <StatCard icon={<Package className="text-blue-600" />} label="Total" value={stats.total} />
@@ -125,22 +125,22 @@ export default function Index({ products: initialProducts = [], filters: initial
                             </div>
                             <div className="flex justify-end lg:col-span-3">
                                 <div className="flex rounded-xl bg-slate-100 p-1">
-                                    <button
+                        <button
                                         className={`flex h-10 w-10 items-center justify-center rounded-xl ${viewMode === 'grid' ? 'bg-white text-indigo-600 shadow' : 'text-slate-500'}`}
                                         onClick={() => setViewMode('grid')}
                                     >
                                         <Grid className="h-5 w-5" />
-                                    </button>
-                                    <button
+                        </button>
+                        <button
                                         className={`flex h-10 w-10 items-center justify-center rounded-xl ${viewMode === 'list' ? 'bg-white text-indigo-600 shadow' : 'text-slate-500'}`}
                                         onClick={() => setViewMode('list')}
                                     >
                                         <List className="h-5 w-5" />
-                                    </button>
+                        </button>
                                 </div>
                             </div>
-                        </div>
                     </div>
+                </div>
 
                     <div className="mt-8">
                         {filteredProducts.length > 0 ? (
@@ -148,17 +148,17 @@ export default function Index({ products: initialProducts = [], filters: initial
                                 {filteredProducts.map((product) => (
                                     <ProductCard key={product.id} product={product} onDelete={() => handleDelete(product.id)} viewMode={viewMode} />
                                 ))}
-                            </div>
+                        </div>
                         ) : (
                             <div className="rounded-2xl bg-white p-12 text-center shadow">
                                 <Package className="mx-auto mb-4 h-12 w-12 text-indigo-400" />
                                 <h2 className="text-xl font-semibold text-slate-800">No products found</h2>
                                 <p className="mt-2 text-slate-600">Try adjusting your filters or add new products.</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                    </div>
+                                                </div>
         </AppLayout>
     );
 }
@@ -169,9 +169,9 @@ function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string
             <div>
                 <p className="text-sm text-slate-500">{label}</p>
                 <p className="text-xl font-semibold text-slate-800">{value}</p>
-            </div>
+                                                </div>
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">{icon}</div>
-        </div>
+                                            </div>
     );
 }
 
@@ -190,14 +190,14 @@ function ProductCard({ product, onDelete, viewMode }: { product: Product; onDele
                 ) : (
                     <div className="flex h-full w-full items-center justify-center text-slate-400">
                         <Package className="h-10 w-10" />
-                    </div>
-                )}
-            </div>
+                                    </div>
+                                )}
+                            </div>
             <div className="flex flex-1 flex-col justify-between">
-                <div>
+                                        <div>
                     <h3 className="mt-4 mb-2 text-lg font-semibold text-slate-800">{product.name}</h3>
                     <p className="text-sm text-slate-600">{product.description}</p>
-                </div>
+                                        </div>
                 <div className="mt-4 flex items-center justify-between">
                     <p className="font-bold text-indigo-600">€{parseFloat(product.price).toLocaleString()}</p>
                     <div className="flex items-center space-x-2">
@@ -206,10 +206,10 @@ function ProductCard({ product, onDelete, viewMode }: { product: Product; onDele
                         </Link>
                         <button onClick={onDelete} className="text-red-600 hover:underline">
                             <Trash2 className="h-4 w-4" />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
     );
 }

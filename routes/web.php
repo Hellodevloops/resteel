@@ -5,11 +5,18 @@ use Inertia\Inertia;
 use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\LocaleController;
 
 // Home route
 Route::get('/', function () {
     return Inertia::render('website/Home');
 })->name('home');
+Route::get('/admin/settings', function () {
+    return Inertia::render('SiteSettings/Show');
+})->name('settings');
+Route::get('/admin/settings/edit', function () {
+    return Inertia::render('SiteSettings/Edit');
+})->name('settings.edit');
 
 // Public website pages
 Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('buildings');
@@ -82,12 +89,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('admin/warehouse/{warehouse}/edit', '/admin/warehouses/{warehouse}/edit')->name('warehouse.edit');
 });
 
+// Language switching routes with better session handling
+Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
+Route::get('/locale/current', [LocaleController::class, 'current'])->name('locale.current');
+
+// Fallback route for backward compatibility (GET method)
 Route::get('/locale/{locale}', function ($locale) {
     if (in_array($locale, config('app.supported_locales'))) {
         session(['locale' => $locale]);
     }
     return redirect()->back();
-})->name('locale.change');
+})->name('locale.change.get');
 
 
 Route::get('/webshopdetail', fn() => Inertia::render('website/WebshopItemDetail'))->name('WebshopItemDetail');

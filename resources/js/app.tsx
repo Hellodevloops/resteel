@@ -3,6 +3,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../css/app.css';
 import { CartProvider } from './contexts/CartContext';
 import { initializeTheme } from './hooks/use-appearance';
@@ -22,6 +24,18 @@ createInertiaApp({
                     <I18nextProvider i18n={i18n}>
                         <Suspense fallback={<div>Loading translations...</div>}>
                             <App {...props} />
+                            <ToastContainer
+                                position="top-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                theme="light"
+                            />
                         </Suspense>
                     </I18nextProvider>
                 </CartProvider>

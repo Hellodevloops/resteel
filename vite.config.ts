@@ -22,6 +22,13 @@ export default defineConfig({
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
+    optimizeDeps: {
+        include: ['react-toastify'],
+        force: true,
+    },
+    server: {
+        hmr: {
+            overlay: false,
+        },
+    },
 });
-
-

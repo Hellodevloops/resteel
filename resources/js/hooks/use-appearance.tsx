@@ -1,14 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
-export type Appearance = 'light' | 'dark' | 'system';
-
-const prefersDark = () => {
-    if (typeof window === 'undefined') {
-        return false;
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-};
+export type Appearance = 'light';
 
 const setCookie = (name: string, value: string, days = 365) => {
     if (typeof document === 'undefined') {
@@ -19,55 +11,30 @@ const setCookie = (name: string, value: string, days = 365) => {
     document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
 };
 
-const applyTheme = (appearance: Appearance) => {
-    const isDark = appearance === 'dark' || (appearance === 'system' && prefersDark());
-
-    document.documentElement.classList.toggle('dark', isDark);
-};
-
-const mediaQuery = () => {
-    if (typeof window === 'undefined') {
-        return null;
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)');
-};
-
-const handleSystemThemeChange = () => {
-    const currentAppearance = localStorage.getItem('appearance') as Appearance;
-    applyTheme(currentAppearance || 'system');
+const applyTheme = () => {
+    // Always apply light theme, remove dark class if it exists
+    document.documentElement.classList.remove('dark');
 };
 
 export function initializeTheme() {
-    const savedAppearance = (localStorage.getItem('appearance') as Appearance) || 'system';
-
-    applyTheme(savedAppearance);
-
-    // Add the event listener for system theme changes...
-    mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+    applyTheme();
 }
 
 export function useAppearance() {
-    const [appearance, setAppearance] = useState<Appearance>('system');
-
-    const updateAppearance = useCallback((mode: Appearance) => {
-        setAppearance(mode);
-
+    const updateAppearance = useCallback(() => {
         // Store in localStorage for client-side persistence...
-        localStorage.setItem('appearance', mode);
+        localStorage.setItem('appearance', 'light');
 
         // Store in cookie for SSR...
-        setCookie('appearance', mode);
+        setCookie('appearance', 'light');
 
-        applyTheme('light');
+        applyTheme();
     }, []);
 
     useEffect(() => {
-        const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
-        updateAppearance(savedAppearance || 'light');
-
-        return () => mediaQuery()?.removeEventListener('change', handleSystemThemeChange);
+        // Always set to light mode regardless of saved preference
+        updateAppearance();
     }, [updateAppearance]);
 
-    return { appearance, updateAppearance } as const;
+    return { appearance: 'light' as const, updateAppearance } as const;
 }

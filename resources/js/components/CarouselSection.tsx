@@ -4,6 +4,7 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const steelBlue = '#0076A8';
 const vibrantOrange = '#FF6600';
@@ -21,6 +22,7 @@ interface WebShopItem {
 }
 
 const CarouselSection = () => {
+    const { t } = useTranslation();
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
     const [items, setItems] = useState<WebShopItem[]>([]);
@@ -73,9 +75,10 @@ const CarouselSection = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h2 className="mt-4 text-4xl font-bold md:text-5xl" style={{ color: charcoal }}>
-                            Discover Our <span style={{ color: steelBlue }}>Latest Structures</span>
+                            {t('discover_our_latest_structures').split(' ').slice(0, -1).join(' ')}{' '}
+                            <span style={{ color: steelBlue }}>{t('discover_our_latest_structures').split(' ').slice(-1)[0]}</span>
                         </h2>
-                        <p className="mt-2 text-slate-600">New steel halls, warehouses, and frames — ready to relocate.</p>
+                        <p className="mt-2 text-slate-600">{t('latest_structures_subtitle')}</p>
                     </div>
                     <Button
                         onClick={() => (window.location.href = `/webshops`)}
@@ -84,7 +87,7 @@ const CarouselSection = () => {
                         className="px-0 text-lg font-medium"
                         style={{ color: vibrantOrange }}
                     >
-                        Explore all <ArrowRight className="ml-2 h-4 w-4" />
+                        {t('explore_all')} <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                 </div>
 
@@ -145,7 +148,7 @@ const CarouselSection = () => {
                                         className="px-0 text-sm font-medium"
                                         style={{ color: steelBlue }}
                                     >
-                                        Explore More <ArrowRight className="ml-1 h-4 w-4" />
+                                        {t('explore_all')} <ArrowRight className="ml-1 h-4 w-4" />
                                     </Button>
                                 </div>
                             </CardContent>

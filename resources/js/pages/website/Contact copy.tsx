@@ -2,8 +2,10 @@ import { Button } from '@/components/ui/button';
 import { useForm } from '@inertiajs/react';
 import { ArrowRight, Award, Clock, Mail, MapPin, MessageSquare, Phone, Send, User, Users, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ContactCTA = () => {
+    const { t } = useTranslation();
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -186,46 +188,6 @@ const ContactCTA = () => {
                         <div
                             className={`space-y-6 transition-all duration-1000 md:space-y-8 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}
                         >
-                            {/* <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-800 via-slate-700 to-blue-800 p-8 md:p-10 text-white shadow-2xl">
-                                <div
-                                    className="absolute inset-0 opacity-10"
-                                    style={{
-                                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.3) 0%, transparent 50%),
-                                                     radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.3) 0%, transparent 50%)`,
-                                    }}
-                                ></div>
-                                <div className="relative">
-
-                                    <h3 className="mb-4 md:mb-6 text-cyan-600 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
-
-                                    <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
-                                        Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
-                                        your vision to life.
-                                    </p>
-                                    <div className="flex flex-col gap-3 md:gap-4 sm:flex-row">
-                                        <Button
-                                            size="lg"
-                                            className="bg-orange-500 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25"
-                                        >
-                                            Get Free Consultation
-                                            <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-                                        </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="outline"
-                                            className="border-white/30 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/10"
-                                        >
-                                            <a href="tel:+31123456789">Call Now</a>
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className="absolute top-4 right-4 h-16 w-16 md:h-20 md:w-20 animate-pulse rounded-full bg-orange-500/20"></div>
-                                <div
-                                    className="absolute bottom-4 left-4 h-12 w-12 md:h-16 md:w-16 animate-pulse rounded-full bg-blue-600/20"
-                                    style={{ animationDelay: '1s' }}
-                                ></div>
-                            </div> */}
-
                             <div className="grid grid-cols-2 gap-3 md:gap-4">
                                 {features.map((feature, index) => (
                                     <div
@@ -359,7 +321,7 @@ const ContactCTA = () => {
                                     size="lg"
                                     className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 py-4 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-orange-700 hover:shadow-2xl hover:shadow-orange-500/25"
                                 >
-                                    Send Message
+                                    {t('send_message_btn')}
                                     <Send className="ml-3 h-6 w-6" />
                                 </Button>
                                 <div className="border-t border-slate-200 pt-6">

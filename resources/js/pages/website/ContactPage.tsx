@@ -1,16 +1,18 @@
-import Footer from '@/components/layout/Footer';
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import ContactCTA from './Contact';
-import Header from '@/components/layout/Header';
+import Layout from './Layout';
 
 const ContactPage = () => {
+    const { t } = useTranslation();
+
     return (
-        <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">
+        <Layout title={`${t('contact_us')} | Resteel`}>
+            <main className="mt-16 min-h-screen sm:mt-20">
                 <ContactCTA />
             </main>
-            <Footer />
-        </div>
+        </Layout>
     );
 };
 
