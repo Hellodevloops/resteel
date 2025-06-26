@@ -18,13 +18,19 @@ const flagEmojis: Record<string, string> = {
     de: '🇩🇪',
 };
 
+interface PageProps {
+    locale?: string;
+    supported_locales?: string[];
+    [key: string]: unknown;
+}
+
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(true);
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
     const [currentLocale, setCurrentLocale] = useState<string>('en');
     const { t, i18n } = useTranslation();
-    const pageProps = usePage().props as any;
+    const pageProps = usePage().props as PageProps;
     const locale = pageProps?.locale || 'en';
     const supported_locales = pageProps?.supported_locales || ['en', 'de', 'nl'];
 
@@ -67,12 +73,19 @@ const Header: React.FC = () => {
             await i18n.changeLanguage(newLocale);
             setCurrentLocale(newLocale);
 
-            // Update session in background without page reload
-            await axios.get(`/locale/${newLocale}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
+            // Update session in background without page reload - using POST for better session handling
+            await axios.post(
+                '/locale/change',
+                {
+                    locale: newLocale,
                 },
-            });
+                {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
         } catch (error) {
             console.error('Failed to change language:', error);
             // Revert on error

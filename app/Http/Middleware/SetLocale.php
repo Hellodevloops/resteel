@@ -16,9 +16,18 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
+        // Get locale from session, fallback to config default
         $locale = session('locale', config('app.locale'));
+
+        // Validate locale is supported
+        if (!in_array($locale, config('app.supported_locales'))) {
+            $locale = config('app.locale');
+            session(['locale' => $locale]); // Store corrected locale in session
+        }
+
+        // Set the application locale
         App::setLocale($locale);
+
         return $next($request);
     }
-
 }
