@@ -102,10 +102,10 @@ const CarouselSection = () => {
                     {items.map((item) => (
                         <Card
                             key={item.id}
-                            className="flex h-[340px] max-w-sm min-w-[300px] shrink-0 snap-start flex-col justify-between overflow-hidden border border-slate-200 bg-white shadow-md transition-shadow duration-300 hover:shadow-lg"
+                            className="flex h-[340px] max-w-sm min-w-[300px] shrink-0 snap-start flex-col justify-between overflow-hidden border border-slate-200 bg-white p-0 shadow-md transition-shadow duration-300 hover:shadow-lg"
                         >
-                            {/* Image */}
-                            <div className="relative h-40 w-full overflow-hidden rounded-t-lg">
+                            {/* Image - No padding, full width */}
+                            <div className="relative h-40 w-full overflow-hidden">
                                 <img
                                     src={item.image?.startsWith('/storage') ? `${location.origin}${item.image}` : item.image}
                                     alt={item.name}
@@ -116,7 +116,7 @@ const CarouselSection = () => {
                                 </Badge>
                             </div>
 
-                            {/* Text Section */}
+                            {/* Text Section - With proper padding */}
                             <CardContent className="flex flex-grow flex-col justify-between space-y-3 p-4">
                                 {/* Title & Price */}
                                 <div className="flex items-start justify-between">

@@ -14,7 +14,7 @@ const mainNavItems: NavItem[] = [
     // },
     {
         title: 'Warehouse',
-        href: '/admin/warehouse',
+        href: '/admin/warehouses',
         icon: BrickWall,
     },
     {

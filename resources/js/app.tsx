@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/app.css';
 import { CartProvider } from './contexts/CartContext';
-import { initializeTheme } from './hooks/use-appearance';
 import i18n from './i18n';
 
 // Grab the DOM element
@@ -45,6 +44,3 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     progress: { color: '#4B5563' },
 });
-
-// Set light / dark mode on load
-initializeTheme();

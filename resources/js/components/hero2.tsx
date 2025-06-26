@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
                     transition={{ delay: 0.6, duration: 0.5 }}
                     className="mt-8 flex flex-col gap-4 sm:flex-row"
                 >
-                    <Link href="/webshop">
+                    <Link href="/buildings">
                         <Button size="lg" className="rounded-10 rounded bg-orange-600/80 text-white shadow-lg hover:bg-orange-600/90">
                             {t('browse_structures_btn')}
                         </Button>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Building, Building2, Eye, Factory, Play, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Layout from './Layout';
 
 // Utility function to truncate text
 const truncateText = (text: string, maxWords: number) => {
@@ -225,9 +226,9 @@ const Buildings = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50">
-            <Header />
-            <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
+        <Layout title={`Resteel | ${t('hero_title')}`}>
+            {/* <div className="min-h-screen bg-slate-50"> */}
+            <main className="mt-20 min-h-screen sm:mt-30">
                 <h1 className="mb-6 text-3xl font-bold">{t('available_buildings')}</h1>
 
                 <div className="mb-8 flex flex-wrap gap-4">
@@ -258,8 +259,8 @@ const Buildings = () => {
                     </div>
                 )}
             </main>
-            <Footer />
-        </div>
+            {/* </div> */}
+        </Layout>
     );
 };
 
