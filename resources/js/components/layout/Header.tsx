@@ -1,15 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import { Inertia } from '@inertiajs/inertia';
 import { Link, usePage } from '@inertiajs/react';
-import { Menu, ShoppingCart, X } from 'lucide-react';
+import axios from 'axios';
+import { ChevronDown, Globe, Menu, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-interface SharedProps {
-    locale: string;
-    supported_locales: string[];
-}
 
 const labels: Record<string, string> = {
     en: 'English',
@@ -17,11 +12,26 @@ const labels: Record<string, string> = {
     de: 'Deutsch',
 };
 
+const flagEmojis: Record<string, string> = {
+    en: '🇬🇧',
+    nl: '🇳🇱',
+    de: '🇩🇪',
+};
+
 const Header: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(true);
-    const { t } = useTranslation();
-    const { locale, supported_locales } = usePage<{ props: SharedProps }>().props;
+    const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+    const [currentLocale, setCurrentLocale] = useState<string>('en');
+    const { t, i18n } = useTranslation();
+    const pageProps = usePage().props as any;
+    const locale = pageProps?.locale || 'en';
+    const supported_locales = pageProps?.supported_locales || ['en', 'de', 'nl'];
+
+    // Initialize current locale
+    useEffect(() => {
+        setCurrentLocale(locale);
+    }, [locale]);
 
     // Cart functionality
     const { getCartItemsCount } = useCart();
@@ -34,6 +44,42 @@ const Header: React.FC = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('.language-dropdown')) {
+                setIsLanguageDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleLanguageChange = async (newLocale: string) => {
+        if (newLocale === currentLocale) return;
+
+        setIsLanguageDropdownOpen(false);
+
+        try {
+            // Update the frontend i18n immediately for instant UI change
+            await i18n.changeLanguage(newLocale);
+            setCurrentLocale(newLocale);
+
+            // Update session in background without page reload
+            await axios.get(`/locale/${newLocale}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+        } catch (error) {
+            console.error('Failed to change language:', error);
+            // Revert on error
+            await i18n.changeLanguage(locale);
+            setCurrentLocale(locale);
+        }
+    };
 
     return (
         <>
@@ -60,9 +106,9 @@ const Header: React.FC = () => {
                         {/* Mobile Webshop + Cart */}
                         <div className="flex items-center space-x-4 lg:hidden">
                             <Link href="/webshops" className="text-sm font-medium text-slate-700 hover:text-orange-500">
-                                {t('Shop')}
+                                {t('shop')}
                             </Link>
-                            <Link href="/cart" aria-label="Cart" className="relative">
+                            <Link href="/cart" aria-label={t('cart')} className="relative">
                                 <ShoppingCart className="h-5 w-5 text-slate-700 hover:text-orange-500" />
                                 {cartItemsCount > 0 && (
                                     <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
@@ -85,10 +131,9 @@ const Header: React.FC = () => {
                         <nav className="hidden lg:block">
                             <ul className="flex items-center space-x-4">
                                 {[
-                                    { href: '/', label: t('Home') },
-                                    { href: '/about', label: t('About Us') },
-                                    { href: '/webshops', label: t('Shop') },
-                                    // { href: '/career', label: t('Career') },
+                                    { href: '/', label: t('home') },
+                                    { href: '/about', label: t('about_us') },
+                                    { href: '/webshops', label: t('shop') },
                                 ].map(({ href, label }) => (
                                     <li key={href}>
                                         <Link
@@ -112,7 +157,7 @@ const Header: React.FC = () => {
                                     >
                                         <div className="flex items-center gap-2">
                                             <ShoppingCart className="h-5 w-5" />
-                                            <span>{t('Cart')}</span>
+                                            <span>{t('cart')}</span>
                                             {cartItemsCount > 0 && (
                                                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
                                                     {cartItemsCount > 9 ? '9+' : cartItemsCount}
@@ -128,25 +173,48 @@ const Header: React.FC = () => {
                                         className="shadow-glow relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:from-orange-600 hover:to-orange-700 hover:shadow-md hover:shadow-orange-500/25"
                                     >
                                         <Link href="/contact">
-                                            <span className="relative z-10">Contact Us</span>
+                                            <span className="relative z-10">{t('contact_us')}</span>
                                             <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                                         </Link>
                                     </Button>
                                 </li>
-                                <li>
-                                    <select
-                                        value={locale}
-                                        onChange={(e) =>
-                                            Inertia.get(route('locale.change', e.target.value), {}, { preserveState: true, preserveScroll: true })
-                                        }
-                                        className="rounded border bg-white p-2 text-sm"
+                                {/* Enhanced Language Selector */}
+                                <li className="language-dropdown relative">
+                                    <button
+                                        onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                                        className={`flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium transition-all duration-200 hover:border-orange-300 hover:bg-orange-50 ${
+                                            isLanguageDropdownOpen ? 'border-orange-300 bg-orange-50' : ''
+                                        }`}
+                                        aria-label={t('language')}
                                     >
-                                        {supported_locales.map((loc) => (
-                                            <option key={loc} value={loc}>
-                                                {labels[loc] || loc}
-                                            </option>
-                                        ))}
-                                    </select>
+                                        <Globe className="h-4 w-4" />
+                                        <span className="hidden md:inline">{flagEmojis[currentLocale]}</span>
+                                        <span className="uppercase">{currentLocale}</span>
+                                        <ChevronDown
+                                            className={`h-3 w-3 transition-transform duration-200 ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+                                        />
+                                    </button>
+
+                                    {/* Language Dropdown */}
+                                    {isLanguageDropdownOpen && (
+                                        <div className="absolute top-full right-0 mt-2 w-48 rounded-lg border border-slate-200 bg-white shadow-lg">
+                                            <div className="py-1">
+                                                {supported_locales.map((loc: string) => (
+                                                    <button
+                                                        key={loc}
+                                                        onClick={() => handleLanguageChange(loc)}
+                                                        className={`flex w-full items-center gap-3 px-4 py-2 text-left text-sm hover:bg-orange-50 ${
+                                                            currentLocale === loc ? 'bg-orange-50 text-orange-600' : 'text-slate-700'
+                                                        }`}
+                                                    >
+                                                        <span className="text-lg">{flagEmojis[loc]}</span>
+                                                        <span>{labels[loc] || loc}</span>
+                                                        {currentLocale === loc && <span className="ml-auto text-orange-500">✓</span>}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </li>
                             </ul>
                         </nav>
@@ -156,17 +224,38 @@ const Header: React.FC = () => {
                     {isMenuOpen && (
                         <div className="mt-2 mb-5 space-y-4 lg:hidden">
                             <Link href="/" className="block font-medium text-slate-700">
-                                {t('Home')}
+                                {t('home')}
                             </Link>
                             <Link href="/about" className="block font-medium text-slate-700">
-                                {t('About Us')}
+                                {t('about_us')}
                             </Link>
                             <Link href="/webshops" className="block font-medium text-slate-700">
-                                {t('Shop')}
+                                {t('shop')}
                             </Link>
                             <Link href="/contact" className="block font-medium text-slate-700">
-                                {t('Contact Us')}
+                                {t('contact_us')}
                             </Link>
+
+                            {/* Mobile Language Selector */}
+                            <div className="border-t pt-4">
+                                <div className="mb-2 text-sm font-medium text-slate-500">{t('language')}</div>
+                                <div className="flex flex-wrap gap-2">
+                                    {supported_locales.map((loc: string) => (
+                                        <button
+                                            key={loc}
+                                            onClick={() => handleLanguageChange(loc)}
+                                            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
+                                                currentLocale === loc
+                                                    ? 'border-orange-300 bg-orange-50 text-orange-600'
+                                                    : 'border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:bg-orange-50'
+                                            }`}
+                                        >
+                                            <span>{flagEmojis[loc]}</span>
+                                            <span>{labels[loc] || loc}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>

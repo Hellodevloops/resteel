@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
 import { AlertCircle, Building2, DollarSign, Globe, Mail, MapPin, Phone, RefreshCw, Save, Truck } from 'lucide-react';
@@ -11,11 +10,11 @@ import { useState } from 'react';
 
 interface SiteSettings {
     id?: number;
-    language: string;
+    // language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    currency: string;
+    // currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -33,11 +32,11 @@ interface Props {
 
 export default function SiteSettingsForm({ settings, isEditing = false }: Props) {
     const { data, setData, processing, errors, reset } = useForm({
-        language: settings?.language || 'en',
+        // language: settings?.language || 'en',
         contact_email: settings?.contact_email || '',
         contact_phone: settings?.contact_phone || '',
         contact_address: settings?.contact_address || '',
-        currency: settings?.currency || 'USD',
+        // currency: settings?.currency || 'USD',
         tax_rate: settings?.tax_rate || 0,
         company_name: settings?.company_name || '',
         company_tagline: settings?.company_tagline || '',
@@ -121,7 +120,7 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            <div className="space-y-2">
+                            {/* <div className="space-y-2">
                                 <Label htmlFor="language">Language *</Label>
                                 <Select value={data.language} onValueChange={(value) => setData('language', value)}>
                                     <SelectTrigger>
@@ -136,9 +135,9 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                     </SelectContent>
                                 </Select>
                                 {errors.language && <p className="text-sm text-red-600">{errors.language}</p>}
-                            </div>
+                            </div> */}
 
-                            <div className="space-y-2">
+                            {/* <div className="space-y-2">
                                 <Label htmlFor="currency">Currency *</Label>
                                 <Select value={data.currency} onValueChange={(value) => setData('currency', value)}>
                                     <SelectTrigger>
@@ -153,7 +152,7 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                     </SelectContent>
                                 </Select>
                                 {errors.currency && <p className="text-sm text-red-600">{errors.currency}</p>}
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="space-y-2">
@@ -311,7 +310,7 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                 className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                             />
                             <div>
-                                <Label htmlFor="shipping_enabled">Enable Shipping</Label>
+                                {/* <Label htmlFor="shipping_enabled">Enable Shipping</Label> */}
                                 <p className="text-muted-foreground text-sm">Allow customers to purchase items for shipping</p>
                             </div>
                         </div>
@@ -355,31 +354,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                         <p className="text-muted-foreground text-xs">Minimum order amount for free shipping</p>
                                         {errors.free_shipping_threshold && <p className="text-sm text-red-600">{errors.free_shipping_threshold}</p>}
                                     </div>
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <Label>Shipping Zones</Label>
-                                        <Button type="button" variant="outline" size="sm" onClick={addShippingZone}>
-                                            Add Zone
-                                        </Button>
-                                    </div>
-
-                                    {data.shipping_zones.map((zone, index) => (
-                                        <div key={index} className="flex gap-2">
-                                            <Input
-                                                value={zone}
-                                                onChange={(e) => updateShippingZone(index, e.target.value)}
-                                                placeholder="e.g., United States, Europe, Worldwide"
-                                                className="flex-1"
-                                            />
-                                            {data.shipping_zones.length > 1 && (
-                                                <Button type="button" variant="outline" size="sm" onClick={() => removeShippingZone(index)}>
-                                                    Remove
-                                                </Button>
-                                            )}
-                                        </div>
-                                    ))}
                                 </div>
                             </>
                         )}

@@ -9,6 +9,7 @@ import { Product } from '@/types/webshop';
 import { usePage } from '@inertiajs/react';
 import { Filter, Grid, List, Search, ShoppingCart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ContactForm from './ContactForm';
 import Layout from './Layout';
 
@@ -22,6 +23,7 @@ type Filters = {
 };
 
 const WebShop = () => {
+    const { t } = useTranslation();
     const { products = [], filters = {} } = usePage().props as {
         products: Product[];
         filters: Filters;
@@ -44,7 +46,7 @@ const WebShop = () => {
     const allCategories = Array.from(new Set(products.flatMap((p) => (p.category ? [p.category] : []))));
 
     const categories = [
-        { id: 'all', name: 'All Products', count: products.length },
+        { id: 'all', name: t('all_products'), count: products.length },
         ...allCategories.map((cat) => ({
             id: cat,
             name: cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' '),
@@ -81,29 +83,27 @@ const WebShop = () => {
             // alert(`${product.name} added to cart successfully!`);
         } catch (error) {
             console.error('Failed to add item to cart:', error);
-            alert('Failed to add item to cart. Please try again.');
+            alert(t('add_to_cart_failed'));
         }
     };
 
     return (
-        <Layout title="Webshop | Resteel">
+        <Layout title={`${t('webshop')} | Resteel`}>
             <main className="flex-grow">
                 <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-gray-50 py-18">
                     <div className="mx-auto max-w-7xl px-4 py-8">
                         <div className="mb-12 text-center">
                             <h2 className="mb-4 text-4xl font-bold md:text-5xl" style={{ color: charcoal }}>
-                                Premium Structures
+                                {t('premium_structures')}
                             </h2>
-                            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                                Discover our extensive collection of high-quality steel products for all your construction needs
-                            </p>
+                            <p className="mx-auto max-w-2xl text-lg text-gray-600">{t('webshop_subtitle')}</p>
                         </div>
 
                         <div className="mb-8 flex flex-col items-center justify-between gap-4 lg:flex-row">
                             <div className="relative w-full max-w-md">
                                 <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400" />
                                 <Input
-                                    placeholder="Search premium steel products..."
+                                    placeholder={t('search_products_placeholder')}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="pl-12"
@@ -114,12 +114,12 @@ const WebShop = () => {
                                 <Sheet>
                                     <SheetTrigger asChild>
                                         <Button variant="outline" className="lg:hidden">
-                                            <Filter className="mr-2 h-4 w-4" /> Filters
+                                            <Filter className="mr-2 h-4 w-4" /> {t('filters')}
                                         </Button>
                                     </SheetTrigger>
                                     <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                                         <SheetHeader>
-                                            <SheetTitle>Categories</SheetTitle>
+                                            <SheetTitle>{t('categories')}</SheetTitle>
                                         </SheetHeader>
                                         <div className="mt-6 space-y-2">
                                             {categories.map((category) => (
@@ -154,7 +154,7 @@ const WebShop = () => {
                             <div className="hidden lg:block">
                                 <div className="space-y-2 rounded-xl border bg-white p-4">
                                     <h3 className="text-lg font-semibold" style={{ color: charcoal }}>
-                                        Categories
+                                        {t('categories')}
                                     </h3>
                                     {categories.map((category) => (
                                         <Button
@@ -175,9 +175,9 @@ const WebShop = () => {
                                     <div className="py-16 text-center">
                                         <div className="mb-6 text-8xl opacity-50">🔍</div>
                                         <h3 className="mb-3 text-2xl font-bold" style={{ color: charcoal }}>
-                                            No products found
+                                            {t('no_products_found')}
                                         </h3>
-                                        <p className="mx-auto max-w-md text-gray-500">We couldn't find any products matching your search criteria.</p>
+                                        <p className="mx-auto max-w-md text-gray-500">{t('search_criteria_no_match')}</p>
                                     </div>
                                 ) : (
                                     <div className={viewMode === 'grid' ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3' : 'space-y-4'}>
@@ -201,58 +201,42 @@ const WebShop = () => {
                                                                     : 'border-red-200 bg-red-100 text-red-800'
                                                             }
                                                         >
-                                                            {product.inStock ? 'In Stock' : 'Out of Stock'}
+                                                            {product.inStock ? t('in_stock') : t('out_of_stock')}
                                                         </Badge>
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-1 flex-col justify-between space-y-3">
-                                                    <div className="flex items-center justify-between">
-                                                        <h3 className="line-clamp-1 text-lg font-bold text-gray-800">{product.name}</h3>
-                                                        <div className="flex items-center gap-1">
-                                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                                            <span className="text-sm text-gray-600">{product.rating}</span>
-                                                        </div>
-                                                    </div>
+
+                                                <div className="flex flex-col space-y-3">
+                                                    <h3 className="text-lg font-semibold" style={{ color: charcoal }}>
+                                                        {product.name}
+                                                    </h3>
                                                     <p className="line-clamp-2 text-sm text-gray-600">{product.description}</p>
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {product.features?.slice(0, 2).map((feature, index) => (
-                                                            <span
-                                                                key={index}
-                                                                className="rounded border border-gray-300 bg-gray-50 px-2 py-1 text-xs text-gray-700"
-                                                            >
-                                                                {feature}
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center space-x-1">
+                                                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                                            <span className="text-sm font-medium">4.8</span>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <span className="text-2xl font-bold" style={{ color: steelBlue }}>
+                                                                €{product.price}
                                                             </span>
-                                                        ))}
-                                                    </div>
-                                                    <div className="flex flex-col justify-between gap-3 pt-2">
-                                                        <span className="text-xl font-bold" style={{ color: steelBlue }}>
-                                                            €{typeof product.price === 'string' ? product.price : product.price.toFixed(2)}
-                                                        </span>
-                                                        <div className="flex items-center gap-2">
-                                                            <Button
-                                                                size="sm"
-                                                                variant="outline"
-                                                                onClick={() => openContactForm(product.name)}
-                                                                className="flex-1 rounded-xl border-gray-300 transition-colors hover:border-gray-400"
-                                                            >
-                                                                Contact Us
-                                                            </Button>
-                                                            <Button
-                                                                size="sm"
-                                                                onClick={() => handleAddToCart(product)}
-                                                                disabled={!product.inStock}
-                                                                className="flex min-w-[120px] items-center justify-center gap-2 rounded-xl border-0 font-medium text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                style={{
-                                                                    background: product.inStock
-                                                                        ? `linear-gradient(135deg, ${steelBlue} 0%, #005A85 100%)`
-                                                                        : 'linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%)',
-                                                                }}
-                                                            >
-                                                                <ShoppingCart className="h-4 w-4" />
-                                                                {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-                                                            </Button>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div className="flex gap-2">
+                                                    <Button
+                                                        className="flex-1"
+                                                        style={{ backgroundColor: steelBlue }}
+                                                        onClick={() => handleAddToCart(product)}
+                                                        disabled={!product.inStock}
+                                                    >
+                                                        <ShoppingCart className="mr-2 h-4 w-4" />
+                                                        {t('add_to_cart')}
+                                                    </Button>
+                                                    <Button variant="outline" onClick={() => openContactForm(product.name)}>
+                                                        {t('contact')}
+                                                    </Button>
                                                 </div>
                                             </div>
                                         ))}
@@ -262,17 +246,19 @@ const WebShop = () => {
                         </div>
                     </div>
                 </div>
-
-                <Dialog open={contactForm.isOpen} onOpenChange={(open) => !open && closeContactForm()}>
-                    <DialogContent className="max-w-2xl">
-                        <DialogHeader>
-                            <DialogTitle>Get In Touch</DialogTitle>
-                            <p className="text-sm text-gray-600">We'd love to hear from you</p>
-                        </DialogHeader>
-                        <ContactForm isOpen={contactForm.isOpen} onClose={closeContactForm} productName={contactForm.productName} />
-                    </DialogContent>
-                </Dialog>
             </main>
+
+            {/* Contact Form Dialog */}
+            <Dialog open={contactForm.isOpen} onOpenChange={closeContactForm}>
+                <DialogContent className="sm:max-w-[600px]">
+                    <DialogHeader>
+                        <DialogTitle>
+                            {t('contact_about_product')}: {contactForm.productName}
+                        </DialogTitle>
+                    </DialogHeader>
+                    <ContactForm onSuccess={closeContactForm} />
+                </DialogContent>
+            </Dialog>
         </Layout>
     );
 };

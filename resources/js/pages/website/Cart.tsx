@@ -3,10 +3,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
-import { ArrowRight, Building2, Clock, Minus, Plus, Shield, ShoppingBag, Star, Trash2, Truck } from 'lucide-react';
+import { ArrowRight, Building2, Clock, Minus, Plus, Shield, ShoppingBag, Trash2, Truck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
 
 const Cart = () => {
+    const { t } = useTranslation();
     const steelBlue = '#0076A8';
     const charcoal = '#3C3F48';
     const warehouseColor = '#4CAF50'; // Green for warehouses
@@ -36,33 +38,33 @@ const Cart = () => {
     const benefits = [
         {
             icon: <Truck className="h-5 w-5" />,
-            title: 'Free Shipping',
-            subtitle: 'On orders over $500',
+            title: t('free_shipping'),
+            subtitle: t('free_shipping_subtitle'),
         },
         {
             icon: <Shield className="h-5 w-5" />,
-            title: 'Quality Guarantee',
-            subtitle: 'ISO 9001 certified materials',
+            title: t('quality_guarantee'),
+            subtitle: t('quality_guarantee_subtitle'),
         },
         {
             icon: <Clock className="h-5 w-5" />,
-            title: 'Fast Processing',
-            subtitle: 'Ships within 2-3 business days',
+            title: t('fast_processing'),
+            subtitle: t('fast_processing_subtitle'),
         },
     ];
 
     // Handle empty cart state
     if (cartItems.length === 0) {
         return (
-            <Layout title="Your Cart | Resteel">
+            <Layout title={`${t('cart')} | Resteel`}>
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 py-25">
                     <div className="container mx-auto px-4 py-12 md:px-6">
                         <div className="mb-12 text-center">
                             <h1 className="mb-4 text-5xl font-extrabold" style={{ color: charcoal }}>
-                                Shopping <span style={{ color: steelBlue }}>Cart</span>
+                                {t('shopping')} <span style={{ color: steelBlue }}>{t('cart')}</span>
                             </h1>
                             <div className="mx-auto mb-6 h-1 w-24" style={{ backgroundColor: steelBlue }}></div>
-                            <p className="mx-auto max-w-3xl text-xl text-slate-600">Your cart is currently empty</p>
+                            <p className="mx-auto max-w-3xl text-xl text-slate-600">{t('cart_empty_subtitle')}</p>
                         </div>
 
                         <div className="mx-auto max-w-2xl text-center">
@@ -71,9 +73,9 @@ const Cart = () => {
                                     <ShoppingBag className="mx-auto h-24 w-24 text-slate-300" />
                                 </div>
                                 <h2 className="mb-4 text-3xl font-bold" style={{ color: charcoal }}>
-                                    Your cart is empty
+                                    {t('cart_empty')}
                                 </h2>
-                                <p className="mb-8 text-lg text-slate-600">Explore our warehouses and products to add items to your cart</p>
+                                <p className="mb-8 text-lg text-slate-600">{t('cart_empty_description')}</p>
                                 <div className="space-y-4">
                                     <Button
                                         className="w-full rounded-2xl py-4 text-xl font-bold text-white transition-all hover:scale-105"
@@ -81,7 +83,7 @@ const Cart = () => {
                                         onClick={() => (window.location.href = '/warehouses')}
                                     >
                                         <Building2 className="mr-3 h-6 w-6" />
-                                        Browse Warehouses
+                                        {t('browse_warehouses')}
                                     </Button>
                                     <Button
                                         variant="outline"
@@ -90,7 +92,7 @@ const Cart = () => {
                                         onClick={() => (window.location.href = '/webshop')}
                                     >
                                         <ShoppingBag className="mr-3 h-6 w-6" />
-                                        Browse Products
+                                        {t('browse_products')}
                                     </Button>
                                 </div>
                             </div>
@@ -102,18 +104,16 @@ const Cart = () => {
     }
 
     return (
-        <Layout title="Your Cart | Resteel">
+        <Layout title={`${t('cart')} | Resteel`}>
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 py-25">
                 <div className="container mx-auto px-4 py-12 md:px-6">
                     {/* Header Section - Centered and Minimalist */}
                     <div className="mb-12 text-center">
                         <h1 className="mb-4 text-5xl font-extrabold" style={{ color: charcoal }}>
-                            Shopping <span style={{ color: steelBlue }}>Cart</span>
+                            {t('shopping')} <span style={{ color: steelBlue }}>{t('cart')}</span>
                         </h1>
                         <div className="mx-auto mb-6 h-1 w-24" style={{ backgroundColor: steelBlue }}></div>
-                        <p className="mx-auto max-w-3xl text-xl text-slate-600">
-                            Review your selected warehouses and products before proceeding to checkout
-                        </p>
+                        <p className="mx-auto max-w-3xl text-xl text-slate-600">{t('cart_review_subtitle')}</p>
                     </div>
 
                     {/* Main Content - Horizontal Layout */}
@@ -150,11 +150,11 @@ const Cart = () => {
                         <div className="mb-8">
                             <div className="mb-6 flex items-center justify-between">
                                 <h2 className="text-3xl font-bold" style={{ color: charcoal }}>
-                                    Your Items <span className="text-lg font-normal text-slate-500">({cartItems.length})</span>
+                                    {t('your_items')} <span className="text-lg font-normal text-slate-500">({cartItems.length})</span>
                                 </h2>
                                 {cartItems.length > 0 && (
                                     <Button variant="outline" onClick={clearCart} className="text-red-600 hover:bg-red-50 hover:text-red-700">
-                                        Clear Cart
+                                        {t('clear_cart')}
                                     </Button>
                                 )}
                             </div>
@@ -197,87 +197,56 @@ const Cart = () => {
                                                                         style={getSourceStyling(item.source)}
                                                                     >
                                                                         {getSourceIcon(item.source)}
-                                                                        {item.source === 'warehouse' ? 'Warehouse' : 'Product'}
+                                                                        {item.source === 'warehouse' ? t('warehouse') : t('product')}
                                                                     </Badge>
-                                                                    {/* Category Badge */}
-                                                                    <Badge
-                                                                        className="px-3 py-1 text-sm font-medium text-white"
-                                                                        style={{ backgroundColor: steelBlue }}
-                                                                    >
-                                                                        {item.category}
-                                                                    </Badge>
-                                                                    {/* Stock Status Badge */}
-                                                                    {item.inStock ? (
-                                                                        <Badge
-                                                                            variant="default"
-                                                                            className="bg-green-100 px-3 py-1 text-sm font-medium text-green-800"
-                                                                        >
-                                                                            ✓ Available
-                                                                        </Badge>
-                                                                    ) : (
-                                                                        <Badge
-                                                                            variant="outline"
-                                                                            className="border-amber-300 bg-amber-50 px-3 py-1 text-sm font-medium text-amber-800"
-                                                                        >
-                                                                            ⏳ {item.source === 'warehouse' ? 'On Request' : 'Custom Order'}
-                                                                        </Badge>
-                                                                    )}
                                                                 </div>
                                                             </div>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                onClick={() => removeFromCart(item.id)}
-                                                                className="rounded-full text-slate-400 hover:bg-red-50 hover:text-red-500"
-                                                            >
-                                                                <Trash2 className="h-6 w-6" />
-                                                            </Button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                {/* Right: Quantity and Price */}
-                                                <div
-                                                    className="flex flex-col items-center justify-center space-y-6 border-l-2 p-6 lg:w-1/4"
-                                                    style={{ borderColor: steelBlue + '20', backgroundColor: steelBlue + '02' }}
-                                                >
-                                                    <div className="text-center">
-                                                        <div className="mb-3 text-sm font-medium text-slate-700">Quantity</div>
-                                                        <div
-                                                            className="flex items-center justify-center overflow-hidden rounded-full border-2"
-                                                            style={{ borderColor: steelBlue + '40' }}
-                                                        >
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                                className="h-12 w-12 rounded-none hover:bg-blue-50"
-                                                            >
-                                                                <Minus className="h-5 w-5" />
-                                                            </Button>
-                                                            <div
-                                                                className="min-w-[4rem] px-4 py-3 text-center text-xl font-bold"
-                                                                style={{ color: steelBlue, backgroundColor: 'white' }}
-                                                            >
-                                                                {item.quantity}
-                                                            </div>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                                className="h-12 w-12 rounded-none hover:bg-blue-50"
-                                                            >
-                                                                <Plus className="h-5 w-5" />
-                                                            </Button>
+                                                {/* Right: Actions & Price */}
+                                                <div className="flex flex-col justify-between p-6 lg:w-1/4">
+                                                    <div className="mb-4 text-right">
+                                                        <div className="text-3xl font-bold" style={{ color: steelBlue }}>
+                                                            €{(item.price * item.quantity).toFixed(2)}
+                                                        </div>
+                                                        <div className="text-sm text-slate-600">
+                                                            €{item.price.toFixed(2)} {t('each')}
                                                         </div>
                                                     </div>
 
-                                                    <div className="text-center">
-                                                        <div className="mb-1 text-3xl font-bold" style={{ color: steelBlue }}>
-                                                            ${(item.price * item.quantity).toFixed(2)}
-                                                        </div>
-                                                        <div className="text-sm text-slate-500">${item.price.toFixed(2)} each</div>
+                                                    {/* Quantity Controls */}
+                                                    <div className="mb-4 flex items-center justify-center rounded-lg border p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                                                            className="h-8 w-8 p-0"
+                                                        >
+                                                            <Minus className="h-4 w-4" />
+                                                        </Button>
+                                                        <span className="mx-3 min-w-[2rem] text-center font-semibold">{item.quantity}</span>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                            className="h-8 w-8 p-0"
+                                                        >
+                                                            <Plus className="h-4 w-4" />
+                                                        </Button>
                                                     </div>
+
+                                                    {/* Remove Button */}
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => removeFromCart(item.id)}
+                                                        className="border-red-300 text-red-600 hover:bg-red-50"
+                                                    >
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        {t('remove')}
+                                                    </Button>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -286,82 +255,34 @@ const Cart = () => {
                             </div>
                         </div>
 
-                        {/* Bottom Section - Order Summary */}
-                        <div className="rounded-3xl border-2 bg-white p-8 shadow-xl" style={{ borderColor: steelBlue + '30' }}>
-                            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                                {/* Left: Order Summary */}
-                                <div>
-                                    <h3 className="mb-6 text-2xl font-bold" style={{ color: charcoal }}>
-                                        Order Summary
-                                    </h3>
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between border-b border-slate-200 py-3">
-                                            <span className="text-lg font-medium text-slate-700">Subtotal ({cartItems.length} items)</span>
-                                            <span className="text-lg font-bold text-slate-800">${subtotal.toFixed(2)}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between border-b border-slate-200 py-3">
-                                            <span className="text-lg font-medium text-slate-700">Tax (8%)</span>
-                                            <span className="text-lg font-bold text-slate-800">${tax.toFixed(2)}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between border-b border-slate-200 py-3">
-                                            <span className="text-lg font-medium text-slate-700">Shipping</span>
-                                            <span className="text-lg font-bold text-slate-800">
-                                                {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
-                                            </span>
-                                        </div>
-                                        {shipping === 0 && (
-                                            <div className="flex items-center justify-center py-2 font-medium text-green-600">
-                                                <Star className="mr-2 h-5 w-5" />
-                                                Free shipping applied!
-                                            </div>
-                                        )}
-                                        <div className="flex items-center justify-between border-t-2 py-6" style={{ borderColor: steelBlue + '40' }}>
-                                            <span className="text-2xl font-bold text-slate-800">Total</span>
-                                            <span className="text-3xl font-bold" style={{ color: steelBlue }}>
-                                                ${total.toFixed(2)}
-                                            </span>
-                                        </div>
-                                    </div>
+                        {/* Summary Section */}
+                        <div className="rounded-3xl border-2 bg-white p-8 shadow-xl lg:p-12" style={{ borderColor: steelBlue + '30' }}>
+                            <h3 className="mb-8 text-3xl font-bold" style={{ color: charcoal }}>
+                                {t('order_summary')}
+                            </h3>
+                            <div className="space-y-4 text-lg">
+                                <div className="flex justify-between">
+                                    <span>{t('subtotal')}</span>
+                                    <span>€{subtotal.toFixed(2)}</span>
                                 </div>
-
-                                {/* Right: Checkout Actions */}
-                                <div className="flex flex-col justify-center space-y-6">
-                                    <Button
-                                        className="w-full rounded-2xl py-4 text-xl font-bold text-white transition-all hover:scale-105 hover:shadow-xl"
-                                        style={{ backgroundColor: steelBlue }}
-                                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005a7a')}
-                                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = steelBlue)}
-                                    >
-                                        <span>Proceed to Checkout</span>
-                                        <ArrowRight className="ml-3 h-6 w-6" />
-                                    </Button>
-
-                                    <div className="text-center">
-                                        <p className="mb-4 text-sm text-slate-500">🔒 Secure checkout powered by industry-leading encryption</p>
-                                    </div>
-
-                                    {/* Quote Section */}
-                                    <div
-                                        className="rounded-2xl border-2 p-6 text-center"
-                                        style={{ borderColor: steelBlue + '30', backgroundColor: steelBlue + '05' }}
-                                    >
-                                        <div className="mb-4 flex items-center justify-center space-x-2">
-                                            <Shield className="h-6 w-6" style={{ color: steelBlue }} />
-                                            <span className="text-xl font-bold" style={{ color: steelBlue }}>
-                                                Need a Quote?
-                                            </span>
-                                        </div>
-                                        <p className="mb-6 text-slate-700">For bulk orders or custom specifications, get a personalized quote.</p>
-                                        <Button
-                                            variant="outline"
-                                            className="w-full rounded-xl border-2 py-3 text-lg font-medium transition-all hover:bg-blue-50"
-                                            style={{ borderColor: steelBlue, color: steelBlue }}
-                                        >
-                                            Request Quote
-                                        </Button>
-                                    </div>
+                                <div className="flex justify-between">
+                                    <span>{t('tax')}</span>
+                                    <span>€{tax.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span>{t('shipping')}</span>
+                                    <span>{shipping === 0 ? t('free') : `€${shipping.toFixed(2)}`}</span>
+                                </div>
+                                <hr className="my-4" />
+                                <div className="flex justify-between text-2xl font-bold" style={{ color: steelBlue }}>
+                                    <span>{t('total')}</span>
+                                    <span>€{total.toFixed(2)}</span>
                                 </div>
                             </div>
+                            <Button className="mt-8 w-full rounded-2xl py-6 text-xl font-bold text-white" style={{ backgroundColor: steelBlue }}>
+                                {t('proceed_to_checkout')}
+                                <ArrowRight className="ml-3 h-6 w-6" />
+                            </Button>
                         </div>
                     </div>
                 </div>

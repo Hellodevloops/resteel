@@ -9,11 +9,11 @@ import { Building2, Check, DollarSign, Edit3, Globe, Mail, MapPin, Phone, Refres
 
 interface SiteSettings {
     id: number;
-    language: string;
+    // language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    currency: string;
+    // currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -120,17 +120,6 @@ const Show = ({ settings }: Props) => {
                                 <CardDescription>Basic website configuration</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Language</p>
-                                        <p className="font-medium">{currentSettings.language}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Currency</p>
-                                        <p className="font-medium">{currentSettings.currency}</p>
-                                    </div>
-                                </div>
-
                                 <div>
                                     <p className="text-muted-foreground text-sm">Tax Rate</p>
                                     <p className="font-medium">{currentSettings.tax_rate}%</p>
@@ -246,17 +235,6 @@ const Show = ({ settings }: Props) => {
                                 </div>
 
                                 <Separator />
-
-                                <div>
-                                    <p className="text-muted-foreground mb-2 text-sm">Shipping Zones</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {currentSettings.shipping_zones.map((zone, index) => (
-                                            <Badge key={index} variant="outline" className="text-xs">
-                                                {zone}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                </div>
                             </CardContent>
                         </Card>
                     </div>

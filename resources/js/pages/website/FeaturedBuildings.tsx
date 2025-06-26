@@ -6,16 +6,10 @@ import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Building, Building2, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
-
-const buildingTypes = [
-    { id: 'all', label: 'All', icon: Building2 },
-    { id: 'warehouses', label: 'Warehouses', icon: Warehouse },
-    { id: 'halls', label: 'Halls', icon: Factory },
-    { id: 'other', label: 'Other', icon: SquareStack },
-];
 
 const truncateText = (text, maxWords = 19) => {
     if (!text) return '';
@@ -24,8 +18,16 @@ const truncateText = (text, maxWords = 19) => {
 };
 
 const FeaturedBuildings = () => {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
     const [warehouses, setWarehouses] = useState([]);
+
+    const buildingTypes = [
+        { id: 'all', label: t('all'), icon: Building2 },
+        { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
+        { id: 'halls', label: t('halls'), icon: Factory },
+        { id: 'other', label: t('other'), icon: SquareStack },
+    ];
 
     useEffect(() => {
         setTimeout(() => setIsVisible(true), 100);
@@ -38,19 +40,19 @@ const FeaturedBuildings = () => {
                     const formatted = json.data.map((item) => ({
                         id: item.id,
                         title: item.name,
-                        status: 'SALE',
+                        status: t('sale').toUpperCase(),
                         type: 'warehouses',
-                        category: item.category || 'Uncategorized',
-                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : 'N/A',
-                        construction: item.construction || 'Not specified',
+                        category: item.category || t('uncategorized'),
+                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
+                        construction: item.construction || t('not_specified'),
                         image: item.image_path || '/placeholder.jpg',
                         hasVideo: item.has_video,
                         videoUrls: (item.video_urls || []).filter(Boolean),
                         specifications: [
                             {
-                                name: 'Main Hall',
-                                dimensions: item.main_hall_dimensions || 'N/A',
-                                area: item.total_area || 'N/A',
+                                name: t('main_hall'),
+                                dimensions: item.main_hall_dimensions || t('not_available'),
+                                area: item.total_area || t('not_available'),
                             },
                         ],
                     }));
@@ -62,7 +64,7 @@ const FeaturedBuildings = () => {
         };
 
         fetchWarehouses();
-    }, []);
+    }, [t]);
 
     const BuildingCard = ({ building }) => (
         <motion.div
@@ -89,7 +91,7 @@ const FeaturedBuildings = () => {
                     <div className="absolute top-4 right-4">
                         <span className="inline-flex items-center rounded-full bg-blue-500/90 px-3 py-1 text-xs font-semibold text-white">
                             <Play className="mr-1 h-3 w-3" />
-                            Video
+                            {t('video')}
                         </span>
                     </div>
                 )}
@@ -104,7 +106,7 @@ const FeaturedBuildings = () => {
                 <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-3">
                     <div className="flex items-center">
                         <Square className="mr-2 h-4 w-4 text-orange-500" />
-                        <span className="text-sm text-gray-600">Total Area</span>
+                        <span className="text-sm text-gray-600">{t('total_area')}</span>
                     </div>
                     <span className="text-base font-semibold text-gray-900">{building.totalArea}</span>
                 </div>
@@ -112,7 +114,7 @@ const FeaturedBuildings = () => {
                 <div className="mb-4">
                     <div className="flex items-center">
                         <Building className="mr-2 h-4 w-4 text-gray-500" />
-                        <span className="text-sm font-medium text-gray-600">Construction</span>
+                        <span className="text-sm font-medium text-gray-600">{t('construction')}</span>
                     </div>
                     <p className="mt-1 text-sm text-gray-500">{truncateText(building.construction)}</p>
                 </div>
@@ -120,7 +122,7 @@ const FeaturedBuildings = () => {
                 <div className="mb-6">
                     <div className="flex items-center">
                         <Ruler className="mr-2 h-4 w-4 text-gray-500" />
-                        <span className="text-sm font-medium text-gray-600">Specifications</span>
+                        <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
                     <div className="mt-2 space-y-2">
                         {building.specifications.map((spec, idx) => (
@@ -135,7 +137,7 @@ const FeaturedBuildings = () => {
                 <div className="flex gap-2">
                     <Button asChild className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
                         <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
-                            <Eye className="mr-2 h-4 w-4" /> Details
+                            <Eye className="mr-2 h-4 w-4" /> {t('details')}
                         </a>
                     </Button>
 
@@ -148,13 +150,6 @@ const FeaturedBuildings = () => {
                             <Play className="h-4 w-4" />
                         </Button>
                     )}
-
-                    {/* <Button
-            variant="outline"
-            className="rounded-lg border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white"
-          >
-            <ExternalLink className="h-4 w-4" />
-          </Button> */}
                 </div>
             </div>
         </motion.div>
@@ -170,14 +165,12 @@ const FeaturedBuildings = () => {
                     className="mb-12 text-center"
                 >
                     <h2 className="mt-4 text-4xl font-bold md:text-5xl" style={{ color: charcoal }}>
-                        Featured{' '}
+                        {t('featured')}{' '}
                         <span className="text-orange-500" style={{ color: steelBlue }}>
-                            Buildings
+                            {t('buildings')}
                         </span>
                     </h2>
-                    <p className="mx-auto mt-2 max-w-2xl text-base text-gray-600 sm:text-lg">
-                        Explore our curated selection of premium second-hand buildings, ready for relocation with expert precision.
-                    </p>
+                    <p className="mx-auto mt-2 max-w-2xl text-base text-gray-600 sm:text-lg">{t('featured_buildings_subtitle')}</p>
                 </motion.div>
 
                 <Tabs defaultValue="all" className="w-full">
@@ -199,61 +192,45 @@ const FeaturedBuildings = () => {
                         const filtered = type.id === 'all' ? warehouses : warehouses.filter((b) => b.type === type.id);
 
                         return (
-                            <TabsContent key={type.id} value={type.id} className="mt-0">
+                            <TabsContent key={type.id} value={type.id} className="mt-8">
                                 <AnimatePresence mode="wait">
-                                    {filtered.length === 0 ? (
-                                        <motion.div
-                                            key="empty"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: 20 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="flex justify-center py-12"
-                                        >
-                                            <div className="rounded-lg bg-gray-100 px-6 py-4 text-gray-600">No buildings found in this category.</div>
-                                        </motion.div>
-                                    ) : (
-                                        <motion.div
-                                            key="grid"
-                                            initial="hidden"
-                                            animate="visible"
-                                            exit="exit"
-                                            variants={{
-                                                hidden: {},
-                                                visible: {
-                                                    transition: {
-                                                        staggerChildren: 0.1,
-                                                        delayChildren: 0.2,
-                                                    },
-                                                },
-                                                exit: {
-                                                    opacity: 0,
-                                                    transition: { duration: 0.3 },
-                                                },
-                                            }}
-                                            className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
-                                        >
-                                            {filtered.map((b) => (
-                                                <BuildingCard key={b.id} building={b} />
-                                            ))}
-                                        </motion.div>
-                                    )}
+                                    <motion.div
+                                        key={type.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -20 }}
+                                        transition={{ duration: 0.4 }}
+                                        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                                    >
+                                        {filtered.length > 0 ? (
+                                            filtered.slice(0, 6).map((building) => <BuildingCard key={building.id} building={building} />)
+                                        ) : (
+                                            <div className="col-span-full py-16 text-center">
+                                                <div className="text-6xl opacity-50">🏗️</div>
+                                                <h3 className="mt-4 text-xl font-semibold text-gray-900">{t('no_buildings_found')}</h3>
+                                                <p className="mt-2 text-gray-600">{t('check_back_later')}</p>
+                                            </div>
+                                        )}
+                                    </motion.div>
                                 </AnimatePresence>
-
-                                <div className="mt-12 flex justify-center">
-                                    <Link href="/buildings">
-                                        <Button
-                                            variant="outline"
-                                            className="rounded-full border-orange-500 px-8 py-3 text-orange-500 hover:bg-orange-500 hover:text-white"
-                                        >
-                                            View All Buildings <ArrowRight className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </Link>
-                                </div>
                             </TabsContent>
                         );
                     })}
                 </Tabs>
+
+                {/* View All Button */}
+                <div className="mt-12 text-center">
+                    <Button
+                        asChild
+                        size="lg"
+                        className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-6 text-lg font-semibold text-white shadow-lg transition-all hover:from-orange-600 hover:to-orange-700 hover:shadow-xl"
+                    >
+                        <Link href="/buildings">
+                            {t('view_all_buildings')}
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                        </Link>
+                    </Button>
+                </div>
             </div>
         </section>
     );

@@ -9,11 +9,11 @@ import { Bell, DollarSign, Edit3, Globe, Mail, MapPin, Phone, RefreshCw, Save, S
 
 interface SiteSettings {
     id: number;
-    language: string;
+    // language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    currency: string;
+    // currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -175,7 +175,7 @@ export default function Index({ siteSettingsData }: Props) {
                                         <CardDescription>Basic website configuration</CardDescription>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
-                                        <div className="grid grid-cols-2 gap-4 text-sm">
+                                        {/* <div className="grid grid-cols-2 gap-4 text-sm">
                                             <div>
                                                 <p className="text-muted-foreground">Language</p>
                                                 <p className="font-medium">{mockSettings.language}</p>
@@ -184,7 +184,7 @@ export default function Index({ siteSettingsData }: Props) {
                                                 <p className="text-muted-foreground">Currency</p>
                                                 <p className="font-medium">{mockSettings.currency}</p>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className="space-y-2">
                                             <p className="text-muted-foreground text-sm">Tax Rate</p>

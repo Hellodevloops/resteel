@@ -18,7 +18,7 @@ const mainNavItems: NavItem[] = [
         icon: BrickWall,
     },
     {
-        title: 'webshop',
+        title: 'Webshop',
         href: '/admin/webshops',
         icon: House,
     },

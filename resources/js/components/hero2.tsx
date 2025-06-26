@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const Hero: React.FC = () => {
+    const { t } = useTranslation();
+
     return (
         <section className="relative min-h-screen w-full overflow-hidden bg-slate-950">
             {/* Background Image with overlay effects */}
@@ -25,7 +28,8 @@ const Hero: React.FC = () => {
                     transition={{ duration: 0.8 }}
                     className="max-w-4xl text-4xl leading-tight font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] md:text-6xl"
                 >
-                    Buy & Sell Used Steel Structures Across <span className="text-orange-500">Europe</span>
+                    {t('hero2_title').split(' ').slice(0, -1).join(' ')}{' '}
+                    <span className="text-orange-500">{t('hero2_title').split(' ').slice(-1)[0]}</span>
                 </motion.h1>
 
                 <motion.p
@@ -34,7 +38,7 @@ const Hero: React.FC = () => {
                     transition={{ delay: 0.3, duration: 0.6 }}
                     className="mt-4 max-w-3xl text-lg leading-relaxed text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] md:text-xl"
                 >
-                    From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.
+                    {t('hero2_subtitle')}
                 </motion.p>
 
                 <motion.div
@@ -45,13 +49,13 @@ const Hero: React.FC = () => {
                 >
                     <Link href="/webshop">
                         <Button size="lg" className="rounded-10 rounded bg-orange-600/80 text-white shadow-lg hover:bg-orange-600/90">
-                            Browse Structures
+                            {t('browse_structures_btn')}
                         </Button>
                     </Link>
 
                     <Link href="/contact">
                         <Button size="lg" variant="outline" className="rounded-10 rounded text-slate-800 shadow-md">
-                            Sell Your Property
+                            {t('sell_your_property_btn')}
                         </Button>
                     </Link>
                 </motion.div>

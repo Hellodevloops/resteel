@@ -6,11 +6,11 @@ import SiteSettingsForm from './Form';
 
 interface SiteSettings {
     id: number;
-    language: string;
+    // language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    currency: string;
+    // currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -32,11 +32,11 @@ export default function Edit({ settings }: Props) {
     // Mock settings data for demonstration
     const mockSettings: SiteSettings = {
         id: 1,
-        language: 'en',
+        // language: 'en',
         contact_email: 'contact@company.com',
         contact_phone: '+1 (555) 123-4567',
         contact_address: '123 Business Street, City, State, Country',
-        currency: 'USD',
+        // currency: 'USD',
         tax_rate: 8.5,
         company_name: 'Your Company Name',
         company_tagline: 'Building the future, one solution at a time',

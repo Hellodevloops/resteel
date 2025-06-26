@@ -5,6 +5,7 @@ import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import { Building, Building2, Eye, Factory, Play, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Utility function to truncate text
 const truncateText = (text: string, maxWords: number) => {
@@ -60,6 +61,7 @@ interface Building {
 }
 
 const Buildings = () => {
+    const { t } = useTranslation();
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const [filter, setFilter] = useState('all');
@@ -67,6 +69,13 @@ const Buildings = () => {
     const [buildings, setBuildings] = useState<Building[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const buildingTypes = [
+        { id: 'all', label: t('all_buildings'), icon: Building2 },
+        { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
+        { id: 'commercial', label: t('commercial'), icon: Factory },
+        { id: 'industrial', label: t('industrial'), icon: SquareStack },
+    ];
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -80,17 +89,17 @@ const Buildings = () => {
                 if (response.data && response.data.data) {
                     const transformed: Building[] = response.data.data.map((item: any) => ({
                         id: item.id,
-                        title: item.name || 'Untitled',
-                        status: item.status || 'unknown',
-                        type: item.type || 'unknown',
-                        category: item.category || 'N/A',
-                        construction: item.construction || 'N/A',
+                        title: item.name || t('untitled'),
+                        status: item.status || t('unknown'),
+                        type: item.type || t('unknown'),
+                        category: item.category || t('not_available'),
+                        construction: item.construction || t('not_available'),
                         image: item.image_path
                             ? item.image_path.startsWith('/storage')
                                 ? `${location.origin}${item.image_path}`
                                 : item.image_path
                             : 'https://via.placeholder.com/600x400?text=No+Image',
-                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : 'N/A',
+                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : t('not_available'),
                         hasVideo: item.has_video || false,
                         videoUrls: (item.video_urls || []).filter((v: string | null) => !!v),
                         featured: false,
@@ -99,30 +108,30 @@ const Buildings = () => {
                         description: item.description || '',
                         specifications: [
                             {
-                                name: 'Main Hall',
-                                dimensions: item.main_hall_dimensions || 'N/A',
-                                area: item.main_hall_area || 'N/A',
+                                name: t('main_hall'),
+                                dimensions: item.main_hall_dimensions || t('not_available'),
+                                area: item.main_hall_area || t('not_available'),
                             },
                             {
-                                name: 'Office Space',
-                                dimensions: item.office_space_dimensions || 'N/A',
-                                area: item.office_space_area || 'N/A',
+                                name: t('office_space'),
+                                dimensions: item.office_space_dimensions || t('not_available'),
+                                area: item.office_space_area || t('not_available'),
                             },
                             {
-                                name: 'Loading Dock',
-                                dimensions: item.loading_dock_dimensions || 'N/A',
-                                area: item.loading_dock_area || 'N/A',
+                                name: t('loading_dock'),
+                                dimensions: item.loading_dock_dimensions || t('not_available'),
+                                area: item.loading_dock_area || t('not_available'),
                             },
-                        ].filter((spec) => spec.dimensions !== 'N/A' || spec.area !== 'N/A'),
+                        ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available')),
                     }));
 
                     setBuildings(transformed);
                 } else {
-                    setError('No buildings found');
+                    setError(t('no_buildings_found'));
                 }
             } catch (err) {
                 console.error('Error fetching buildings:', err);
-                setError('Failed to load buildings');
+                setError(t('failed_to_load_buildings'));
             } finally {
                 setLoading(false);
             }
@@ -130,14 +139,7 @@ const Buildings = () => {
 
         fetchWarehouses();
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const buildingTypes = [
-        { id: 'all', label: 'All Buildings', icon: Building2 },
-        { id: 'warehouses', label: 'Warehouses', icon: Warehouse },
-        { id: 'commercial', label: 'Commercial', icon: Factory },
-        { id: 'industrial', label: 'Industrial', icon: SquareStack },
-    ];
+    }, [t]);
 
     const filteredBuildings = filter === 'all' ? buildings : buildings.filter((b) => b.type === filter);
 
@@ -155,7 +157,9 @@ const Buildings = () => {
                 <img src={building.image} alt={building.title} className="mb-4 h-48 w-full rounded-md object-cover" />
                 <h3 className="mb-1 text-lg font-bold">{truncateText(building.title, truncation.title)}</h3>
                 <p className="mb-2 text-sm text-gray-600">{truncateText(building.construction, truncation.construction)}</p>
-                <p className="mb-2 text-sm font-semibold text-gray-700">Total Area: {building.totalArea}</p>
+                <p className="mb-2 text-sm font-semibold text-gray-700">
+                    {t('total_area')}: {building.totalArea}
+                </p>
                 <div className="mb-4 space-y-1 text-sm text-gray-700">
                     {building.specifications.slice(0, truncation.specsToShow).map((spec, i) => (
                         <div key={i} className="flex justify-between">
@@ -164,14 +168,16 @@ const Buildings = () => {
                         </div>
                     ))}
                     {building.specifications.length > truncation.specsToShow && (
-                        <div className="text-orange-500">+{building.specifications.length - truncation.specsToShow} more...</div>
+                        <div className="text-orange-500">
+                            +{building.specifications.length - truncation.specsToShow} {t('more')}...
+                        </div>
                     )}
                 </div>
                 <div className="flex gap-2">
                     <Button asChild>
                         <Link href={`/building-details/${building.id}`}>
                             <Eye className="mr-1 h-4 w-4" />
-                            View
+                            {t('view')}
                         </Link>
                     </Button>
                     {building.hasVideo && building.videoUrls?.[0] && (
@@ -184,11 +190,45 @@ const Buildings = () => {
         );
     };
 
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-slate-50">
+                <Header />
+                <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
+                    <div className="flex items-center justify-center py-16">
+                        <div className="text-center">
+                            <div className="mb-4 text-4xl">⏳</div>
+                            <p className="text-gray-600">{t('loading')}</p>
+                        </div>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-slate-50">
+                <Header />
+                <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
+                    <div className="flex items-center justify-center py-16">
+                        <div className="text-center">
+                            <div className="mb-4 text-4xl">❌</div>
+                            <p className="text-red-600">{error}</p>
+                        </div>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-slate-50">
             <Header />
             <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
-                <h1 className="mb-6 text-3xl font-bold">Available Buildings</h1>
+                <h1 className="mb-6 text-3xl font-bold">{t('available_buildings')}</h1>
 
                 <div className="mb-8 flex flex-wrap gap-4">
                     {buildingTypes.map((type) => (
@@ -199,18 +239,19 @@ const Buildings = () => {
                                 filter === type.id ? 'bg-orange-500 text-white' : 'border border-gray-300 bg-white text-gray-600'
                             }`}
                         >
-                            <type.icon className="mr-2 inline-block h-4 w-4" />
                             {type.label}
                         </button>
                     ))}
                 </div>
 
-                {loading ? (
-                    <p className="text-gray-600">Loading buildings...</p>
-                ) : error ? (
-                    <p className="text-red-500">{error}</p>
+                {filteredBuildings.length === 0 ? (
+                    <div className="py-16 text-center">
+                        <div className="mb-4 text-6xl opacity-50">🏗️</div>
+                        <h3 className="mb-2 text-xl font-semibold text-gray-900">{t('no_buildings_found')}</h3>
+                        <p className="text-gray-600">{t('try_different_filter')}</p>
+                    </div>
                 ) : (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {filteredBuildings.map((building) => (
                             <BuildingCard key={building.id} building={building} />
                         ))}
