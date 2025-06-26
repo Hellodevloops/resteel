@@ -2,62 +2,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Toaster } from '@/components/ui/sonner';
+import { useSiteSettings } from '@/contexts/SiteSettingsContext';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Building2, Check, DollarSign, Edit3, Globe, Mail, MapPin, Phone, RefreshCw, Settings, Truck, X } from 'lucide-react';
+import { Building2, Check, DollarSign, Edit3, Mail, MapPin, Phone, RefreshCw, Settings, Truck, X } from 'lucide-react';
 
-interface SiteSettings {
-    id: number;
-    language: string;
-    contact_email: string;
-    contact_phone: string;
-    contact_address: string;
-    currency: string;
-    tax_rate: number;
-    company_name: string;
-    company_tagline: string;
-    company_description: string;
-    email_notifications: boolean;
-    order_notifications: boolean;
-    contact_form_notifications: boolean;
-    shipping_enabled: boolean;
-    shipping_rate: string;
-    free_shipping_threshold: string;
-    shipping_zones: string[];
-    last_updated: string;
-}
-
-interface Props {
-    settings?: SiteSettings;
-}
-
-const Show = ({ settings }: Props) => {
-    // Mock data for demonstration since this is frontend only
-    const mockSettings: SiteSettings = {
-        id: 1,
-        language: 'English',
-        contact_email: 'contact@company.com',
-        contact_phone: '+1 (555) 123-4567',
-        contact_address: '123 Business Street, City, State 12345, Country',
-        currency: 'USD',
-        tax_rate: 8.5,
-        company_name: 'Your Company Name',
-        company_tagline: 'Building the future, one solution at a time',
-        company_description: 'We are a leading company in our industry, providing innovative solutions to our customers worldwide.',
-        email_notifications: true,
-        order_notifications: true,
-        contact_form_notifications: false,
-        shipping_enabled: true,
-        shipping_rate: '5.99',
-        free_shipping_threshold: '50.00',
-        shipping_zones: ['United States', 'Canada', 'Europe'],
-        last_updated: '2024-01-15',
-    };
-
-    const currentSettings = settings || mockSettings;
-
-    const breadcrumbs: BreadcrumbItem[] = [{ title: 'Site Settings', href: route('settings') }];
+const Show = () => {
+    const { settings: currentSettings } = useSiteSettings();
 
     const getStatusBadge = (status: boolean) => {
         return status ? (
@@ -76,6 +28,7 @@ const Show = ({ settings }: Props) => {
     return (
         <AppLayout>
             <Head title="Site Settings - Admin" />
+            <Toaster />
 
             <div className="bg-background min-h-screen">
                 {/* Header */}
@@ -92,7 +45,7 @@ const Show = ({ settings }: Props) => {
                                 </div>
                             </div>
                             <div className="flex gap-2">
-                                <Button variant="outline" className="rounded-sm">
+                                <Button variant="outline" className="rounded-sm" onClick={() => window.location.reload()}>
                                     <RefreshCw className="mr-2 h-4 w-4" />
                                     Refresh
                                 </Button>
@@ -110,41 +63,6 @@ const Show = ({ settings }: Props) => {
                 {/* Main Content */}
                 <div className="container mx-auto px-6 py-6">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                        {/* Core Settings */}
-                        <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Globe className="mr-2 h-5 w-5" />
-                                    Core Settings
-                                </CardTitle>
-                                <CardDescription>Basic website configuration</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Language</p>
-                                        <p className="font-medium">{currentSettings.language}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Currency</p>
-                                        <p className="font-medium">{currentSettings.currency}</p>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Tax Rate</p>
-                                    <p className="font-medium">{currentSettings.tax_rate}%</p>
-                                </div>
-
-                                <Separator />
-
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Last Updated</p>
-                                    <p className="font-medium">{currentSettings.last_updated}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-
                         {/* Company Details */}
                         <Card className="rounded-sm">
                             <CardHeader>
@@ -168,6 +86,13 @@ const Show = ({ settings }: Props) => {
                                 <div>
                                     <p className="text-muted-foreground text-sm">Description</p>
                                     <p className="text-sm">{currentSettings.company_description}</p>
+                                </div>
+
+                                <Separator />
+
+                                <div>
+                                    <p className="text-muted-foreground text-sm">Last Updated</p>
+                                    <p className="font-medium">{currentSettings.last_updated || 'N/A'}</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -220,7 +145,12 @@ const Show = ({ settings }: Props) => {
                                 <CardDescription>E-commerce shipping configuration</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                                <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+                                    <div>
+                                        <p className="text-muted-foreground text-sm">Tax Rate</p>
+                                        <p className="font-medium">{currentSettings.tax_rate}%</p>
+                                    </div>
+
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <p className="text-muted-foreground text-sm">Shipping Enabled</p>
@@ -247,16 +177,7 @@ const Show = ({ settings }: Props) => {
 
                                 <Separator />
 
-                                <div>
-                                    <p className="text-muted-foreground mb-2 text-sm">Shipping Zones</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {currentSettings.shipping_zones.map((zone, index) => (
-                                            <Badge key={index} variant="outline" className="text-xs">
-                                                {zone}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                </div>
+                                {/* Shipping zones can be added here if needed */}
                             </CardContent>
                         </Card>
                     </div>

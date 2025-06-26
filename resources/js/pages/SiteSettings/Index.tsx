@@ -9,11 +9,9 @@ import { Bell, DollarSign, Edit3, Globe, Mail, MapPin, Phone, RefreshCw, Save, S
 
 interface SiteSettings {
     id: number;
-    language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -54,11 +52,9 @@ export default function Index({ siteSettingsData }: Props) {
     // Mock data for demonstration since this is frontend only
     const mockSettings: SiteSettings = {
         id: 1,
-        language: 'English',
         contact_email: 'contact@company.com',
         contact_phone: '+1 (555) 123-4567',
         contact_address: '123 Business St, City, Country',
-        currency: 'USD',
         tax_rate: 8.5,
         company_name: 'Your Company Name',
         company_tagline: 'Building the future, one solution at a time',
@@ -175,17 +171,6 @@ export default function Index({ siteSettingsData }: Props) {
                                         <CardDescription>Basic website configuration</CardDescription>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
-                                        <div className="grid grid-cols-2 gap-4 text-sm">
-                                            <div>
-                                                <p className="text-muted-foreground">Language</p>
-                                                <p className="font-medium">{mockSettings.language}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-muted-foreground">Currency</p>
-                                                <p className="font-medium">{mockSettings.currency}</p>
-                                            </div>
-                                        </div>
-
                                         <div className="space-y-2">
                                             <p className="text-muted-foreground text-sm">Tax Rate</p>
                                             <p className="font-medium">{mockSettings.tax_rate}%</p>

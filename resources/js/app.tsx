@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/app.css';
 import { CartProvider } from './contexts/CartContext';
+import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
 import { initializeTheme } from './hooks/use-appearance';
 import i18n from './i18n';
 
@@ -20,25 +21,27 @@ createInertiaApp({
     setup({ el, App, props }) {
         createRoot(el).render(
             <React.StrictMode>
-                <CartProvider>
-                    <I18nextProvider i18n={i18n}>
-                        <Suspense fallback={<div>Loading translations...</div>}>
-                            <App {...props} />
-                            <ToastContainer
-                                position="top-right"
-                                autoClose={5000}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                theme="light"
-                            />
-                        </Suspense>
-                    </I18nextProvider>
-                </CartProvider>
+                <SiteSettingsProvider>
+                    <CartProvider>
+                        <I18nextProvider i18n={i18n}>
+                            <Suspense fallback={<div>Loading translations...</div>}>
+                                <App {...props} />
+                                <ToastContainer
+                                    position="top-right"
+                                    autoClose={5000}
+                                    hideProgressBar={false}
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    pauseOnFocusLoss
+                                    draggable
+                                    pauseOnHover
+                                    theme="light"
+                                />
+                            </Suspense>
+                        </I18nextProvider>
+                    </CartProvider>
+                </SiteSettingsProvider>
             </React.StrictMode>,
         );
     },
