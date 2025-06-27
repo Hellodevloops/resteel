@@ -94,6 +94,16 @@ Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale
 Route::get('/locale/current', [LocaleController::class, 'current'])->name('locale.current');
 Route::get('/locale/translations/{locale}', [LocaleController::class, 'translations'])->name('locale.translations');
 
+// Test route for debugging locale
+Route::get('/test-locale', function () {
+    return response()->json([
+        'current_locale' => app()->getLocale(),
+        'session_locale' => session('locale'),
+        'supported_locales' => config('app.supported_locales'),
+        'fallback_locale' => config('app.fallback_locale'),
+    ]);
+});
+
 // Fallback route for backward compatibility (GET method)
 Route::get('/locale/{locale}', function ($locale) {
     if (in_array($locale, config('app.supported_locales'))) {

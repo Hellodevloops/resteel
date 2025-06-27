@@ -6,6 +6,9 @@ import { ChevronDown, Globe, Menu, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Set up axios defaults for CSRF
+axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
 const labels: Record<string, string> = {
     en: 'English',
     nl: 'Nederlands',
@@ -34,9 +37,16 @@ const Header: React.FC = () => {
     const locale = pageProps?.locale || 'en';
     const supported_locales = pageProps?.supported_locales || ['en', 'de', 'nl'];
 
+    // Debug logging
+    console.log('Header component - Page props:', pageProps);
+    console.log('Header component - Current locale:', locale);
+    console.log('Header component - Supported locales:', supported_locales);
+    console.log('Header component - i18n current language:', i18n.language);
+
     // Initialize current locale
     useEffect(() => {
         setCurrentLocale(locale);
+        console.log('Header component - Setting current locale to:', locale);
     }, [locale]);
 
     // Cart functionality
@@ -64,42 +74,15 @@ const Header: React.FC = () => {
     }, []);
 
     const handleLanguageChange = async (newLocale: string) => {
+        console.log('Language change requested:', newLocale, 'Current:', currentLocale);
         if (newLocale === currentLocale) return;
 
         setIsLanguageDropdownOpen(false);
 
         try {
-            // First, fetch the translations for the new language from the backend
-            const response = await axios.get(`/locale/translations/${newLocale}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    Accept: 'application/json',
-                },
-            });
-
-            // Add the new translations to i18n resources
-            if (response.data && response.data.translations) {
-                const newTranslations = Object.assign({}, ...Object.values(response.data.translations));
-
-                // Get existing translations for this language
-                const existingTranslations = i18n.getResourceBundle(newLocale, 'translation') || {};
-
-                // Merge existing and new translations
-                const mergedTranslations = {
-                    ...existingTranslations,
-                    ...newTranslations,
-                };
-
-                // Add the merged translations to i18n
-                i18n.addResourceBundle(newLocale, 'translation', mergedTranslations, true, true);
-            }
-
-            // Update the frontend i18n for instant UI change
-            await i18n.changeLanguage(newLocale);
-            setCurrentLocale(newLocale);
-
-            // Update session in background - using POST for better session handling
-            await axios.post(
+            console.log('Updating session in backend...');
+            // First, update session in backend
+            const sessionResponse = await axios.post(
                 '/locale/change',
                 {
                     locale: newLocale,
@@ -108,9 +91,45 @@ const Header: React.FC = () => {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
                     },
                 },
             );
+
+            console.log('Session response:', sessionResponse.data);
+
+            if (sessionResponse.data.success) {
+                console.log('Fetching translations for new locale...');
+                // Fetch translations for the new language
+                const translationsResponse = await axios.get(`/locale/translations/${newLocale}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        Accept: 'application/json',
+                    },
+                });
+
+                console.log('Translations response:', translationsResponse.data);
+
+                // Update i18n with new translations
+                if (translationsResponse.data && translationsResponse.data.translations) {
+                    const newTranslations = translationsResponse.data.translations.messages || {};
+                    console.log('New translations:', newTranslations);
+                    
+                    // Add the new translations to i18n resources
+                    i18n.addResourceBundle(newLocale, 'translation', newTranslations, true, true);
+                }
+
+                // Update the frontend i18n for instant UI change
+                console.log('Changing i18n language to:', newLocale);
+                await i18n.changeLanguage(newLocale);
+                setCurrentLocale(newLocale);
+
+                // Reload the page to ensure all components get the new locale
+                console.log('Reloading page...');
+                window.location.reload();
+            } else {
+                throw new Error('Failed to update session');
+            }
         } catch (error) {
             console.error('Failed to change language:', error);
             // Revert on error

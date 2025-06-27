@@ -279,7 +279,6 @@ const predefinedTranslations = {
         fast_processing_subtitle: '24-48 hour handling',
         browse_warehouses: 'Browse Warehouses',
         browse_products: 'Browse Products',
-        warehouse: 'Warehouse',
         product: 'Product',
     },
     de: {
@@ -545,7 +544,6 @@ const predefinedTranslations = {
         fast_processing_subtitle: '24-48 Stunden Bearbeitungszeit',
         browse_warehouses: 'Lagerhäuser durchsuchen',
         browse_products: 'Produkte durchsuchen',
-        warehouse: 'Warehouse',
         product: 'Product',
     },
     nl: {
@@ -820,7 +818,6 @@ const predefinedTranslations = {
         fast_processing_subtitle: '24-48 uur afhandeling',
         browse_warehouses: 'Magazijnen bekijken',
         browse_products: 'Producten bekijken',
-        warehouse: 'Warehouse',
         product: 'Product',
     },
 };
@@ -837,10 +834,13 @@ const resources: Record<string, any> = {};
 
 // Override current language with server translations if available
 if (translations && locale) {
+    // Extract messages from the translations object
+    const serverMessages = translations.messages || {};
+    
     resources[locale] = {
         translation: {
             ...resources[locale]?.translation,
-            ...Object.assign({}, ...Object.values(translations)),
+            ...serverMessages,
         },
     };
 }
