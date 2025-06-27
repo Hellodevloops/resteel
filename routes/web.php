@@ -102,7 +102,9 @@ Route::get('/locale/{locale}', function ($locale) {
 })->name('locale.change.get');
 
 
-Route::get('/webshopdetail', fn() => Inertia::render('website/WebshopItemDetail'))->name('WebshopItemDetail');
+Route::get('/webshopdetail/{id}', function ($id) {
+    return Inertia::render('website/WebshopItemDetail', ['productId' => $id]);
+})->name('WebshopItemDetail');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
