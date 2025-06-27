@@ -224,11 +224,27 @@ return [
   'all_products' => 'All Products',
   'search_products_placeholder' => 'Search premium steel products...',
   'no_products_found' => 'No products found',
-  'search_criteria_no_match' => 'We couldn\'t find any products matching your search criteria.',
+  'search_criteria_no_match' => "We couldn't find any products matching your search criteria.",
   'in_stock' => 'In Stock',
   'out_of_stock' => 'Out of Stock',
+  'sold_out' => 'Sold Out',
   'add_to_cart_failed' => 'Failed to add item to cart. Please try again.',
   'contact_about_product' => 'Contact about product',
+  'filters' => 'Filters',
+  'categories' => 'Categories',
+  'add_to_cart' => 'Add to Cart',
+
+  // WebShop Item Detail
+  'loading_product' => 'Loading Product...',
+  'loading_product_details' => 'Loading product details...',
+  'product_not_found' => 'Product not found',
+  'failed_to_load_product_details' => 'Failed to load product details',
+  'back_to_products' => 'Back to Products',
+  'request_information' => 'Request Information',
+  'watch_video' => 'Watch Video',
+  'key_features' => 'Key Features',
+  'product_description' => 'Product Description',
+  'all_features' => 'All Features',
 
   // Status Messages
   'success' => 'Success',
@@ -346,4 +362,47 @@ return [
 
   // Contact Copy Component (additional)
   'send_message_btn' => 'Send Message',
+
+  // Building Details (additional)
+  'property_stats' => 'Property Stats',
+  'property_type' => 'Property Type',
+  'property_description' => 'Property Description',
+  'construction_details' => 'Construction Details',
+  'total_building_area' => 'Total Building Area',
+  'no_specifications_available' => 'No specifications available',
+  'interested_title' => 'Interested in This Property?',
+  'interested_text' => 'Get in touch with our team for more details and to schedule a viewing.',
+  'view_similar' => 'View Similar Properties',
+  'view_all_features' => 'View All :count Features',
+  'watch_video_tour' => 'Watch Video Tour',
+
+  // ContactForm
+  'contact_form_interested_in' => 'I am interested in :product. Please provide more information.',
+  'contact_form_success_message' => "Thank you! Your inquiry has been submitted successfully. We'll get back to you within 24 hours.",
+  'contact_form_unexpected_response' => 'Unexpected response format. Please try again.',
+  'contact_form_validation_error' => 'Please correct the errors below and try again.',
+  'contact_form_csrf_error' => 'Security token expired. Please refresh the page and try again.',
+  'contact_form_server_error' => 'Server error occurred. Please try again later.',
+  'contact_form_network_error' => 'Network error. Please check your connection and try again.',
+  'contact_form_unexpected_error' => 'An unexpected error occurred. Please try again.',
+  'interested_in' => 'Interested in',
+  'full_name' => 'Full Name',
+  'enter_full_name' => 'Enter your full name',
+  'email_address' => 'Email Address',
+  'email_placeholder' => 'your.email@company.com',
+  'phone_placeholder' => '+1 (555) 123-4567',
+  'company' => 'Company',
+  'company_placeholder' => 'Your company name',
+  'inquiry_type' => 'Inquiry Type',
+  'general_inquiry' => 'General Inquiry',
+  'existing_customer_support' => 'Existing Customer Support',
+  'partnership_opportunity' => 'Partnership Opportunity',
+  'message' => 'Message',
+  'message_placeholder' => 'Tell us more about your requirements or questions...',
+  'sent_successfully' => 'Sent Successfully!',
+  'send_inquiry' => 'Send Inquiry',
+  'contact_form_privacy_note' => "By submitting this form, you agree to our privacy policy. We'll get back to you within 24 hours.",
+
+  // WebShop Item Detail (additional)
+  'view_more_products' => 'View More Products',
 ];

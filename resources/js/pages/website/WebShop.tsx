@@ -1,14 +1,13 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCart } from '@/contexts/CartContext';
 import { Product } from '@/types/webshop';
 import { usePage } from '@inertiajs/react';
-import { Filter, Grid, List, Search, ShoppingCart, Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Filter, Search, ShoppingCart, Star } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ContactForm from './ContactForm';
 import Layout from './Layout';
@@ -32,16 +31,10 @@ const WebShop = () => {
     // Cart context
     const { addToCart } = useCart();
 
-    const [isVisible, setIsVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState(filters.search || '');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-    const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
     const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
-
-    useEffect(() => {
-        setTimeout(() => setIsVisible(true), 100);
-    }, []);
 
     const allCategories = Array.from(new Set(products.flatMap((p) => (p.category ? [p.category] : []))));
 
@@ -83,7 +76,7 @@ const WebShop = () => {
             // alert(`${product.name} added to cart successfully!`);
         } catch (error) {
             console.error('Failed to add item to cart:', error);
-            alert(t('add_to_cart_failed'));
+            alert('Failed to add item to cart. Please try again.');
         }
     };
 
@@ -100,7 +93,7 @@ const WebShop = () => {
                         </div>
 
                         <div className="mb-8 flex flex-col items-center justify-between gap-4 lg:flex-row">
-                            <div className="relative w-full max-w-md">
+                            <div className="relative w-72">
                                 <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400" />
                                 <Input
                                     placeholder={t('search_products_placeholder')}
@@ -136,17 +129,6 @@ const WebShop = () => {
                                         </div>
                                     </SheetContent>
                                 </Sheet>
-
-                                <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'grid' | 'list')}>
-                                    <TabsList>
-                                        <TabsTrigger value="grid">
-                                            <Grid className="h-4 w-4" />
-                                        </TabsTrigger>
-                                        <TabsTrigger value="list">
-                                            <List className="h-4 w-4" />
-                                        </TabsTrigger>
-                                    </TabsList>
-                                </Tabs>
                             </div>
                         </div>
 
@@ -205,38 +187,54 @@ const WebShop = () => {
                                                         </Badge>
                                                     </div>
                                                 </div>
-
-                                                <div className="flex flex-col space-y-3">
-                                                    <h3 className="text-lg font-semibold" style={{ color: charcoal }}>
-                                                        {product.name}
-                                                    </h3>
-                                                    <p className="line-clamp-2 text-sm text-gray-600">{product.description}</p>
+                                                <div className="flex flex-1 flex-col justify-between space-y-3">
                                                     <div className="flex items-center justify-between">
-                                                        <div className="flex items-center space-x-1">
+                                                        <h3 className="line-clamp-1 text-lg font-bold text-gray-800">{product.name}</h3>
+                                                        <div className="flex items-center gap-1">
                                                             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                                            <span className="text-sm font-medium">4.8</span>
-                                                        </div>
-                                                        <div className="text-right">
-                                                            <span className="text-2xl font-bold" style={{ color: steelBlue }}>
-                                                                €{product.price}
-                                                            </span>
+                                                            <span className="text-sm text-gray-600">{product.rating}</span>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <div className="flex gap-2">
-                                                    <Button
-                                                        className="flex-1"
-                                                        style={{ backgroundColor: steelBlue }}
-                                                        onClick={() => handleAddToCart(product)}
-                                                        disabled={!product.inStock}
-                                                    >
-                                                        <ShoppingCart className="mr-2 h-4 w-4" />
-                                                        {t('add_to_cart')}
-                                                    </Button>
-                                                    <Button variant="outline" onClick={() => openContactForm(product.name)}>
-                                                        {t('contact')}
-                                                    </Button>
+                                                    <p className="line-clamp-2 text-sm text-gray-600">{product.description}</p>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {product.features?.slice(0, 2).map((feature, index) => (
+                                                            <span
+                                                                key={index}
+                                                                className="rounded border border-gray-300 bg-gray-50 px-2 py-1 text-xs text-gray-700"
+                                                            >
+                                                                {feature}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                    <div className="flex flex-col justify-between gap-3 pt-2">
+                                                        <span className="text-xl font-bold" style={{ color: steelBlue }}>
+                                                            €{typeof product.price === 'string' ? product.price : product.price.toFixed(2)}
+                                                        </span>
+                                                        <div className="flex items-center gap-2">
+                                                            <Button
+                                                                size="sm"
+                                                                variant="outline"
+                                                                onClick={() => openContactForm(product.name)}
+                                                                className="flex-1 rounded-xl border-gray-300 transition-colors hover:border-gray-400"
+                                                            >
+                                                                {t('contact_us')}
+                                                            </Button>
+                                                            <Button
+                                                                size="sm"
+                                                                onClick={() => handleAddToCart(product)}
+                                                                disabled={!product.inStock}
+                                                                className="flex min-w-[120px] items-center justify-center gap-2 rounded-xl border-0 font-medium text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                style={{
+                                                                    background: product.inStock
+                                                                        ? `linear-gradient(135deg, ${steelBlue} 0%, #005A85 100%)`
+                                                                        : 'linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%)',
+                                                                }}
+                                                            >
+                                                                <ShoppingCart className="h-4 w-4" />
+                                                                {product.inStock ? t('add_to_cart') : t('out_of_stock')}
+                                                            </Button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
@@ -246,19 +244,17 @@ const WebShop = () => {
                         </div>
                     </div>
                 </div>
-            </main>
 
-            {/* Contact Form Dialog */}
-            <Dialog open={contactForm.isOpen} onOpenChange={closeContactForm}>
-                <DialogContent className="sm:max-w-[600px]">
+                <Dialog open={contactForm.isOpen} onOpenChange={(open) => !open && closeContactForm()}>
+                    {/* <DialogContent className=""> */}
                     <DialogHeader>
-                        <DialogTitle>
-                            {t('contact_about_product')}: {contactForm.productName}
-                        </DialogTitle>
+                        <DialogTitle>{t('get_in_touch')}</DialogTitle>
+                        <p className="text-sm text-gray-600">{t('we_d_love_to_hear_from_you')}</p>
                     </DialogHeader>
-                    <ContactForm onSuccess={closeContactForm} />
-                </DialogContent>
-            </Dialog>
+                    <ContactForm isOpen={contactForm.isOpen} onClose={closeContactForm} productName={contactForm.productName} />
+                    {/* </DialogContent> */}
+                </Dialog>
+            </main>
         </Layout>
     );
 };

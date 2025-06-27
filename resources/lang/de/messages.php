@@ -227,8 +227,39 @@ return [
   'search_criteria_no_match' => 'Wir konnten keine Produkte finden, die Ihren Suchkriterien entsprechen.',
   'in_stock' => 'Auf Lager',
   'out_of_stock' => 'Nicht vorrätig',
+  'sold_out' => 'Ausverkauft',
   'add_to_cart_failed' => 'Fehler beim Hinzufügen zum Warenkorb. Bitte versuchen Sie es erneut.',
   'contact_about_product' => 'Kontakt bezüglich Produkt',
+  'filters' => 'Filter',
+  'categories' => 'Kategorien',
+  'add_to_cart' => 'In den Warenkorb',
+
+  // WebShop Item Detail
+  'loading_product' => 'Produkt wird geladen...',
+  'loading_product_details' => 'Produktdetails werden geladen...',
+  'product_not_found' => 'Produkt nicht gefunden',
+  'failed_to_load_product_details' => 'Produktdetails konnten nicht geladen werden',
+  'back_to_products' => 'Zurück zu den Produkten',
+  'request_information' => 'Informationen anfordern',
+  'watch_video' => 'Video ansehen',
+  'key_features' => 'Hauptmerkmale',
+  'product_description' => 'Produktbeschreibung',
+  'all_features' => 'Alle Eigenschaften',
+
+  // Building Details
+  'loading_property' => 'Immobilie wird geladen',
+  'loading_property_details' => 'Immobiliendetails werden geladen',
+  'please_wait_while_we_fetch' => 'Bitte warten Sie, während wir die Informationen abrufen...',
+  'property_not_found' => 'Immobilie nicht gefunden',
+  'property_not_found_description' => 'Die gesuchte Immobilie existiert nicht oder wurde entfernt.',
+  'back_to_properties' => 'Zurück zu den Immobilien',
+  'back' => 'Zurück',
+  'built' => 'Gebaut',
+  'per_m2' => 'pro m²',
+  'contact_for_details' => 'Kontakt für Details',
+  'contact_for_price' => 'Kontakt für Preis',
+  'no_description_available' => 'Keine Beschreibung verfügbar.',
+  'we_d_love_to_hear_from_you' => 'Wir würden gerne von Ihnen hören',
 
   // Status Messages
   'success' => 'Erfolg',
@@ -346,4 +377,52 @@ return [
 
   // Contact Copy Component (additional)
   'send_message_btn' => 'Nachricht senden',
+
+  // Building Details (additional)
+  'property_stats' => 'Immobilienstatistiken',
+  'property_type' => 'Immobilientyp',
+  'property_description' => 'Immobilienbeschreibung',
+  'construction_details' => 'Konstruktionsdetails',
+  'total_building_area' => 'Gesamtgebäudefläche',
+  'no_specifications_available' => 'Keine Spezifikationen verfügbar',
+  'interested_title' => 'Interesse an dieser Immobilie?',
+  'interested_text' => 'Kontaktieren Sie unser Team für weitere Details und um eine Besichtigung zu vereinbaren.',
+  'view_similar' => 'Ähnliche Immobilien anzeigen',
+  'view_all_features' => 'Alle :count Eigenschaften anzeigen',
+  'watch_video_tour' => 'Video-Tour ansehen',
+
+  // ContactForm
+  'contact_form_interested_in' => 'Ich interessiere mich für :product. Bitte geben Sie mir weitere Informationen.',
+  'contact_form_success_message' => 'Vielen Dank! Ihre Anfrage wurde erfolgreich übermittelt. Wir werden uns innerhalb von 24 Stunden bei Ihnen melden.',
+  'contact_form_unexpected_response' => 'Unerwartetes Antwortformat. Bitte versuchen Sie es erneut.',
+  'contact_form_validation_error' => 'Bitte korrigieren Sie die folgenden Fehler und versuchen Sie es erneut.',
+  'contact_form_csrf_error' => 'Sicherheitstoken abgelaufen. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut.',
+  'contact_form_server_error' => 'Serverfehler aufgetreten. Bitte versuchen Sie es später erneut.',
+  'contact_form_network_error' => 'Netzwerkfehler. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.',
+  'contact_form_unexpected_error' => 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
+  'interested_in' => 'Interesse an',
+  'full_name' => 'Vollständiger Name',
+  'enter_full_name' => 'Geben Sie Ihren vollständigen Namen ein',
+  'email_address' => 'E-Mail-Adresse',
+  'email_placeholder' => 'ihre.email@firma.com',
+  'phone_placeholder' => '+49 (555) 123-4567',
+  'company' => 'Firma',
+  'company_placeholder' => 'Ihr Firmenname',
+  'inquiry_type' => 'Anfragetyp',
+  'general_inquiry' => 'Allgemeine Anfrage',
+  'existing_customer_support' => 'Bestehender Kundensupport',
+  'partnership_opportunity' => 'Partnerschaftsmöglichkeit',
+  'message' => 'Nachricht',
+  'message_placeholder' => 'Erzählen Sie uns mehr über Ihre Anforderungen oder Fragen...',
+  'sent_successfully' => 'Erfolgreich gesendet!',
+  'send_inquiry' => 'Anfrage senden',
+  'contact_form_privacy_note' => 'Mit dem Absenden dieses Formulars stimmen Sie unserer Datenschutzrichtlinie zu. Wir werden uns innerhalb von 24 Stunden bei Ihnen melden.',
+
+  // WebShop Item Detail (additional)
+  'view_more_products' => 'Weitere Produkte anzeigen',
+
+  // Common
+  'success' => 'Erfolg',
+  'error' => 'Fehler',
+  'phone' => 'Telefon',
 ];

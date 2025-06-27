@@ -227,8 +227,39 @@ return [
   'search_criteria_no_match' => 'We konden geen producten vinden die overeenkomen met uw zoekcriteria.',
   'in_stock' => 'Op voorraad',
   'out_of_stock' => 'Niet op voorraad',
+  'sold_out' => 'Uitverkocht',
   'add_to_cart_failed' => 'Mislukt om artikel toe te voegen aan winkelwagen. Probeer het opnieuw.',
   'contact_about_product' => 'Contact over product',
+  'filters' => 'Filters',
+  'categories' => 'Categorieën',
+  'add_to_cart' => 'Toevoegen aan winkelwagen',
+
+  // WebShop Item Detail
+  'loading_product' => 'Product laden...',
+  'loading_product_details' => 'Productdetails laden...',
+  'product_not_found' => 'Product niet gevonden',
+  'failed_to_load_product_details' => 'Mislukt om productdetails te laden',
+  'back_to_products' => 'Terug naar producten',
+  'request_information' => 'Informatie aanvragen',
+  'watch_video' => 'Video bekijken',
+  'key_features' => 'Belangrijkste kenmerken',
+  'product_description' => 'Productbeschrijving',
+  'all_features' => 'Alle kenmerken',
+
+  // Building Details
+  'loading_property' => 'Eigendom laden',
+  'loading_property_details' => 'Eigendomsdetails laden',
+  'please_wait_while_we_fetch' => 'Even geduld terwijl we de informatie ophalen...',
+  'property_not_found' => 'Eigendom niet gevonden',
+  'property_not_found_description' => 'Het eigendom dat u zoekt bestaat niet of is verwijderd.',
+  'back_to_properties' => 'Terug naar eigendommen',
+  'back' => 'Terug',
+  'built' => 'Gebouwd',
+  'per_m2' => 'per m²',
+  'contact_for_details' => 'Contact voor details',
+  'contact_for_price' => 'Contact voor prijs',
+  'no_description_available' => 'Geen beschrijving beschikbaar.',
+  'we_d_love_to_hear_from_you' => 'We horen graag van u',
 
   // Status Messages
   'success' => 'Succes',
@@ -346,4 +377,52 @@ return [
 
   // Contact Copy Component (additional)
   'send_message_btn' => 'Bericht versturen',
+
+  // Building Details (additional)
+  'property_stats' => 'Eigendomsstatistieken',
+  'property_type' => 'Type eigendom',
+  'property_description' => 'Eigendomsbeschrijving',
+  'construction_details' => 'Constructiedetails',
+  'total_building_area' => 'Totale gebouwoppervlakte',
+  'no_specifications_available' => 'Geen specificaties beschikbaar',
+  'interested_title' => 'Geïnteresseerd in dit eigendom?',
+  'interested_text' => 'Neem contact op met ons team voor meer details en om een bezichtiging te plannen.',
+  'view_similar' => 'Vergelijkbare eigendommen bekijken',
+  'view_all_features' => 'Alle :count kenmerken bekijken',
+  'watch_video_tour' => 'Video-tour bekijken',
+
+  // ContactForm
+  'contact_form_interested_in' => 'Ik ben geïnteresseerd in :product. Graag meer informatie.',
+  'contact_form_success_message' => 'Bedankt! Uw aanvraag is succesvol verzonden. We nemen binnen 24 uur contact met u op.',
+  'contact_form_unexpected_response' => 'Onverwacht antwoordformaat. Probeer het opnieuw.',
+  'contact_form_validation_error' => 'Corrigeer de onderstaande fouten en probeer het opnieuw.',
+  'contact_form_csrf_error' => 'Beveiligingstoken verlopen. Vernieuw de pagina en probeer het opnieuw.',
+  'contact_form_server_error' => 'Serverfout opgetreden. Probeer het later opnieuw.',
+  'contact_form_network_error' => 'Netwerkfout. Controleer uw verbinding en probeer het opnieuw.',
+  'contact_form_unexpected_error' => 'Er is een onverwachte fout opgetreden. Probeer het opnieuw.',
+  'interested_in' => 'Geïnteresseerd in',
+  'full_name' => 'Volledige naam',
+  'enter_full_name' => 'Voer uw volledige naam in',
+  'email_address' => 'E-mailadres',
+  'email_placeholder' => 'uw.email@bedrijf.com',
+  'phone_placeholder' => '+31 (555) 123-4567',
+  'company' => 'Bedrijf',
+  'company_placeholder' => 'Uw bedrijfsnaam',
+  'inquiry_type' => 'Type aanvraag',
+  'general_inquiry' => 'Algemene aanvraag',
+  'existing_customer_support' => 'Bestaande klantondersteuning',
+  'partnership_opportunity' => 'Partnerschapsmogelijkheid',
+  'message' => 'Bericht',
+  'message_placeholder' => 'Vertel ons meer over uw vereisten of vragen...',
+  'sent_successfully' => 'Succesvol verzonden!',
+  'send_inquiry' => 'Aanvraag verzenden',
+  'contact_form_privacy_note' => 'Door dit formulier in te dienen, gaat u akkoord met ons privacybeleid. We nemen binnen 24 uur contact met u op.',
+
+  // WebShop Item Detail (additional)
+  'view_more_products' => 'Meer producten bekijken',
+
+  // Common
+  'success' => 'Succes',
+  'error' => 'Fout',
+  'phone' => 'Telefoon',
 ];

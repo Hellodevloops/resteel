@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { ArrowLeft, ArrowRight, Star, Video } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
 
 const steelBlue = '#0076A8';
@@ -25,6 +26,7 @@ interface PageProps extends Record<string, unknown> {
 }
 
 const WebshopItemDetail = () => {
+    const { t } = useTranslation();
     const { productId } = usePage<PageProps>().props;
     const [product, setProduct] = useState<WebShopItem | null>(null);
     const [loading, setLoading] = useState(true);
@@ -38,11 +40,11 @@ const WebshopItemDetail = () => {
                 if (response.data?.status === 'success') {
                     setProduct(response.data.data);
                 } else {
-                    setError('Product not found');
+                    setError(t('product_not_found'));
                 }
             } catch (err) {
                 console.error('Failed to fetch product:', err);
-                setError('Failed to load product details');
+                setError(t('failed_to_load_product_details'));
             } finally {
                 setLoading(false);
             }
@@ -51,16 +53,16 @@ const WebshopItemDetail = () => {
         if (productId) {
             fetchProduct();
         }
-    }, [productId]);
+    }, [productId, t]);
 
     if (loading) {
         return (
-            <Layout title="Loading Product...">
+            <Layout title={t('loading_product')}>
                 <div className="min-h-screen bg-[#f8fbfe] px-4 pt-10 pb-20 md:px-10">
                     <div className="mx-auto flex h-64 max-w-7xl items-center justify-center">
                         <div className="text-center">
                             <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2" style={{ borderColor: steelBlue }}></div>
-                            <p className="mt-4 text-gray-600">Loading product details...</p>
+                            <p className="mt-4 text-gray-600">{t('loading_product_details')}</p>
                         </div>
                     </div>
                 </div>
@@ -70,14 +72,14 @@ const WebshopItemDetail = () => {
 
     if (error || !product) {
         return (
-            <Layout title="Product Not Found">
+            <Layout title={t('product_not_found')}>
                 <div className="min-h-screen bg-[#f8fbfe] px-4 pt-10 pb-20 md:px-10">
                     <div className="mx-auto flex h-64 max-w-7xl items-center justify-center">
                         <div className="text-center">
-                            <p className="mb-4 text-lg text-red-600">{error || 'Product not found'}</p>
+                            <p className="mb-4 text-lg text-red-600">{error || t('product_not_found')}</p>
                             <Button onClick={() => (window.location.href = '/webshops')} variant="outline">
                                 <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Products
+                                {t('back_to_products')}
                             </Button>
                         </div>
                     </div>
@@ -102,7 +104,7 @@ const WebshopItemDetail = () => {
                 <div className="mx-auto mb-6 max-w-7xl">
                     <Button variant="ghost" onClick={() => (window.location.href = '/webshops')} className="text-sm" style={{ color: steelBlue }}>
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back to Products
+                        {t('back_to_products')}
                     </Button>
                 </div>
 
@@ -130,7 +132,7 @@ const WebshopItemDetail = () => {
                                     className={`${product.status === 'inStock' ? 'text-white' : 'bg-red-100 text-red-600'}`}
                                     style={{ backgroundColor: product.status === 'inStock' ? steelBlue : undefined }}
                                 >
-                                    {product.status === 'inStock' ? 'In Stock' : 'Sold Out'}
+                                    {product.status === 'inStock' ? t('in_stock') : t('sold_out')}
                                 </Badge>
                             </div>
 
@@ -145,20 +147,15 @@ const WebshopItemDetail = () => {
 
                             <div className="space-y-3">
                                 <div className="flex flex-col gap-2">
-                                    <Button
-                                        variant="outline"
-                                        className="w-full border-2"
-                                        // style={{ borderColor: steelBlue, backgroundColor: steelBlue }}
-                                        onClick={() => (window.location.href = `/contact`)}
-                                    >
-                                        Request Information
+                                    <Button variant="outline" className="w-full border-2" onClick={() => (window.location.href = `/contact`)}>
+                                        {t('request_information')}
                                     </Button>
                                     <Button
                                         variant="secondary"
                                         className="w-full border text-white hover:opacity-80"
                                         style={{ borderColor: steelBlue, backgroundColor: steelBlue }}
                                     >
-                                        <Video className="mr-1 h-4 w-4" /> Watch Video
+                                        <Video className="mr-1 h-4 w-4" /> {t('watch_video')}
                                     </Button>
                                 </div>
                             </div>
@@ -166,7 +163,7 @@ const WebshopItemDetail = () => {
                             {product.features && product.features.length > 0 && (
                                 <div>
                                     <h4 className="mb-2 text-sm font-semibold" style={{ color: steelBlue }}>
-                                        Key Features
+                                        {t('key_features')}
                                     </h4>
                                     <ul className="list-disc space-y-1 pl-5 text-sm text-slate-600">
                                         {product.features.map((feature, index) => (
@@ -184,14 +181,14 @@ const WebshopItemDetail = () => {
                     <Card>
                         <CardContent className="space-y-4 py-6">
                             <h3 className="text-xl font-semibold" style={{ color: steelBlue }}>
-                                Product Description
+                                {t('product_description')}
                             </h3>
                             <p className="leading-relaxed text-slate-600">{product.description}</p>
 
                             {product.features && product.features.length > 0 && (
                                 <div className="mt-4 border-t pt-4" style={{ borderColor: steelBlue }}>
                                     <h4 className="mb-3 text-lg font-semibold" style={{ color: steelBlue }}>
-                                        All Features
+                                        {t('all_features')}
                                     </h4>
                                     <div className="grid gap-2 md:grid-cols-2">
                                         {product.features.map((feature, index) => (
@@ -210,7 +207,7 @@ const WebshopItemDetail = () => {
                 {/* Call to Action */}
                 <div className="mx-auto mt-10 max-w-7xl text-center">
                     <Button variant="ghost" className="text-sm" style={{ color: steelBlue }} onClick={() => (window.location.href = '/webshops')}>
-                        <ArrowRight className="mr-1 h-4 w-4" /> View More Products
+                        <ArrowRight className="mr-1 h-4 w-4" /> {t('view_more_products')}
                     </Button>
                 </div>
             </div>

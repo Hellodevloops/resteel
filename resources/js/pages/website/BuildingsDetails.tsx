@@ -2,6 +2,7 @@
 
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
 
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Building, Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
 
 const BuildingDetails = () => {
+    const { t } = useTranslation();
     const { props } = usePage();
     const id = props.id;
     const [building, setBuilding] = useState(null);
@@ -33,35 +35,35 @@ const BuildingDetails = () => {
                     setBuilding({
                         id: data.id,
                         title: data.name,
-                        status: data.status || 'SALE',
-                        category: data.category || 'Warehouse',
-                        construction: data.construction || 'Not specified',
-                        description: data.description || 'No description available.',
+                        status: data.status || t('sale'),
+                        category: data.category || t('warehouse'),
+                        construction: data.construction || t('not_specified'),
+                        description: data.description || t('no_description_available'),
                         location: `${data.city || ''}, ${data.country || ''}`,
-                        yearBuilt: data.year_built || 'Unknown',
-                        price: data.price ? `€${data.price}` : 'Contact for Price',
+                        yearBuilt: data.year_built || t('unknown'),
+                        price: data.price ? `€${data.price}` : t('contact_for_price'),
                         images: data.additional_images?.length > 0 ? data.additional_images : data.image_path ? [data.image_path] : [],
-                        totalArea: data.total_area ? `${data.total_area} ${data.unit_of_measurement || ''}` : 'N/A',
+                        totalArea: data.total_area ? `${data.total_area} ${data.unit_of_measurement || ''}` : t('not_available'),
                         hasVideo: data.has_video,
                         videoUrls: (data.video_urls || []).filter(Boolean),
                         features: (data.features || []).filter(Boolean),
                         specifications: [
                             {
-                                name: 'Main Hall',
-                                dimensions: data.main_hall_dimensions || 'N/A',
-                                area: data.main_hall_area || 'N/A',
+                                name: t('main_hall'),
+                                dimensions: data.main_hall_dimensions || t('not_available'),
+                                area: data.main_hall_area || t('not_available'),
                             },
                             {
-                                name: 'Office Space',
-                                dimensions: data.office_space_dimensions || 'N/A',
-                                area: data.office_space_area || 'N/A',
+                                name: t('office_space'),
+                                dimensions: data.office_space_dimensions || t('not_available'),
+                                area: data.office_space_area || t('not_available'),
                             },
                             {
-                                name: 'Loading Dock',
-                                dimensions: data.loading_dock_dimensions || 'N/A',
-                                area: data.loading_dock_area || 'N/A',
+                                name: t('loading_dock'),
+                                dimensions: data.loading_dock_dimensions || t('not_available'),
+                                area: data.loading_dock_area || t('not_available'),
                             },
-                        ].filter((spec) => spec.dimensions !== 'N/A' || spec.area !== 'N/A'),
+                        ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available')),
                     });
                 }
             } catch (err) {
@@ -72,7 +74,7 @@ const BuildingDetails = () => {
         };
 
         fetchBuilding();
-    }, [id]);
+    }, [id, t]);
 
     useEffect(() => {
         if (building && building.images.length > 1) {
@@ -107,12 +109,12 @@ const BuildingDetails = () => {
 
     if (isLoading) {
         return (
-            <Layout title="Loading Property">
+            <Layout title={t('loading_property')}>
                 <div className="mt-16 flex min-h-[60vh] items-center justify-center sm:mt-20">
                     <div className="space-y-4 text-center">
                         <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-orange-200 border-t-orange-500"></div>
-                        <h3 className="text-lg font-semibold text-gray-700">Loading Property Details</h3>
-                        <p className="text-gray-500">Please wait while we fetch the information...</p>
+                        <h3 className="text-lg font-semibold text-gray-700">{t('loading_property_details')}</h3>
+                        <p className="text-gray-500">{t('please_wait_while_we_fetch')}</p>
                     </div>
                 </div>
             </Layout>
@@ -121,19 +123,19 @@ const BuildingDetails = () => {
 
     if (!building) {
         return (
-            <Layout title="Property Not Found">
+            <Layout title={t('property_not_found')}>
                 <div className="mt-16 flex min-h-[60vh] items-center justify-center px-4 sm:mt-20">
                     <Card className="w-full max-w-md">
                         <CardContent className="py-12 text-center">
                             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
                                 <Building className="h-8 w-8 text-red-500" />
                             </div>
-                            <h1 className="mb-2 text-2xl font-bold text-gray-800">Property Not Found</h1>
-                            <p className="mb-6 text-gray-600">The property you're looking for doesn't exist or has been removed.</p>
+                            <h1 className="mb-2 text-2xl font-bold text-gray-800">{t('property_not_found')}</h1>
+                            <p className="mb-6 text-gray-600">{t('property_not_found_description')}</p>
                             <Button asChild className="bg-orange-500 hover:bg-orange-600">
                                 <Link to="/buildings">
                                     <ArrowLeft className="mr-2 h-4 w-4" />
-                                    Back to Properties
+                                    {t('back_to_properties')}
                                 </Link>
                             </Button>
                         </CardContent>
@@ -154,8 +156,8 @@ const BuildingDetails = () => {
                                 <Button variant="ghost" size="sm" asChild>
                                     <Link href="/buildings">
                                         <ArrowLeft className="mr-2 h-4 w-4" />
-                                        <span className="hidden sm:inline">Back to Properties</span>
-                                        <span className="sm:hidden">Back</span>
+                                        <span className="hidden sm:inline">{t('back_to_properties')}</span>
+                                        <span className="sm:hidden">{t('back')}</span>
                                     </Link>
                                 </Button>
                                 <div className="hidden h-6 w-px bg-gray-300 sm:block"></div>
@@ -178,7 +180,9 @@ const BuildingDetails = () => {
                                     </div>
                                     <div className="flex items-center">
                                         <Calendar className="mr-1 h-4 w-4 text-orange-500" />
-                                        <span className="text-sm">Built {building.yearBuilt}</span>
+                                        <span className="text-sm">
+                                            {t('built')} {building.yearBuilt}
+                                        </span>
                                     </div>
                                     <div className="flex items-center">
                                         <Square className="mr-1 h-4 w-4 text-orange-500" />
@@ -189,9 +193,9 @@ const BuildingDetails = () => {
                             <div className="text-right">
                                 <p className="mb-1 text-3xl font-bold text-orange-600 sm:text-4xl">{building.price}</p>
                                 <p className="text-sm text-gray-500">
-                                    {building.totalArea !== 'N/A'
-                                        ? `~€${Math.round(parseInt(building.price.replace(/[^0-9]/g, '')) / parseInt(building.totalArea.replace(/[^0-9]/g, '')))} per m²`
-                                        : 'Contact for details'}
+                                    {building.totalArea !== t('not_available')
+                                        ? `~€${Math.round(parseInt(building.price.replace(/[^0-9]/g, '')) / parseInt(building.totalArea.replace(/[^0-9]/g, '')))} ${t('per_m2')}`
+                                        : t('contact_for_details')}
                                 </p>
                             </div>
                         </div>
@@ -289,28 +293,10 @@ const BuildingDetails = () => {
                         {/* Property Details Sidebar */}
                         <div className="xl:col-span-1">
                             <div className="sticky top-24 space-y-6">
-                                {/* Quick Actions */}
-                                <Card>
-                                    <CardHeader className="pb-4">
-                                        <CardTitle className="text-lg">Contact Information</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="space-y-3">
-                                        {/* <Button 
-                         size="lg" 
-                         className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-                       >
-                         <Phone className="w-4 h-4 mr-2" />
-                         Call Now
-                       </Button>
-                       <Button 
-                         variant="outline" 
-                         size="lg" 
-                         className="w-full border-orange-500 text-orange-500 hover:bg-orange-50"
-                       >
-                         <Mail className="w-4 h-4 mr-2" />
-                         Email Inquiry
-                       </Button> */}
-                                        {building.hasVideo && building.videoUrls.length > 0 && (
+                                {/* video Actions */}
+                                {building.hasVideo && building.videoUrls.length > 0 && (
+                                    <Card>
+                                        <CardContent className="space-y-3">
                                             <Button
                                                 variant="outline"
                                                 size="lg"
@@ -318,16 +304,16 @@ const BuildingDetails = () => {
                                                 onClick={() => window.open(building.videoUrls[0], '_blank')}
                                             >
                                                 <Play className="mr-2 h-4 w-4" />
-                                                Watch Video Tour
+                                                {t('watch_video_tour')}
                                             </Button>
-                                        )}
-                                    </CardContent>
-                                </Card>
+                                        </CardContent>
+                                    </Card>
+                                )}
 
                                 {/* Key Features */}
                                 <Card>
                                     <CardHeader className="pb-4">
-                                        <CardTitle className="text-lg">Key Features</CardTitle>
+                                        <CardTitle className="text-lg">{t('key_features')}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="space-y-3">
@@ -344,7 +330,7 @@ const BuildingDetails = () => {
                                                     className="w-full text-orange-500 hover:bg-orange-50 hover:text-orange-600"
                                                     onClick={() => setShowAllFeatures(!showAllFeatures)}
                                                 >
-                                                    {showAllFeatures ? 'Show Less' : `View All ${building.features.length} Features`}
+                                                    {showAllFeatures ? t('show_less') : t('view_all_features', { count: building.features.length })}
                                                     {showAllFeatures ? (
                                                         <ChevronUp className="ml-1 h-4 w-4" />
                                                     ) : (
@@ -359,23 +345,23 @@ const BuildingDetails = () => {
                                 {/* Quick Stats */}
                                 <Card>
                                     <CardHeader className="pb-4">
-                                        <CardTitle className="text-lg">Property Stats</CardTitle>
+                                        <CardTitle className="text-lg">{t('property_stats')}</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">Total Area</span>
+                                            <span className="text-sm text-gray-600">{t('total_area')}</span>
                                             <span className="font-semibold">{building.totalArea}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">Year Built</span>
+                                            <span className="text-sm text-gray-600">{t('year_built')}</span>
                                             <span className="font-semibold">{building.yearBuilt}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">Property Type</span>
+                                            <span className="text-sm text-gray-600">{t('property_type')}</span>
                                             <span className="font-semibold">{building.category}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">Status</span>
+                                            <span className="text-sm text-gray-600">{t('status')}</span>
                                             <Badge variant="secondary" className="bg-orange-500 text-xs text-white">
                                                 {building.status}
                                             </Badge>
@@ -391,7 +377,7 @@ const BuildingDetails = () => {
                         {/* Description */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-xl">Property Description</CardTitle>
+                                <CardTitle className="text-xl">{t('property_description')}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div>
@@ -410,12 +396,12 @@ const BuildingDetails = () => {
                                             {showFullDescription ? (
                                                 <>
                                                     <ChevronUp className="mr-1 h-4 w-4" />
-                                                    Show Less
+                                                    {t('show_less')}
                                                 </>
                                             ) : (
                                                 <>
                                                     <ChevronDown className="mr-1 h-4 w-4" />
-                                                    Read More
+                                                    {t('read_more')}
                                                 </>
                                             )}
                                         </Button>
@@ -425,7 +411,7 @@ const BuildingDetails = () => {
                                 <Separator />
 
                                 <div>
-                                    <h3 className="mb-3 font-semibold text-gray-800">Construction Details</h3>
+                                    <h3 className="mb-3 font-semibold text-gray-800">{t('construction_details')}</h3>
                                     <div className="max-h-48 overflow-x-hidden overflow-y-auto">
                                         <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">
                                             {showFullConstruction ? building.construction : truncateText(building.construction, 200)}
@@ -441,12 +427,12 @@ const BuildingDetails = () => {
                                             {showFullConstruction ? (
                                                 <>
                                                     <ChevronUp className="mr-1 h-4 w-4" />
-                                                    Show Less
+                                                    {t('show_less')}
                                                 </>
                                             ) : (
                                                 <>
                                                     <ChevronDown className="mr-1 h-4 w-4" />
-                                                    Read More
+                                                    {t('read_more')}
                                                 </>
                                             )}
                                         </Button>
@@ -457,7 +443,7 @@ const BuildingDetails = () => {
                                     <>
                                         <Separator />
                                         <div>
-                                            <h3 className="mb-4 font-semibold text-gray-800">All Features</h3>
+                                            <h3 className="mb-4 font-semibold text-gray-800">{t('all_features')}</h3>
                                             <div className="grid max-h-56 grid-cols-1 gap-3 overflow-x-hidden overflow-y-auto sm:grid-cols-2">
                                                 {building.features.map((feature, index) => (
                                                     <div key={index} className="flex items-start space-x-3">
@@ -475,7 +461,7 @@ const BuildingDetails = () => {
                         {/* Specifications */}
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-xl">Specifications</CardTitle>
+                                <CardTitle className="text-xl">{t('specifications')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {building.specifications.length > 0 ? (
@@ -500,7 +486,7 @@ const BuildingDetails = () => {
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center space-x-2">
                                                     <Square className="h-5 w-5 text-orange-500" />
-                                                    <span className="font-semibold text-gray-800">Total Building Area</span>
+                                                    <span className="font-semibold text-gray-800">{t('total_building_area')}</span>
                                                 </div>
                                                 <span className="text-2xl font-bold text-orange-600">{building.totalArea}</span>
                                             </div>
@@ -509,7 +495,7 @@ const BuildingDetails = () => {
                                 ) : (
                                     <div className="py-12 text-center">
                                         <Building className="mx-auto mb-3 h-12 w-12 text-gray-400" />
-                                        <p className="text-gray-500">No specifications available</p>
+                                        <p className="text-gray-500">{t('no_specifications_available')}</p>
                                     </div>
                                 )}
                             </CardContent>
@@ -519,19 +505,19 @@ const BuildingDetails = () => {
                     {/* Bottom CTA */}
                     <div className="mt-16 text-center">
                         <div className="rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 p-8 text-white">
-                            <h2 className="mb-2 text-2xl font-bold">Interested in This Property?</h2>
-                            <p className="mb-6 text-orange-100">Get in touch with our team for more details and to schedule a viewing.</p>
+                            <h2 className="mb-2 text-2xl font-bold">{t('interested_title')}</h2>
+                            <p className="mb-6 text-orange-100">{t('interested_text')}</p>
                             <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                 <Button size="lg" variant="secondary" className="bg-white text-orange-600 hover:bg-gray-100" asChild>
                                     <Link href="/contact">
                                         <Phone className="mr-2 h-4 w-4" />
-                                        Contact Us
+                                        {t('contact_us')}
                                     </Link>
                                 </Button>
                                 <Button size="lg" variant="outline" className="bg-white text-orange-600 hover:bg-gray-100" asChild>
                                     <Link href="/buildings">
                                         <Eye className="mr-2 h-4 w-4" />
-                                        View Similar Properties
+                                        {t('view_similar')}
                                     </Link>
                                 </Button>
                             </div>
