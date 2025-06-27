@@ -69,11 +69,36 @@ const Header: React.FC = () => {
         setIsLanguageDropdownOpen(false);
 
         try {
-            // Update the frontend i18n immediately for instant UI change
+            // First, fetch the translations for the new language from the backend
+            const response = await axios.get(`/locale/translations/${newLocale}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    Accept: 'application/json',
+                },
+            });
+
+            // Add the new translations to i18n resources
+            if (response.data && response.data.translations) {
+                const newTranslations = Object.assign({}, ...Object.values(response.data.translations));
+
+                // Get existing translations for this language
+                const existingTranslations = i18n.getResourceBundle(newLocale, 'translation') || {};
+
+                // Merge existing and new translations
+                const mergedTranslations = {
+                    ...existingTranslations,
+                    ...newTranslations,
+                };
+
+                // Add the merged translations to i18n
+                i18n.addResourceBundle(newLocale, 'translation', mergedTranslations, true, true);
+            }
+
+            // Update the frontend i18n for instant UI change
             await i18n.changeLanguage(newLocale);
             setCurrentLocale(newLocale);
 
-            // Update session in background without page reload - using POST for better session handling
+            // Update session in background - using POST for better session handling
             await axios.post(
                 '/locale/change',
                 {

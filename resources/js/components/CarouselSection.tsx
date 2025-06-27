@@ -127,28 +127,16 @@ const CarouselSection = () => {
                                 {/* Description */}
                                 <p className="line-clamp-2 text-sm text-slate-600">{item.description}</p>
 
-                                {/* Features */}
-                                {/* <div className="flex gap-2 flex-wrap">
-          {item.features?.slice(0, 2).map((feat, i) => (
-            <Badge
-              key={i}
-              className="bg-slate-100 text-slate-600 border border-slate-200 text-xs"
-            >
-              {feat}
-            </Badge>
-          ))}
-        </div> */}
-
                                 {/* CTA */}
                                 <div className="mt-4 flex justify-end gap-4">
                                     <Button
                                         variant="link"
-                                        onClick={() => (window.location.href = `/webshops`)}
+                                        onClick={() => (window.location.href = `/webshopdetail/${item.id}`)}
                                         size="sm"
                                         className="px-0 text-sm font-medium"
                                         style={{ color: steelBlue }}
                                     >
-                                        {t('explore_all')} <ArrowRight className="ml-1 h-4 w-4" />
+                                        Details <ArrowRight className="ml-1 h-4 w-4" />
                                     </Button>
                                 </div>
                             </CardContent>
