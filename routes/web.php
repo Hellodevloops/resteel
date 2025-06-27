@@ -92,6 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Language switching routes with better session handling
 Route::post('/locale/change', [LocaleController::class, 'change'])->name('locale.change');
 Route::get('/locale/current', [LocaleController::class, 'current'])->name('locale.current');
+Route::get('/locale/translations/{locale}', [LocaleController::class, 'translations'])->name('locale.translations');
 
 // Fallback route for backward compatibility (GET method)
 Route::get('/locale/{locale}', function ($locale) {

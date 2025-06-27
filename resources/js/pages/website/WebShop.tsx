@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogHeader } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useCart } from '@/contexts/CartContext';
@@ -210,7 +210,7 @@ const WebShop = () => {
                                                         <span className="text-xl font-bold" style={{ color: steelBlue }}>
                                                             €{typeof product.price === 'string' ? product.price : product.price.toFixed(2)}
                                                         </span>
-                                                        <div className="flex items-center gap-2">
+                                                        <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:items-center">
                                                             <Button
                                                                 size="sm"
                                                                 variant="outline"
@@ -223,15 +223,17 @@ const WebShop = () => {
                                                                 size="sm"
                                                                 onClick={() => handleAddToCart(product)}
                                                                 disabled={!product.inStock}
-                                                                className="flex min-w-[120px] items-center justify-center gap-2 rounded-xl border-0 font-medium text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                className="flex flex-1 items-center justify-center gap-2 rounded-xl border-0 font-medium text-white transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-0"
                                                                 style={{
                                                                     background: product.inStock
                                                                         ? `linear-gradient(135deg, ${steelBlue} 0%, #005A85 100%)`
                                                                         : 'linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%)',
                                                                 }}
                                                             >
-                                                                <ShoppingCart className="h-4 w-4" />
-                                                                {product.inStock ? t('add_to_cart') : t('out_of_stock')}
+                                                                <ShoppingCart className="h-4 w-4 flex-shrink-0" />
+                                                                <span className="truncate">
+                                                                    {product.inStock ? t('add_to_cart') : t('out_of_stock')}
+                                                                </span>
                                                             </Button>
                                                         </div>
                                                     </div>
@@ -248,8 +250,8 @@ const WebShop = () => {
                 <Dialog open={contactForm.isOpen} onOpenChange={(open) => !open && closeContactForm()}>
                     {/* <DialogContent className=""> */}
                     <DialogHeader>
-                        <DialogTitle>{t('get_in_touch')}</DialogTitle>
-                        <p className="text-sm text-gray-600">{t('we_d_love_to_hear_from_you')}</p>
+                        {/* <DialogTitle>{t('get_in_touch')}</DialogTitle> */}
+                        {/* <p className="text-sm text-gray-600">{t('we_d_love_to_hear_from_you')}</p> */}
                     </DialogHeader>
                     <ContactForm isOpen={contactForm.isOpen} onClose={closeContactForm} productName={contactForm.productName} />
                     {/* </DialogContent> */}
