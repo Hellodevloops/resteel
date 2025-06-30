@@ -1,9 +1,56 @@
-import { Link } from '@inertiajs/react';
-import { ArrowRight, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { ArrowRight, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+interface SiteSettings {
+    contact_email?: string;
+    contact_phone?: string | number;
+    contact_address?: string;
+    company_name?: string;
+    social_twitter?: string;
+    social_instagram?: string;
+    social_youtube?: string;
+    social_facebook?: string;
+    social_linkedin?: string;
+}
 
 const Footer = () => {
     const { t } = useTranslation();
+    const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
+
+    // Social media links configuration
+    const socialLinks = [
+        {
+            icon: <Twitter size={20} />,
+            href: siteSettings?.social_twitter || '',
+            hover: 'hover:text-blue-400',
+            show: !!siteSettings?.social_twitter,
+        },
+        {
+            icon: <Instagram size={20} />,
+            href: siteSettings?.social_instagram || '',
+            hover: 'hover:text-pink-400',
+            show: !!siteSettings?.social_instagram,
+        },
+        {
+            icon: <Youtube size={20} />,
+            href: siteSettings?.social_youtube || '',
+            hover: 'hover:text-red-500',
+            show: !!siteSettings?.social_youtube,
+        },
+        {
+            icon: <Facebook size={20} />,
+            href: siteSettings?.social_facebook || '',
+            hover: 'hover:text-blue-600',
+            show: !!siteSettings?.social_facebook,
+        },
+        {
+            icon: <Linkedin size={20} />,
+            href: siteSettings?.social_linkedin || '',
+            hover: 'hover:text-blue-700',
+            show: !!siteSettings?.social_linkedin,
+        },
+    ].filter((link) => link.show); // Only show links that have URLs
 
     return (
         <footer className="relative overflow-hidden bg-slate-900 text-white">
@@ -15,26 +62,24 @@ const Footer = () => {
                     {/* Company Info */}
                     <div className="lg:col-span-2">
                         <h3 className="mb-4 bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-2xl font-bold text-transparent">
-                            {t('resteel_solutions')}
+                            {siteSettings?.company_name || t('resteel_solutions')}
                         </h3>
                         <p className="mb-6 max-w-md text-slate-300">{t('footer_company_desc')}</p>
-                        <div className="flex space-x-3">
-                            {[
-                                { icon: <Twitter size={20} />, href: 'https://twitter.com/resteel', hover: 'hover:text-blue-400' },
-                                { icon: <Instagram size={20} />, href: 'https://instagram.com/resteel', hover: 'hover:text-pink-400' },
-                                { icon: <Youtube size={20} />, href: 'https://youtube.com', hover: 'hover:text-red-500' },
-                            ].map(({ icon, href, hover }, i) => (
-                                <a
-                                    key={i}
-                                    href={href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-white transition-all duration-300 hover:bg-white/20 ${hover}`}
-                                >
-                                    {icon}
-                                </a>
-                            ))}
-                        </div>
+                        {socialLinks.length > 0 && (
+                            <div className="flex space-x-3">
+                                {socialLinks.map(({ icon, href, hover }, i) => (
+                                    <a
+                                        key={i}
+                                        href={href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-white transition-all duration-300 hover:bg-white/20 ${hover}`}
+                                    >
+                                        {icon}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Quick Links */}
@@ -67,22 +112,31 @@ const Footer = () => {
                             <div className="flex items-start gap-3">
                                 <MapPin size={20} className="mt-1 text-slate-400" />
                                 <span>
-                                    <span className="block md:hidden">Helmond, Netherlands</span>
-                                    <span className="hidden md:block">Westerbeemd 2B, 5705 DN Helmond, Netherlands</span>
+                                    <span className="block md:hidden">{siteSettings?.contact_address?.split(',')[0] || 'Helmond, Netherlands'}</span>
+                                    <span className="hidden md:block">
+                                        {siteSettings?.contact_address || 'Westerbeemd 2B, 5705 DN Helmond, Netherlands'}
+                                    </span>
                                 </span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <Phone size={20} className="text-slate-400" />
-                                <a href="tel:+31123456789" className="transition-colors hover:text-orange-400">
-                                    +31 (0) 123 456 789
-                                </a>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Mail size={20} className="text-slate-400" />
-                                <a href="mailto:Info@2ndhandholding.com" className="transition-colors hover:text-orange-400">
-                                    Info@2ndhandholding.com
-                                </a>
-                            </div>
+                            {siteSettings?.contact_phone && (
+                                <div className="flex items-center gap-3">
+                                    <Phone size={20} className="text-slate-400" />
+                                    <a
+                                        href={`tel:${String(siteSettings.contact_phone).replace(/\s/g, '')}`}
+                                        className="transition-colors hover:text-orange-400"
+                                    >
+                                        {siteSettings.contact_phone}
+                                    </a>
+                                </div>
+                            )}
+                            {siteSettings?.contact_email && (
+                                <div className="flex items-center gap-3">
+                                    <Mail size={20} className="text-slate-400" />
+                                    <a href={`mailto:${siteSettings.contact_email}`} className="transition-colors hover:text-orange-400">
+                                        {siteSettings.contact_email}
+                                    </a>
+                                </div>
+                            )}
                         </address>
                     </div>
                 </div>
@@ -90,7 +144,8 @@ const Footer = () => {
                 {/* Footer Bottom */}
                 <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-white/10 pt-6 text-sm text-slate-400 md:flex-row md:space-y-0">
                     <p className="text-center md:text-left">
-                        © {new Date().getFullYear()} Resteel. {t('all_rights_reserved')} {t('engineering_excellence_since')}
+                        © {new Date().getFullYear()} {siteSettings?.company_name || 'Resteel'}. {t('all_rights_reserved')}{' '}
+                        {t('engineering_excellence_since')}
                     </p>
                     <div className="flex space-x-6">
                         <Link href="/terms" className="transition-colors hover:text-orange-400">

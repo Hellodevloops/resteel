@@ -6,17 +6,20 @@ use App\Http\Controllers\WebShopController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\SiteSettingsController;
 
 // Home route
 Route::get('/', function () {
     return Inertia::render('website/Home');
 })->name('home');
-Route::get('/admin/settings', function () {
-    return Inertia::render('SiteSettings/Show');
-})->name('settings');
-Route::get('/admin/settings/edit', function () {
-    return Inertia::render('SiteSettings/Edit');
-})->name('settings.edit');
+
+// Site Settings Routes (outside of auth middleware for now, move inside if needed)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/admin/settings', [SiteSettingsController::class, 'show'])->name('settings');
+    Route::get('/admin/settings/edit', [SiteSettingsController::class, 'edit'])->name('settings.edit');
+    Route::post('/admin/settings', [SiteSettingsController::class, 'store'])->name('settings.store');
+    Route::put('/admin/settings/{setting}', [SiteSettingsController::class, 'update'])->name('settings.update');
+});
 
 // Public website pages
 Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('buildings');

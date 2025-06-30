@@ -15,7 +15,7 @@ const About = () => {
                 <p className="mx-auto max-w-2xl text-lg text-slate-300 md:text-xl">{t('about_hero_subtitle')}</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <Button variant="outline" asChild className="text-text-orange-500 rounded-xl border-white px-6 py-4 hover:text-orange-600">
-                        <Link href="/shop" className="text-orange-500">
+                        <Link href="/buildings" className="text-orange-500">
                             {t('browse_structures')}
                         </Link>
                     </Button>

@@ -38,7 +38,7 @@ export default function Edit({ settings }: Props) {
         contact_address: '123 Business Street, City, State, Country',
         // currency: 'USD',
         tax_rate: 8.5,
-        company_name: 'Your Company Name',
+        // company_name: 'Your Company Name',
         company_tagline: 'Building the future, one solution at a time',
         company_description: 'We are a leading company in our industry, providing innovative solutions to our customers worldwide.',
         email_notifications: true,
@@ -54,7 +54,7 @@ export default function Edit({ settings }: Props) {
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Site Settings', href: route('settings') },
-        { title: 'Edit', href: route('settings.edit', currentSettings.id) },
+        { title: 'Edit', href: route('settings.edit') },
     ];
 
     return (

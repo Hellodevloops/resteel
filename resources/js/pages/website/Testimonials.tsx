@@ -2,40 +2,62 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { usePage } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const testimonials = [
-    {
-        quote: 'Resteel made our entire site relocation process seamless...',
-        author: 'Stefan Döring',
-        position: 'RheinBuild GmbH',
-    },
-    {
-        quote: 'We saved over 40% on our structural build...',
-        author: 'Anita Kovács',
-        position: 'Danube Construction',
-    },
-    {
-        quote: 'International coordination is always a challenge...',
-        author: 'Gilles Moreau',
-        position: 'ProStruct Industries',
-    },
-    {
-        quote: 'Resteel proved to be a reliable partner...',
-        author: 'Jakub Nowak',
-        position: 'AgroFab Polska',
-    },
-    {
-        quote: 'When we urgently needed a large-scale steel hall...',
-        author: 'Luca Bianchi',
-        position: 'Infrastrutture SRL',
-    },
-];
+interface Testimonial {
+    quote: string;
+    author: string;
+    position: string;
+    rating?: number;
+}
+
+interface SiteSettings {
+    testimonials: Testimonial[];
+}
 
 const TestimonialsCarousel = () => {
     const { t } = useTranslation();
+    const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
+
+    // Use testimonials from site settings, or fall back to defaults
+    const testimonials =
+        siteSettings?.testimonials?.length > 0
+            ? siteSettings.testimonials
+            : [
+                  {
+                      quote: 'Resteel made our entire site relocation process seamless...',
+                      author: 'Stefan Döring',
+                      position: 'RheinBuild GmbH',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'We saved over 40% on our structural build...',
+                      author: 'Anita Kovács',
+                      position: 'Danube Construction',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'International coordination is always a challenge...',
+                      author: 'Gilles Moreau',
+                      position: 'ProStruct Industries',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'Resteel proved to be a reliable partner...',
+                      author: 'Jakub Nowak',
+                      position: 'AgroFab Polska',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'When we urgently needed a large-scale steel hall...',
+                      author: 'Luca Bianchi',
+                      position: 'Infrastrutture SRL',
+                      rating: 5,
+                  },
+              ];
     const containerRef = useRef<HTMLDivElement>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const [isHovered, setIsHovered] = useState(false);
@@ -104,12 +126,17 @@ const TestimonialsCarousel = () => {
                                 <CardContent className="flex h-full flex-col justify-between p-6">
                                     <p className="text-base leading-relaxed text-[#3C3F48]">"{t.quote}"</p>
                                     <div className="mt-4 font-semibold text-[#0076A8]">{t.author}</div>
-                                    <div className="text-sm text-gray-500">{t.position}</div>
-                                    <div className="mt-2 flex">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className="h-4 w-4 fill-[#FF6600] text-[#FF6600]" />
-                                        ))}
-                                    </div>
+                                    {t.position && <div className="text-sm text-gray-500">{t.position}</div>}
+                                    {t.rating && (
+                                        <div className="mt-2 flex">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    className={`h-4 w-4 ${i < (t.rating || 0) ? 'fill-[#FF6600] text-[#FF6600]' : 'fill-gray-300 text-gray-300'}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         ))}
