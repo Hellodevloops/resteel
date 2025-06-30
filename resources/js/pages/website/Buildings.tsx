@@ -181,8 +181,8 @@ const Buildings = () => {
                             {t('view')}
                         </Link>
                     </Button>
-                    {building.hasVideo && building.videoUrls?.[0] && (
-                        <Button variant="outline" onClick={() => window.open(building.videoUrls[0], '_blank')}>
+                    {building.hasVideo && building.videoUrls && building.videoUrls[0] && (
+                        <Button variant="outline" onClick={() => window.open(building.videoUrls![0], '_blank')}>
                             <Play className="h-4 w-4" />
                         </Button>
                     )}
@@ -193,73 +193,160 @@ const Buildings = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-50">
-                <Header />
-                <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
-                    <div className="flex items-center justify-center py-16">
+            <Layout title={`Resteel | ${t('hero_title')}`}>
+                <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50 min-h-screen">
+                    <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                    <Header />
+                    <main className="relative mx-auto max-w-7xl px-4 py-8 pt-32 sm:px-6 lg:px-8">
                         <div className="text-center">
-                            <div className="mb-4 text-4xl">⏳</div>
-                            <p className="text-gray-600">{t('loading')}</p>
+                            {/* Loading Header */}
+                            <div className="mb-8">
+                                <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl mb-4">
+                                    {t('our_properties') || 'Our Properties'}
+                                </h1>
+                                <div className="mx-auto h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                            </div>
+                            
+                            {/* Loading Animation */}
+                            <div className="flex items-center justify-center py-16">
+                                <div className="text-center">
+                                    <div className="relative mb-6">
+                                        <div className="h-16 w-16 rounded-full border-4 border-orange-200 border-t-orange-600 animate-spin mx-auto"></div>
+                                        <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-transparent border-t-orange-400 animate-ping opacity-20"></div>
+                                    </div>
+                                    <p className="text-lg font-medium text-slate-700">{t('loading_properties') || 'Loading Properties...'}</p>
+                                    <p className="text-sm text-slate-500 mt-2">{t('fetching_latest_listings') || 'Fetching the latest property listings for you'}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </main>
-                <Footer />
-            </div>
+                    </main>
+                    <Footer />
+                </div>
+            </Layout>
         );
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-slate-50">
-                <Header />
-                <main className="mx-auto max-w-7xl px-4 py-8 pt-10">
-                    <div className="flex items-center justify-center py-16">
+            <Layout title={`Resteel | ${t('hero_title')}`}>
+                <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50 min-h-screen">
+                    <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                    <Header />
+                    <main className="relative mx-auto max-w-7xl px-4 py-8 pt-32 sm:px-6 lg:px-8">
                         <div className="text-center">
-                            <div className="mb-4 text-4xl">❌</div>
-                            <p className="text-red-600">{error}</p>
+                            {/* Error Header */}
+                            <div className="mb-8">
+                                <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl mb-4">
+                                    {t('our_properties') || 'Our Properties'}
+                                </h1>
+                                <div className="mx-auto h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                            </div>
+                            
+                            {/* Error Content */}
+                            <div className="flex items-center justify-center py-16">
+                                <div className="text-center max-w-md">
+                                    <div className="mb-6">
+                                        <div className="mx-auto h-24 w-24 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
+                                            <div className="text-4xl">⚠️</div>
+                                        </div>
+                                    </div>
+                                    <h3 className="mb-3 text-2xl font-bold text-slate-900">{t('unable_to_load_properties') || 'Unable to Load Properties'}</h3>
+                                    <p className="text-red-600 mb-6">{error}</p>
+                                    <Button 
+                                        onClick={() => window.location.reload()} 
+                                        className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                                    >
+                                        {t('refresh_page') || 'Refresh Page'}
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </main>
-                <Footer />
-            </div>
+                    </main>
+                    <Footer />
+                </div>
+            </Layout>
         );
     }
 
     return (
         <Layout title={`Resteel | ${t('hero_title')}`}>
-            {/* <div className="min-h-screen bg-slate-50"> */}
-            <main className="mt-20 min-h-screen sm:mt-30">
-                <h1 className="mb-6 text-3xl font-bold">{t('available_buildings')}</h1>
-
-                <div className="mb-8 flex flex-wrap gap-4">
-                    {buildingTypes.map((type) => (
-                        <button
-                            key={type.id}
-                            onClick={() => setFilter(type.id)}
-                            className={`rounded-full px-4 py-2 font-semibold ${
-                                filter === type.id ? 'bg-orange-500 text-white' : 'border border-gray-300 bg-white text-gray-600'
-                            }`}
-                        >
-                            {type.label}
-                        </button>
-                    ))}
-                </div>
-
-                {filteredBuildings.length === 0 ? (
-                    <div className="py-16 text-center">
-                        <div className="mb-4 text-6xl opacity-50">🏗️</div>
-                        <h3 className="mb-2 text-xl font-semibold text-gray-900">{t('no_buildings_found')}</h3>
-                        <p className="text-gray-600">{t('try_different_filter')}</p>
+            {/* Hero Section with Enhanced Header */}
+            <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                
+                <main className="relative mt-20 min-h-screen sm:mt-30">
+                    {/* Hero Header Section */}
+                    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                        <div className="text-center">
+                            {/* Main Title */}
+                            <div className="mb-6">
+                                <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+                                    {t('our_properties') || 'Our Properties'}
+                                </h1>
+                                <div className="mx-auto mt-4 h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                            </div>
+                            
+                           
+                           
+                            
+                         
+                        </div>
                     </div>
-                ) : (
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {filteredBuildings.map((building) => (
-                            <BuildingCard key={building.id} building={building} />
-                        ))}
+
+                    {/* Enhanced Filter Section */}
+                    <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+                        <div className="text-center mb-8">
+                           
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {buildingTypes.map((type) => {
+                                    const IconComponent = type.icon;
+                                    return (
+                                        <button
+                                            key={type.id}
+                                            onClick={() => setFilter(type.id)}
+                                            className={`group relative flex items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all duration-300 ${
+                                                filter === type.id 
+                                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25 scale-105' 
+                                                    : 'border-2 border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:bg-orange-50 hover:scale-105'
+                                            }`}
+                                        >
+                                            <IconComponent className={`h-5 w-5 transition-colors ${
+                                                filter === type.id ? 'text-white' : 'text-slate-500 group-hover:text-orange-600'
+                                            }`} />
+                                            {type.label}
+                                            {filter === type.id && (
+                                                <div className="absolute -top-1 -right-1 h-3 w-3 bg-orange-400 rounded-full animate-pulse"></div>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
-                )}
-            </main>
-            {/* </div> */}
+
+                    {/* Content Section */}
+                    <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                        {filteredBuildings.length === 0 ? (
+                            <div className="py-16 text-center">
+                                <div className="mb-6">
+                                    <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                                        <div className="text-4xl">🏗️</div>
+                                    </div>
+                                </div>
+                                <h3 className="mb-3 text-2xl font-bold text-slate-900">{t('no_buildings_found')}</h3>
+                                <p className="text-slate-600 max-w-md mx-auto">{t('try_different_filter') || 'Try selecting a different filter to see more options'}</p>
+                            </div>
+                        ) : (
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                {filteredBuildings.map((building) => (
+                                    <BuildingCard key={building.id} building={building} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </main>
+            </div>
         </Layout>
     );
 };
