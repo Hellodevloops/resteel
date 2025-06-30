@@ -154,38 +154,66 @@ const Buildings = () => {
         const truncation = getTextTruncation();
 
         return (
-            <div className="rounded-xl bg-white p-4 pt-10 shadow-md transition-all hover:shadow-lg">
-                <img src={building.image} alt={building.title} className="mb-4 h-48 w-full rounded-md object-cover" />
-                <h3 className="mb-1 text-lg font-bold">{truncateText(building.title, truncation.title)}</h3>
-                <p className="mb-2 text-sm text-gray-600">{truncateText(building.construction, truncation.construction)}</p>
-                <p className="mb-2 text-sm font-semibold text-gray-700">
-                    {t('total_area')}: {building.totalArea}
-                </p>
-                <div className="mb-4 space-y-1 text-sm text-gray-700">
-                    {building.specifications.slice(0, truncation.specsToShow).map((spec, i) => (
-                        <div key={i} className="flex justify-between">
-                            <span>{spec.name}</span>
-                            <span>{spec.dimensions}</span>
-                        </div>
-                    ))}
-                    {building.specifications.length > truncation.specsToShow && (
-                        <div className="text-orange-500">
-                            +{building.specifications.length - truncation.specsToShow} {t('more')}...
-                        </div>
-                    )}
+            <div className="flex flex-col h-full rounded-xl bg-white p-4 pt-10 shadow-md transition-all hover:shadow-lg">
+                {/* Image Container with Fixed Height */}
+                <div className="relative mb-4 h-48 w-full overflow-hidden rounded-md">
+                    <img 
+                        src={building.image} 
+                        alt={building.title} 
+                        className="h-full w-full object-cover" 
+                    />
                 </div>
-                <div className="flex gap-2">
-                    <Button asChild>
-                        <Link href={`/building-details/${building.id}`}>
-                            <Eye className="mr-1 h-4 w-4" />
-                            {t('view')}
-                        </Link>
-                    </Button>
-                    {building.hasVideo && building.videoUrls && building.videoUrls[0] && (
-                        <Button variant="outline" onClick={() => window.open(building.videoUrls![0], '_blank')}>
-                            <Play className="h-4 w-4" />
+
+                {/* Content Container with Flex Grow */}
+                <div className="flex flex-col flex-grow">
+                    {/* Title with Fixed Height */}
+                    <div className="mb-2 min-h-[2.5rem]">
+                        <h3 className="text-lg font-bold line-clamp-2">{truncateText(building.title, truncation.title)}</h3>
+                    </div>
+
+                    {/* Description with Fixed Height */}
+                    <div className="mb-2 min-h-[2.5rem]">
+                        <p className="text-sm text-gray-600 line-clamp-2">{truncateText(building.construction, truncation.construction)}</p>
+                    </div>
+
+                    {/* Total Area with Fixed Height */}
+                    <div className="mb-4 min-h-[1.5rem]">
+                        <p className="text-sm font-semibold text-gray-700">
+                            {t('total_area')}: {building.totalArea}
+                        </p>
+                    </div>
+
+                    {/* Specifications with Fixed Height */}
+                    <div className="mb-4 flex-grow min-h-[4rem]">
+                        <div className="space-y-1 text-sm text-gray-700">
+                            {building.specifications.slice(0, truncation.specsToShow).map((spec, i) => (
+                                <div key={i} className="flex justify-between">
+                                    <span className="truncate">{spec.name}</span>
+                                    <span className="truncate ml-2">{spec.dimensions}</span>
+                                </div>
+                            ))}
+                            {building.specifications.length > truncation.specsToShow && (
+                                <div className="text-orange-500">
+                                    +{building.specifications.length - truncation.specsToShow} {t('more')}...
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Action Buttons - Always at Bottom */}
+                    <div className="flex gap-2 mt-auto">
+                        <Button asChild className="flex-1">
+                            <Link href={`/building-details/${building.id}`}>
+                                <Eye className="mr-1 h-4 w-4" />
+                                {t('view')}
+                            </Link>
                         </Button>
-                    )}
+                        {building.hasVideo && building.videoUrls && building.videoUrls[0] && (
+                            <Button variant="outline" onClick={() => window.open(building.videoUrls![0], '_blank')}>
+                                <Play className="h-4 w-4" />
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         );
@@ -338,7 +366,7 @@ const Buildings = () => {
                                 <p className="text-slate-600 max-w-md mx-auto">{t('try_different_filter') || 'Try selecting a different filter to see more options'}</p>
                             </div>
                         ) : (
-                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
                                 {filteredBuildings.map((building) => (
                                     <BuildingCard key={building.id} building={building} />
                                 ))}
