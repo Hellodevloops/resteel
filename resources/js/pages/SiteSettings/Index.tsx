@@ -1,11 +1,10 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Bell, DollarSign, Edit3, Globe, Mail, MapPin, Phone, RefreshCw, Save, Settings, Truck } from 'lucide-react';
+import { Bell, Edit3, Mail, MapPin, Phone, RefreshCw, Save, Settings, Truck } from 'lucide-react';
 
 interface SiteSettings {
     id: number;
@@ -60,7 +59,7 @@ export default function Index({ siteSettingsData }: Props) {
         contact_address: '123 Business St, City, Country',
         currency: 'USD',
         tax_rate: 8.5,
-        company_name: 'Your Company Name',
+        // company_name: 'Your Company Name',
         company_tagline: 'Building the future, one solution at a time',
         email_notifications: true,
         order_notifications: true,
@@ -165,50 +164,13 @@ export default function Index({ siteSettingsData }: Props) {
 
                             {/* Settings Cards */}
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                {/* Core Settings */}
-                                <Card className="rounded-sm">
-                                    <CardHeader>
-                                        <CardTitle className="flex items-center">
-                                            <Globe className="mr-2 h-5 w-5" />
-                                            Core Settings
-                                        </CardTitle>
-                                        <CardDescription>Basic website configuration</CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        {/* <div className="grid grid-cols-2 gap-4 text-sm">
-                                            <div>
-                                                <p className="text-muted-foreground">Language</p>
-                                                <p className="font-medium">{mockSettings.language}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-muted-foreground">Currency</p>
-                                                <p className="font-medium">{mockSettings.currency}</p>
-                                            </div>
-                                        </div> */}
-
-                                        <div className="space-y-2">
-                                            <p className="text-muted-foreground text-sm">Tax Rate</p>
-                                            <p className="font-medium">{mockSettings.tax_rate}%</p>
-                                        </div>
-
-                                        <Separator />
-
-                                        <div className="space-y-2">
-                                            <p className="text-muted-foreground text-sm">Company Details</p>
-                                            <p className="font-medium">{mockSettings.company_name}</p>
-                                            <p className="text-muted-foreground text-sm">{mockSettings.company_tagline}</p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                {/* Contact Information */}
                                 <Card className="rounded-sm">
                                     <CardHeader>
                                         <CardTitle className="flex items-center">
                                             <Phone className="mr-2 h-5 w-5" />
                                             Contact Information
                                         </CardTitle>
-                                        <CardDescription>Customer contact details</CardDescription>
+                                        {/* <CardDescription>Customer contact details</CardDescription> */}
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="space-y-3">
@@ -223,30 +185,6 @@ export default function Index({ siteSettingsData }: Props) {
                                             <div className="flex items-start space-x-2">
                                                 <MapPin className="text-muted-foreground mt-0.5 h-4 w-4" />
                                                 <span className="text-sm">{mockSettings.contact_address}</span>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
-                                {/* Shipping Settings */}
-                                <Card className="rounded-sm">
-                                    <CardHeader>
-                                        <CardTitle className="flex items-center">
-                                            <Truck className="mr-2 h-5 w-5" />
-                                            Shipping Settings
-                                        </CardTitle>
-                                        <CardDescription>E-commerce shipping configuration</CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm">Shipping Enabled</span>
-                                            {getStatusBadge(mockSettings.shipping_enabled)}
-                                        </div>
-                                        <div className="space-y-2">
-                                            <p className="text-muted-foreground text-sm">Base Shipping Rate</p>
-                                            <div className="flex items-center space-x-1">
-                                                <DollarSign className="text-muted-foreground h-4 w-4" />
-                                                <span className="font-medium">{mockSettings.shipping_rate}</span>
                                             </div>
                                         </div>
                                     </CardContent>

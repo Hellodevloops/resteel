@@ -1,11 +1,30 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Building2, Check, DollarSign, Edit3, Globe, Mail, MapPin, Phone, RefreshCw, Settings, Truck, X } from 'lucide-react';
+import {
+    Edit3,
+    Facebook,
+    Instagram,
+    Link2,
+    Linkedin,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Phone,
+    RefreshCw,
+    Settings,
+    Star,
+    Twitter,
+    Youtube,
+} from 'lucide-react';
+
+interface Testimonial {
+    quote: string;
+    author: string;
+    position: string;
+    rating: number;
+}
 
 interface SiteSettings {
     id: number;
@@ -25,7 +44,15 @@ interface SiteSettings {
     shipping_rate: string;
     free_shipping_threshold: string;
     shipping_zones: string[];
-    last_updated: string;
+    // Social Media Links
+    social_twitter: string;
+    social_instagram: string;
+    social_youtube: string;
+    social_facebook: string;
+    social_linkedin: string;
+    // Testimonials
+    testimonials: Testimonial[];
+    last_updated?: string;
 }
 
 interface Props {
@@ -36,15 +63,15 @@ const Show = ({ settings }: Props) => {
     // Mock data for demonstration since this is frontend only
     const mockSettings: SiteSettings = {
         id: 1,
-        language: 'English',
-        contact_email: 'contact@company.com',
-        contact_phone: '+1 (555) 123-4567',
-        contact_address: '123 Business Street, City, State 12345, Country',
-        currency: 'USD',
+        // language: 'English',
+        contact_email: 'Info@2ndhandholding.com',
+        contact_phone: '+31 (0) 123 456 789',
+        contact_address: 'Westerbeemd 2B, 5705 DN Helmond, Netherlands',
+        // currency: 'USD',
         tax_rate: 8.5,
-        company_name: 'Your Company Name',
+        company_name: 'Resteel Solutions',
         company_tagline: 'Building the future, one solution at a time',
-        company_description: 'We are a leading company in our industry, providing innovative solutions to our customers worldwide.',
+        company_description: 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
         email_notifications: true,
         order_notifications: true,
         contact_form_notifications: false,
@@ -52,26 +79,44 @@ const Show = ({ settings }: Props) => {
         shipping_rate: '5.99',
         free_shipping_threshold: '50.00',
         shipping_zones: ['United States', 'Canada', 'Europe'],
+        social_twitter: 'https://twitter.com/resteel',
+        social_instagram: 'https://instagram.com/resteel',
+        social_youtube: 'https://youtube.com',
+        social_facebook: '',
+        social_linkedin: '',
+        testimonials: [
+            {
+                quote: 'Resteel made our entire site relocation process seamless...',
+                author: 'Stefan Döring',
+                position: 'RheinBuild GmbH',
+                rating: 5,
+            },
+            {
+                quote: 'We saved over 40% on our structural build...',
+                author: 'Anita Kovács',
+                position: 'Danube Construction',
+                rating: 5,
+            },
+            {
+                quote: 'International coordination is always a challenge...',
+                author: 'Gilles Moreau',
+                position: 'ProStruct Industries',
+                rating: 5,
+            },
+        ],
         last_updated: '2024-01-15',
     };
 
     const currentSettings = settings || mockSettings;
 
-    const breadcrumbs: BreadcrumbItem[] = [{ title: 'Site Settings', href: route('settings') }];
-
-    const getStatusBadge = (status: boolean) => {
-        return status ? (
-            <Badge className="flex items-center gap-1 bg-green-100 text-green-800 hover:bg-green-100">
-                <Check className="h-3 w-3" />
-                Active
-            </Badge>
-        ) : (
-            <Badge className="flex items-center gap-1 bg-red-100 text-red-800 hover:bg-red-100">
-                <X className="h-3 w-3" />
-                Inactive
-            </Badge>
-        );
-    };
+    // Social media configuration
+    const socialPlatforms = [
+        { name: 'Twitter/X', icon: Twitter, url: currentSettings.social_twitter, color: 'text-blue-400' },
+        { name: 'Instagram', icon: Instagram, url: currentSettings.social_instagram, color: 'text-pink-400' },
+        { name: 'YouTube', icon: Youtube, url: currentSettings.social_youtube, color: 'text-red-500' },
+        { name: 'Facebook', icon: Facebook, url: currentSettings.social_facebook, color: 'text-blue-600' },
+        { name: 'LinkedIn', icon: Linkedin, url: currentSettings.social_linkedin, color: 'text-blue-700' },
+    ];
 
     return (
         <AppLayout>
@@ -108,58 +153,35 @@ const Show = ({ settings }: Props) => {
                 </div>
 
                 {/* Main Content */}
-                <div className="container mx-auto px-6 py-6">
+                <div className="container mx-auto space-y-6 px-6 py-6">
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                        {/* Core Settings */}
-                        <Card className="rounded-sm">
+                        {/* Company Information */}
+                        {/* <Card className="rounded-sm">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
-                                    <Globe className="mr-2 h-5 w-5" />
-                                    Core Settings
+                                    <Building className="mr-2 h-5 w-5" />
+                                    Company Information
                                 </CardTitle>
-                                <CardDescription>Basic website configuration</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Tax Rate</p>
-                                    <p className="font-medium">{currentSettings.tax_rate}%</p>
-                                </div>
-
-                                <Separator />
-
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Last Updated</p>
-                                    <p className="font-medium">{currentSettings.last_updated}</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Company Details */}
-                        <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Building2 className="mr-2 h-5 w-5" />
-                                    Company Details
-                                </CardTitle>
-                                <CardDescription>Your company information</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
                                     <p className="text-muted-foreground text-sm">Company Name</p>
                                     <p className="font-medium">{currentSettings.company_name}</p>
                                 </div>
-
                                 <div>
                                     <p className="text-muted-foreground text-sm">Tagline</p>
                                     <p className="font-medium">{currentSettings.company_tagline}</p>
                                 </div>
-
                                 <div>
                                     <p className="text-muted-foreground text-sm">Description</p>
-                                    <p className="text-sm">{currentSettings.company_description}</p>
+                                    <p className="text-sm font-medium">{currentSettings.company_description}</p>
+                                </div>
+                                <div>
+                                    <p className="text-muted-foreground text-sm">Tax Rate</p>
+                                    <p className="font-medium">{currentSettings.tax_rate}%</p>
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
 
                         {/* Contact Information */}
                         <Card className="rounded-sm">
@@ -168,7 +190,6 @@ const Show = ({ settings }: Props) => {
                                     <Phone className="mr-2 h-5 w-5" />
                                     Contact Information
                                 </CardTitle>
-                                <CardDescription>Customer contact details</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="space-y-3">
@@ -200,44 +221,153 @@ const Show = ({ settings }: Props) => {
                         </Card>
 
                         {/* Shipping Settings */}
-                        <Card className="rounded-sm lg:col-span-2">
+                        {/* <Card className="rounded-sm">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
                                     <Truck className="mr-2 h-5 w-5" />
                                     Shipping Settings
                                 </CardTitle>
-                                <CardDescription>E-commerce shipping configuration</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Shipping Enabled</p>
-                                            {getStatusBadge(currentSettings.shipping_enabled)}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Base Shipping Rate</p>
-                                        <div className="flex items-center space-x-1">
-                                            <DollarSign className="text-muted-foreground h-4 w-4" />
-                                            <span className="font-medium">{currentSettings.shipping_rate}</span>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p className="text-muted-foreground text-sm">Free Shipping Threshold</p>
-                                        <div className="flex items-center space-x-1">
-                                            <DollarSign className="text-muted-foreground h-4 w-4" />
-                                            <span className="font-medium">{currentSettings.free_shipping_threshold}</span>
-                                        </div>
-                                    </div>
+                                <div className="flex items-center justify-between">
+                                    <p className="text-muted-foreground text-sm">Shipping Enabled</p>
+                                    <Badge variant={currentSettings.shipping_enabled ? 'default' : 'secondary'}>
+                                        {currentSettings.shipping_enabled ? 'Enabled' : 'Disabled'}
+                                    </Badge>
                                 </div>
-
-                                <Separator />
+                                {currentSettings.shipping_enabled && (
+                                    <>
+                                        <div>
+                                            <p className="text-muted-foreground text-sm">Shipping Rate</p>
+                                            <p className="font-medium">${currentSettings.shipping_rate}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-muted-foreground text-sm">Free Shipping Threshold</p>
+                                            <p className="font-medium">${currentSettings.free_shipping_threshold}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-muted-foreground text-sm">Shipping Zones</p>
+                                            <div className="mt-1 flex flex-wrap gap-2">
+                                                {currentSettings.shipping_zones.map((zone, index) => (
+                                                    <Badge key={index} variant="outline">
+                                                        {zone}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </CardContent>
-                        </Card>
+                        </Card> */}
+
+                        {/* Notification Settings */}
+                        {/* <Card className="rounded-sm">
+                            <CardHeader>
+                                <CardTitle className="flex items-center">
+                                    <Mail className="mr-2 h-5 w-5" />
+                                    Notification Settings
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <p className="text-muted-foreground text-sm">Email Notifications</p>
+                                    <Badge variant={currentSettings.email_notifications ? 'default' : 'secondary'}>
+                                        {currentSettings.email_notifications ? 'Enabled' : 'Disabled'}
+                                    </Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <p className="text-muted-foreground text-sm">Order Notifications</p>
+                                    <Badge variant={currentSettings.order_notifications ? 'default' : 'secondary'}>
+                                        {currentSettings.order_notifications ? 'Enabled' : 'Disabled'}
+                                    </Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <p className="text-muted-foreground text-sm">Contact Form Notifications</p>
+                                    <Badge variant={currentSettings.contact_form_notifications ? 'default' : 'secondary'}>
+                                        {currentSettings.contact_form_notifications ? 'Enabled' : 'Disabled'}
+                                    </Badge>
+                                </div>
+                            </CardContent>
+                        </Card> */}
                     </div>
+
+                    {/* Social Media Links */}
+                    <Card className="rounded-sm">
+                        <CardHeader>
+                            <CardTitle className="flex items-center">
+                                <Link2 className="mr-2 h-5 w-5" />
+                                Social Media Links
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {socialPlatforms.map((platform) => {
+                                    const Icon = platform.icon;
+                                    return (
+                                        <div key={platform.name} className="flex items-center space-x-3 rounded-md border p-3">
+                                            <Icon className={`h-5 w-5 ${platform.color}`} />
+                                            <div className="min-w-0 flex-1">
+                                                <p className="text-sm font-medium">{platform.name}</p>
+                                                {platform.url ? (
+                                                    <a
+                                                        href={platform.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="block truncate text-xs text-blue-600 hover:underline"
+                                                    >
+                                                        {platform.url}
+                                                    </a>
+                                                ) : (
+                                                    <p className="text-muted-foreground text-xs">Not configured</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Testimonials */}
+                    <Card className="rounded-sm">
+                        <CardHeader>
+                            <CardTitle className="flex items-center">
+                                <MessageSquare className="mr-2 h-5 w-5" />
+                                Testimonials ({currentSettings.testimonials.length})
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {currentSettings.testimonials.length === 0 ? (
+                                <p className="text-muted-foreground py-8 text-center">No testimonials configured</p>
+                            ) : (
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                    {currentSettings.testimonials.map((testimonial, index) => (
+                                        <div key={index} className="space-y-3 rounded-lg border p-4">
+                                            <p className="text-sm italic">"{testimonial.quote}"</p>
+                                            <div>
+                                                <p className="text-sm font-semibold">{testimonial.author}</p>
+                                                {testimonial.position && <p className="text-muted-foreground text-xs">{testimonial.position}</p>}
+                                            </div>
+                                            {testimonial.rating && (
+                                                <div className="flex gap-1">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star
+                                                            key={i}
+                                                            className={`h-4 w-4 ${
+                                                                i < testimonial.rating
+                                                                    ? 'fill-yellow-400 text-yellow-400'
+                                                                    : 'fill-gray-300 text-gray-300'
+                                                            }`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </AppLayout>

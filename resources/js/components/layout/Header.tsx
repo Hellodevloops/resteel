@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { Link, usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { ChevronDown, Globe, Menu, ShoppingCart, X } from 'lucide-react';
+import { ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
                 if (translationsResponse.data && translationsResponse.data.translations) {
                     const newTranslations = translationsResponse.data.translations.messages || {};
                     console.log('New translations:', newTranslations);
-                    
+
                     // Add the new translations to i18n resources
                     i18n.addResourceBundle(newLocale, 'translation', newTranslations, true, true);
                 }
@@ -165,14 +165,14 @@ const Header: React.FC = () => {
                             <Link href="/webshops" className="text-sm font-medium text-slate-700 hover:text-orange-500">
                                 {t('shop')}
                             </Link>
-                            <Link href="/cart" aria-label={t('cart')} className="relative">
+                            {/* <Link href="/cart" aria-label={t('cart')} className="relative">
                                 <ShoppingCart className="h-5 w-5 text-slate-700 hover:text-orange-500" />
                                 {cartItemsCount > 0 && (
                                     <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
                                         {cartItemsCount > 9 ? '9+' : cartItemsCount}
                                     </span>
                                 )}
-                            </Link>
+                            </Link> */}
                             <button
                                 className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
                                     isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -206,7 +206,7 @@ const Header: React.FC = () => {
                                 ))}
                                 {/* Cart with indicator */}
                                 <li>
-                                    <Link
+                                    {/* <Link
                                         href="/cart"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
                                             isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-slate-700 hover:text-orange-400'
@@ -222,7 +222,7 @@ const Header: React.FC = () => {
                                             )}
                                         </div>
                                         <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
-                                    </Link>
+                                    </Link> */}
                                 </li>
                                 <li>
                                     <Button

@@ -1,12 +1,34 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
-import { AlertCircle, Building2, DollarSign, Globe, Mail, MapPin, Phone, RefreshCw, Save, Truck } from 'lucide-react';
-import { useState } from 'react';
+import {
+    AlertCircle,
+    Facebook,
+    Instagram,
+    Link2,
+    Linkedin,
+    Mail,
+    MapPin,
+    MessageSquare,
+    Phone,
+    Plus,
+    RefreshCw,
+    Save,
+    Star,
+    Trash2,
+    Twitter,
+    Youtube,
+} from 'lucide-react';
+
+interface Testimonial {
+    quote: string;
+    author: string;
+    position: string;
+    rating: number;
+}
 
 interface SiteSettings {
     id?: number;
@@ -23,6 +45,14 @@ interface SiteSettings {
     shipping_rate: string;
     free_shipping_threshold: string;
     shipping_zones: string[];
+    // Social Media Links
+    social_twitter: string;
+    social_instagram: string;
+    social_youtube: string;
+    social_facebook: string;
+    social_linkedin: string;
+    // Testimonials
+    testimonials: Testimonial[];
 }
 
 interface Props {
@@ -30,8 +60,28 @@ interface Props {
     isEditing?: boolean;
 }
 
+interface FormData {
+    contact_email: string;
+    contact_phone: string;
+    contact_address: string;
+    tax_rate: number;
+    company_name: string;
+    company_tagline: string;
+    company_description: string;
+    shipping_enabled: boolean;
+    shipping_rate: string;
+    free_shipping_threshold: string;
+    shipping_zones: string[];
+    social_twitter: string;
+    social_instagram: string;
+    social_youtube: string;
+    social_facebook: string;
+    social_linkedin: string;
+    testimonials: Testimonial[];
+}
+
 export default function SiteSettingsForm({ settings, isEditing = false }: Props) {
-    const { data, setData, processing, errors, reset } = useForm({
+    const { data, setData, processing, errors, reset, post, put } = useForm<FormData>({
         // language: settings?.language || 'en',
         contact_email: settings?.contact_email || '',
         contact_phone: settings?.contact_phone || '',
@@ -45,25 +95,41 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         shipping_rate: settings?.shipping_rate || '',
         free_shipping_threshold: settings?.free_shipping_threshold || '',
         shipping_zones: settings?.shipping_zones || [''],
+        // Social Media Links
+        social_twitter: settings?.social_twitter || '',
+        social_instagram: settings?.social_instagram || '',
+        social_youtube: settings?.social_youtube || '',
+        social_facebook: settings?.social_facebook || '',
+        social_linkedin: settings?.social_linkedin || '',
+        // Testimonials
+        testimonials: settings?.testimonials || [],
     });
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
-        try {
-            // Mock submission since this is frontend only
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-
-            console.log('Site Settings Data:', data);
-            alert('Settings saved successfully!');
-        } catch (error) {
-            console.error('Error saving settings:', error);
-            alert('Failed to save settings. Please try again.');
-        } finally {
-            setIsSubmitting(false);
+        if (isEditing && settings?.id) {
+            // Use PUT for updating existing settings
+            put(route('settings.update', settings.id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Success handled by redirect from controller
+                },
+                onError: (errors) => {
+                    console.error('Error saving settings:', errors);
+                },
+            });
+        } else {
+            // Use POST for creating new settings
+            post(route('settings.store'), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    // Success handled by redirect from controller
+                },
+                onError: (errors) => {
+                    console.error('Error saving settings:', errors);
+                },
+            });
         }
     };
 
@@ -90,9 +156,23 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         setData('shipping_zones', updatedZones);
     };
 
+    const addTestimonial = () => {
+        setData('testimonials', [...data.testimonials, { quote: '', author: '', position: '', rating: 5 }]);
+    };
+
+    const removeTestimonial = (index: number) => {
+        const updatedTestimonials = data.testimonials.filter((_, i) => i !== index);
+        setData('testimonials', updatedTestimonials);
+    };
+
+    const updateTestimonial = (index: number, field: keyof Testimonial, value: string | number) => {
+        const updatedTestimonials = [...data.testimonials];
+        updatedTestimonials[index] = { ...updatedTestimonials[index], [field]: value };
+        setData('testimonials', updatedTestimonials);
+    };
+
     const handleReset = () => {
         reset();
-        setIsSubmitting(false);
     };
 
     return (
@@ -103,122 +183,9 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                     <h2 className="text-2xl font-bold tracking-tight">{isEditing ? 'Edit Site Settings' : 'Site Settings'}</h2>
                     <p className="text-muted-foreground">Configure your website's core settings and preferences</p>
                 </div>
-                <Badge variant="outline" className="text-sm">
-                    Frontend Only
-                </Badge>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Core Settings */}
-                <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Globe className="mr-2 h-5 w-5" />
-                            Core Settings
-                        </CardTitle>
-                        <CardDescription>Basic website configuration including language and currency</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            {/* <div className="space-y-2">
-                                <Label htmlFor="language">Language *</Label>
-                                <Select value={data.language} onValueChange={(value) => setData('language', value)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select language" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="en">English</SelectItem>
-                                        <SelectItem value="de">German</SelectItem>
-                                        <SelectItem value="fr">French</SelectItem>
-                                        <SelectItem value="es">Spanish</SelectItem>
-                                        <SelectItem value="it">Italian</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.language && <p className="text-sm text-red-600">{errors.language}</p>}
-                            </div> */}
-
-                            {/* <div className="space-y-2">
-                                <Label htmlFor="currency">Currency *</Label>
-                                <Select value={data.currency} onValueChange={(value) => setData('currency', value)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select currency" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="USD">USD - US Dollar</SelectItem>
-                                        <SelectItem value="EUR">EUR - Euro</SelectItem>
-                                        <SelectItem value="GBP">GBP - British Pound</SelectItem>
-                                        <SelectItem value="CAD">CAD - Canadian Dollar</SelectItem>
-                                        <SelectItem value="AUD">AUD - Australian Dollar</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.currency && <p className="text-sm text-red-600">{errors.currency}</p>}
-                            </div> */}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="tax_rate">Tax Rate (%)</Label>
-                            <Input
-                                id="tax_rate"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                max="100"
-                                value={data.tax_rate}
-                                onChange={(e) => setData('tax_rate', parseFloat(e.target.value) || 0)}
-                                className="max-w-xs"
-                            />
-                            {errors.tax_rate && <p className="text-sm text-red-600">{errors.tax_rate}</p>}
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Company Details */}
-                <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Building2 className="mr-2 h-5 w-5" />
-                            Company Details
-                        </CardTitle>
-                        <CardDescription>Your company information displayed on the website</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="company_name">Company Name *</Label>
-                            <Input
-                                id="company_name"
-                                value={data.company_name}
-                                onChange={(e) => setData('company_name', e.target.value)}
-                                placeholder="Enter your company name"
-                                required
-                            />
-                            {errors.company_name && <p className="text-sm text-red-600">{errors.company_name}</p>}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="company_tagline">Company Tagline</Label>
-                            <Input
-                                id="company_tagline"
-                                value={data.company_tagline}
-                                onChange={(e) => setData('company_tagline', e.target.value)}
-                                placeholder="Enter your company tagline or slogan"
-                            />
-                            {errors.company_tagline && <p className="text-sm text-red-600">{errors.company_tagline}</p>}
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="company_description">Company Description</Label>
-                            <Textarea
-                                id="company_description"
-                                value={data.company_description}
-                                onChange={(e) => setData('company_description', e.target.value)}
-                                placeholder="Brief description of your company"
-                                rows={4}
-                            />
-                            {errors.company_description && <p className="text-sm text-red-600">{errors.company_description}</p>}
-                        </div>
-                    </CardContent>
-                </Card>
-
                 {/* Contact Information */}
                 <Card className="rounded-sm">
                     <CardHeader>
@@ -226,7 +193,7 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                             <Phone className="mr-2 h-5 w-5" />
                             Contact Information
                         </CardTitle>
-                        <CardDescription>Contact details displayed on your website</CardDescription>
+                        {/* <CardDescription>Contact details displayed on your website</CardDescription> */}
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="space-y-2">
@@ -291,85 +258,202 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                     </CardContent>
                 </Card>
 
-                {/* Shipping Settings */}
+                {/* Social Media Links */}
                 <Card className="rounded-sm">
                     <CardHeader>
                         <CardTitle className="flex items-center">
-                            <Truck className="mr-2 h-5 w-5" />
-                            Shipping Settings
+                            <Link2 className="mr-2 h-5 w-5" />
+                            Social Media Links
                         </CardTitle>
-                        <CardDescription>Configure shipping options for your e-commerce</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                        <div className="flex items-center space-x-3">
-                            <input
-                                id="shipping_enabled"
-                                type="checkbox"
-                                checked={data.shipping_enabled}
-                                onChange={(e) => setData('shipping_enabled', e.target.checked)}
-                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                            />
-                            <div>
-                                {/* <Label htmlFor="shipping_enabled">Enable Shipping</Label> */}
-                                <p className="text-muted-foreground text-sm">Allow customers to purchase items for shipping</p>
+                        <div className="space-y-2">
+                            <Label htmlFor="social_twitter">Twitter/X</Label>
+                            <div className="relative">
+                                <Twitter className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_twitter"
+                                    type="url"
+                                    value={data.social_twitter}
+                                    onChange={(e) => setData('social_twitter', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://twitter.com/yourusername"
+                                />
                             </div>
+                            {errors.social_twitter && <p className="text-sm text-red-600">{errors.social_twitter}</p>}
                         </div>
 
-                        {data.shipping_enabled && (
-                            <>
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="shipping_rate">Base Shipping Rate</Label>
-                                        <div className="relative">
-                                            <DollarSign className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                            <Input
-                                                id="shipping_rate"
-                                                type="number"
-                                                step="0.01"
-                                                min="0"
-                                                value={data.shipping_rate}
-                                                onChange={(e) => setData('shipping_rate', e.target.value)}
-                                                className="pl-10"
-                                                placeholder="5.99"
-                                            />
-                                        </div>
-                                        {errors.shipping_rate && <p className="text-sm text-red-600">{errors.shipping_rate}</p>}
-                                    </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="social_instagram">Instagram</Label>
+                            <div className="relative">
+                                <Instagram className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_instagram"
+                                    type="url"
+                                    value={data.social_instagram}
+                                    onChange={(e) => setData('social_instagram', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://instagram.com/yourusername"
+                                />
+                            </div>
+                            {errors.social_instagram && <p className="text-sm text-red-600">{errors.social_instagram}</p>}
+                        </div>
 
-                                    <div className="space-y-2">
-                                        <Label htmlFor="free_shipping_threshold">Free Shipping Threshold</Label>
-                                        <div className="relative">
-                                            <DollarSign className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                            <Input
-                                                id="free_shipping_threshold"
-                                                type="number"
-                                                step="0.01"
-                                                min="0"
-                                                value={data.free_shipping_threshold}
-                                                onChange={(e) => setData('free_shipping_threshold', e.target.value)}
-                                                className="pl-10"
-                                                placeholder="50.00"
+                        <div className="space-y-2">
+                            <Label htmlFor="social_youtube">YouTube</Label>
+                            <div className="relative">
+                                <Youtube className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_youtube"
+                                    type="url"
+                                    value={data.social_youtube}
+                                    onChange={(e) => setData('social_youtube', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://youtube.com/yourchannel"
+                                />
+                            </div>
+                            {errors.social_youtube && <p className="text-sm text-red-600">{errors.social_youtube}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="social_facebook">Facebook</Label>
+                            <div className="relative">
+                                <Facebook className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_facebook"
+                                    type="url"
+                                    value={data.social_facebook}
+                                    onChange={(e) => setData('social_facebook', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://facebook.com/yourpage"
+                                />
+                            </div>
+                            {errors.social_facebook && <p className="text-sm text-red-600">{errors.social_facebook}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="social_linkedin">LinkedIn</Label>
+                            <div className="relative">
+                                <Linkedin className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_linkedin"
+                                    type="url"
+                                    value={data.social_linkedin}
+                                    onChange={(e) => setData('social_linkedin', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://linkedin.com/company/yourcompany"
+                                />
+                            </div>
+                            {errors.social_linkedin && <p className="text-sm text-red-600">{errors.social_linkedin}</p>}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Testimonials */}
+                <Card className="rounded-sm">
+                    <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <MessageSquare className="mr-2 h-5 w-5" />
+                                Testimonials
+                            </div>
+                            <Button type="button" variant="outline" size="sm" onClick={addTestimonial}>
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Testimonial
+                            </Button>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        {data.testimonials.length === 0 ? (
+                            <div className="text-muted-foreground py-8 text-center">No testimonials yet. Click "Add Testimonial" to create one.</div>
+                        ) : (
+                            <div className="space-y-6">
+                                {data.testimonials.map((testimonial, index) => (
+                                    <div key={index} className="space-y-4 rounded-lg border p-4">
+                                        <div className="flex items-start justify-between">
+                                            <h4 className="font-medium">Testimonial {index + 1}</h4>
+                                            <Button
+                                                type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => removeTestimonial(index)}
+                                                className="text-red-600 hover:text-red-700"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`testimonial_quote_${index}`}>Quote *</Label>
+                                            <Textarea
+                                                id={`testimonial_quote_${index}`}
+                                                value={testimonial.quote}
+                                                onChange={(e) => updateTestimonial(index, 'quote', e.target.value)}
+                                                placeholder="Enter the testimonial quote..."
+                                                rows={3}
+                                                required
                                             />
                                         </div>
-                                        <p className="text-muted-foreground text-xs">Minimum order amount for free shipping</p>
-                                        {errors.free_shipping_threshold && <p className="text-sm text-red-600">{errors.free_shipping_threshold}</p>}
+
+                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                            <div className="space-y-2">
+                                                <Label htmlFor={`testimonial_author_${index}`}>Author Name *</Label>
+                                                <Input
+                                                    id={`testimonial_author_${index}`}
+                                                    value={testimonial.author}
+                                                    onChange={(e) => updateTestimonial(index, 'author', e.target.value)}
+                                                    placeholder="John Doe"
+                                                    required
+                                                />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label htmlFor={`testimonial_position_${index}`}>Position/Company</Label>
+                                                <Input
+                                                    id={`testimonial_position_${index}`}
+                                                    value={testimonial.position}
+                                                    onChange={(e) => updateTestimonial(index, 'position', e.target.value)}
+                                                    placeholder="CEO, Company Name"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor={`testimonial_rating_${index}`}>Rating</Label>
+                                            <div className="flex items-center gap-1">
+                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                    <button
+                                                        key={star}
+                                                        type="button"
+                                                        onClick={() => updateTestimonial(index, 'rating', star)}
+                                                        className="focus:outline-none"
+                                                    >
+                                                        <Star
+                                                            className={`h-5 w-5 ${
+                                                                star <= testimonial.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                                            }`}
+                                                        />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </>
+                                ))}
+                            </div>
                         )}
                     </CardContent>
                 </Card>
 
                 {/* Form Actions */}
                 <div className="flex items-center justify-between">
-                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing || isSubmitting}>
+                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing}>
                         <RefreshCw className="mr-2 h-4 w-4" />
                         Reset
                     </Button>
 
                     <div className="flex gap-2">
-                        <Button type="submit" disabled={processing || isSubmitting}>
-                            {isSubmitting ? (
+                        <Button type="submit" disabled={processing}>
+                            {processing ? (
                                 <>
                                     <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
                                     Saving...

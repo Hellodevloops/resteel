@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\App; // Add this line
+use App\Http\Controllers\SiteSettingsController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
                 return collect($files)
                     ->mapWithKeys(fn($f) => [pathinfo($f)['filename'] => require $f])
                     ->all();
+            },
+            'siteSettings' => function () {
+                return SiteSettingsController::getPublicSettings();
             },
         ]);
     }
