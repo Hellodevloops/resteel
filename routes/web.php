@@ -7,9 +7,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\SiteSettingsController;
+use App\Http\Controllers\TestimonialController;
 
 // Home route
 Route::get('/', function () {
+    return Inertia::render('website/Home');
+})->name('home');
+Route::get('/admin/testimonials', function () {
     return Inertia::render('website/Home');
 })->name('home');
 
@@ -83,6 +87,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/webshops/{webshop}/edit', [WebShopController::class, 'edit'])->name('webshops.edit');
         Route::put('/webshops/{webshop}', [WebShopController::class, 'update'])->name('webshops.update');
         Route::delete('/webshops/{webshop}', [WebShopController::class, 'destroy'])->name('webshops.destroy');
+
+        // Admin testimonial routes
+        Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+        Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+        Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+        Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.show');
+        Route::get('/testimonials/{testimonial}/edit', [TestimonialController::class, 'edit'])->name('testimonials.edit');
+        Route::put('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('testimonials.update');
+        Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
     });
 
     // For backward compatibility, keep the old routes but redirect them to the new ones

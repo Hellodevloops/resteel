@@ -10,57 +10,65 @@ import { useTranslation } from 'react-i18next';
 interface Testimonial {
     quote: string;
     author: string;
-    position: string;
+    position?: string | null;
+    company?: string | null;
     rating?: number;
-}
-
-interface SiteSettings {
-    testimonials: Testimonial[];
 }
 
 const TestimonialsCarousel = () => {
     const { t } = useTranslation();
-    const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
+    const { testimonials: dynamicTestimonials } = usePage().props as unknown as { testimonials: Testimonial[] };
 
-    // Use testimonials from site settings, or fall back to defaults
+    // Use dynamic testimonials from database, or fall back to defaults
     const testimonials =
-        siteSettings?.testimonials?.length > 0
-            ? siteSettings.testimonials
+        dynamicTestimonials?.length > 0
+            ? dynamicTestimonials
             : [
                   {
                       quote: 'Resteel made our entire site relocation process seamless...',
                       author: 'Stefan Döring',
-                      position: 'RheinBuild GmbH',
+                      position: null,
+                      company: 'RheinBuild GmbH',
                       rating: 5,
                   },
                   {
                       quote: 'We saved over 40% on our structural build...',
                       author: 'Anita Kovács',
-                      position: 'Danube Construction',
+                      position: null,
+                      company: 'Danube Construction',
                       rating: 5,
                   },
                   {
                       quote: 'International coordination is always a challenge...',
                       author: 'Gilles Moreau',
-                      position: 'ProStruct Industries',
+                      position: null,
+                      company: 'ProStruct Industries',
                       rating: 5,
                   },
                   {
                       quote: 'Resteel proved to be a reliable partner...',
                       author: 'Jakub Nowak',
-                      position: 'AgroFab Polska',
+                      position: null,
+                      company: 'AgroFab Polska',
                       rating: 5,
                   },
                   {
                       quote: 'When we urgently needed a large-scale steel hall...',
                       author: 'Luca Bianchi',
-                      position: 'Infrastrutture SRL',
+                      position: null,
+                      company: 'Infrastrutture SRL',
                       rating: 5,
                   },
               ];
     const containerRef = useRef<HTMLDivElement>(null);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const [isHovered, setIsHovered] = useState(false);
+
+    // Determine if we should duplicate testimonials for infinite scroll
+    const shouldDuplicate = testimonials.length >= 4;
+
+    // Create display array - only duplicate if we have enough testimonials
+    const displayTestimonials = shouldDuplicate ? [...testimonials, ...testimonials] : testimonials;
 
     const scrollAmount = typeof window !== 'undefined' && window.innerWidth < 768 ? 250 : 360;
 
@@ -70,7 +78,8 @@ const TestimonialsCarousel = () => {
 
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 
-        if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
+        // Only do infinite scroll if we have duplicated testimonials
+        if (shouldDuplicate && container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
             setTimeout(() => {
                 container.scrollTo({ left: 0, behavior: 'auto' });
             }, 600);
@@ -84,11 +93,17 @@ const TestimonialsCarousel = () => {
     };
 
     useEffect(() => {
-        if (!isHovered) {
+        // Only auto-scroll if we have enough testimonials
+        if (!isHovered && shouldDuplicate) {
             intervalRef.current = setInterval(scrollNext, 5000);
         }
         return () => clearInterval(intervalRef.current!);
-    }, [isHovered]);
+    }, [isHovered, shouldDuplicate]);
+
+    // Don't render the section if there are no testimonials
+    if (!testimonials || testimonials.length === 0) {
+        return null;
+    }
 
     return (
         <section className="bg-slate-100 py-12">
@@ -117,16 +132,25 @@ const TestimonialsCarousel = () => {
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     {/* Carousel Track */}
-                    <div ref={containerRef} className="no-scrollbar flex gap-6 overflow-x-auto overflow-y-hidden scroll-smooth pb-6">
-                        {[...testimonials, ...testimonials].map((t, idx) => (
+                    <div
+                        ref={containerRef}
+                        className={`no-scrollbar flex gap-6 overflow-y-hidden scroll-smooth pb-6 ${
+                            testimonials.length <= 3 ? 'justify-center overflow-x-visible' : 'overflow-x-auto'
+                        }`}
+                    >
+                        {displayTestimonials.map((t, idx) => (
                             <Card
-                                key={idx}
+                                key={shouldDuplicate ? `${t.author}-${idx}` : `${t.author}-${t.company || t.position || idx}`}
                                 className="w-[85vw] max-w-[350px] flex-shrink-0 border border-gray-200 shadow-sm sm:w-[60vw] md:w-[40vw] lg:w-[30vw] xl:w-[25vw]"
                             >
                                 <CardContent className="flex h-full flex-col justify-between p-6">
                                     <p className="text-base leading-relaxed text-[#3C3F48]">"{t.quote}"</p>
                                     <div className="mt-4 font-semibold text-[#0076A8]">{t.author}</div>
-                                    {t.position && <div className="text-sm text-gray-500">{t.position}</div>}
+                                    {(t.position || t.company) && (
+                                        <div className="text-sm text-gray-500">
+                                            {t.position && t.company ? `${t.position} at ${t.company}` : t.company || t.position}
+                                        </div>
+                                    )}
                                     {t.rating && (
                                         <div className="mt-2 flex">
                                             {[...Array(5)].map((_, i) => (
@@ -142,15 +166,27 @@ const TestimonialsCarousel = () => {
                         ))}
                     </div>
 
-                    {/* Navigation Buttons */}
-                    <div className="absolute right-4 flex gap-2">
-                        <Button variant="ghost" size="icon" onClick={scrollPrev} className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100">
-                            <ChevronLeft className="h-5 w-5" />
-                        </Button>
-                        <Button variant="ghost" size="icon" onClick={scrollNext} className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100">
-                            <ChevronRight className="h-5 w-5" />
-                        </Button>
-                    </div>
+                    {/* Navigation Buttons - Only show if we have enough testimonials to scroll */}
+                    {testimonials.length > 2 && (
+                        <div className="absolute right-4 flex gap-2">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={scrollPrev}
+                                className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={scrollNext}
+                                className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

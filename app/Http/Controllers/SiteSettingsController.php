@@ -65,12 +65,6 @@ class SiteSettingsController extends Controller
       'social_youtube' => 'nullable|url',
       'social_facebook' => 'nullable|url',
       'social_linkedin' => 'nullable|url',
-      // Testimonials
-      'testimonials' => 'nullable|array',
-      'testimonials.*.quote' => 'required_with:testimonials|string',
-      'testimonials.*.author' => 'required_with:testimonials|string',
-      'testimonials.*.position' => 'nullable|string',
-      'testimonials.*.rating' => 'nullable|integer|min:1|max:5',
     ]);
 
     // Update settings in database
@@ -109,39 +103,6 @@ class SiteSettingsController extends Controller
       'social_youtube' => 'https://youtube.com',
       'social_facebook' => '',
       'social_linkedin' => '',
-      // Testimonials
-      'testimonials' => [
-        [
-          'quote' => 'Resteel made our entire site relocation process seamless...',
-          'author' => 'Stefan Döring',
-          'position' => 'RheinBuild GmbH',
-          'rating' => 5
-        ],
-        [
-          'quote' => 'We saved over 40% on our structural build...',
-          'author' => 'Anita Kovács',
-          'position' => 'Danube Construction',
-          'rating' => 5
-        ],
-        [
-          'quote' => 'International coordination is always a challenge...',
-          'author' => 'Gilles Moreau',
-          'position' => 'ProStruct Industries',
-          'rating' => 5
-        ],
-        [
-          'quote' => 'Resteel proved to be a reliable partner...',
-          'author' => 'Jakub Nowak',
-          'position' => 'AgroFab Polska',
-          'rating' => 5
-        ],
-        [
-          'quote' => 'When we urgently needed a large-scale steel hall...',
-          'author' => 'Luca Bianchi',
-          'position' => 'Infrastrutture SRL',
-          'rating' => 5
-        ]
-      ]
     ], $settings);
   }
 

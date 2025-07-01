@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\App; // Add this line
 use App\Http\Controllers\SiteSettingsController;
+use App\Models\Testimonial;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
             },
             'siteSettings' => function () {
                 return SiteSettingsController::getPublicSettings();
+            },
+            'testimonials' => function () {
+                return Testimonial::getActiveTestimonials();
             },
         ]);
     }

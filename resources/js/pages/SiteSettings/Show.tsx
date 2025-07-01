@@ -2,29 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import {
-    Edit3,
-    Facebook,
-    Instagram,
-    Link2,
-    Linkedin,
-    Mail,
-    MapPin,
-    MessageSquare,
-    Phone,
-    RefreshCw,
-    Settings,
-    Star,
-    Twitter,
-    Youtube,
-} from 'lucide-react';
-
-interface Testimonial {
-    quote: string;
-    author: string;
-    position: string;
-    rating: number;
-}
+import { Edit3, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Settings, Twitter, Youtube } from 'lucide-react';
 
 interface SiteSettings {
     id: number;
@@ -50,8 +28,6 @@ interface SiteSettings {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
-    // Testimonials
-    testimonials: Testimonial[];
     last_updated?: string;
 }
 
@@ -84,26 +60,6 @@ const Show = ({ settings }: Props) => {
         social_youtube: 'https://youtube.com',
         social_facebook: '',
         social_linkedin: '',
-        testimonials: [
-            {
-                quote: 'Resteel made our entire site relocation process seamless...',
-                author: 'Stefan Döring',
-                position: 'RheinBuild GmbH',
-                rating: 5,
-            },
-            {
-                quote: 'We saved over 40% on our structural build...',
-                author: 'Anita Kovács',
-                position: 'Danube Construction',
-                rating: 5,
-            },
-            {
-                quote: 'International coordination is always a challenge...',
-                author: 'Gilles Moreau',
-                position: 'ProStruct Industries',
-                rating: 5,
-            },
-        ],
         last_updated: '2024-01-15',
     };
 
@@ -325,47 +281,6 @@ const Show = ({ settings }: Props) => {
                                     );
                                 })}
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Testimonials */}
-                    <Card className="rounded-sm">
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <MessageSquare className="mr-2 h-5 w-5" />
-                                Testimonials ({currentSettings.testimonials.length})
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            {currentSettings.testimonials.length === 0 ? (
-                                <p className="text-muted-foreground py-8 text-center">No testimonials configured</p>
-                            ) : (
-                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                    {currentSettings.testimonials.map((testimonial, index) => (
-                                        <div key={index} className="space-y-3 rounded-lg border p-4">
-                                            <p className="text-sm italic">"{testimonial.quote}"</p>
-                                            <div>
-                                                <p className="text-sm font-semibold">{testimonial.author}</p>
-                                                {testimonial.position && <p className="text-muted-foreground text-xs">{testimonial.position}</p>}
-                                            </div>
-                                            {testimonial.rating && (
-                                                <div className="flex gap-1">
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <Star
-                                                            key={i}
-                                                            className={`h-4 w-4 ${
-                                                                i < testimonial.rating
-                                                                    ? 'fill-yellow-400 text-yellow-400'
-                                                                    : 'fill-gray-300 text-gray-300'
-                                                            }`}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </CardContent>
                     </Card>
                 </div>
