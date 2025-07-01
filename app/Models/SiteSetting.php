@@ -35,6 +35,9 @@ class SiteSetting extends Model
   {
     $settings = static::all()->pluck('value', 'key')->toArray();
 
+    // Fields that should remain as strings even if they contain only numbers
+    $stringFields = ['contact_phone'];
+
     // Parse JSON values and convert string booleans
     foreach ($settings as $key => $value) {
       if ($value === 'true') {
@@ -46,7 +49,7 @@ class SiteSetting extends Model
         if ($decoded !== null) {
           $settings[$key] = $decoded;
         }
-      } elseif (is_numeric($value)) {
+      } elseif (is_numeric($value) && !in_array($key, $stringFields)) {
         // Keep numeric strings as strings unless they're integers
         if (strpos($value, '.') === false) {
           $settings[$key] = (int) $value;
