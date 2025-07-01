@@ -4,31 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
-import {
-    AlertCircle,
-    Facebook,
-    Instagram,
-    Link2,
-    Linkedin,
-    Mail,
-    MapPin,
-    MessageSquare,
-    Phone,
-    Plus,
-    RefreshCw,
-    Save,
-    Star,
-    Trash2,
-    Twitter,
-    Youtube,
-} from 'lucide-react';
-
-interface Testimonial {
-    quote: string;
-    author: string;
-    position: string;
-    rating: number;
-}
+import { AlertCircle, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Save, Twitter, Youtube } from 'lucide-react';
 
 interface SiteSettings {
     id?: number;
@@ -51,8 +27,6 @@ interface SiteSettings {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
-    // Testimonials
-    testimonials: Testimonial[];
 }
 
 interface Props {
@@ -77,7 +51,6 @@ interface FormData {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
-    testimonials: Testimonial[];
 }
 
 export default function SiteSettingsForm({ settings, isEditing = false }: Props) {
@@ -101,8 +74,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         social_youtube: settings?.social_youtube || '',
         social_facebook: settings?.social_facebook || '',
         social_linkedin: settings?.social_linkedin || '',
-        // Testimonials
-        testimonials: settings?.testimonials || [],
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -154,21 +125,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         const updatedZones = [...data.shipping_zones];
         updatedZones[index] = value;
         setData('shipping_zones', updatedZones);
-    };
-
-    const addTestimonial = () => {
-        setData('testimonials', [...data.testimonials, { quote: '', author: '', position: '', rating: 5 }]);
-    };
-
-    const removeTestimonial = (index: number) => {
-        const updatedTestimonials = data.testimonials.filter((_, i) => i !== index);
-        setData('testimonials', updatedTestimonials);
-    };
-
-    const updateTestimonial = (index: number, field: keyof Testimonial, value: string | number) => {
-        const updatedTestimonials = [...data.testimonials];
-        updatedTestimonials[index] = { ...updatedTestimonials[index], [field]: value };
-        setData('testimonials', updatedTestimonials);
     };
 
     const handleReset = () => {
@@ -346,101 +302,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                             </div>
                             {errors.social_linkedin && <p className="text-sm text-red-600">{errors.social_linkedin}</p>}
                         </div>
-                    </CardContent>
-                </Card>
-
-                {/* Testimonials */}
-                <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <MessageSquare className="mr-2 h-5 w-5" />
-                                Testimonials
-                            </div>
-                            <Button type="button" variant="outline" size="sm" onClick={addTestimonial}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Add Testimonial
-                            </Button>
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        {data.testimonials.length === 0 ? (
-                            <div className="text-muted-foreground py-8 text-center">No testimonials yet. Click "Add Testimonial" to create one.</div>
-                        ) : (
-                            <div className="space-y-6">
-                                {data.testimonials.map((testimonial, index) => (
-                                    <div key={index} className="space-y-4 rounded-lg border p-4">
-                                        <div className="flex items-start justify-between">
-                                            <h4 className="font-medium">Testimonial {index + 1}</h4>
-                                            <Button
-                                                type="button"
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={() => removeTestimonial(index)}
-                                                className="text-red-600 hover:text-red-700"
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor={`testimonial_quote_${index}`}>Quote *</Label>
-                                            <Textarea
-                                                id={`testimonial_quote_${index}`}
-                                                value={testimonial.quote}
-                                                onChange={(e) => updateTestimonial(index, 'quote', e.target.value)}
-                                                placeholder="Enter the testimonial quote..."
-                                                rows={3}
-                                                required
-                                            />
-                                        </div>
-
-                                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                            <div className="space-y-2">
-                                                <Label htmlFor={`testimonial_author_${index}`}>Author Name *</Label>
-                                                <Input
-                                                    id={`testimonial_author_${index}`}
-                                                    value={testimonial.author}
-                                                    onChange={(e) => updateTestimonial(index, 'author', e.target.value)}
-                                                    placeholder="John Doe"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <Label htmlFor={`testimonial_position_${index}`}>Position/Company</Label>
-                                                <Input
-                                                    id={`testimonial_position_${index}`}
-                                                    value={testimonial.position}
-                                                    onChange={(e) => updateTestimonial(index, 'position', e.target.value)}
-                                                    placeholder="CEO, Company Name"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor={`testimonial_rating_${index}`}>Rating</Label>
-                                            <div className="flex items-center gap-1">
-                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                    <button
-                                                        key={star}
-                                                        type="button"
-                                                        onClick={() => updateTestimonial(index, 'rating', star)}
-                                                        className="focus:outline-none"
-                                                    >
-                                                        <Star
-                                                            className={`h-5 w-5 ${
-                                                                star <= testimonial.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                                                            }`}
-                                                        />
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
                     </CardContent>
                 </Card>
 

@@ -41,39 +41,6 @@ return new class extends Migration
             'social_youtube' => 'https://youtube.com',
             'social_facebook' => '',
             'social_linkedin' => '',
-            // Testimonials
-            'testimonials' => json_encode([
-                [
-                    'quote' => 'Resteel made our entire site relocation process seamless...',
-                    'author' => 'Stefan Döring',
-                    'position' => 'RheinBuild GmbH',
-                    'rating' => 5
-                ],
-                [
-                    'quote' => 'We saved over 40% on our structural build...',
-                    'author' => 'Anita Kovács',
-                    'position' => 'Danube Construction',
-                    'rating' => 5
-                ],
-                [
-                    'quote' => 'International coordination is always a challenge...',
-                    'author' => 'Gilles Moreau',
-                    'position' => 'ProStruct Industries',
-                    'rating' => 5
-                ],
-                [
-                    'quote' => 'Resteel proved to be a reliable partner...',
-                    'author' => 'Jakub Nowak',
-                    'position' => 'AgroFab Polska',
-                    'rating' => 5
-                ],
-                [
-                    'quote' => 'When we urgently needed a large-scale steel hall...',
-                    'author' => 'Luca Bianchi',
-                    'position' => 'Infrastrutture SRL',
-                    'rating' => 5
-                ]
-            ])
         ];
 
         foreach ($defaultSettings as $key => $value) {
