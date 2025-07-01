@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BrickWall, House, MessageCircle, PhoneCall, Settings2Icon } from 'lucide-react';
+import { BrickWall, MessageCircle, PhoneCall, Settings2Icon } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -12,15 +12,15 @@ const mainNavItems: NavItem[] = [
     //     href: '/dashboard',
     //     icon: LayoutGrid,
     // },
+    // {
+    //     title: 'Webshop',
+    //     href: '/admin/webshops',
+    //     icon: House,
+    // },
     {
         title: 'Warehouse',
         href: '/admin/warehouses',
         icon: BrickWall,
-    },
-    {
-        title: 'Webshop',
-        href: '/admin/webshops',
-        icon: House,
     },
     {
         title: 'Contacts',

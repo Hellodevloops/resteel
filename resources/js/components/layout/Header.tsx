@@ -162,8 +162,8 @@ const Header: React.FC = () => {
 
                         {/* Mobile Webshop + Cart */}
                         <div className="flex items-center space-x-4 lg:hidden">
-                            <Link href="/webshops" className="text-sm font-medium text-slate-700 hover:text-orange-500">
-                                {t('shop')}
+                            <Link href="/buildings" className="text-sm font-medium text-slate-700 hover:text-orange-500">
+                                Buildings
                             </Link>
                             {/* <Link href="/cart" aria-label={t('cart')} className="relative">
                                 <ShoppingCart className="h-5 w-5 text-slate-700 hover:text-orange-500" />
@@ -190,7 +190,7 @@ const Header: React.FC = () => {
                                 {[
                                     { href: '/', label: t('home') },
                                     { href: '/about', label: t('about_us') },
-                                    { href: '/webshops', label: t('shop') },
+                                    { href: '/buildings', label: t('buildings') },
                                 ].map(({ href, label }) => (
                                     <li key={href}>
                                         <Link
@@ -205,7 +205,7 @@ const Header: React.FC = () => {
                                     </li>
                                 ))}
                                 {/* Cart with indicator */}
-                                <li>
+                                {/* <li>
                                     {/* <Link
                                         href="/cart"
                                         className={`group relative px-4 py-2 font-semibold transition-all duration-300 hover:scale-105 ${
@@ -223,7 +223,7 @@ const Header: React.FC = () => {
                                         </div>
                                         <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
                                     </Link> */}
-                                </li>
+                                {/* </li> */}
                                 <li>
                                     <Button
                                         asChild
