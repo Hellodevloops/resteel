@@ -25,7 +25,7 @@ const FeaturedBuildings = () => {
     const buildingTypes = [
         { id: 'all', label: t('all'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'halls', label: t('halls'), icon: Factory },
+        { id: 'Steelconstructions', label: t('Steel Constructions'), icon: Factory },
         { id: 'other', label: t('other'), icon: SquareStack },
     ];
 

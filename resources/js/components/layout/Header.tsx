@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { Link, usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { ChevronDown, Globe, Menu, X } from 'lucide-react';
+import { ChevronDown, Globe, Menu, X, Youtube } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -166,6 +166,19 @@ const Header: React.FC = () => {
                                 Buildings
                             </Link>
 
+                            {/* Mobile YouTube Button */}
+                            <a
+                                href="https://www.youtube.com/@Resteel-Solutions" // Replace with your actual YouTube channel URL
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
+                                    isScrolled ? 'bg-red-100 text-red-600 hover:bg-red-200' : 'bg-red-100 text-red-600 hover:bg-red-200'
+                                }`}
+                                aria-label="Visit our YouTube channel"
+                            >
+                                <Youtube size={20} />
+                            </a>
+
                             <button
                                 className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
                                     isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -217,6 +230,22 @@ const Header: React.FC = () => {
                                         <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-4 group-hover:w-8" />
                                     </Link> */}
                                 {/* </li> */}
+
+                                {/* Desktop YouTube Button */}
+                                <li>
+                                    <a
+                                        href="https://www.youtube.com/@Resteel-Solutions" // Replace with your actual YouTube channel URL
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group relative flex items-center gap-2 rounded-xl bg-red-500 px-4 py-2 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-red-600 hover:shadow-md hover:shadow-red-500/25"
+                                        aria-label="Visit our YouTube channel"
+                                    >
+                                        <Youtube className="h-5 w-5" />
+                                        <span className="relative z-10">YouTube</span>
+                                        <div className="absolute inset-0 rounded-xl bg-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                                    </a>
+                                </li>
+
                                 <li>
                                     <Button
                                         asChild
@@ -285,6 +314,17 @@ const Header: React.FC = () => {
                             <Link href="/contact" className="block font-medium text-slate-700">
                                 {t('contact_us')}
                             </Link>
+
+                            {/* Mobile YouTube Link */}
+                            <a
+                                href="https://www.youtube.com/@Resteel-Solutions" // Replace with your actual YouTube channel URL
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-3 font-medium text-red-600 hover:text-red-700"
+                            >
+                                <Youtube className="h-5 w-5" />
+                                <span>YouTube Channel</span>
+                            </a>
 
                             {/* Mobile Language Selector */}
                             <div className="border-t pt-4">
