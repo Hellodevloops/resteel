@@ -19,7 +19,7 @@ const truncateText = (text: string, maxWords: number = 19) => {
 const buildingTypes = [
     { id: 'all', label: 'All', icon: Building2 },
     { id: 'warehouses', label: 'Warehouses', icon: Warehouse },
-    { id: 'halls', label: 'Halls', icon: Factory },
+    { id: 'Steelconstuctions', label: 'Steelconstuctions', icon: Factory },
     { id: 'other', label: 'Other', icon: SquareStack },
 ];
 

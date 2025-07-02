@@ -8,22 +8,45 @@ import Layout from './Layout';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogHeader } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
 import { ArrowLeft, Building, Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
+import ContactForm from './ContactForm';
+
+interface BuildingType {
+    id: string;
+    title: string;
+    status: string;
+    category: string;
+    construction: string;
+    description: string;
+    location: string;
+    yearBuilt: string;
+    price: string;
+    images: string[];
+    totalArea: string;
+    hasVideo: boolean;
+    videoUrls: string[];
+    features: string[];
+    specifications: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+}
 
 const BuildingDetails = () => {
     const { t } = useTranslation();
     const { props } = usePage();
     const id = props.id;
-    const [building, setBuilding] = useState(null);
+    const [building, setBuilding] = useState<BuildingType | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-    const [currentThumbnailIndex, setCurrentThumbnailIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [showAllFeatures, setShowAllFeatures] = useState(false);
     const [showFullConstruction, setShowFullConstruction] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
+    const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
 
     useEffect(() => {
         const fetchBuilding = async () => {
@@ -76,18 +99,8 @@ const BuildingDetails = () => {
         fetchBuilding();
     }, [id, t]);
 
-    useEffect(() => {
-        if (building && building.images.length > 1) {
-            const interval = setInterval(() => {
-                setCurrentThumbnailIndex((prev) => (prev + 1) % building.images.length);
-            }, 3000);
-            return () => clearInterval(interval);
-        }
-    }, [building]);
-
     const handleThumbnailClick = (index: number) => {
         setSelectedImageIndex(index);
-        setCurrentThumbnailIndex(index);
     };
 
     const nextImage = () => {
@@ -105,6 +118,14 @@ const BuildingDetails = () => {
     const truncateText = (text: string, maxLength: number) => {
         if (!text) return '';
         return text.length <= maxLength ? text : text.substring(0, maxLength).trim() + '...';
+    };
+
+    const openContactForm = (productName: string) => {
+        setContactForm({ isOpen: true, productName });
+    };
+
+    const closeContactForm = () => {
+        setContactForm({ isOpen: false, productName: '' });
     };
 
     if (isLoading) {
@@ -133,7 +154,13 @@ const BuildingDetails = () => {
                             <h1 className="mb-2 text-2xl font-bold text-gray-800">{t('property_not_found')}</h1>
                             <p className="mb-6 text-gray-600">{t('property_not_found_description')}</p>
                             <Button asChild className="bg-orange-500 hover:bg-orange-600">
-                                <Link to="/buildings">
+                                <Link href="/">
+                                    <ArrowLeft className="mr-2 h-4 w-4" />
+                                    Back to home
+                                </Link>
+                            </Button>
+                            <Button asChild className="bg-orange-500 hover:bg-orange-600">
+                                <Link href="/buildings">
                                     <ArrowLeft className="mr-2 h-4 w-4" />
                                     {t('back_to_properties')}
                                 </Link>
@@ -154,13 +181,20 @@ const BuildingDetails = () => {
                         <div className="flex h-16 items-center justify-between">
                             <div className="flex items-center space-x-4">
                                 <Button variant="ghost" size="sm" asChild>
+                                    <Link href="/">
+                                        <ArrowLeft className="mr-2 h-4 w-4" />
+                                        <span className="hidden sm:inline">Back to Home</span>
+                                        <span className="sm:hidden">Home</span>
+                                    </Link>
+                                </Button>
+                                <div className="hidden h-6 w-px bg-gray-300 sm:block"></div>
+                                <Button variant="ghost" size="sm" asChild>
                                     <Link href="/buildings">
                                         <ArrowLeft className="mr-2 h-4 w-4" />
                                         <span className="hidden sm:inline">{t('back_to_properties')}</span>
                                         <span className="sm:hidden">{t('back')}</span>
                                     </Link>
                                 </Button>
-                                <div className="hidden h-6 w-px bg-gray-300 sm:block"></div>
                             </div>
                         </div>
                     </div>
@@ -241,6 +275,16 @@ const BuildingDetails = () => {
                                                     </>
                                                 )}
 
+                                                {/* Contact Form */}
+                                                <Dialog open={contactForm.isOpen} onOpenChange={(open) => !open && closeContactForm()}>
+                                                    <DialogHeader></DialogHeader>
+                                                    <ContactForm
+                                                        isOpen={contactForm.isOpen}
+                                                        onClose={closeContactForm}
+                                                        productName={contactForm.productName}
+                                                    />
+                                                </Dialog>
+
                                                 {/* Video Badge */}
                                                 {building.hasVideo && (
                                                     <div className="absolute top-4 left-4">
@@ -309,6 +353,22 @@ const BuildingDetails = () => {
                                         </CardContent>
                                     </Card>
                                 )}
+
+                                {/* Contact Form Button */}
+                                <Card>
+                                    <CardContent className="space-y-3">
+                                        <div>
+                                            <Button
+                                                size="lg"
+                                                className="w-full bg-orange-500 text-white hover:bg-orange-600"
+                                                onClick={() => openContactForm(building.title)}
+                                            >
+                                                <Phone className="mr-2 h-4 w-4" />
+                                                {t('contact_us')}
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
 
                                 {/* Key Features */}
                                 <Card>

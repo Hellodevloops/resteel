@@ -3,7 +3,7 @@ import Header from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import axios from 'axios';
-import { Building, Building2, Eye, Factory, Play, SquareStack, Warehouse } from 'lucide-react';
+import { Building, Building2, Eye, Factory, Play, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
@@ -74,8 +74,8 @@ const Buildings = () => {
     const buildingTypes = [
         { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'commercial', label: t('commercial'), icon: Factory },
-        { id: 'industrial', label: t('industrial'), icon: SquareStack },
+        { id: 'steelconstructions', label: 'steel_constructions', icon: Factory },
+        // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
     useEffect(() => {
@@ -154,26 +154,22 @@ const Buildings = () => {
         const truncation = getTextTruncation();
 
         return (
-            <div className="flex flex-col h-full rounded-xl bg-white p-4 pt-10 shadow-md transition-all hover:shadow-lg">
+            <div className="flex h-full flex-col rounded-xl bg-white p-4 pt-10 shadow-md transition-all hover:shadow-lg">
                 {/* Image Container with Fixed Height */}
                 <div className="relative mb-4 h-48 w-full overflow-hidden rounded-md">
-                    <img 
-                        src={building.image} 
-                        alt={building.title} 
-                        className="h-full w-full object-cover" 
-                    />
+                    <img src={building.image} alt={building.title} className="h-full w-full object-cover" />
                 </div>
 
                 {/* Content Container with Flex Grow */}
-                <div className="flex flex-col flex-grow">
+                <div className="flex flex-grow flex-col">
                     {/* Title with Fixed Height */}
                     <div className="mb-2 min-h-[2.5rem]">
-                        <h3 className="text-lg font-bold line-clamp-2">{truncateText(building.title, truncation.title)}</h3>
+                        <h3 className="line-clamp-2 text-lg font-bold">{truncateText(building.title, truncation.title)}</h3>
                     </div>
 
                     {/* Description with Fixed Height */}
                     <div className="mb-2 min-h-[2.5rem]">
-                        <p className="text-sm text-gray-600 line-clamp-2">{truncateText(building.construction, truncation.construction)}</p>
+                        <p className="line-clamp-2 text-sm text-gray-600">{truncateText(building.construction, truncation.construction)}</p>
                     </div>
 
                     {/* Total Area with Fixed Height */}
@@ -184,12 +180,12 @@ const Buildings = () => {
                     </div>
 
                     {/* Specifications with Fixed Height */}
-                    <div className="mb-4 flex-grow min-h-[4rem]">
+                    <div className="mb-4 min-h-[4rem] flex-grow">
                         <div className="space-y-1 text-sm text-gray-700">
                             {building.specifications.slice(0, truncation.specsToShow).map((spec, i) => (
                                 <div key={i} className="flex justify-between">
                                     <span className="truncate">{spec.name}</span>
-                                    <span className="truncate ml-2">{spec.dimensions}</span>
+                                    <span className="ml-2 truncate">{spec.dimensions}</span>
                                 </div>
                             ))}
                             {building.specifications.length > truncation.specsToShow && (
@@ -201,7 +197,7 @@ const Buildings = () => {
                     </div>
 
                     {/* Action Buttons - Always at Bottom */}
-                    <div className="flex gap-2 mt-auto">
+                    <div className="mt-auto flex gap-2">
                         <Button asChild className="flex-1">
                             <Link href={`/building-details/${building.id}`}>
                                 <Eye className="mr-1 h-4 w-4" />
@@ -222,28 +218,30 @@ const Buildings = () => {
     if (loading) {
         return (
             <Layout title={`Resteel | ${t('hero_title')}`}>
-                <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50 min-h-screen">
-                    <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
+                    <div className="bg-grid-slate-100 absolute inset-0 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
                     <Header />
                     <main className="relative mx-auto max-w-7xl px-4 py-8 pt-32 sm:px-6 lg:px-8">
                         <div className="text-center">
                             {/* Loading Header */}
                             <div className="mb-8">
-                                <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl mb-4">
+                                <h1 className="mb-4 bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
                                     {t('our_properties') || 'Our Properties'}
                                 </h1>
-                                <div className="mx-auto h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                                <div className="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-orange-400 to-orange-600"></div>
                             </div>
-                            
+
                             {/* Loading Animation */}
                             <div className="flex items-center justify-center py-16">
                                 <div className="text-center">
                                     <div className="relative mb-6">
-                                        <div className="h-16 w-16 rounded-full border-4 border-orange-200 border-t-orange-600 animate-spin mx-auto"></div>
-                                        <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-transparent border-t-orange-400 animate-ping opacity-20"></div>
+                                        <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-orange-200 border-t-orange-600"></div>
+                                        <div className="absolute inset-0 h-16 w-16 animate-ping rounded-full border-4 border-transparent border-t-orange-400 opacity-20"></div>
                                     </div>
                                     <p className="text-lg font-medium text-slate-700">{t('loading_properties') || 'Loading Properties...'}</p>
-                                    <p className="text-sm text-slate-500 mt-2">{t('fetching_latest_listings') || 'Fetching the latest property listings for you'}</p>
+                                    <p className="mt-2 text-sm text-slate-500">
+                                        {t('fetching_latest_listings') || 'Fetching the latest property listings for you'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -257,32 +255,34 @@ const Buildings = () => {
     if (error) {
         return (
             <Layout title={`Resteel | ${t('hero_title')}`}>
-                <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50 min-h-screen">
-                    <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+                <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-orange-50">
+                    <div className="bg-grid-slate-100 absolute inset-0 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
                     <Header />
                     <main className="relative mx-auto max-w-7xl px-4 py-8 pt-32 sm:px-6 lg:px-8">
                         <div className="text-center">
                             {/* Error Header */}
                             <div className="mb-8">
-                                <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl mb-4">
+                                <h1 className="mb-4 bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
                                     {t('our_properties') || 'Our Properties'}
                                 </h1>
-                                <div className="mx-auto h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                                <div className="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-orange-400 to-orange-600"></div>
                             </div>
-                            
+
                             {/* Error Content */}
                             <div className="flex items-center justify-center py-16">
-                                <div className="text-center max-w-md">
+                                <div className="max-w-md text-center">
                                     <div className="mb-6">
-                                        <div className="mx-auto h-24 w-24 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
+                                        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-red-100 to-red-200">
                                             <div className="text-4xl">⚠️</div>
                                         </div>
                                     </div>
-                                    <h3 className="mb-3 text-2xl font-bold text-slate-900">{t('unable_to_load_properties') || 'Unable to Load Properties'}</h3>
-                                    <p className="text-red-600 mb-6">{error}</p>
-                                    <Button 
-                                        onClick={() => window.location.reload()} 
-                                        className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                                    <h3 className="mb-3 text-2xl font-bold text-slate-900">
+                                        {t('unable_to_load_properties') || 'Unable to Load Properties'}
+                                    </h3>
+                                    <p className="mb-6 text-red-600">{error}</p>
+                                    <Button
+                                        onClick={() => window.location.reload()}
+                                        className="bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
                                     >
                                         {t('refresh_page') || 'Refresh Page'}
                                     </Button>
@@ -301,8 +301,8 @@ const Buildings = () => {
             {/* Hero Section with Enhanced Header */}
             <div className="relative bg-gradient-to-br from-slate-50 via-white to-orange-50">
                 {/* Background Pattern */}
-                <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
-                
+                <div className="bg-grid-slate-100 absolute inset-0 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+
                 <main className="relative mt-20 min-h-screen sm:mt-30">
                     {/* Hero Header Section */}
                     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -312,20 +312,14 @@ const Buildings = () => {
                                 <h1 className="bg-gradient-to-r from-slate-900 via-slate-800 to-orange-600 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
                                     {t('our_properties') || 'Our Properties'}
                                 </h1>
-                                <div className="mx-auto mt-4 h-1 w-24 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full"></div>
+                                <div className="mx-auto mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-orange-400 to-orange-600"></div>
                             </div>
-                            
-                           
-                           
-                            
-                         
                         </div>
                     </div>
 
                     {/* Enhanced Filter Section */}
                     <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-                        <div className="text-center mb-8">
-                           
+                        <div className="mb-8 text-center">
                             <div className="flex flex-wrap justify-center gap-3">
                                 {buildingTypes.map((type) => {
                                     const IconComponent = type.icon;
@@ -334,17 +328,19 @@ const Buildings = () => {
                                             key={type.id}
                                             onClick={() => setFilter(type.id)}
                                             className={`group relative flex items-center gap-2 rounded-full px-6 py-3 font-semibold transition-all duration-300 ${
-                                                filter === type.id 
-                                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25 scale-105' 
-                                                    : 'border-2 border-slate-200 bg-white text-slate-700 hover:border-orange-300 hover:bg-orange-50 hover:scale-105'
+                                                filter === type.id
+                                                    ? 'scale-105 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25'
+                                                    : 'border-2 border-slate-200 bg-white text-slate-700 hover:scale-105 hover:border-orange-300 hover:bg-orange-50'
                                             }`}
                                         >
-                                            <IconComponent className={`h-5 w-5 transition-colors ${
-                                                filter === type.id ? 'text-white' : 'text-slate-500 group-hover:text-orange-600'
-                                            }`} />
+                                            <IconComponent
+                                                className={`h-5 w-5 transition-colors ${
+                                                    filter === type.id ? 'text-white' : 'text-slate-500 group-hover:text-orange-600'
+                                                }`}
+                                            />
                                             {type.label}
                                             {filter === type.id && (
-                                                <div className="absolute -top-1 -right-1 h-3 w-3 bg-orange-400 rounded-full animate-pulse"></div>
+                                                <div className="absolute -top-1 -right-1 h-3 w-3 animate-pulse rounded-full bg-orange-400"></div>
                                             )}
                                         </button>
                                     );
@@ -358,15 +354,17 @@ const Buildings = () => {
                         {filteredBuildings.length === 0 ? (
                             <div className="py-16 text-center">
                                 <div className="mb-6">
-                                    <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                                    <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-slate-100 to-slate-200">
                                         <div className="text-4xl">🏗️</div>
                                     </div>
                                 </div>
                                 <h3 className="mb-3 text-2xl font-bold text-slate-900">{t('no_buildings_found')}</h3>
-                                <p className="text-slate-600 max-w-md mx-auto">{t('try_different_filter') || 'Try selecting a different filter to see more options'}</p>
+                                <p className="mx-auto max-w-md text-slate-600">
+                                    {t('try_different_filter') || 'Try selecting a different filter to see more options'}
+                                </p>
                             </div>
                         ) : (
-                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
+                            <div className="grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                 {filteredBuildings.map((building) => (
                                     <BuildingCard key={building.id} building={building} />
                                 ))}

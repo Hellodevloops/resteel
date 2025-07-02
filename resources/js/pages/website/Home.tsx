@@ -5,25 +5,27 @@ import Hero from '@/components/hero2';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
 import Services from '@/pages/website/Services';
-import { useTranslation } from 'react-i18next';
+import { SiteSettings } from '@/types/site-settings';
 import ContactCTA from './Contact';
 import Layout from './Layout';
 import NewsletterSection from './NewsletterSection';
-import Testimonials from './Testimonials';
 
-const Index = () => {
-    const { t } = useTranslation();
+interface Props {
+    siteSettings: SiteSettings;
+}
+
+const Index = ({ siteSettings }: Props) => {
     useScrollAnimation();
 
     return (
-        <Layout title={`Resteel | ${t('hero_title')}`}>
-            <Hero />
+        <Layout title={`${siteSettings.company_name} | ${siteSettings.company_tagline}`} siteSettings={siteSettings}>
+            <Hero siteSettings={siteSettings} />
             <FeaturesPreview />
             <CarouselSection />
             <Services />
             <FeaturedBuildings />
-            <Testimonials />
-            <ContactCTA />
+            {/* <Testimonials /> */}
+            <ContactCTA siteSettings={siteSettings} />
             <NewsletterSection />
         </Layout>
     );

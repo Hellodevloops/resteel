@@ -6,6 +6,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use App\Http\Controllers\ContentController;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -58,7 +59,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn (): array => [
+            'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
@@ -68,6 +69,8 @@ class HandleInertiaRequests extends Middleware
             'fallback_locale' => $fallback_locale,
             'supported_locales' => $supported_locales,
             'translations' => $translations,
+            // Share content settings globally for dynamic components
+            'siteSettings' => ContentController::getPublicContentSettings(),
         ];
     }
 }

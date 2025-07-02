@@ -249,10 +249,7 @@ const WebShop = () => {
 
                 <Dialog open={contactForm.isOpen} onOpenChange={(open) => !open && closeContactForm()}>
                     {/* <DialogContent className=""> */}
-                    <DialogHeader>
-                        {/* <DialogTitle>{t('get_in_touch')}</DialogTitle> */}
-                        {/* <p className="text-sm text-gray-600">{t('we_d_love_to_hear_from_you')}</p> */}
-                    </DialogHeader>
+                    <DialogHeader>{/* <p className="text-sm text-gray-600">{t('we_d_love_to_hear_from_you')}</p> */}</DialogHeader>
                     <ContactForm isOpen={contactForm.isOpen} onClose={closeContactForm} productName={contactForm.productName} />
                     {/* </DialogContent> */}
                 </Dialog>

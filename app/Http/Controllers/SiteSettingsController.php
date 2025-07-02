@@ -80,6 +80,30 @@ class SiteSettingsController extends Controller
   {
     $settings = SiteSetting::getAllSettings();
 
+    // Filter to only return site settings related fields (contact info, social media)
+    $siteSettingsKeys = [
+      'id',
+      'contact_email',
+      'contact_phone',
+      'contact_address',
+      'tax_rate',
+      'company_name',
+      'company_tagline',
+      'company_description',
+      'shipping_enabled',
+      'shipping_rate',
+      'free_shipping_threshold',
+      'shipping_zones',
+      'email_notifications',
+      'order_notifications',
+      'contact_form_notifications',
+      'social_twitter',
+      'social_instagram',
+      'social_youtube',
+      'social_facebook',
+      'social_linkedin'
+    ];
+
     // Merge with defaults to ensure all keys exist
     return array_merge([
       'id' => 1,
@@ -102,8 +126,8 @@ class SiteSettingsController extends Controller
       'social_instagram' => 'https://instagram.com/resteel',
       'social_youtube' => 'https://youtube.com',
       'social_facebook' => '',
-      'social_linkedin' => '',
-    ], $settings);
+      'social_linkedin' => ''
+    ], array_intersect_key($settings, array_flip($siteSettingsKeys)));
   }
 
   /**

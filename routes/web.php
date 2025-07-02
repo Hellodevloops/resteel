@@ -7,15 +7,35 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\SiteSettingsController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\TestimonialController;
 
 // Home route
 Route::get('/', function () {
-    return Inertia::render('website/Home');
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Home', [
+        'siteSettings' => $mergedSettings
+    ]);
 })->name('home');
-Route::get('/admin/testimonials', function () {
-    return Inertia::render('website/Home');
-})->name('home');
+// Route::get('/admin/testimonials', function () {
+//     return Inertia::render('website/Home');
+// })->name('home');
+// Content management routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Content management routes
+        Route::get('/content', [App\Http\Controllers\ContentController::class, 'index'])->name('content.index');
+        Route::get('/content/create', [App\Http\Controllers\ContentController::class, 'create'])->name('content.create');
+        Route::post('/content', [App\Http\Controllers\ContentController::class, 'store'])->name('content.store');
+        Route::get('/content/edit', [App\Http\Controllers\ContentController::class, 'edit'])->name('content.edit');
+        Route::put('/content', [App\Http\Controllers\ContentController::class, 'update'])->name('content.update');
+    });
+});
 
 // Site Settings Routes (outside of auth middleware for now, move inside if needed)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -30,8 +50,28 @@ Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('bu
 Route::get('/building-details/{id}', function ($id) {
     return Inertia::render('website/BuildingsDetails', ['id' => $id]);
 })->name('buildingsdetails');
-Route::get('/services', fn() => Inertia::render('website/Services'))->name('services');
-Route::get('/about', fn() => Inertia::render('website/About'))->name('about');
+Route::get('/services', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Services', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('services');
+Route::get('/about', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/About', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('about');
 Route::get('/terms', fn() => Inertia::render('website/Terms'))->name('terms');
 Route::get('/privacy', fn() => Inertia::render('website/Privacy'))->name('privacy');
 Route::get('/career', fn() => Inertia::render('website/Career'))->name('career');

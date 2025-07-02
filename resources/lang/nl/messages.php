@@ -323,7 +323,7 @@ return [
   'end_to_end_support' => 'End-to-end ondersteuning',
   'end_to_end_support_desc' => 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
   'years_of_trust' => '20+ jaar vertrouwen',
-  'years_of_trust_desc' => 'Sinds 2005 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+  'years_of_trust_desc' => 'Sinds 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Ontdek onze nieuwste structuren',
@@ -371,7 +371,7 @@ return [
 
   // Hero2 Component
   'hero2_title' => 'Tweedehands staalconstructies kopen en verkopen in heel Europa',
-  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2005.',
+  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2000.',
   'browse_structures_btn' => 'Structuren bekijken',
   'sell_your_property_btn' => 'Uw eigendom verkopen',
 

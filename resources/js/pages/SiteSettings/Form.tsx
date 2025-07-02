@@ -8,11 +8,9 @@ import { AlertCircle, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone,
 
 interface SiteSettings {
     id?: number;
-    // language: string;
     contact_email: string;
     contact_phone: string;
     contact_address: string;
-    // currency: string;
     tax_rate: number;
     company_name: string;
     company_tagline: string;
@@ -34,32 +32,11 @@ interface Props {
     isEditing?: boolean;
 }
 
-interface FormData {
-    contact_email: string;
-    contact_phone: string;
-    contact_address: string;
-    tax_rate: number;
-    company_name: string;
-    company_tagline: string;
-    company_description: string;
-    shipping_enabled: boolean;
-    shipping_rate: string;
-    free_shipping_threshold: string;
-    shipping_zones: string[];
-    social_twitter: string;
-    social_instagram: string;
-    social_youtube: string;
-    social_facebook: string;
-    social_linkedin: string;
-}
-
 export default function SiteSettingsForm({ settings, isEditing = false }: Props) {
-    const { data, setData, processing, errors, reset, post, put } = useForm<FormData>({
-        // language: settings?.language || 'en',
+    const { data, setData, processing, errors, reset, post, put } = useForm({
         contact_email: settings?.contact_email || '',
         contact_phone: settings?.contact_phone || '',
         contact_address: settings?.contact_address || '',
-        // currency: settings?.currency || 'USD',
         tax_rate: settings?.tax_rate || 0,
         company_name: settings?.company_name || '',
         company_tagline: settings?.company_tagline || '',
@@ -112,21 +89,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         return /^\+?[\d\s-]{10,}$/.test(phone);
     };
 
-    const addShippingZone = () => {
-        setData('shipping_zones', [...data.shipping_zones, '']);
-    };
-
-    const removeShippingZone = (index: number) => {
-        const updatedZones = data.shipping_zones.filter((_, i) => i !== index);
-        setData('shipping_zones', updatedZones);
-    };
-
-    const updateShippingZone = (index: number, value: string) => {
-        const updatedZones = [...data.shipping_zones];
-        updatedZones[index] = value;
-        setData('shipping_zones', updatedZones);
-    };
-
     const handleReset = () => {
         reset();
     };
@@ -149,7 +111,6 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                             <Phone className="mr-2 h-5 w-5" />
                             Contact Information
                         </CardTitle>
-                        {/* <CardDescription>Contact details displayed on your website</CardDescription> */}
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="space-y-2">
