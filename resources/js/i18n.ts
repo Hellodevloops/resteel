@@ -143,7 +143,7 @@ const predefinedTranslations = {
         end_to_end_support: 'End-to-End Support',
         end_to_end_support_desc: 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
         years_of_trust: '20+ Years of Trust',
-        years_of_trust_desc: "Since 2005, we've helped hundreds of industrial and agri businesses relocate or resell steel halls.",
+        years_of_trust_desc: "Since 2000, we've helped hundreds of industrial and agri businesses relocate or resell steel halls.",
 
         // CarouselSection Component
         discover_our_latest_structures: 'Discover Our Latest Structures',
@@ -247,7 +247,7 @@ const predefinedTranslations = {
 
         // Hero2 Component
         hero2_title: 'Buy & Sell Used Steel Structures Across Europe',
-        hero2_subtitle: 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.',
+        hero2_subtitle: 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2000.',
         browse_structures_btn: 'Browse Structures',
         sell_your_property_btn: 'Sell Your Property',
 
@@ -405,7 +405,7 @@ const predefinedTranslations = {
         end_to_end_support_desc: 'Wir verwalten den gesamten Lebenszyklus — Demontage, Transport und Wiedermontage inklusive.',
         years_of_trust: '20+ Jahre Vertrauen',
         years_of_trust_desc:
-            'Seit 2005 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
+            'Seit 2000 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
 
         // CarouselSection Component
         discover_our_latest_structures: 'Entdecken Sie unsere neuesten Strukturen',
@@ -512,7 +512,7 @@ const predefinedTranslations = {
 
         // Hero2 Component
         hero2_title: 'Gebrauchte Stahlkonstruktionen kaufen und verkaufen',
-        hero2_subtitle: 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2005.',
+        hero2_subtitle: 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2000.',
         browse_structures_btn: 'Strukturen durchsuchen',
         sell_your_property_btn: 'Ihre Immobilie verkaufen',
 
@@ -682,7 +682,7 @@ const predefinedTranslations = {
         end_to_end_support_desc: 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
         years_of_trust: '20+ jaar vertrouwen',
         years_of_trust_desc:
-            'Sinds 2005 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+            'Sinds 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
         // CarouselSection Component
         discover_our_latest_structures: 'Ontdek onze nieuwste structuren',
@@ -786,7 +786,7 @@ const predefinedTranslations = {
 
         // Hero2 Component
         hero2_title: 'Tweedehands staalconstructies kopen en verkopen in heel Europa',
-        hero2_subtitle: 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2005.',
+        hero2_subtitle: 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2000.',
         browse_structures_btn: 'Structuren bekijken',
         sell_your_property_btn: 'Uw eigendom verkopen',
 
@@ -836,7 +836,7 @@ const resources: Record<string, any> = {};
 if (translations && locale) {
     // Extract messages from the translations object
     const serverMessages = translations.messages || {};
-    
+
     resources[locale] = {
         translation: {
             ...resources[locale]?.translation,

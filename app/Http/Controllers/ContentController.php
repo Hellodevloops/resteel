@@ -215,7 +215,7 @@ class ContentController extends Controller
         [
           'icon' => 'ShieldCheck',
           'title' => '20+ Years of Trust',
-          'description' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.'
+          'description' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.'
         ]
       ],
       // About - Who We Are Section

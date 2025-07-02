@@ -308,7 +308,7 @@ return [
   'end_to_end_support' => 'End-to-End Support',
   'end_to_end_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'years_of_trust' => '20+ Years of Trust',
-  'years_of_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'years_of_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Discover Our Latest Structures',
@@ -356,7 +356,7 @@ return [
 
   // Hero2 Component
   'hero2_title' => 'Buy & Sell Used Steel Structures Across Europe',
-  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.',
+  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2000.',
   'browse_structures_btn' => 'Browse Structures',
   'sell_your_property_btn' => 'Sell Your Property',
 
@@ -514,7 +514,7 @@ return [
   'feature_support_title' => 'End-to-End Support',
   'feature_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'feature_trust_title' => '20+ Years of Trust',
-  'feature_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'feature_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // Dynamic Content - About Who We Are
   'who_we_are_title' => 'Who We Are',

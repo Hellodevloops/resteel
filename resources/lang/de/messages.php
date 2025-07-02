@@ -323,7 +323,7 @@ return [
   'end_to_end_support' => 'Rundum-Betreuung',
   'end_to_end_support_desc' => 'Wir verwalten den gesamten Lebenszyklus — Demontage, Transport und Wiedermontage inklusive.',
   'years_of_trust' => '20+ Jahre Vertrauen',
-  'years_of_trust_desc' => 'Seit 2005 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
+  'years_of_trust_desc' => 'Seit 2000 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Entdecken Sie unsere neuesten Strukturen',
@@ -371,7 +371,7 @@ return [
 
   // Hero2 Component
   'hero2_title' => 'Gebrauchte Stahlkonstruktionen in ganz Europa kaufen und verkaufen',
-  'hero2_subtitle' => 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2005.',
+  'hero2_subtitle' => 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2000.',
   'browse_structures_btn' => 'Strukturen durchsuchen',
   'sell_your_property_btn' => 'Ihre Immobilie verkaufen',
 
