@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useForm } from '@inertiajs/react';
-import { Plus, RefreshCw, Save, Settings, Trash } from 'lucide-react';
+import { useForm, usePage } from '@inertiajs/react';
+import { Globe, Plus, RefreshCw, Save, Settings, Trash } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface ServiceItem {
     icon: string;
@@ -63,38 +64,85 @@ interface ContentSettings {
     mission_items: MissionItem[];
 }
 
+interface MultiLangContentSettings {
+    [locale: string]: ContentSettings;
+}
+
 interface Props {
-    content?: ContentSettings;
+    content?: MultiLangContentSettings;
     isEditing?: boolean;
 }
 
+interface PageProps {
+    locale?: string;
+    supported_locales?: string[];
+}
+
+interface FormData extends ContentSettings {
+    locale: string;
+}
+
+const languageLabels: Record<string, string> = {
+    en: 'English',
+    de: 'Deutsch',
+    nl: 'Nederlands',
+};
+
 export default function ContentForm({ content, isEditing = false }: Props) {
-    const { data, setData, processing, errors, reset, post, put } = useForm({
-        // Services Section
-        services_title: content?.services_title || '',
-        services_subtitle: content?.services_subtitle || '',
-        services_items: content?.services_items || [],
-        // Why Choose Us Section
-        why_choose_us_title: content?.why_choose_us_title || '',
-        why_choose_us_subtitle: content?.why_choose_us_subtitle || '',
-        why_choose_us_items: content?.why_choose_us_items || [],
-        // About - Who We Are
-        who_we_are_title: content?.who_we_are_title || '',
-        who_we_are_description: content?.who_we_are_description || '',
-        who_we_are_founded: content?.who_we_are_founded || '',
-        // About - What We Offer
-        what_we_offer_title: content?.what_we_offer_title || '',
-        what_we_offer_subtitle: content?.what_we_offer_subtitle || '',
-        what_we_offer_items: content?.what_we_offer_items || [],
-        // About - Stats Section
-        stats_title: content?.stats_title || '',
-        stats_subtitle: content?.stats_subtitle || '',
-        stats_items: content?.stats_items || [],
-        // About - Mission Section
-        mission_title: content?.mission_title || '',
-        mission_subtitle: content?.mission_subtitle || '',
-        mission_items: content?.mission_items || [],
+    const pageProps = usePage().props as PageProps;
+    const supportedLocales = pageProps?.supported_locales || ['en', 'de', 'nl'];
+    const currentPageLocale = pageProps?.locale || 'en';
+
+    // Initialize with the current page locale
+    const [selectedLocale, setSelectedLocale] = useState(currentPageLocale);
+
+    // Get content for the selected locale with fallback to default values
+    const getContentForLocale = (locale: string): ContentSettings => {
+        const defaultContent: ContentSettings = {
+            // Services Section
+            services_title: '',
+            services_subtitle: '',
+            services_items: [],
+            // Why Choose Us Section
+            why_choose_us_title: '',
+            why_choose_us_subtitle: '',
+            why_choose_us_items: [],
+            // About - Who We Are
+            who_we_are_title: '',
+            who_we_are_description: '',
+            who_we_are_founded: '',
+            // About - What We Offer
+            what_we_offer_title: '',
+            what_we_offer_subtitle: '',
+            what_we_offer_items: [],
+            // About - Stats Section
+            stats_title: '',
+            stats_subtitle: '',
+            stats_items: [],
+            // About - Mission Section
+            mission_title: '',
+            mission_subtitle: '',
+            mission_items: [],
+        };
+
+        return content?.[locale] || defaultContent;
+    };
+
+    const contentForLocale = getContentForLocale(selectedLocale);
+
+    const { data, setData, processing, errors, reset, post, put } = useForm<FormData>({
+        locale: selectedLocale,
+        ...contentForLocale,
     });
+
+    // Update form data when locale changes
+    useEffect(() => {
+        const newContent = getContentForLocale(selectedLocale);
+        setData({
+            locale: selectedLocale,
+            ...newContent,
+        });
+    }, [selectedLocale]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -128,13 +176,18 @@ export default function ContentForm({ content, isEditing = false }: Props) {
         reset();
     };
 
+    // Helper to update content data
+    const updateContent = (field: keyof ContentSettings, value: any) => {
+        setData(field, value);
+    };
+
     // Helper methods for managing array items
     const addServiceItem = () => {
         setData('services_items', [...data.services_items, { icon: 'Store', title: '', description: '' }]);
     };
 
     const removeServiceItem = (index: number) => {
-        const updatedItems = data.services_items.filter((_, i) => i !== index);
+        const updatedItems = data.services_items.filter((_: any, i: number) => i !== index);
         setData('services_items', updatedItems);
     };
 
@@ -149,7 +202,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     };
 
     const removeWhyChooseUsItem = (index: number) => {
-        const updatedItems = data.why_choose_us_items.filter((_, i) => i !== index);
+        const updatedItems = data.why_choose_us_items.filter((_: any, i: number) => i !== index);
         setData('why_choose_us_items', updatedItems);
     };
 
@@ -164,7 +217,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     };
 
     const removeOfferingItem = (index: number) => {
-        const updatedItems = data.what_we_offer_items.filter((_, i) => i !== index);
+        const updatedItems = data.what_we_offer_items.filter((_: any, i: number) => i !== index);
         setData('what_we_offer_items', updatedItems);
     };
 
@@ -180,7 +233,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     };
 
     const removeStatItem = (index: number) => {
-        const updatedItems = data.stats_items.filter((_, i) => i !== index);
+        const updatedItems = data.stats_items.filter((_: any, i: number) => i !== index);
         setData('stats_items', updatedItems);
     };
 
@@ -196,7 +249,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     };
 
     const removeMissionItem = (index: number) => {
-        const updatedItems = data.mission_items.filter((_, i) => i !== index);
+        const updatedItems = data.mission_items.filter((_: any, i: number) => i !== index);
         setData('mission_items', updatedItems);
     };
 
@@ -221,6 +274,24 @@ export default function ContentForm({ content, isEditing = false }: Props) {
         'Lightbulb',
     ];
 
+    // Language selector component
+    const LanguageSelector = () => (
+        <div className="ml-auto flex items-center gap-2">
+            <Globe className="h-4 w-4 text-gray-500" />
+            <select
+                value={selectedLocale}
+                onChange={(e) => setSelectedLocale(e.target.value)}
+                className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none"
+            >
+                {supportedLocales.map((locale) => (
+                    <option key={locale} value={locale}>
+                        {languageLabels[locale] || locale}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+
     return (
         <div className="space-y-6 p-6">
             {/* Header */}
@@ -238,6 +309,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             Services We Provide
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -246,10 +318,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="services_title"
                                 value={data.services_title}
-                                onChange={(e) => setData('services_title', e.target.value)}
+                                onChange={(e) => updateContent('services_title', e.target.value)}
                                 placeholder="Services We Provide"
                             />
-                            {errors.services_title && <p className="text-sm text-red-600">{errors.services_title}</p>}
+                            {errors['services_title'] && <p className="text-sm text-red-600">{errors['services_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -257,11 +329,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="services_subtitle"
                                 value={data.services_subtitle}
-                                onChange={(e) => setData('services_subtitle', e.target.value)}
+                                onChange={(e) => updateContent('services_subtitle', e.target.value)}
                                 placeholder="Comprehensive solutions for your industrial building needs"
                                 rows={2}
                             />
-                            {errors.services_subtitle && <p className="text-sm text-red-600">{errors.services_subtitle}</p>}
+                            {errors['services_subtitle'] && <p className="text-sm text-red-600">{errors['services_subtitle']}</p>}
                         </div>
 
                         <div className="space-y-4">
@@ -329,6 +401,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             Why Choose Us
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -337,10 +410,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="why_choose_us_title"
                                 value={data.why_choose_us_title}
-                                onChange={(e) => setData('why_choose_us_title', e.target.value)}
+                                onChange={(e) => updateContent('why_choose_us_title', e.target.value)}
                                 placeholder="Why Choose Us"
                             />
-                            {errors.why_choose_us_title && <p className="text-sm text-red-600">{errors.why_choose_us_title}</p>}
+                            {errors['why_choose_us_title'] && <p className="text-sm text-red-600">{errors['why_choose_us_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -348,11 +421,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="why_choose_us_subtitle"
                                 value={data.why_choose_us_subtitle}
-                                onChange={(e) => setData('why_choose_us_subtitle', e.target.value)}
+                                onChange={(e) => updateContent('why_choose_us_subtitle', e.target.value)}
                                 placeholder="We combine decades of experience with a broad European network"
                                 rows={2}
                             />
-                            {errors.why_choose_us_subtitle && <p className="text-sm text-red-600">{errors.why_choose_us_subtitle}</p>}
+                            {errors['why_choose_us_subtitle'] && <p className="text-sm text-red-600">{errors['why_choose_us_subtitle']}</p>}
                         </div>
 
                         <div className="space-y-4">
@@ -420,6 +493,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             About - Who We Are
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -428,10 +502,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="who_we_are_title"
                                 value={data.who_we_are_title}
-                                onChange={(e) => setData('who_we_are_title', e.target.value)}
+                                onChange={(e) => updateContent('who_we_are_title', e.target.value)}
                                 placeholder="Who We Are"
                             />
-                            {errors.who_we_are_title && <p className="text-sm text-red-600">{errors.who_we_are_title}</p>}
+                            {errors['who_we_are_title'] && <p className="text-sm text-red-600">{errors['who_we_are_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -439,11 +513,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="who_we_are_description"
                                 value={data.who_we_are_description}
-                                onChange={(e) => setData('who_we_are_description', e.target.value)}
+                                onChange={(e) => updateContent('who_we_are_description', e.target.value)}
                                 placeholder="Resteel is a trusted European leader in sustainable steel construction..."
                                 rows={4}
                             />
-                            {errors.who_we_are_description && <p className="text-sm text-red-600">{errors.who_we_are_description}</p>}
+                            {errors['who_we_are_description'] && <p className="text-sm text-red-600">{errors['who_we_are_description']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -451,10 +525,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="who_we_are_founded"
                                 value={data.who_we_are_founded}
-                                onChange={(e) => setData('who_we_are_founded', e.target.value)}
+                                onChange={(e) => updateContent('who_we_are_founded', e.target.value)}
                                 placeholder="Founded in 1985 · Headquartered in Helmond, Netherlands"
                             />
-                            {errors.who_we_are_founded && <p className="text-sm text-red-600">{errors.who_we_are_founded}</p>}
+                            {errors['who_we_are_founded'] && <p className="text-sm text-red-600">{errors['who_we_are_founded']}</p>}
                         </div>
                     </CardContent>
                 </Card>
@@ -465,6 +539,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             About - What We Offer
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -473,10 +548,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="what_we_offer_title"
                                 value={data.what_we_offer_title}
-                                onChange={(e) => setData('what_we_offer_title', e.target.value)}
+                                onChange={(e) => updateContent('what_we_offer_title', e.target.value)}
                                 placeholder="What We Offer"
                             />
-                            {errors.what_we_offer_title && <p className="text-sm text-red-600">{errors.what_we_offer_title}</p>}
+                            {errors['what_we_offer_title'] && <p className="text-sm text-red-600">{errors['what_we_offer_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -484,11 +559,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="what_we_offer_subtitle"
                                 value={data.what_we_offer_subtitle}
-                                onChange={(e) => setData('what_we_offer_subtitle', e.target.value)}
+                                onChange={(e) => updateContent('what_we_offer_subtitle', e.target.value)}
                                 placeholder="More than just buying and selling — we help move, manage, and optimize every structure"
                                 rows={2}
                             />
-                            {errors.what_we_offer_subtitle && <p className="text-sm text-red-600">{errors.what_we_offer_subtitle}</p>}
+                            {errors['what_we_offer_subtitle'] && <p className="text-sm text-red-600">{errors['what_we_offer_subtitle']}</p>}
                         </div>
 
                         <div className="space-y-4">
@@ -556,6 +631,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             About - Stats Section
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -564,10 +640,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="stats_title"
                                 value={data.stats_title}
-                                onChange={(e) => setData('stats_title', e.target.value)}
+                                onChange={(e) => updateContent('stats_title', e.target.value)}
                                 placeholder="Across Borders"
                             />
-                            {errors.stats_title && <p className="text-sm text-red-600">{errors.stats_title}</p>}
+                            {errors['stats_title'] && <p className="text-sm text-red-600">{errors['stats_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -575,11 +651,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="stats_subtitle"
                                 value={data.stats_subtitle}
-                                onChange={(e) => setData('stats_subtitle', e.target.value)}
+                                onChange={(e) => updateContent('stats_subtitle', e.target.value)}
                                 placeholder="Our structures stand in more than 25 countries — from farms in Finland to factories in France"
                                 rows={2}
                             />
-                            {errors.stats_subtitle && <p className="text-sm text-red-600">{errors.stats_subtitle}</p>}
+                            {errors['stats_subtitle'] && <p className="text-sm text-red-600">{errors['stats_subtitle']}</p>}
                         </div>
 
                         <div className="space-y-4">
@@ -631,6 +707,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                         <CardTitle className="flex items-center">
                             <Settings className="mr-2 h-5 w-5" />
                             About - Mission Section
+                            <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -639,10 +716,10 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Input
                                 id="mission_title"
                                 value={data.mission_title}
-                                onChange={(e) => setData('mission_title', e.target.value)}
+                                onChange={(e) => updateContent('mission_title', e.target.value)}
                                 placeholder="Our Mission"
                             />
-                            {errors.mission_title && <p className="text-sm text-red-600">{errors.mission_title}</p>}
+                            {errors['mission_title'] && <p className="text-sm text-red-600">{errors['mission_title']}</p>}
                         </div>
 
                         <div className="space-y-2">
@@ -650,11 +727,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                             <Textarea
                                 id="mission_subtitle"
                                 value={data.mission_subtitle}
-                                onChange={(e) => setData('mission_subtitle', e.target.value)}
+                                onChange={(e) => updateContent('mission_subtitle', e.target.value)}
                                 placeholder="Advancing sustainable construction through innovative steel solutions"
                                 rows={2}
                             />
-                            {errors.mission_subtitle && <p className="text-sm text-red-600">{errors.mission_subtitle}</p>}
+                            {errors['mission_subtitle'] && <p className="text-sm text-red-600">{errors['mission_subtitle']}</p>}
                         </div>
 
                         <div className="space-y-4">

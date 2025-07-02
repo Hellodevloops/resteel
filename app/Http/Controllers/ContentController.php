@@ -14,7 +14,7 @@ class ContentController extends Controller
    */
   public function show()
   {
-    $content = $this->getContentSettings();
+    $content = $this->getAllContentByLocale();
 
     return Inertia::render('Content/Show', [
       'content' => $content
@@ -26,7 +26,7 @@ class ContentController extends Controller
    */
   public function edit()
   {
-    $content = $this->getContentSettings();
+    $content = $this->getAllContentByLocale();
 
     return Inertia::render('Content/Edit', [
       'content' => $content
@@ -46,7 +46,7 @@ class ContentController extends Controller
    */
   public function index()
   {
-    $content = $this->getContentSettings();
+    $content = $this->getAllContentByLocale();
 
     return Inertia::render('Content/Index', [
       'content' => $content
@@ -67,6 +67,7 @@ class ContentController extends Controller
   public function update(Request $request)
   {
     $validated = $request->validate([
+      'locale' => 'required|string|in:en,de,nl',
       // Services We Provide
       'services_title' => 'nullable|string|max:255',
       'services_subtitle' => 'nullable|string',
@@ -107,21 +108,71 @@ class ContentController extends Controller
       'mission_items.*.description' => 'required_with:mission_items|string',
     ]);
 
-    // Update content settings in database
-    SiteSetting::updateMany($validated);
+    $locale = $validated['locale'];
+    unset($validated['locale']);
+
+    // Update content settings in database with locale prefix
+    $prefixedData = [];
+    foreach ($validated as $key => $value) {
+      $prefixedData[$locale . '_' . $key] = $value;
+    }
+
+    SiteSetting::updateMany($prefixedData);
 
     return Redirect::route('admin.content.index')->with('success', 'Content updated successfully!');
   }
 
   /**
-   * Get current content settings from database or return defaults.
+   * Get all content organized by locale.
    */
-  private function getContentSettings()
+  private function getAllContentByLocale()
   {
     $settings = SiteSetting::getAllSettings();
+    $locales = ['en', 'de', 'nl'];
+    $contentByLocale = [];
 
-    // Return only content-related settings with defaults
-    return array_merge([
+    foreach ($locales as $locale) {
+      $contentByLocale[$locale] = $this->getContentForLocale($locale, $settings);
+    }
+
+    return $contentByLocale;
+  }
+
+  /**
+   * Get content settings for a specific locale.
+   */
+  private function getContentForLocale($locale, $settings = null)
+  {
+    if ($settings === null) {
+      $settings = SiteSetting::getAllSettings();
+    }
+
+    $defaults = $this->getDefaultContent();
+    $content = [];
+
+    // Extract locale-specific content
+    foreach ($defaults as $key => $defaultValue) {
+      $localeKey = $locale . '_' . $key;
+
+      if (isset($settings[$localeKey])) {
+        $content[$key] = $settings[$localeKey];
+      } elseif ($locale === 'en' && isset($settings[$key])) {
+        // Fallback to non-prefixed keys for English (backward compatibility)
+        $content[$key] = $settings[$key];
+      } else {
+        $content[$key] = $defaultValue;
+      }
+    }
+
+    return $content;
+  }
+
+  /**
+   * Get default content structure.
+   */
+  private function getDefaultContent()
+  {
+    return [
       // Services We Provide Section
       'services_title' => 'Services We Provide',
       'services_subtitle' => 'Comprehensive solutions for your industrial building needs',
@@ -237,26 +288,16 @@ class ContentController extends Controller
           'description' => 'Creative solutions for complex challenges'
         ]
       ]
-    ], array_intersect_key($settings, [
-      'services_title' => '',
-      'services_subtitle' => '',
-      'services_items' => [],
-      'why_choose_us_title' => '',
-      'why_choose_us_subtitle' => '',
-      'why_choose_us_items' => [],
-      'who_we_are_title' => '',
-      'who_we_are_description' => '',
-      'who_we_are_founded' => '',
-      'what_we_offer_title' => '',
-      'what_we_offer_subtitle' => '',
-      'what_we_offer_items' => [],
-      'stats_title' => '',
-      'stats_subtitle' => '',
-      'stats_items' => [],
-      'mission_title' => '',
-      'mission_subtitle' => '',
-      'mission_items' => []
-    ]));
+    ];
+  }
+
+  /**
+   * Get current content settings from database or return defaults.
+   */
+  private function getContentSettings()
+  {
+    $locale = app()->getLocale();
+    return $this->getContentForLocale($locale);
   }
 
   /**

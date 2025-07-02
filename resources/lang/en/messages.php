@@ -494,4 +494,64 @@ return [
   'industrial' => 'Industrial',
   'no_buildings_found' => 'No buildings found',
   'try_different_filter' => 'Try selecting a different filter to see more options',
+
+  // Dynamic Content - Services We Provide
+  'services_title' => 'Services We Provide',
+  'service_premium_resale_title' => 'Premium Re-Sale',
+  'service_premium_resale_desc' => 'Access a wide selection of vetted second-hand steel buildings ready for new purpose.',
+  'service_assembly_title' => 'Assembly & Disassembly',
+  'service_assembly_desc' => 'From full dismounting to site setup, we manage both ends of the lifecycle.',
+  'service_transport_title' => 'Transport & Logistics',
+  'service_transport_desc' => 'International transport across Europe with partner fleets and freight planning.',
+  'service_tracking_title' => 'Equipment Tracking',
+  'service_tracking_desc' => 'Get visibility, safety, and updates throughout your building\'s relocation journey.',
+
+  // Dynamic Content - Why Choose Us
+  'why_choose_us_title' => 'Why Choose Us',
+  'why_choose_us_subtitle' => 'We combine decades of experience with a broad European network to make steel trading fast, transparent, and effective',
+  'feature_europe_reach_title' => 'Europe-Wide Reach',
+  'feature_europe_reach_desc' => 'We advertise your listings across 20+ countries through our network of verified buyers and partners.',
+  'feature_support_title' => 'End-to-End Support',
+  'feature_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
+  'feature_trust_title' => '20+ Years of Trust',
+  'feature_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+
+  // Dynamic Content - About Who We Are
+  'who_we_are_title' => 'Who We Are',
+  'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
+  'who_we_are_founded' => 'Founded in 1985 · Headquartered in Helmond, Netherlands',
+
+  // Dynamic Content - About What We Offer
+  'what_we_offer_title' => 'What We Offer',
+  'what_we_offer_subtitle' => 'More than just buying and selling — we help move, manage, and optimize every structure',
+  'offer_steel_halls_title' => 'Steel Halls',
+  'offer_steel_halls_desc' => 'Pre-owned halls for industrial and agricultural use.',
+  'offer_assembly_title' => 'Assembly Services',
+  'offer_assembly_desc' => 'Complete dismantling, transport, and reassembly.',
+  'offer_guidance_title' => 'Project Guidance',
+  'offer_guidance_desc' => 'Consultation on layout, logistics, and feasibility.',
+  'offer_certified_title' => 'Certified Steel',
+  'offer_certified_desc' => 'Compliance-backed quality and safety assurance.',
+
+  // Dynamic Content - About Stats
+  'stats_title' => 'Across Borders',
+  'stats_subtitle' => 'Our structures stand in more than 25 countries — from farms in Finland to factories in France',
+  'stat_years_label' => 'Years Experience',
+  'stat_years_value' => '20+',
+  'stat_countries_label' => 'Countries Served',
+  'stat_countries_value' => '25+',
+  'stat_projects_label' => 'Projects Delivered',
+  'stat_projects_value' => '500+',
+  'stat_hall_size_label' => 'Max Hall Size',
+  'stat_hall_size_value' => '60,000 m²',
+
+  // Dynamic Content - About Mission
+  'mission_title' => 'Our Mission',
+  'mission_subtitle' => 'Advancing sustainable construction through innovative steel solutions',
+  'mission_integrity_title' => 'Integrity',
+  'mission_integrity_desc' => 'Honest, transparent business practices',
+  'mission_expertise_title' => 'Expertise',
+  'mission_expertise_desc' => 'Deep industry knowledge and experience',
+  'mission_innovation_title' => 'Innovation',
+  'mission_innovation_desc' => 'Creative solutions for complex challenges',
 ];

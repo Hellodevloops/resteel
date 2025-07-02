@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import ContactCTA from './Contact';
 import Layout from './Layout';
 import NewsletterSection from './NewsletterSection';
-import Testimonials from './Testimonials';
 
 const Index = () => {
     const { t } = useTranslation();
@@ -22,7 +21,7 @@ const Index = () => {
             <CarouselSection />
             <Services />
             <FeaturedBuildings />
-            <Testimonials />
+            {/* <Testimonials /> */}
             <ContactCTA />
             <NewsletterSection />
         </Layout>
