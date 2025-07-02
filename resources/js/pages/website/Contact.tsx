@@ -5,9 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { SiteSettings } from '@/types/site-settings';
 import axios from 'axios';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Brand colors
@@ -15,10 +16,12 @@ const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
 const vibrantOrange = '#FF6600';
 
-const ContactCTA = () => {
+interface ContactCTAProps {
+    siteSettings?: SiteSettings;
+}
+
+const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
     const { t } = useTranslation();
-    const [scrollY, setScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
     const [data, setData] = useState({
         name: '',
         email: '',
@@ -48,26 +51,6 @@ const ContactCTA = () => {
         setErrors({});
     };
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll);
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) setIsVisible(true);
-            },
-            { threshold: 0.1 },
-        );
-
-        const element = document.getElementById('contact-section');
-        if (element) observer.observe(element);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            observer.disconnect();
-        };
-    }, []);
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setData({ ...data, [e.target.id]: e.target.value });
     };
@@ -84,9 +67,14 @@ const ContactCTA = () => {
             });
             reset();
             alert('Thank you for your inquiry! We will get back to you within 24 hours.');
-        } catch (error: any) {
-            if (error.response?.data?.errors) {
-                setErrors(error.response.data.errors);
+        } catch (error: unknown) {
+            if (error && typeof error === 'object' && 'response' in error) {
+                const axiosError = error as { response?: { data?: { errors?: { [key: string]: string } } } };
+                if (axiosError.response?.data?.errors) {
+                    setErrors(axiosError.response.data.errors);
+                } else {
+                    alert('Something went wrong. Please try again later.');
+                }
             } else {
                 alert('Something went wrong. Please try again later.');
             }
@@ -176,8 +164,12 @@ const ContactCTA = () => {
                                 </div>
                                 <div>
                                     <p className="font-semibold">{t('email_inquiries')}</p>
-                                    <a href="mailto:Info@2ndhandholding.com" className="text-md hover:underline" style={{ color: steelBlue }}>
-                                        Info@2ndhandholding.com
+                                    <a
+                                        href={`mailto:${siteSettings?.contact_email || 'Info@2ndhandholding.com'}`}
+                                        className="text-md hover:underline"
+                                        style={{ color: steelBlue }}
+                                    >
+                                        {siteSettings?.contact_email || 'Info@2ndhandholding.com'}
                                     </a>
                                 </div>
                             </div>
@@ -190,8 +182,12 @@ const ContactCTA = () => {
                                 </div>
                                 <div>
                                     <p className="font-semibold">{t('direct_consultation')}</p>
-                                    <a href="tel:+31123456789" className="text-md hover:underline" style={{ color: steelBlue }}>
-                                        +31 (0) 123 456 789
+                                    <a
+                                        href={`tel:${siteSettings?.contact_phone?.replace(/\s+/g, '') || '+31123456789'}`}
+                                        className="text-md hover:underline"
+                                        style={{ color: steelBlue }}
+                                    >
+                                        {siteSettings?.contact_phone || '+31 (0) 123 456 789'}
                                     </a>
                                 </div>
                             </div>
@@ -204,7 +200,9 @@ const ContactCTA = () => {
                                 </div>
                                 <div>
                                     <p className="font-semibold">{t('visit_our_facility')}</p>
-                                    <p className="text-muted-foreground text-sm">Westerbeemd 2B, 5705 DN Helmond</p>
+                                    <p className="text-muted-foreground text-sm">
+                                        {siteSettings?.contact_address || 'Westerbeemd 2B, 5705 DN Helmond'}
+                                    </p>
                                     <a href="/contact" className="text-sm hover:underline" style={{ color: steelBlue }}>
                                         {t('schedule_tour')}
                                     </a>

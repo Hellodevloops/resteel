@@ -11,7 +11,10 @@ use App\Http\Controllers\TestimonialController;
 
 // Home route
 Route::get('/', function () {
-    return Inertia::render('website/Home');
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    return Inertia::render('website/Home', [
+        'siteSettings' => $siteSettings
+    ]);
 })->name('home');
 // Route::get('/admin/testimonials', function () {
 //     return Inertia::render('website/Home');
