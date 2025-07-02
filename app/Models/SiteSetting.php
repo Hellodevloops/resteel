@@ -38,13 +38,33 @@ class SiteSetting extends Model
     // Fields that should remain as strings even if they contain only numbers
     $stringFields = ['contact_phone'];
 
+    // Fields that should always be treated as strings, never as JSON
+    $alwaysStringFields = [
+      'services_title',
+      'services_subtitle',
+      'why_choose_us_title',
+      'why_choose_us_subtitle',
+      'who_we_are_title',
+      'who_we_are_description',
+      'who_we_are_founded',
+      'what_we_offer_title',
+      'what_we_offer_subtitle',
+      'company_name',
+      'company_tagline',
+      'company_description',
+      'contact_email',
+      'contact_phone',
+      'contact_address'
+    ];
+
     // Parse JSON values and convert string booleans
     foreach ($settings as $key => $value) {
       if ($value === 'true') {
         $settings[$key] = true;
       } elseif ($value === 'false') {
         $settings[$key] = false;
-      } elseif (is_string($value) && (str_starts_with($value, '[') || str_starts_with($value, '{'))) {
+      } elseif (!in_array($key, $alwaysStringFields) && is_string($value) && (str_starts_with($value, '[') || str_starts_with($value, '{'))) {
+        // Only try to parse as JSON if the field is not in the alwaysStringFields list
         $decoded = json_decode($value, true);
         if ($decoded !== null) {
           $settings[$key] = $decoded;

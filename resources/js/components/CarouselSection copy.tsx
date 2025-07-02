@@ -125,27 +125,6 @@ const CarouselSection = () => {
                                 <p className="line-clamp-2 text-sm text-slate-600">{item.description}</p>
 
                                 {/* Features */}
-                                {/* <div className="flex gap-2 flex-wrap">
-          {item.features?.slice(0, 2).map((feat, i) => (
-            <Badge
-              key={i}
-              className="bg-slate-100 text-slate-600 border border-slate-200 text-xs"
-            >
-              {feat}
-            </Badge>
-          ))}
-        </div> */}
-
-                                {/* CTA */}
-                                {/* <div className="flex justify-end mt-4 gap-4">
-          <Button
-            variant="link"
-            className="px-0 text-sm font-medium "
-            style={{ color: steelBlue }}
-          >
-            Explore More <ArrowRight className="h-4 w-4 ml-1" />
-          </Button>
-        </div> */}
                             </CardContent>
                         </Card>
                     ))}

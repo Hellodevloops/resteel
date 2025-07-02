@@ -13,9 +13,20 @@ use App\Http\Controllers\TestimonialController;
 Route::get('/', function () {
     return Inertia::render('website/Home');
 })->name('home');
-Route::get('/admin/testimonials', function () {
-    return Inertia::render('website/Home');
-})->name('home');
+// Route::get('/admin/testimonials', function () {
+//     return Inertia::render('website/Home');
+// })->name('home');
+// Content management routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Content management routes
+        Route::get('/content', [App\Http\Controllers\ContentController::class, 'index'])->name('content.index');
+        Route::get('/content/create', [App\Http\Controllers\ContentController::class, 'create'])->name('content.create');
+        Route::post('/content', [App\Http\Controllers\ContentController::class, 'store'])->name('content.store');
+        Route::get('/content/edit', [App\Http\Controllers\ContentController::class, 'edit'])->name('content.edit');
+        Route::put('/content', [App\Http\Controllers\ContentController::class, 'update'])->name('content.update');
+    });
+});
 
 // Site Settings Routes (outside of auth middleware for now, move inside if needed)
 Route::middleware(['auth', 'verified'])->group(function () {

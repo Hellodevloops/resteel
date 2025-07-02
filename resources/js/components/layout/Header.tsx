@@ -165,14 +165,7 @@ const Header: React.FC = () => {
                             <Link href="/buildings" className="text-sm font-medium text-slate-700 hover:text-orange-500">
                                 Buildings
                             </Link>
-                            {/* <Link href="/cart" aria-label={t('cart')} className="relative">
-                                <ShoppingCart className="h-5 w-5 text-slate-700 hover:text-orange-500" />
-                                {cartItemsCount > 0 && (
-                                    <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
-                                        {cartItemsCount > 9 ? '9+' : cartItemsCount}
-                                    </span>
-                                )}
-                            </Link> */}
+
                             <button
                                 className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
                                     isScrolled ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
