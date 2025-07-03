@@ -70,7 +70,7 @@ const ContactCTA = () => {
         },
         {
             icon: MapPin,
-            title: 'Visit Our Facility',
+            title: 'Visit by appointment only',
             subtitle: 'Westerbeemd 2B, 5705 DN Helmond, NL',
             contact: 'Schedule Tour',
             href: '/contact',

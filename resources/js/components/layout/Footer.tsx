@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
-import { ArrowRight, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
+import { ArrowRight, Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Twitter, Youtube } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { FaWhatsapp } from 'react-icons/fa';
 
 interface SiteSettings {
     contact_email?: string;
@@ -12,6 +13,7 @@ interface SiteSettings {
     social_youtube?: string;
     social_facebook?: string;
     social_linkedin?: string;
+    social_website?: string;
 }
 
 const Footer = () => {
@@ -49,6 +51,12 @@ const Footer = () => {
             href: siteSettings?.social_linkedin || '',
             hover: 'hover:text-blue-700',
             show: !!siteSettings?.social_linkedin,
+        },
+        {
+            icon: <Globe size={20} />,
+            href: siteSettings?.social_website ? `https://${siteSettings.social_website.replace(/^https?:\/\//, '')}` : '',
+            hover: 'hover:text-green-600',
+            show: !!siteSettings?.social_website,
         },
     ].filter((link) => link.show); // Only show links that have URLs
 
@@ -112,6 +120,7 @@ const Footer = () => {
                             <div className="flex items-start gap-3">
                                 <MapPin size={20} className="mt-1 text-slate-400" />
                                 <span>
+                                    <span className="font-bold md:block">Resteel-Solutions B.V</span>
                                     <span className="block md:hidden">{siteSettings?.contact_address?.split(',')[0] || 'Helmond, Netherlands'}</span>
                                     <span className="hidden md:block">
                                         {siteSettings?.contact_address || 'Westerbeemd 2B, 5705 DN Helmond, Netherlands'}
@@ -120,9 +129,11 @@ const Footer = () => {
                             </div>
                             {siteSettings?.contact_phone && (
                                 <div className="flex items-center gap-3">
-                                    <Phone size={20} className="text-slate-400" />
+                                    <FaWhatsapp size={20} className="text-slate-400" />
                                     <a
-                                        href={`tel:${String(siteSettings.contact_phone).replace(/\s/g, '')}`}
+                                        href={`https://wa.me/${String(siteSettings.contact_phone).replace(/[^0-9]/g, '')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="transition-colors hover:text-orange-400"
                                     >
                                         {siteSettings.contact_phone}

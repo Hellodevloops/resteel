@@ -166,7 +166,7 @@ const predefinedTranslations = {
         sending: 'Sending...',
         email_inquiries: 'Email Inquiries',
         direct_consultation: 'Direct Consultation',
-        visit_our_facility: 'Visit Our Facility',
+        visit_our_facility: 'Visit by appointment only',
         schedule_tour: 'Schedule Tour',
 
         // NewsletterSection Component
@@ -682,7 +682,7 @@ const predefinedTranslations = {
         end_to_end_support_desc: 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
         years_of_trust: '20+ jaar vertrouwen',
         years_of_trust_desc:
-            'Sinds 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+            'Sincs 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
         // CarouselSection Component
         discover_our_latest_structures: 'Ontdek onze nieuwste structuren',
@@ -720,7 +720,7 @@ const predefinedTranslations = {
         // Footer Component
         resteel_solutions: 'Resteel Solutions',
         footer_company_desc: 'Specialisten in het kopen en verkopen van tweedehands gebouwen en bouwmaterialen met meer dan 20 jaar ervaring.',
-        engineering_excellence_since: 'Engineering Excellence sinds 1985.',
+        engineering_excellence_since: 'Engineering Excellence sincs 1985.',
 
         // Building Details
         loading_property: 'Eigendom laden',
@@ -786,7 +786,7 @@ const predefinedTranslations = {
 
         // Hero2 Component
         hero2_title: 'Tweedehands staalconstructies kopen en verkopen in heel Europa',
-        hero2_subtitle: 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2000.',
+        hero2_subtitle: 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sincs 2000.',
         browse_structures_btn: 'Structuren bekijken',
         sell_your_property_btn: 'Uw eigendom verkopen',
 

@@ -16,4 +16,5 @@ export interface SiteSettings {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
+    social_website: string;
 }
