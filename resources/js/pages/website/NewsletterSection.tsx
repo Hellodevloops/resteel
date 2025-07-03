@@ -27,10 +27,18 @@ const NewsletterSection = () => {
                         <h2 className="text-4xl font-bold" style={{ color: charcoal }}>
                             {t('stay_updated_with')}{' '}
                         </h2>
-                        <h2 className="text-4xl font-bold" style={{ color: steelBlue }}>
+                        <h2 className="mt-[-10px] text-4xl font-bold" style={{ color: steelBlue }}>
                             {t('industry_insights')}
                         </h2>
-                        <p className="max-w-md text-lg text-slate-600">{t('newsletter_weekly_desc')}</p>
+                        <div className="space-y-4">
+                            <p className="text-xl font-semibold text-slate-800">
+                                Thinking of constructing a new building? Why not use second-hand materials?
+                            </p>
+                            <p className="text-lg text-slate-700">
+                                Get the latest deals on commercial properties. Weekly Industry Insights delivered straight to your inbox.
+                            </p>
+                            {/* <p className="max-w-md text-lg text-slate-600">{t('newsletter_weekly_desc')}</p> */}
+                        </div>
                     </div>
 
                     {/* Right - Form & Stats */}

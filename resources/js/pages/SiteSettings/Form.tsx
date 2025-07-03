@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
-import { AlertCircle, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Save, Twitter, Youtube } from 'lucide-react';
+import { AlertCircle, Facebook, Globe, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Save, Twitter, Youtube } from 'lucide-react';
 
 interface SiteSettings {
     id?: number;
@@ -25,6 +25,7 @@ interface SiteSettings {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
+    social_website: string;
 }
 
 interface Props {
@@ -51,6 +52,7 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         social_youtube: settings?.social_youtube || '',
         social_facebook: settings?.social_facebook || '',
         social_linkedin: settings?.social_linkedin || '',
+        social_website: settings?.social_website || 'www.Resteel-solutions.com',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -262,6 +264,22 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                 />
                             </div>
                             {errors.social_linkedin && <p className="text-sm text-red-600">{errors.social_linkedin}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="social_website">Website</Label>
+                            <div className="relative">
+                                <Globe className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                <Input
+                                    id="social_website"
+                                    type="url"
+                                    value={data.social_website}
+                                    onChange={(e) => setData('social_website', e.target.value)}
+                                    className="pl-10"
+                                    placeholder="https://www.yourwebsite.com"
+                                />
+                            </div>
+                            {errors.social_website && <p className="text-sm text-red-600">{errors.social_website}</p>}
                         </div>
                     </CardContent>
                 </Card>

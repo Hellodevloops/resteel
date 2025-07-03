@@ -260,7 +260,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     setError(field, message);
                 });
                 toast.error('Please fix the form errors before submitting');
-                console.log('Validation errors:', validationErrors);
+                // console.log('Validation errors:', validationErrors);
                 return;
             }
 
@@ -821,157 +821,184 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Capacity and Occupancy Card */}
-                        <div className="m-3 bg-white p-8">
-                            <div className="mb-6 flex items-center">
-                                <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
-                                    <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                        />
-                                    </svg>
-                                </div>
-                                <h2 className="ml-4 text-xl font-bold text-gray-900">Capacity and Occupancy</h2>
+                    {/* Capacity and Occupancy Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                    />
+                                </svg>
                             </div>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                <div>
-                                    <label htmlFor="capacity" className="mb-2 block text-sm font-semibold text-gray-700">
-                                        Total Capacity
-                                    </label>
-                                    <input
-                                        id="capacity"
-                                        type="text"
-                                        value={data.capacity}
-                                        onChange={(e) => setData('capacity', e.target.value)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.capacity
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="Enter total capacity"
-                                    />
-                                    {errors.capacity && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.capacity}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="occupied" className="mb-2 block text-sm font-semibold text-gray-700">
-                                        Occupied Space
-                                    </label>
-                                    <input
-                                        id="occupied"
-                                        type="text"
-                                        value={data.occupied}
-                                        onChange={(e) => setData('occupied', e.target.value)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.occupied
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="Enter occupied space"
-                                    />
-                                    {errors.occupied && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.occupied}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="occupancy_rate" className="mb-2 block text-sm font-semibold text-gray-700">
-                                        Occupancy Rate (%)
-                                    </label>
-                                    <input
-                                        id="occupancy_rate"
-                                        type="number"
-                                        min="0"
-                                        max="100"
-                                        value={data.occupancy_rate}
-                                        onChange={(e) => setData('occupancy_rate', parseFloat(e.target.value) || 0)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.occupancy_rate
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="0-100"
-                                    />
-                                    {errors.occupancy_rate && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.occupancy_rate}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Capacity and Occupancy</h2>
                         </div>
 
-                        <div>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label htmlFor="alerts" className="block text-sm font-medium text-gray-700">
-                                        Number of Active Alerts
-                                    </label>
-                                    <input
-                                        id="alerts"
-                                        type="number"
-                                        min="0"
-                                        value={data.alerts}
-                                        onChange={(e) => setData('alerts', parseInt(e.target.value) || 0)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.alerts
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.alerts && <p className="mt-1 text-sm text-red-600">{errors.alerts}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="has_video" className="flex items-center">
-                                        <input
-                                            id="has_video"
-                                            type="checkbox"
-                                            checked={data.has_video}
-                                            onChange={(e) => setData('has_video', e.target.checked)}
-                                            className="rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        <span className="ml-2 text-sm text-gray-700">Has Video Monitoring</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Specifications</h3>
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                             <div>
-                                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="capacity" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Total Capacity
+                                </label>
+                                <input
+                                    id="capacity"
+                                    type="text"
+                                    value={data.capacity}
+                                    onChange={(e) => setData('capacity', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.capacity
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter total capacity"
+                                />
+                                {errors.capacity && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.capacity}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="occupied" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Occupied Space
+                                </label>
+                                <input
+                                    id="occupied"
+                                    type="text"
+                                    value={data.occupied}
+                                    onChange={(e) => setData('occupied', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.occupied
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter occupied space"
+                                />
+                                {errors.occupied && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.occupied}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="occupancy_rate" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Occupancy Rate (%)
+                                </label>
+                                <input
+                                    id="occupancy_rate"
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    value={data.occupancy_rate}
+                                    onChange={(e) => setData('occupancy_rate', parseFloat(e.target.value) || 0)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.occupancy_rate
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="0-100"
+                                />
+                                {errors.occupancy_rate && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.occupancy_rate}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div>
+                                <label htmlFor="alerts" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Number of Active Alerts
+                                </label>
+                                <input
+                                    id="alerts"
+                                    type="number"
+                                    min="0"
+                                    value={data.alerts}
+                                    onChange={(e) => setData('alerts', parseInt(e.target.value) || 0)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.alerts
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter number of alerts"
+                                />
+                                {errors.alerts && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.alerts}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="flex items-center pt-8">
+                                <label htmlFor="has_video" className="flex items-center">
+                                    <input
+                                        id="has_video"
+                                        type="checkbox"
+                                        checked={data.has_video}
+                                        onChange={(e) => setData('has_video', e.target.checked)}
+                                        className="h-5 w-5 rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
+                                    />
+                                    <span className="ml-3 text-sm font-semibold text-gray-700">Has Video Monitoring</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Specifications and Details Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    />
+                                </svg>
+                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Specifications</h2>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label htmlFor="description" className="mb-2 block text-sm font-semibold text-gray-700">
                                     Description
                                 </label>
                                 <textarea
@@ -979,170 +1006,264 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     rows={4}
                                     value={data.description}
                                     onChange={(e) => setData('description', e.target.value)}
-                                    className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
                                         errors.description
                                             ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                             : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
                                     }`}
                                     placeholder="Detailed description of the warehouse..."
-                                ></textarea>
-                                {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+                                />
+                                {errors.description && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.description}
+                                    </p>
+                                )}
                             </div>
+
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                <div>
+                                    <label htmlFor="year_built" className="mb-2 block text-sm font-semibold text-gray-700">
+                                        Year Built
+                                    </label>
+                                    <input
+                                        id="year_built"
+                                        type="text"
+                                        value={data.year_built}
+                                        onChange={(e) => setData('year_built', e.target.value)}
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.year_built
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                        placeholder="Enter year built"
+                                    />
+                                    {errors.year_built && (
+                                        <p className="mt-2 flex items-center text-sm text-red-600">
+                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                            {errors.year_built}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label htmlFor="construction" className="mb-2 block text-sm font-semibold text-gray-700">
+                                        Construction Type
+                                    </label>
+                                    <input
+                                        id="construction"
+                                        type="text"
+                                        value={data.construction}
+                                        onChange={(e) => setData('construction', e.target.value)}
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.construction
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                        placeholder="Enter construction type"
+                                    />
+                                    {errors.construction && (
+                                        <p className="mt-2 flex items-center text-sm text-red-600">
+                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                            {errors.construction}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Financial Information Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                                    />
+                                </svg>
+                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Financial Information</h2>
                         </div>
 
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                             <div>
-                                <label htmlFor="year_built" className="block text-sm font-medium text-gray-700">
-                                    Year Built
+                                <label htmlFor="price" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Price
                                 </label>
-                                <input
-                                    id="year_built"
-                                    type="text"
-                                    value={data.year_built}
-                                    onChange={(e) => setData('year_built', e.target.value)}
-                                    className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                        errors.year_built
-                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                    }`}
-                                />
-                                {errors.year_built && <p className="mt-1 text-sm text-red-600">{errors.year_built}</p>}
+                                <div className="relative">
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                                        <span className="text-sm text-gray-500">$</span>
+                                    </div>
+                                    <input
+                                        id="price"
+                                        type="text"
+                                        value={data.price}
+                                        onChange={(e) => setData('price', e.target.value)}
+                                        className={`block w-full rounded-xl border-2 py-3 pr-4 pl-8 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.price
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                        placeholder="0.00"
+                                    />
+                                </div>
+                                {errors.price && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.price}
+                                    </p>
+                                )}
                             </div>
+
                             <div>
-                                <label htmlFor="construction" className="block text-sm font-medium text-gray-700">
-                                    Construction Type
+                                <label htmlFor="revenue" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Monthly Revenue
                                 </label>
-                                <input
-                                    id="construction"
-                                    type="text"
-                                    value={data.construction}
-                                    onChange={(e) => setData('construction', e.target.value)}
-                                    className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                        errors.construction
-                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                    }`}
-                                />
-                                {errors.construction && <p className="mt-1 text-sm text-red-600">{errors.construction}</p>}
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Financial Information</h3>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                                        Price
-                                    </label>
-                                    <div className="relative mt-1 rounded-md shadow-sm">
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <span className="text-gray-500 sm:text-sm">$</span>
-                                        </div>
-                                        <input
-                                            id="price"
-                                            type="text"
-                                            value={data.price}
-                                            onChange={(e) => setData('price', e.target.value)}
-                                            className={`mt-1 block w-full pl-7 shadow-sm transition-colors duration-200 ${
-                                                errors.price
-                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                            }`}
-                                            placeholder="0.00"
-                                        />
+                                <div className="relative">
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                                        <span className="text-sm text-gray-500">$</span>
                                     </div>
-                                    {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
+                                    <input
+                                        id="revenue"
+                                        type="text"
+                                        value={data.revenue}
+                                        onChange={(e) => setData('revenue', e.target.value)}
+                                        className={`block w-full rounded-xl border-2 py-3 pr-4 pl-8 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.revenue
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                        placeholder="0.00"
+                                    />
                                 </div>
+                                {errors.revenue && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.revenue}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
 
-                                <div>
-                                    <label htmlFor="revenue" className="block text-sm font-medium text-gray-700">
-                                        Monthly Revenue
-                                    </label>
-                                    <div className="relative mt-1 rounded-md shadow-sm">
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <span className="text-gray-500 sm:text-sm">$</span>
-                                        </div>
-                                        <input
-                                            id="revenue"
-                                            type="text"
-                                            value={data.revenue}
-                                            onChange={(e) => setData('revenue', e.target.value)}
-                                            className={`mt-1 block w-full pl-7 shadow-sm transition-colors duration-200 ${
-                                                errors.revenue
-                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                            }`}
-                                            placeholder="0.00"
-                                        />
+                        <div className="mt-8">
+                            <div className="md:col-span-2 lg:col-span-1">
+                                <label htmlFor="total_area" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Total Area
+                                </label>
+                                <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                    <input
+                                        id="total_area"
+                                        type="text"
+                                        value={data.total_area}
+                                        onChange={(e) => setData('total_area', e.target.value)}
+                                        className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                        placeholder="Enter area"
+                                    />
+                                    <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                        <select
+                                            value={data.unit_of_measurement}
+                                            onChange={(e) => setData('unit_of_measurement', e.target.value)}
+                                            className="border-0 bg-transparent text-gray-500 focus:ring-0"
+                                        >
+                                            <option value="m²">m²</option>
+                                            <option value="ft²">ft²</option>
+                                            <option value="sqm">sqm</option>
+                                        </select>
                                     </div>
-                                    {errors.revenue && <p className="mt-1 text-sm text-red-600">{errors.revenue}</p>}
                                 </div>
+                                {errors.total_area && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.total_area}
+                                    </p>
+                                )}
                             </div>
                         </div>
+                    </div>
 
-                        <div>
-                            <div className="mb-4 flex items-center justify-between">
-                                <label className="block text-sm font-medium text-gray-700">Features</label>
-                                <button
-                                    type="button"
-                                    onClick={addFeature}
-                                    className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
-                                >
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Feature
-                                </button>
+                    {/* Features and Arrays Section */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                    />
+                                </svg>
                             </div>
-                            <div className="space-y-3">
-                                {(data.features || []).map((feature, idx) => (
-                                    <div key={idx} className="flex items-center space-x-3">
-                                        <input
-                                            type="text"
-                                            value={feature || ''}
-                                            onChange={(e) => updateFeature(idx, e.target.value)}
-                                            placeholder={`Feature ${idx + 1}`}
-                                            className="flex-1 border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        {(data.features || []).length > 1 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFeature(idx)}
-                                                className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
-                                            >
-                                                <X className="h-5 w-5" />
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Features & Properties</h2>
                         </div>
 
-                        {data.has_video && (
+                        <div className="space-y-8">
                             <div>
                                 <div className="mb-4 flex items-center justify-between">
-                                    <label className="block text-sm font-medium text-gray-700">Video URLs</label>
+                                    <label className="block text-sm font-semibold text-gray-700">Features</label>
                                     <button
                                         type="button"
-                                        onClick={addVideoUrl}
-                                        className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                        onClick={addFeature}
+                                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
                                     >
                                         <Plus className="mr-1 h-4 w-4" />
-                                        Add Video URL
+                                        Add Feature
                                     </button>
                                 </div>
                                 <div className="space-y-3">
-                                    {(data.video_urls || []).map((url, idx) => (
+                                    {(data.features || []).map((feature, idx) => (
                                         <div key={idx} className="flex items-center space-x-3">
                                             <input
                                                 type="text"
-                                                value={url || ''}
-                                                onChange={(e) => updateVideoUrl(idx, e.target.value)}
-                                                placeholder={`Video URL ${idx + 1}`}
-                                                className="flex-1 border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#0076A8] focus:ring-[#0076A8]"
+                                                value={feature || ''}
+                                                onChange={(e) => updateFeature(idx, e.target.value)}
+                                                placeholder={`Feature ${idx + 1}`}
+                                                className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
                                             />
-                                            {(data.video_urls || []).length > 1 && (
+                                            {(data.features || []).length > 1 && (
                                                 <button
                                                     type="button"
-                                                    onClick={() => removeVideoUrl(idx)}
+                                                    onClick={() => removeFeature(idx)}
                                                     className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
                                                 >
                                                     <X className="h-5 w-5" />
@@ -1152,358 +1273,529 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     ))}
                                 </div>
                             </div>
-                        )}
 
-                        <div>
-                            <div className="mb-4 flex items-center justify-between">
-                                <label className="block text-sm font-medium text-gray-700">Security Features</label>
-                                <button
-                                    type="button"
-                                    onClick={addSecurityFeature}
-                                    className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
-                                >
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Security Feature
-                                </button>
-                            </div>
-                            <div className="space-y-3">
-                                {(data.security_features || []).map((feature, idx) => (
-                                    <div key={idx} className="flex items-center space-x-3">
-                                        <input
-                                            type="text"
-                                            value={feature || ''}
-                                            onChange={(e) => updateSecurityFeature(idx, e.target.value)}
-                                            placeholder={`Security Feature ${idx + 1}`}
-                                            className="flex-1 border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        {(data.security_features || []).length > 1 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeSecurityFeature(idx)}
-                                                className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
-                                            >
-                                                <X className="h-5 w-5" />
-                                            </button>
-                                        )}
+                            {data.has_video && (
+                                <div>
+                                    <div className="mb-4 flex items-center justify-between">
+                                        <label className="block text-sm font-semibold text-gray-700">Video URLs</label>
+                                        <button
+                                            type="button"
+                                            onClick={addVideoUrl}
+                                            className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                        >
+                                            <Plus className="mr-1 h-4 w-4" />
+                                            Add Video URL
+                                        </button>
                                     </div>
-                                ))}
+                                    <div className="space-y-3">
+                                        {(data.video_urls || []).map((url, idx) => (
+                                            <div key={idx} className="flex items-center space-x-3">
+                                                <input
+                                                    type="text"
+                                                    value={url || ''}
+                                                    onChange={(e) => updateVideoUrl(idx, e.target.value)}
+                                                    placeholder={`Video URL ${idx + 1}`}
+                                                    className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
+                                                />
+                                                {(data.video_urls || []).length > 1 && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeVideoUrl(idx)}
+                                                        className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                                    >
+                                                        <X className="h-5 w-5" />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <div>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <label className="block text-sm font-semibold text-gray-700">Security Features</label>
+                                    <button
+                                        type="button"
+                                        onClick={addSecurityFeature}
+                                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                    >
+                                        <Plus className="mr-1 h-4 w-4" />
+                                        Add Security Feature
+                                    </button>
+                                </div>
+                                <div className="space-y-3">
+                                    {(data.security_features || []).map((feature, idx) => (
+                                        <div key={idx} className="flex items-center space-x-3">
+                                            <input
+                                                type="text"
+                                                value={feature || ''}
+                                                onChange={(e) => updateSecurityFeature(idx, e.target.value)}
+                                                placeholder={`Security Feature ${idx + 1}`}
+                                                className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
+                                            />
+                                            {(data.security_features || []).length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeSecurityFeature(idx)}
+                                                    className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <label className="block text-sm font-semibold text-gray-700">Utilities</label>
+                                    <button
+                                        type="button"
+                                        onClick={addUtility}
+                                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                    >
+                                        <Plus className="mr-1 h-4 w-4" />
+                                        Add Utility
+                                    </button>
+                                </div>
+                                <div className="space-y-3">
+                                    {(data.utilities || []).map((utility, idx) => (
+                                        <div key={idx} className="flex items-center space-x-3">
+                                            <input
+                                                type="text"
+                                                value={utility || ''}
+                                                onChange={(e) => updateUtility(idx, e.target.value)}
+                                                placeholder={`Utility ${idx + 1}`}
+                                                className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
+                                            />
+                                            {(data.utilities || []).length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeUtility(idx)}
+                                                    className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <label className="block text-sm font-semibold text-gray-700">Certificates</label>
+                                    <button
+                                        type="button"
+                                        onClick={addCertificate}
+                                        className="inline-flex items-center rounded-lg bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                    >
+                                        <Plus className="mr-1 h-4 w-4" />
+                                        Add Certificate
+                                    </button>
+                                </div>
+                                <div className="space-y-3">
+                                    {(data.certificates || []).map((certificate, idx) => (
+                                        <div key={idx} className="flex items-center space-x-3">
+                                            <input
+                                                type="text"
+                                                value={certificate || ''}
+                                                onChange={(e) => updateCertificate(idx, e.target.value)}
+                                                placeholder={`Certificate ${idx + 1}`}
+                                                className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
+                                            />
+                                            {(data.certificates || []).length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeCertificate(idx)}
+                                                    className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div>
-                            <div className="mb-4 flex items-center justify-between">
-                                <label className="block text-sm font-medium text-gray-700">Utilities</label>
-                                <button
-                                    type="button"
-                                    onClick={addUtility}
-                                    className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
-                                >
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Utility
-                                </button>
+                    {/* Detailed Area Dimensions Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M4 8V4a1 1 0 011-1h4M4 8l4 4 4-4m6 0a1 1 0 011-1h4v4M16 8v8a1 1 0 01-1 1H9a1 1 0 01-1-1V8"
+                                    />
+                                </svg>
                             </div>
-                            <div className="space-y-3">
-                                {(data.utilities || []).map((utility, idx) => (
-                                    <div key={idx} className="flex items-center space-x-3">
-                                        <input
-                                            type="text"
-                                            value={utility || ''}
-                                            onChange={(e) => updateUtility(idx, e.target.value)}
-                                            placeholder={`Utility ${idx + 1}`}
-                                            className="flex-1 border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        {(data.utilities || []).length > 1 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeUtility(idx)}
-                                                className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
-                                            >
-                                                <X className="h-5 w-5" />
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="mb-4 flex items-center justify-between">
-                                <label className="block text-sm font-medium text-gray-700">Certificates</label>
-                                <button
-                                    type="button"
-                                    onClick={addCertificate}
-                                    className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
-                                >
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Certificate
-                                </button>
-                            </div>
-                            <div className="space-y-3">
-                                {(data.certificates || []).map((certificate, idx) => (
-                                    <div key={idx} className="flex items-center space-x-3">
-                                        <input
-                                            type="text"
-                                            value={certificate || ''}
-                                            onChange={(e) => updateCertificate(idx, e.target.value)}
-                                            placeholder={`Certificate ${idx + 1}`}
-                                            className="flex-1 border-gray-200 shadow-sm transition-colors duration-200 focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        {(data.certificates || []).length > 1 && (
-                                            <button
-                                                type="button"
-                                                onClick={() => removeCertificate(idx)}
-                                                className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
-                                            >
-                                                <X className="h-5 w-5" />
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Detailed Area Dimensions</h2>
                         </div>
 
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                            <div className="md:col-span-2">
-                                <label htmlFor="total_area" className="block text-sm font-medium text-gray-700">
-                                    Total Area
-                                </label>
-                                <div className="mt-1 flex shadow-sm">
-                                    <input
-                                        id="total_area"
-                                        type="text"
-                                        value={data.total_area}
-                                        onChange={(e) => setData('total_area', e.target.value)}
-                                        className={`block w-full flex-1 rounded-none rounded-l-lg focus:outline-none ${
-                                            errors.total_area
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    <span className="inline-flex items-center rounded-r-lg border border-l-0 border-gray-200 bg-gray-50 px-3 text-gray-500">
-                                        <select
-                                            value={data.unit_of_measurement}
-                                            onChange={(e) => setData('unit_of_measurement', e.target.value)}
-                                            className="border-0 bg-transparent focus:ring-0"
-                                        >
-                                            <option value="m²">m²</option>
-                                            <option value="ft²">ft²</option>
-                                            <option value="sqm">sqm</option>
-                                        </select>
-                                    </span>
+                            <div>
+                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Main Hall</h4>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label htmlFor="main_hall_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Dimensions
+                                        </label>
+                                        <input
+                                            id="main_hall_dimensions"
+                                            type="text"
+                                            placeholder="e.g. 20m x 30m"
+                                            value={data.main_hall_dimensions}
+                                            onChange={(e) => setData('main_hall_dimensions', e.target.value)}
+                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                                errors.main_hall_dimensions
+                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                            }`}
+                                        />
+                                        {errors.main_hall_dimensions && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.main_hall_dimensions}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="main_hall_area" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Area
+                                        </label>
+                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                            <input
+                                                id="main_hall_area"
+                                                type="text"
+                                                value={data.main_hall_area}
+                                                onChange={(e) => setData('main_hall_area', e.target.value)}
+                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                                placeholder="Enter area"
+                                            />
+                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
+                                            </div>
+                                        </div>
+                                        {errors.main_hall_area && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.main_hall_area}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
-                                {errors.total_area && <p className="mt-1 text-sm text-red-600">{errors.total_area}</p>}
+                            </div>
+
+                            <div>
+                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Office Space</h4>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label htmlFor="office_space_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Dimensions
+                                        </label>
+                                        <input
+                                            id="office_space_dimensions"
+                                            type="text"
+                                            placeholder="e.g. 5m x 8m"
+                                            value={data.office_space_dimensions}
+                                            onChange={(e) => setData('office_space_dimensions', e.target.value)}
+                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                                errors.office_space_dimensions
+                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                            }`}
+                                        />
+                                        {errors.office_space_dimensions && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.office_space_dimensions}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="office_space_area" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Area
+                                        </label>
+                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                            <input
+                                                id="office_space_area"
+                                                type="text"
+                                                value={data.office_space_area}
+                                                onChange={(e) => setData('office_space_area', e.target.value)}
+                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                                placeholder="Enter area"
+                                            />
+                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
+                                            </div>
+                                        </div>
+                                        {errors.office_space_area && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.office_space_area}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Loading Dock</h4>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label htmlFor="loading_dock_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Dimensions
+                                        </label>
+                                        <input
+                                            id="loading_dock_dimensions"
+                                            type="text"
+                                            placeholder="e.g. 10m x 15m"
+                                            value={data.loading_dock_dimensions}
+                                            onChange={(e) => setData('loading_dock_dimensions', e.target.value)}
+                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                                errors.loading_dock_dimensions
+                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                            }`}
+                                        />
+                                        {errors.loading_dock_dimensions && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.loading_dock_dimensions}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="loading_dock_area" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Area
+                                        </label>
+                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                            <input
+                                                id="loading_dock_area"
+                                                type="text"
+                                                value={data.loading_dock_area}
+                                                onChange={(e) => setData('loading_dock_area', e.target.value)}
+                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                                placeholder="Enter area"
+                                            />
+                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
+                                            </div>
+                                        </div>
+                                        {errors.loading_dock_area && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.loading_dock_area}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Additional Building Specifications</h3>
+                    {/* Contact Information Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                    />
+                                </svg>
+                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Contact Information</h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                            <div>
+                                <label htmlFor="contact_person" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Contact Person
+                                </label>
+                                <input
+                                    id="contact_person"
+                                    type="text"
+                                    value={data.contact_person}
+                                    onChange={(e) => setData('contact_person', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.contact_person
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter contact person name"
+                                />
+                                {errors.contact_person && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.contact_person}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="contact_email" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Contact Email
+                                </label>
+                                <input
+                                    id="contact_email"
+                                    type="email"
+                                    value={data.contact_email}
+                                    onChange={(e) => setData('contact_email', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.contact_email
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter contact email"
+                                />
+                                {errors.contact_email && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.contact_email}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="contact_phone" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Contact Phone
+                                </label>
+                                <input
+                                    id="contact_phone"
+                                    type="tel"
+                                    value={data.contact_phone}
+                                    onChange={(e) => setData('contact_phone', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.contact_phone
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter contact phone"
+                                />
+                                {errors.contact_phone && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.contact_phone}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Address Information Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                    />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Address Information</h2>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label htmlFor="address" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Street Address
+                                </label>
+                                <input
+                                    id="address"
+                                    type="text"
+                                    value={data.address}
+                                    onChange={(e) => setData('address', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.address
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter street address"
+                                />
+                                {errors.address && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.address}
+                                    </p>
+                                )}
+                            </div>
+
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                                 <div>
-                                    <label htmlFor="ceiling_height" className="block text-sm font-medium text-gray-700">
-                                        Ceiling Height
-                                    </label>
-                                    <input
-                                        id="ceiling_height"
-                                        type="text"
-                                        value={data.ceiling_height}
-                                        onChange={(e) => setData('ceiling_height', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.ceiling_height
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.ceiling_height && <p className="mt-1 text-sm text-red-600">{errors.ceiling_height}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="floor_load_capacity" className="block text-sm font-medium text-gray-700">
-                                        Floor Load Capacity
-                                    </label>
-                                    <input
-                                        id="floor_load_capacity"
-                                        type="text"
-                                        value={data.floor_load_capacity}
-                                        onChange={(e) => setData('floor_load_capacity', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.floor_load_capacity
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.floor_load_capacity && <p className="mt-1 text-sm text-red-600">{errors.floor_load_capacity}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="number_of_loading_docks" className="block text-sm font-medium text-gray-700">
-                                        Number of Loading Docks
-                                    </label>
-                                    <input
-                                        id="number_of_loading_docks"
-                                        type="number"
-                                        min="0"
-                                        value={data.number_of_loading_docks}
-                                        onChange={(e) => setData('number_of_loading_docks', parseInt(e.target.value) || 0)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.number_of_loading_docks
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.number_of_loading_docks && <p className="mt-1 text-sm text-red-600">{errors.number_of_loading_docks}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="parking_spaces" className="block text-sm font-medium text-gray-700">
-                                        Parking Spaces
-                                    </label>
-                                    <input
-                                        id="parking_spaces"
-                                        type="number"
-                                        min="0"
-                                        value={data.parking_spaces}
-                                        onChange={(e) => setData('parking_spaces', parseInt(e.target.value) || 0)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.parking_spaces
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.parking_spaces && <p className="mt-1 text-sm text-red-600">{errors.parking_spaces}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="availability_date" className="block text-sm font-medium text-gray-700">
-                                        Availability Date
-                                    </label>
-                                    <input
-                                        id="availability_date"
-                                        type="date"
-                                        value={data.availability_date || ''}
-                                        onChange={(e) => setData('availability_date', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.availability_date
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.availability_date && <p className="mt-1 text-sm text-red-600">{errors.availability_date}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="lease_terms" className="block text-sm font-medium text-gray-700">
-                                        Lease Terms
-                                    </label>
-                                    <input
-                                        id="lease_terms"
-                                        type="text"
-                                        value={data.lease_terms}
-                                        onChange={(e) => setData('lease_terms', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.lease_terms
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.lease_terms && <p className="mt-1 text-sm text-red-600">{errors.lease_terms}</p>}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Contact Information</h3>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label htmlFor="contact_person" className="block text-sm font-medium text-gray-700">
-                                        Contact Person
-                                    </label>
-                                    <input
-                                        id="contact_person"
-                                        type="text"
-                                        value={data.contact_person}
-                                        onChange={(e) => setData('contact_person', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.contact_person
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.contact_person && <p className="mt-1 text-sm text-red-600">{errors.contact_person}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="contact_email" className="block text-sm font-medium text-gray-700">
-                                        Contact Email
-                                    </label>
-                                    <input
-                                        id="contact_email"
-                                        type="email"
-                                        value={data.contact_email}
-                                        onChange={(e) => setData('contact_email', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.contact_email
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.contact_email && <p className="mt-1 text-sm text-red-600">{errors.contact_email}</p>}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="contact_phone" className="block text-sm font-medium text-gray-700">
-                                        Contact Phone
-                                    </label>
-                                    <input
-                                        id="contact_phone"
-                                        type="tel"
-                                        value={data.contact_phone}
-                                        onChange={(e) => setData('contact_phone', e.target.value)}
-                                        className={`mt-1 block w-full shadow-sm transition-colors duration-200 ${
-                                            errors.contact_phone
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                    />
-                                    {errors.contact_phone && <p className="mt-1 text-sm text-red-600">{errors.contact_phone}</p>}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Detailed Address</h3>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div className="md:col-span-2">
-                                    <label htmlFor="address" className="block text-sm font-medium text-gray-700">
-                                        Street Address
-                                    </label>
-                                    <input
-                                        id="address"
-                                        type="text"
-                                        value={data.address}
-                                        onChange={(e) => setData('address', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.address
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="Enter street address"
-                                    />
-                                    {errors.address && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.address}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <label htmlFor="postal_code" className="block text-sm font-medium text-gray-700">
+                                    <label htmlFor="postal_code" className="mb-2 block text-sm font-semibold text-gray-700">
                                         Postal Code
                                     </label>
                                     <input
@@ -1511,7 +1803,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         type="text"
                                         value={data.postal_code}
                                         onChange={(e) => setData('postal_code', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
                                             errors.postal_code
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -1533,7 +1825,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                                    <label htmlFor="city" className="mb-2 block text-sm font-semibold text-gray-700">
                                         City
                                     </label>
                                     <input
@@ -1541,7 +1833,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         type="text"
                                         value={data.city}
                                         onChange={(e) => setData('city', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
                                             errors.city
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -1563,7 +1855,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                                    <label htmlFor="country" className="mb-2 block text-sm font-semibold text-gray-700">
                                         Country
                                     </label>
                                     <input
@@ -1571,7 +1863,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         type="text"
                                         value={data.country}
                                         onChange={(e) => setData('country', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
                                             errors.country
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -1591,471 +1883,438 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         </p>
                                     )}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                {/* <div>
-                                    <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">
-                                        Latitude
-                                    </label>
-                                    <input
-                                        id="latitude"
-                                        type="text"
-                                        value={data.latitude}
-                                        onChange={(e) => setData('latitude', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.latitude
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="Enter latitude"
+                    {/* Images Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                                     />
-                                    {errors.latitude && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.latitude}
-                                        </p>
-                                    )}
-                                </div> */}
-
-                                {/* <div>
-                                    <label htmlFor="longitude" className="block text-sm font-medium text-gray-700">
-                                        Longitude
-                                    </label>
-                                    <input
-                                        id="longitude"
-                                        type="text"
-                                        value={data.longitude}
-                                        onChange={(e) => setData('longitude', e.target.value)}
-                                        className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                            errors.longitude
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                        }`}
-                                        placeholder="Enter longitude"
-                                    />
-                                    {errors.longitude && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.longitude}
-                                        </p>
-                                    )}
-                                </div> */}
+                                </svg>
                             </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Images</h2>
                         </div>
 
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Images</h3>
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Main Cover Image</label>
-                                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                        <div className="space-y-1 text-center">
-                                            {imagePreview ? (
-                                                <div className="relative">
-                                                    <img src={imagePreview} alt="Preview" className="mb-3 h-40 w-auto rounded-md object-cover" />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setData('image', null);
-                                                            setImagePreview(null);
-                                                        }}
-                                                        className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                        <div className="space-y-8">
+                            <div>
+                                <h3 className="mb-4 text-lg font-semibold text-gray-900">Main Cover Image</h3>
+                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                    <div className="space-y-1 text-center">
+                                        {imagePreview ? (
+                                            <div className="relative">
+                                                <img src={imagePreview} alt="Preview" className="mb-3 h-40 w-auto rounded-md object-cover" />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setData('image', null);
+                                                        setImagePreview(null);
+                                                    }}
+                                                    className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <svg
+                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    viewBox="0 0 48 48"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                                <div className="flex text-sm text-gray-600">
+                                                    <label
+                                                        htmlFor="cover-image"
+                                                        className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
                                                     >
-                                                        <X className="h-4 w-4" />
-                                                    </button>
+                                                        <span>Upload a file</span>
+                                                        <input
+                                                            id="cover-image"
+                                                            name="cover-image"
+                                                            type="file"
+                                                            accept="image/*"
+                                                            className="sr-only"
+                                                            ref={fileInputRef}
+                                                            onChange={handleImageChange}
+                                                        />
+                                                    </label>
+                                                    <p className="pl-1">or drag and drop</p>
                                                 </div>
-                                            ) : (
-                                                <>
-                                                    <svg
-                                                        className="mx-auto h-12 w-12 text-gray-400"
-                                                        stroke="currentColor"
-                                                        fill="none"
-                                                        viewBox="0 0 48 48"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path
-                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                    </svg>
-                                                    <div className="flex text-sm text-gray-600">
-                                                        <label
-                                                            htmlFor="cover-image"
-                                                            className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
-                                                        >
-                                                            <span>Upload a file</span>
-                                                            <input
-                                                                id="cover-image"
-                                                                name="cover-image"
-                                                                type="file"
-                                                                accept="image/*"
-                                                                className="sr-only"
-                                                                ref={fileInputRef}
-                                                                onChange={handleImageChange}
-                                                            />
-                                                        </label>
-                                                        <p className="pl-1">or drag and drop</p>
-                                                    </div>
-                                                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image}</p>}
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">Additional Images</label>
-                                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                        <div className="space-y-1 text-center">
-                                            {imagePreviews.length > 0 ? (
-                                                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                                                    {imagePreviews.map((preview, idx) => (
-                                                        <div key={idx} className="relative">
-                                                            <img
-                                                                src={preview}
-                                                                alt={`Preview ${idx + 1}`}
-                                                                className="h-32 w-full rounded-md object-cover"
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    const newImages = [...data.images];
-                                                                    newImages.splice(idx, 1);
-                                                                    setData('images', newImages);
-                                                                    const newPreviews = [...imagePreviews];
-                                                                    newPreviews.splice(idx, 1);
-                                                                    setImagePreviews(newPreviews);
-                                                                }}
-                                                                className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-                                                            >
-                                                                <X className="h-4 w-4" />
-                                                            </button>
-                                                        </div>
-                                                    ))}
-                                                    <div className="flex h-32 flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300">
-                                                        <label
-                                                            htmlFor="additional-images"
-                                                            className="relative flex cursor-pointer flex-col items-center justify-center text-center"
-                                                        >
-                                                            <Plus className="h-8 w-8 text-gray-400" />
-                                                            <span className="mt-2 block text-sm font-medium text-[#0076A8]">Add More</span>
-                                                            <input
-                                                                id="additional-images"
-                                                                name="additional-images"
-                                                                type="file"
-                                                                accept="image/*"
-                                                                multiple
-                                                                className="sr-only"
-                                                                ref={multipleFileInputRef}
-                                                                onChange={handleMultipleImagesChange}
-                                                            />
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <svg
-                                                        className="mx-auto h-12 w-12 text-gray-400"
-                                                        stroke="currentColor"
-                                                        fill="none"
-                                                        viewBox="0 0 48 48"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path
-                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                            strokeWidth={2}
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                    </svg>
-                                                    <div className="flex text-sm text-gray-600">
-                                                        <label
-                                                            htmlFor="additional-images"
-                                                            className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
-                                                        >
-                                                            <span>Upload multiple files</span>
-                                                            <input
-                                                                id="additional-images"
-                                                                name="additional-images"
-                                                                type="file"
-                                                                accept="image/*"
-                                                                multiple
-                                                                className="sr-only"
-                                                                ref={multipleFileInputRef}
-                                                                onChange={handleMultipleImagesChange}
-                                                            />
-                                                        </label>
-                                                        <p className="pl-1">or drag and drop</p>
-                                                    </div>
-                                                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {errors.images && <p className="mt-1 text-sm text-red-600">{errors.images}</p>}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 text-lg font-medium text-gray-900">Detailed Area Dimensions</h3>
-                            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                <div>
-                                    <h4 className="mb-3 text-sm font-medium text-gray-700">Main Hall</h4>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label htmlFor="main_hall_dimensions" className="block text-sm font-medium text-gray-700">
-                                                Dimensions
-                                            </label>
-                                            <input
-                                                id="main_hall_dimensions"
-                                                type="text"
-                                                placeholder="e.g. 20m x 30m"
-                                                value={data.main_hall_dimensions}
-                                                onChange={(e) => setData('main_hall_dimensions', e.target.value)}
-                                                className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                    errors.main_hall_dimensions
-                                                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                        : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                }`}
-                                            />
-                                            {errors.main_hall_dimensions && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.main_hall_dimensions}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <label htmlFor="main_hall_area" className="block text-sm font-medium text-gray-700">
-                                                Area
-                                            </label>
-                                            <div className="mt-1 flex shadow-sm">
-                                                <input
-                                                    id="main_hall_area"
-                                                    type="text"
-                                                    value={data.main_hall_area}
-                                                    onChange={(e) => setData('main_hall_area', e.target.value)}
-                                                    className={`block w-full flex-1 rounded-none rounded-l-lg border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 ${
-                                                        errors.main_hall_area
-                                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                    }`}
-                                                />
-                                                <span className="inline-flex items-center rounded-r-lg border border-l-0 border-gray-200 bg-gray-50 px-3 text-gray-500">
-                                                    {data.unit_of_measurement}
-                                                </span>
-                                            </div>
-                                            {errors.main_hall_area && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.main_hall_area}
-                                                </p>
-                                            )}
-                                        </div>
+                                                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
-
-                                <div>
-                                    <h4 className="mb-3 text-sm font-medium text-gray-700">Office Space</h4>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label htmlFor="office_space_dimensions" className="block text-sm font-medium text-gray-700">
-                                                Dimensions
-                                            </label>
-                                            <input
-                                                id="office_space_dimensions"
-                                                type="text"
-                                                placeholder="e.g. 5m x 8m"
-                                                value={data.office_space_dimensions}
-                                                onChange={(e) => setData('office_space_dimensions', e.target.value)}
-                                                className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                    errors.office_space_dimensions
-                                                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                        : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                }`}
-                                            />
-                                            {errors.office_space_dimensions && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.office_space_dimensions}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <label htmlFor="office_space_area" className="block text-sm font-medium text-gray-700">
-                                                Area
-                                            </label>
-                                            <div className="mt-1 flex shadow-sm">
-                                                <input
-                                                    id="office_space_area"
-                                                    type="text"
-                                                    value={data.office_space_area}
-                                                    onChange={(e) => setData('office_space_area', e.target.value)}
-                                                    className={`block w-full flex-1 rounded-none rounded-l-lg border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 ${
-                                                        errors.office_space_area
-                                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                    }`}
-                                                />
-                                                <span className="inline-flex items-center rounded-r-lg border border-l-0 border-gray-200 bg-gray-50 px-3 text-gray-500">
-                                                    {data.unit_of_measurement}
-                                                </span>
-                                            </div>
-                                            {errors.office_space_area && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.office_space_area}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h4 className="mb-3 text-sm font-medium text-gray-700">Loading Dock</h4>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label htmlFor="loading_dock_dimensions" className="block text-sm font-medium text-gray-700">
-                                                Dimensions
-                                            </label>
-                                            <input
-                                                id="loading_dock_dimensions"
-                                                type="text"
-                                                placeholder="e.g. 10m x 15m"
-                                                value={data.loading_dock_dimensions}
-                                                onChange={(e) => setData('loading_dock_dimensions', e.target.value)}
-                                                className={`mt-1 block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                    errors.loading_dock_dimensions
-                                                        ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                        : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                }`}
-                                            />
-                                            {errors.loading_dock_dimensions && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.loading_dock_dimensions}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <label htmlFor="loading_dock_area" className="block text-sm font-medium text-gray-700">
-                                                Area
-                                            </label>
-                                            <div className="mt-1 flex shadow-sm">
-                                                <input
-                                                    id="loading_dock_area"
-                                                    type="text"
-                                                    value={data.loading_dock_area}
-                                                    onChange={(e) => setData('loading_dock_area', e.target.value)}
-                                                    className={`block w-full flex-1 rounded-none rounded-l-lg border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 ${
-                                                        errors.loading_dock_area
-                                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                                    }`}
-                                                />
-                                                <span className="inline-flex items-center rounded-r-lg border border-l-0 border-gray-200 bg-gray-50 px-3 text-gray-500">
-                                                    {data.unit_of_measurement}
-                                                </span>
-                                            </div>
-                                            {errors.loading_dock_area && (
-                                                <p className="mt-2 flex items-center text-sm text-red-600">
-                                                    <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                    {errors.loading_dock_area}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end pt-6">
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                style={{ backgroundColor: steelBlue }}
-                                className="inline-flex items-center rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl focus:ring-4 focus:ring-blue-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
-                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005a87')}
-                                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = steelBlue)}
-                            >
-                                {processing ? (
-                                    <>
-                                        <svg className="mr-3 h-5 w-5 animate-spin text-white" viewBox="0 0 24 24">
-                                            <circle
-                                                className="opacity-25"
-                                                cx="12"
-                                                cy="12"
-                                                r="10"
-                                                stroke="currentColor"
-                                                strokeWidth="4"
-                                                fill="none"
-                                            ></circle>
+                                {errors.image && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                                             <path
-                                                className="opacity-75"
-                                                fill="currentColor"
-                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                            ></path>
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
                                         </svg>
-                                        Saving...
-                                    </>
-                                ) : isEditing ? (
-                                    'Update Warehouse'
-                                ) : (
-                                    'Create Warehouse'
+                                        {errors.image}
+                                    </p>
                                 )}
-                            </button>
+                            </div>
+
+                            <div>
+                                <h3 className="mb-4 text-lg font-semibold text-gray-900">Additional Images</h3>
+                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                    <div className="space-y-1 text-center">
+                                        {imagePreviews.length > 0 ? (
+                                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                                                {imagePreviews.map((preview, idx) => (
+                                                    <div key={idx} className="relative">
+                                                        <img
+                                                            src={preview}
+                                                            alt={`Preview ${idx + 1}`}
+                                                            className="h-32 w-full rounded-md object-cover"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                const newImages = [...data.images];
+                                                                newImages.splice(idx, 1);
+                                                                setData('images', newImages);
+                                                                const newPreviews = [...imagePreviews];
+                                                                newPreviews.splice(idx, 1);
+                                                                setImagePreviews(newPreviews);
+                                                            }}
+                                                            className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                                                        >
+                                                            <X className="h-4 w-4" />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                                <div className="flex h-32 flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300">
+                                                    <label
+                                                        htmlFor="additional-images"
+                                                        className="relative flex cursor-pointer flex-col items-center justify-center text-center"
+                                                    >
+                                                        <Plus className="h-8 w-8 text-gray-400" />
+                                                        <span className="mt-2 block text-sm font-medium text-[#0076A8]">Add More</span>
+                                                        <input
+                                                            id="additional-images"
+                                                            name="additional-images"
+                                                            type="file"
+                                                            accept="image/*"
+                                                            multiple
+                                                            className="sr-only"
+                                                            ref={multipleFileInputRef}
+                                                            onChange={handleMultipleImagesChange}
+                                                        />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <svg
+                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    viewBox="0 0 48 48"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                                <div className="flex text-sm text-gray-600">
+                                                    <label
+                                                        htmlFor="additional-images"
+                                                        className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
+                                                    >
+                                                        <span>Upload multiple files</span>
+                                                        <input
+                                                            id="additional-images"
+                                                            name="additional-images"
+                                                            type="file"
+                                                            accept="image/*"
+                                                            multiple
+                                                            className="sr-only"
+                                                            ref={multipleFileInputRef}
+                                                            onChange={handleMultipleImagesChange}
+                                                        />
+                                                    </label>
+                                                    <p className="pl-1">or drag and drop</p>
+                                                </div>
+                                                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                                {errors.images && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.images}
+                                    </p>
+                                )}
+                            </div>
                         </div>
+                    </div>
+
+                    {/* Additional Building Specifications Card */}
+                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                        <div className="mb-6 flex items-center">
+                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0H5m14 0v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5M7 7h10M7 11h10M7 15h6"
+                                    />
+                                </svg>
+                            </div>
+                            <h2 className="ml-4 text-xl font-bold text-gray-900">Additional Building Specifications</h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            <div>
+                                <label htmlFor="ceiling_height" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Ceiling Height
+                                </label>
+                                <input
+                                    id="ceiling_height"
+                                    type="text"
+                                    value={data.ceiling_height}
+                                    onChange={(e) => setData('ceiling_height', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.ceiling_height
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter ceiling height"
+                                />
+                                {errors.ceiling_height && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.ceiling_height}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="floor_load_capacity" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Floor Load Capacity
+                                </label>
+                                <input
+                                    id="floor_load_capacity"
+                                    type="text"
+                                    value={data.floor_load_capacity}
+                                    onChange={(e) => setData('floor_load_capacity', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.floor_load_capacity
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter floor load capacity"
+                                />
+                                {errors.floor_load_capacity && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.floor_load_capacity}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="number_of_loading_docks" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Number of Loading Docks
+                                </label>
+                                <input
+                                    id="number_of_loading_docks"
+                                    type="number"
+                                    min="0"
+                                    value={data.number_of_loading_docks}
+                                    onChange={(e) => setData('number_of_loading_docks', parseInt(e.target.value) || 0)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.number_of_loading_docks
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter number of loading docks"
+                                />
+                                {errors.number_of_loading_docks && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.number_of_loading_docks}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="parking_spaces" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Parking Spaces
+                                </label>
+                                <input
+                                    id="parking_spaces"
+                                    type="number"
+                                    min="0"
+                                    value={data.parking_spaces}
+                                    onChange={(e) => setData('parking_spaces', parseInt(e.target.value) || 0)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.parking_spaces
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter parking spaces"
+                                />
+                                {errors.parking_spaces && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.parking_spaces}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="availability_date" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Availability Date
+                                </label>
+                                <input
+                                    id="availability_date"
+                                    type="date"
+                                    value={data.availability_date || ''}
+                                    onChange={(e) => setData('availability_date', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.availability_date
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                />
+                                {errors.availability_date && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.availability_date}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label htmlFor="lease_terms" className="mb-2 block text-sm font-semibold text-gray-700">
+                                    Lease Terms
+                                </label>
+                                <input
+                                    id="lease_terms"
+                                    type="text"
+                                    value={data.lease_terms}
+                                    onChange={(e) => setData('lease_terms', e.target.value)}
+                                    className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        errors.lease_terms
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                    }`}
+                                    placeholder="Enter lease terms"
+                                />
+                                {errors.lease_terms && (
+                                    <p className="mt-2 flex items-center text-sm text-red-600">
+                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                        {errors.lease_terms}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end pt-6">
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            style={{ backgroundColor: steelBlue }}
+                            className="inline-flex items-center rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl focus:ring-4 focus:ring-blue-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005a87')}
+                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = steelBlue)}
+                        >
+                            {processing ? (
+                                <>
+                                    <svg className="mr-3 h-5 w-5 animate-spin text-white" viewBox="0 0 24 24">
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                            fill="none"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        ></path>
+                                    </svg>
+                                    Saving...
+                                </>
+                            ) : isEditing ? (
+                                'Update Warehouse'
+                            ) : (
+                                'Create Warehouse'
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>

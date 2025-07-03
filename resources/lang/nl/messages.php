@@ -138,7 +138,7 @@ return [
   'sunday_closed' => 'Zondag: Gesloten',
 
   // Footer
-  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sinds 1985.',
+  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 1985.',
   'quick_links' => 'Snelkoppelingen',
   'follow_us' => 'Volg ons',
   'newsletter_signup' => 'Nieuwsbrief aanmelden',
@@ -323,7 +323,7 @@ return [
   'end_to_end_support' => 'End-to-end ondersteuning',
   'end_to_end_support_desc' => 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
   'years_of_trust' => '20+ jaar vertrouwen',
-  'years_of_trust_desc' => 'Sinds 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+  'years_of_trust_desc' => 'Sincs 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Ontdek onze nieuwste structuren',
@@ -367,11 +367,11 @@ return [
   'contact_us' => 'Contact',
   'terms' => 'Voorwaarden',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Engineering Excellence sinds 1985.',
+  'engineering_excellence_since' => 'Engineering Excellence sincs 1985.',
 
   // Hero2 Component
   'hero2_title' => 'Tweedehands staalconstructies kopen en verkopen in heel Europa',
-  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sinds 2000.',
+  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sincs 2000.',
   'browse_structures_btn' => 'Structuren bekijken',
   'sell_your_property_btn' => 'Uw eigendom verkopen',
 

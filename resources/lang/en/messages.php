@@ -331,7 +331,7 @@ return [
   'sending' => 'Sending...',
   'email_inquiries' => 'Email Inquiries',
   'direct_consultation' => 'Direct Consultation',
-  'visit_our_facility' => 'Visit Our Facility',
+  'visit_our_facility' => 'Visit by appointment only',
   'schedule_tour' => 'Schedule Tour',
 
   // NewsletterSection Component

@@ -65,6 +65,7 @@ class SiteSettingsController extends Controller
       'social_youtube' => 'nullable|url',
       'social_facebook' => 'nullable|url',
       'social_linkedin' => 'nullable|url',
+      'social_website' => 'nullable|url',
     ]);
 
     // Update settings in database
@@ -101,7 +102,8 @@ class SiteSettingsController extends Controller
       'social_instagram',
       'social_youtube',
       'social_facebook',
-      'social_linkedin'
+      'social_linkedin',
+      'social_website'
     ];
 
     // Merge with defaults to ensure all keys exist
@@ -126,7 +128,8 @@ class SiteSettingsController extends Controller
       'social_instagram' => 'https://instagram.com/resteel',
       'social_youtube' => 'https://youtube.com',
       'social_facebook' => '',
-      'social_linkedin' => ''
+      'social_linkedin' => '',
+      'social_website' => 'www.Resteel-solutions.com'
     ], array_intersect_key($settings, array_flip($siteSettingsKeys)));
   }
 

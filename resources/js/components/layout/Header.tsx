@@ -38,15 +38,10 @@ const Header: React.FC = () => {
     const supported_locales = pageProps?.supported_locales || ['en', 'de', 'nl'];
 
     // Debug logging
-    console.log('Header component - Page props:', pageProps);
-    console.log('Header component - Current locale:', locale);
-    console.log('Header component - Supported locales:', supported_locales);
-    console.log('Header component - i18n current language:', i18n.language);
 
     // Initialize current locale
     useEffect(() => {
         setCurrentLocale(locale);
-        console.log('Header component - Setting current locale to:', locale);
     }, [locale]);
 
     // Cart functionality

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { Edit3, Facebook, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Settings, Twitter, Youtube } from 'lucide-react';
+import { Edit3, Facebook, Globe, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Settings, Twitter, Youtube } from 'lucide-react';
 
 interface SiteSettings {
     id: number;
@@ -28,6 +28,7 @@ interface SiteSettings {
     social_youtube: string;
     social_facebook: string;
     social_linkedin: string;
+    social_website: string;
     last_updated?: string;
 }
 
@@ -60,6 +61,7 @@ const Show = ({ settings }: Props) => {
         social_youtube: 'https://youtube.com',
         social_facebook: '',
         social_linkedin: '',
+        social_website: 'www.Resteel-solutions.com',
         last_updated: '2024-01-15',
     };
 
@@ -72,6 +74,7 @@ const Show = ({ settings }: Props) => {
         { name: 'YouTube', icon: Youtube, url: currentSettings.social_youtube, color: 'text-red-500' },
         { name: 'Facebook', icon: Facebook, url: currentSettings.social_facebook, color: 'text-blue-600' },
         { name: 'LinkedIn', icon: Linkedin, url: currentSettings.social_linkedin, color: 'text-blue-700' },
+        { name: 'Website', icon: Globe, url: currentSettings.social_website, color: 'text-green-600' },
     ];
 
     return (

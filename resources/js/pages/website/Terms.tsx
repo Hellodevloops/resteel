@@ -54,6 +54,25 @@ const Terms = () => {
                             <p className="mb-6">{t('terms_contact_us_text')}</p>
                             <p className="mb-6" dangerouslySetInnerHTML={{ __html: t('terms_contact_info') }}></p>
                         </div>
+
+                        {/* Enhanced Terms & Conditions Button */}
+                        <div className="mt-8 border-t border-gray-200 pt-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-lg font-medium text-gray-900">Full Document</h3>
+                                    <p className="text-sm text-gray-500">Download complete terms & conditions</p>
+                                </div>
+                                <button
+                                    onClick={() => window.open('/assets/General_Terms_and_Conditions_of_Resteel_Solutions_B_V_2025.docx', '_blank')}
+                                    className="bg-resteel-primary hover:bg-resteel-primary/90 focus:ring-resteel-primary inline-flex items-center rounded-lg px-5 py-2.5 font-medium text-white transition-colors duration-200 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+                                >
+                                    <svg className="mr-2 h-4 w-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3" />
+                                    </svg>
+                                    <span className="text-black">Download</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
