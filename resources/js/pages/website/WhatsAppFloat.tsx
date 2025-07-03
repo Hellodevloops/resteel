@@ -6,7 +6,7 @@ interface WhatsAppFloatProps {
 }
 
 const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
-    phoneNumber = '+971585270528',
+    phoneNumber = '+31625334951',
     message = "Hello! I'm interested in your industrial buildings.",
 }) => {
     const handleWhatsAppClick = () => {
