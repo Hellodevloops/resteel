@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
@@ -24,6 +25,11 @@ class ContactController extends Controller
                 'source' => $contact->source,
                 'value' => $contact->value,
                 'alerts' => $contact->alerts,
+                'building_type' => $contact->building_type,
+                'building_width' => $contact->building_width,
+                'building_length' => $contact->building_length,
+                'gutter_height' => $contact->gutter_height,
+                'top_height' => $contact->top_height,
             ];
         });
 
@@ -55,6 +61,11 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_type' => 'nullable|string|in:Industrial,AGRI',
+            'building_width' => 'nullable|string|max:50',
+            'building_length' => 'nullable|string|max:50',
+            'gutter_height' => 'nullable|string|max:50',
+            'top_height' => 'nullable|string|max:50',
         ]);
 
         $contact = Contact::create([
@@ -91,6 +102,11 @@ class ContactController extends Controller
             'alerts' => $contact->alerts,
             'created_at' => $contact->created_at->toDateString(),
             'updated_at' => $contact->updated_at->toDateString(),
+            'building_type' => $contact->building_type,
+            'building_width' => $contact->building_width,
+            'building_length' => $contact->building_length,
+            'gutter_height' => $contact->gutter_height,
+            'top_height' => $contact->top_height,
         ];
 
         return Inertia::render('Contact/Show', [
@@ -111,6 +127,11 @@ class ContactController extends Controller
             'type' => $contact->type,
             'source' => $contact->source,
             'value' => $contact->value,
+            'building_type' => $contact->building_type,
+            'building_width' => $contact->building_width,
+            'building_length' => $contact->building_length,
+            'gutter_height' => $contact->gutter_height,
+            'top_height' => $contact->top_height,
         ];
 
         return Inertia::render('Contact/Edit', [
@@ -130,6 +151,11 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_type' => 'nullable|string|in:Industrial,AGRI',
+            'building_width' => 'nullable|string|max:50',
+            'building_length' => 'nullable|string|max:50',
+            'gutter_height' => 'nullable|string|max:50',
+            'top_height' => 'nullable|string|max:50',
         ]);
 
         $contact->update($validated);

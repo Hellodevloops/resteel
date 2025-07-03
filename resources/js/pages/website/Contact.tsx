@@ -32,6 +32,12 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
         type: 'Lead',
         source: 'Website Form',
         value: '',
+        building_category: '',
+        building_type: '',
+        building_width: '',
+        building_length: '',
+        gutter_height: '',
+        top_height: '',
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(false);
@@ -47,11 +53,17 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
             type: 'Lead',
             source: 'Website Form',
             value: '',
+            building_category: '',
+            building_type: '',
+            building_width: '',
+            building_length: '',
+            gutter_height: '',
+            top_height: '',
         });
         setErrors({});
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setData({ ...data, [e.target.id]: e.target.value });
     };
 
@@ -141,6 +153,74 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                     <Label htmlFor="message">{t('message_required')}</Label>
                                     <Textarea id="message" value={data.message} onChange={handleChange} rows={5} />
                                     {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <Label htmlFor="building_category">Building Types</Label>
+                                        <select
+                                            id="building_category"
+                                            value={data.building_category}
+                                            onChange={handleChange}
+                                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            <option value="">Select building type</option>
+                                            <option value="Warehouses">Warehouses</option>
+                                            <option value="Steel Constructions">Steel Constructions</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        {errors.building_category && <p className="text-sm text-red-500">{errors.building_category}</p>}
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="building_type">Type Building</Label>
+                                        <select
+                                            id="building_type"
+                                            value={data.building_type}
+                                            onChange={handleChange}
+                                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            <option value="">Select type</option>
+                                            <option value="Industrial">Industrial</option>
+                                            <option value="AGRI">AGRI</option>
+                                        </select>
+                                        {errors.building_type && <p className="text-sm text-red-500">{errors.building_type}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <Label htmlFor="building_width">Width</Label>
+                                        <Input
+                                            id="building_width"
+                                            value={data.building_width}
+                                            onChange={handleChange}
+                                            placeholder="Width in meters"
+                                        />
+                                        {errors.building_width && <p className="text-sm text-red-500">{errors.building_width}</p>}
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="building_length">Length</Label>
+                                        <Input
+                                            id="building_length"
+                                            value={data.building_length}
+                                            onChange={handleChange}
+                                            placeholder="Length in meters"
+                                        />
+                                        {errors.building_length && <p className="text-sm text-red-500">{errors.building_length}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <Label htmlFor="gutter_height">High Gutter</Label>
+                                        <Input id="gutter_height" value={data.gutter_height} onChange={handleChange} placeholder="Height in meters" />
+                                        {errors.gutter_height && <p className="text-sm text-red-500">{errors.gutter_height}</p>}
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="top_height">High Top</Label>
+                                        <Input id="top_height" value={data.top_height} onChange={handleChange} placeholder="Height in meters" />
+                                        {errors.top_height && <p className="text-sm text-red-500">{errors.top_height}</p>}
+                                    </div>
                                 </div>
 
                                 <Button
