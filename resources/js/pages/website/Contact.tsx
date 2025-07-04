@@ -281,16 +281,22 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                 <div>
                                     <p className="font-semibold">{t('visit_our_facility')}</p>
                                     <p className="text-muted-foreground text-sm">
-                                        {siteSettings?.contact_address || 'Westerbeemd 2B, 5705 DN Helmond'}
+                                        {siteSettings?.contact_address || 'Waterbeemd 2B, 5705 DN Helmond, Netherlands'}
                                     </p>
-                                    <a href="/contact" className="text-sm hover:underline" style={{ color: steelBlue }}>
+                                    <a
+                                        href="https://www.google.com/maps?q=Waterbeemd+2B,+5705+DN+Helmond,+Netherlands"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm hover:underline"
+                                        style={{ color: steelBlue }}
+                                    >
                                         {t('schedule_tour')}
                                     </a>
                                 </div>
                             </div>
                             <iframe
                                 className="h-92 w-full rounded-md border"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2488.4054706121573!2d5.659797676888595!3d51.48243397952794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c728cc878e130f%3A0x465e58709af94a83!2sWaterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1690225065506!5m2!1sen!2sus"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
                                 title="Resteel Location Map"
