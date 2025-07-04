@@ -91,6 +91,20 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
         return /^\+?[\d\s-]{10,}$/.test(phone);
     };
 
+    const validateUrl = (url: string): boolean => {
+        try {
+            new URL(url.startsWith('http') ? url : `https://${url}`);
+            return true;
+        } catch {
+            return false;
+        }
+    };
+
+    const normalizeUrl = (url: string): string => {
+        if (!url) return url;
+        return url.startsWith('http') ? url : `https://${url}`;
+    };
+
     const handleReset = () => {
         reset();
     };
@@ -274,12 +288,28 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                     id="social_website"
                                     type="url"
                                     value={data.social_website}
-                                    onChange={(e) => setData('social_website', e.target.value)}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        // Only normalize on blur to avoid disrupting typing
+                                        setData('social_website', value);
+                                    }}
+                                    onBlur={(e) => {
+                                        const value = e.target.value;
+                                        if (value && validateUrl(value)) {
+                                            setData('social_website', normalizeUrl(value));
+                                        }
+                                    }}
                                     className="pl-10"
                                     placeholder="https://www.yourwebsite.com"
                                 />
                             </div>
                             {errors.social_website && <p className="text-sm text-red-600">{errors.social_website}</p>}
+                            {data.social_website && !validateUrl(data.social_website) && (
+                                <p className="flex items-center text-sm text-orange-600">
+                                    <AlertCircle className="mr-1 h-3 w-3" />
+                                    Please enter a valid website URL (e.g., www.example.com or https://example.com)
+                                </p>
+                            )}
                         </div>
                     </CardContent>
                 </Card>

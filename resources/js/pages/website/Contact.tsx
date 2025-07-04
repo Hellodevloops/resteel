@@ -289,7 +289,7 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                 </div>
                             </div>
                             <iframe
-                                className="h-30 w-full rounded-md border"
+                                className="h-92 w-full rounded-md border"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
