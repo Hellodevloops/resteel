@@ -42,7 +42,7 @@ const Show = ({ settings }: Props) => {
         id: 1,
         // language: 'English',
         contact_email: 'Info@2ndhandholding.com',
-        contact_phone: '+31 (0) 123 456 789',
+        contact_phone: '+31 (6) 25334951',
         contact_address: 'Westerbeemd 2B, 5705 DN Helmond, Netherlands',
         // currency: 'USD',
         tax_rate: 8.5,

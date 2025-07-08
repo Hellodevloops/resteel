@@ -139,7 +139,7 @@ const About = () => {
                             'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.'}
                     </p>
                     <div className="text-sm text-gray-400 italic">
-                        {siteSettings?.who_we_are_founded || 'Founded in 1985 · Headquartered in Helmond, Netherlands'}
+                        {siteSettings?.who_we_are_founded || 'Founded in 2005 · Headquartered in Helmond, Netherlands'}
                     </div>
                 </div>
             </section>

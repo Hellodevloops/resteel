@@ -158,7 +158,7 @@ export default function Show({ content }: Props) {
                                 </div>
                                 <div>
                                     <p className="text-muted-foreground text-sm">Founded Info</p>
-                                    <p className="text-sm">{content?.who_we_are_founded || 'Founded in 1985...'}</p>
+                                    <p className="text-sm">{content?.who_we_are_founded || 'Founded in 2005...'}</p>
                                 </div>
                             </CardContent>
                         </Card>

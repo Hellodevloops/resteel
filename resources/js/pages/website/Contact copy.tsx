@@ -63,8 +63,8 @@ const ContactCTA = () => {
             icon: Phone,
             title: 'Direct Consultation',
             subtitle: 'Speak with our engineering specialists',
-            contact: '+31 (0) 123 456 789',
-            href: 'tel:+31123456789',
+            contact: '+31 (6) 25334951',
+            href: 'tel:+31625334951',
             color: 'from-blue-600 to-blue-700',
             accent: 'border-blue-600/30',
         },
@@ -333,7 +333,7 @@ const ContactCTA = () => {
                                                 href="tel:+31123456789"
                                                 className="font-semibold text-orange-600 transition-colors hover:text-orange-700"
                                             >
-                                                +31 (0) 123 456 789
+                                                +31 (6) 25334951
                                             </a>
                                         </p>
                                     </div>

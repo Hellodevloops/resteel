@@ -100,10 +100,10 @@ const ResteelHero = () => {
                             <div
                                 className={`flex flex-col items-center gap-4 transition-all delay-600 duration-1000 sm:gap-6 lg:items-start ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                <a href="tel:+31 (0) 123 456 789" className="w-full sm:w-auto">
+                                <a href="tel:+31 (6) 25334951" className="w-full sm:w-auto">
                                     <button className="flex min-h-[48px] w-full touch-manipulation items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-cyan-600 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 sm:min-h-[60px] sm:rounded-xl sm:px-8 sm:py-4 sm:text-base">
                                         <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-                                        <span className="whitespace-nowrap">+31 (0) 123 456 789</span>
+                                        <span className="whitespace-nowrap">+31 (6) 25334951</span>
                                     </button>
                                 </a>
                             </div>

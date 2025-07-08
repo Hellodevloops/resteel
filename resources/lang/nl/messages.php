@@ -69,7 +69,7 @@ return [
   'about_hero_subtitle' => 'Bij Resteel geven we tweedehands staalconstructies een krachtig tweede leven — met duurzaamheid, schaal en precisie.',
   'who_we_are' => 'Wie we zijn',
   'who_we_are_description' => 'Resteel is een vertrouwde Europese leider in duurzame staalconstructie. We helpen bedrijven infrastructuur te heroverwegen met gerecyclede, eersteklas materialen — zonder compromissen op sterkte, veiligheid of stijl.',
-  'founded_info' => 'Opgericht in 1985 · Hoofdkantoor in Helmond, Nederland',
+  'founded_info' => 'Opgericht in 2005 · Hoofdkantoor in Helmond, Nederland',
   'our_mission' => 'Onze missie',
   'mission_description' => 'We transformeren gebruikte staalconstructies naar kostenefficiënte, milieuvriendelijke bouwoplossingen. Van landbouw tot logistiek, we bedienen bedrijven van alle groottes door heel Europa.',
   'integrity' => 'Integriteit',
@@ -138,7 +138,7 @@ return [
   'sunday_closed' => 'Zondag: Gesloten',
 
   // Footer
-  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 1985.',
+  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 2005.',
   'quick_links' => 'Snelkoppelingen',
   'follow_us' => 'Volg ons',
   'newsletter_signup' => 'Nieuwsbrief aanmelden',
@@ -323,7 +323,7 @@ return [
   'end_to_end_support' => 'End-to-end ondersteuning',
   'end_to_end_support_desc' => 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
   'years_of_trust' => '20+ jaar vertrouwen',
-  'years_of_trust_desc' => 'Sincs 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+  'years_of_trust_desc' => 'Sincs 2005 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Ontdek onze nieuwste structuren',
@@ -367,11 +367,11 @@ return [
   'contact_us' => 'Contact',
   'terms' => 'Voorwaarden',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Engineering Excellence sincs 1985.',
+  'engineering_excellence_since' => 'Engineering Excellence sincs 2005.',
 
   // Hero2 Component
   'hero2_title' => 'Tweedehands staalconstructies kopen en verkopen in heel Europa',
-  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sincs 2000.',
+  'hero2_subtitle' => 'Van agrarische hallen tot industriële magazijnen — vertrouwde verplaatsing en doorverkoop sincs 2005.',
   'browse_structures_btn' => 'Structuren bekijken',
   'sell_your_property_btn' => 'Uw eigendom verkopen',
 
@@ -423,7 +423,7 @@ return [
 
   // Terms of Service
   'terms_of_service' => 'Algemene Voorwaarden',
-  'terms_last_updated' => 'Laatst bijgewerkt: 21 mei 2025',
+  'terms_last_updated' => 'Laatst bijgewerkt: 21 mei 2005 ',
   'terms_introduction' => 'Inleiding',
   'terms_introduction_text' => 'Welkom bij Resteel. Deze Algemene Voorwaarden regelen uw gebruik van onze website en de diensten die wij leveren. Door toegang te krijgen tot of gebruik te maken van onze website, gaat u ermee akkoord gebonden te zijn aan deze Voorwaarden.',
   'terms_definitions' => 'Definities',
@@ -446,11 +446,11 @@ return [
   'terms_changes_to_terms_text' => 'Wij behouden ons het recht voor om deze Voorwaarden op elk moment te wijzigen. Wanneer wij wijzigingen aanbrengen, zullen wij de datum "Laatst bijgewerkt" bovenaan deze Voorwaarden herzien. Wij moedigen u aan om deze Voorwaarden periodiek te bekijken om op de hoogte te blijven van updates.',
   'terms_contact_us' => 'Neem Contact Op',
   'terms_contact_us_text' => 'Als u vragen heeft over deze Voorwaarden, neem dan contact met ons op via:',
-  'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: info@resteel-solutions.com<br />Telefoon: +31 (0) 123 456 789',
+  'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: info@resteel-solutions.com<br />Telefoon: +31 (6) 25334951',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacybeleid',
-  'privacy_last_updated' => 'Laatst bijgewerkt: 21 mei 2025',
+  'privacy_last_updated' => 'Laatst bijgewerkt: 21 mei 2005 ',
   'privacy_introduction' => 'Inleiding',
   'privacy_introduction_text' => 'Bij Resteel respecteren wij uw privacy en zijn wij toegewijd aan het beschermen van uw persoonlijke gegevens. Dit Privacybeleid legt uit hoe wij uw informatie verzamelen, gebruiken en beschermen wanneer u onze website bezoekt of onze diensten gebruikt.',
   'privacy_information_collect' => 'Informatie die wij Verzamelen',
@@ -488,7 +488,7 @@ return [
   'privacy_changes_policy_text' => 'Wij kunnen dit Privacybeleid van tijd tot tijd bijwerken. Eventuele wijzigingen worden op deze pagina geplaatst met een bijgewerkte revisiedatum.',
   'privacy_contact_us' => 'Neem Contact Op',
   'privacy_contact_us_text' => 'Als u vragen heeft over dit Privacybeleid of onze gegevenspraktijken, neem dan contact met ons op via:',
-  'privacy_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: privacy@resteel.com<br />Telefoon: +31 (0) 123 456 789',
+  'privacy_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: privacy@resteel.com<br />Telefoon: +31 (6) 25334951',
 
   // Buildings/Properties Page
   'our_properties' => 'Onze Eigendommen',

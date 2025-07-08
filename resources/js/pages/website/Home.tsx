@@ -1,5 +1,4 @@
 // pages/index.tsx
-import CarouselSection from '@/components/CarouselSection';
 import FeaturesPreview from '@/components/FeaturesPreview';
 import Hero from '@/components/hero2';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
@@ -20,10 +19,10 @@ const Index = ({ siteSettings }: Props) => {
     return (
         <Layout title={`${siteSettings.company_name} | ${siteSettings.company_tagline}`} siteSettings={siteSettings}>
             <Hero siteSettings={siteSettings} />
-            <FeaturesPreview />
-            <CarouselSection />
-            <Services />
             <FeaturedBuildings />
+            <FeaturesPreview />
+            {/* <CarouselSection /> */}
+            <Services />
             {/* <Testimonials /> */}
             <ContactCTA siteSettings={siteSettings} />
             <NewsletterSection />

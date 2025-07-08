@@ -526,7 +526,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                                 id="who_we_are_founded"
                                 value={data.who_we_are_founded}
                                 onChange={(e) => updateContent('who_we_are_founded', e.target.value)}
-                                placeholder="Founded in 1985 · Headquartered in Helmond, Netherlands"
+                                placeholder="Founded in 2005 · Headquartered in Helmond, Netherlands"
                             />
                             {errors['who_we_are_founded'] && <p className="text-sm text-red-600">{errors['who_we_are_founded']}</p>}
                         </div>

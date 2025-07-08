@@ -263,11 +263,11 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                 <div>
                                     <p className="font-semibold">{t('direct_consultation')}</p>
                                     <a
-                                        href={`tel:${siteSettings?.contact_phone?.replace(/\s+/g, '') || '+31123456789'}`}
+                                        href={`tel:${siteSettings?.contact_phone?.replace(/\s+/g, '') || '+31625334951'}`}
                                         className="text-md hover:underline"
                                         style={{ color: steelBlue }}
                                     >
-                                        {siteSettings?.contact_phone || '+31 (0) 123 456 789'}
+                                        {siteSettings?.contact_phone || '+31 (6) 25334951'}
                                     </a>
                                 </div>
                             </div>

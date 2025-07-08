@@ -69,7 +69,7 @@ return [
   'about_hero_subtitle' => 'At Resteel, we give second-hand steel constructions a powerful second life — with sustainability, scale, and precision.',
   'who_we_are' => 'Who We Are',
   'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
-  'founded_info' => 'Founded in 1985 · Headquartered in Helmond, Netherlands',
+  'founded_info' => 'Founded in 2005 · Headquartered in Helmond, Netherlands',
   'our_mission' => 'Our Mission',
   'mission_description' => 'We transform used steel structures into cost-efficient, environmentally responsible building solutions. From agriculture to logistics, we serve businesses of all sizes across Europe.',
   'integrity' => 'Integrity',
@@ -138,7 +138,7 @@ return [
   'sunday_closed' => 'Sunday: Closed',
 
   // Footer
-  'footer_description' => 'Leading provider of second-hand industrial steel buildings across Europe. Quality, sustainability, and expertise since 1985.',
+  'footer_description' => 'Leading provider of second-hand industrial steel buildings across Europe. Quality, sustainability, and expertise since 2005.',
   'quick_links' => 'Quick Links',
   'follow_us' => 'Follow Us',
   'newsletter_signup' => 'Newsletter Signup',
@@ -308,7 +308,7 @@ return [
   'end_to_end_support' => 'End-to-End Support',
   'end_to_end_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'years_of_trust' => '20+ Years of Trust',
-  'years_of_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'years_of_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Discover Our Latest Structures',
@@ -352,11 +352,11 @@ return [
   'contact_us' => 'Contact Us',
   'terms' => 'Terms',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Engineering Excellence Since 1985.',
+  'engineering_excellence_since' => 'Engineering Excellence Since 2005.',
 
   // Hero2 Component
   'hero2_title' => 'Buy & Sell Used Steel Structures Across Europe',
-  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2000.',
+  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.',
   'browse_structures_btn' => 'Browse Structures',
   'sell_your_property_btn' => 'Sell Your Property',
 
@@ -408,7 +408,7 @@ return [
 
   // Terms of Service
   'terms_of_service' => 'Terms of Service',
-  'terms_last_updated' => 'Last updated: May 21, 2025',
+  'terms_last_updated' => 'Last updated: May 21, 2005',
   'terms_introduction' => 'Introduction',
   'terms_introduction_text' => 'Welcome to Resteel. These Terms of Service govern your use of our website and the services we provide. By accessing or using our website, you agree to be bound by these Terms.',
   'terms_definitions' => 'Definitions',
@@ -431,11 +431,11 @@ return [
   'terms_changes_to_terms_text' => 'We reserve the right to modify these Terms at any time. When we make changes, we will revise the "Last updated" date at the top of these Terms. We encourage you to review these Terms periodically to stay informed of any updates.',
   'terms_contact_us' => 'Contact Us',
   'terms_contact_us_text' => 'If you have any questions about these Terms, please contact us at:',
-  'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (0) 123 456 789',
+  'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (6) 25334951',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacy Policy',
-  'privacy_last_updated' => 'Last updated: May 21, 2025',
+  'privacy_last_updated' => 'Last updated: May 21, 2005',
   'privacy_introduction' => 'Introduction',
   'privacy_introduction_text' => 'At Resteel, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.',
   'privacy_information_collect' => 'Information We Collect',
@@ -473,7 +473,7 @@ return [
   'privacy_changes_policy_text' => 'We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.',
   'privacy_contact_us' => 'Contact Us',
   'privacy_contact_us_text' => 'If you have any questions about this Privacy Policy or our data practices, please contact us at:',
-  'privacy_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: privacy@resteel.com<br />Phone: +31 (0) 123 456 789',
+  'privacy_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: privacy@resteel.com<br />Phone: +31 (6) 25334951',
 
   // Buildings/Properties Page
   'our_properties' => 'Our Properties',
@@ -514,12 +514,12 @@ return [
   'feature_support_title' => 'End-to-End Support',
   'feature_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'feature_trust_title' => '20+ Years of Trust',
-  'feature_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'feature_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // Dynamic Content - About Who We Are
   'who_we_are_title' => 'Who We Are',
   'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
-  'who_we_are_founded' => 'Founded in 1985 · Headquartered in Helmond, Netherlands',
+  'who_we_are_founded' => 'Founded in 2005 · Headquartered in Helmond, Netherlands',
 
   // Dynamic Content - About What We Offer
   'what_we_offer_title' => 'What We Offer',

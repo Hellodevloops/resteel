@@ -87,7 +87,7 @@ Route::get('/api/warehouses', [WarehouseController::class, 'warehosue_view_api']
 Route::post('/contacts', [ContactController::class, 'store'])->name('public.contacts.store');
 
 // Public webshop route (calls controller, not just Inertia page)
-Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.frontend');
+// Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.frontend');
 
 // Public API routes
 Route::get('/api/featured-warehouses', [WarehouseController::class, 'featured'])->name('api.featured-warehouses');
@@ -120,13 +120,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
 
         // Admin webshop routes
-        Route::get('/webshops', [WebShopController::class, 'index'])->name('webshops.index');
-        Route::get('/webshops/create', [WebShopController::class, 'create'])->name('webshops.create');
-        Route::post('/webshops', [WebShopController::class, 'store'])->name('webshops.store');
-        Route::get('/webshops/{webshop}', [WebShopController::class, 'show'])->name('webshops.show');
-        Route::get('/webshops/{webshop}/edit', [WebShopController::class, 'edit'])->name('webshops.edit');
-        Route::put('/webshops/{webshop}', [WebShopController::class, 'update'])->name('webshops.update');
-        Route::delete('/webshops/{webshop}', [WebShopController::class, 'destroy'])->name('webshops.destroy');
+        // Route::get('/webshops', [WebShopController::class, 'index'])->name('webshops.index');
+        // Route::get('/webshops/create', [WebShopController::class, 'create'])->name('webshops.create');
+        // Route::post('/webshops', [WebShopController::class, 'store'])->name('webshops.store');
+        // Route::get('/webshops/{webshop}', [WebShopController::class, 'show'])->name('webshops.show');
+        // Route::get('/webshops/{webshop}/edit', [WebShopController::class, 'edit'])->name('webshops.edit');
+        // Route::put('/webshops/{webshop}', [WebShopController::class, 'update'])->name('webshops.update');
+        // Route::delete('/webshops/{webshop}', [WebShopController::class, 'destroy'])->name('webshops.destroy');
 
         // Admin testimonial routes
         Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
