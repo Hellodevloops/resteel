@@ -4,58 +4,108 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Building, Building2, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
+import { ArrowRight, Building2, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+interface Specification {
+    name: string;
+    dimensions: string;
+    area: string;
+}
+
+interface Warehouse {
+    id: number;
+    title: string;
+    status: string;
+    type: string;
+    category: string;
+    totalArea: string;
+    construction: string;
+    image: string;
+    hasVideo: boolean;
+    videoUrls: string[];
+    specifications: Specification[];
+}
+
+interface WarehouseApiItem {
+    id: number;
+    name: string;
+    category?: string;
+    total_area?: string;
+    unit_of_measurement?: string;
+    construction?: string;
+    image_path?: string;
+    has_video: boolean;
+    video_urls?: string[];
+    area_dimensions?: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+    // OLD FIELDS - for backward compatibility
+    main_hall_dimensions?: string;
+    main_hall_area?: string;
+}
 
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
 
-const truncateText = (text, maxWords = 19) => {
+// Add a new function to truncate specification name if needed
+const truncateSpec = (text: string, maxLength = 15): string => {
     if (!text) return '';
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 };
 
 const FeaturedBuildings = () => {
     const { t } = useTranslation();
-    const [isVisible, setIsVisible] = useState(false);
-    const [warehouses, setWarehouses] = useState([]);
+    const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
 
     const buildingTypes = [
         { id: 'all', label: t('all'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'Steelconstructions', label: t('Steel Constructions'), icon: Factory },
+        { id: 'Steelconstructions', label: t('steel_constructions'), icon: Factory },
         { id: 'other', label: t('other'), icon: SquareStack },
     ];
 
     useEffect(() => {
-        setTimeout(() => setIsVisible(true), 100);
-
         const fetchWarehouses = async () => {
             try {
                 const res = await fetch('/api/warehouses');
                 const json = await res.json();
                 if (json.status === 'success') {
-                    const formatted = json.data.map((item) => ({
-                        id: item.id,
-                        title: item.name,
-                        status: t('sale').toUpperCase(),
-                        type: 'warehouses',
-                        category: item.category || t('uncategorized'),
-                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
-                        construction: item.construction || t('not_specified'),
-                        image: item.image_path || '/placeholder.jpg',
-                        hasVideo: item.has_video,
-                        videoUrls: (item.video_urls || []).filter(Boolean),
-                        specifications: [
-                            {
-                                name: t('main_hall'),
-                                dimensions: item.main_hall_dimensions || t('not_available'),
-                                area: item.total_area || t('not_available'),
-                            },
-                        ],
-                    }));
+                    const formatted = json.data.map((item: WarehouseApiItem) => {
+                        // Convert area_dimensions array or fall back to old fields
+                        let specifications: Specification[] = [];
+
+                        if (item.area_dimensions && item.area_dimensions.length > 0) {
+                            // Use new area_dimensions array
+                            specifications = item.area_dimensions.filter((dim) => dim.name || dim.dimensions || dim.area);
+                        } else if (item.main_hall_dimensions || item.main_hall_area) {
+                            // Fall back to old fields for backward compatibility
+                            specifications = [
+                                {
+                                    name: t('main_hall'),
+                                    dimensions: item.main_hall_dimensions || t('not_available'),
+                                    area: item.main_hall_area || t('not_available'),
+                                },
+                            ];
+                        }
+
+                        return {
+                            id: item.id,
+                            title: item.name,
+                            status: t('sale').toUpperCase(),
+                            type: 'warehouses',
+                            category: item.category || t('uncategorized'),
+                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
+                            construction: item.construction || t('not_specified'),
+                            image: item.image_path || '/placeholder.jpg',
+                            hasVideo: item.has_video,
+                            videoUrls: (item.video_urls || []).filter(Boolean),
+                            specifications: specifications,
+                        };
+                    });
                     setWarehouses(formatted);
                 }
             } catch (error) {
@@ -66,14 +116,15 @@ const FeaturedBuildings = () => {
         fetchWarehouses();
     }, [t]);
 
-    const BuildingCard = ({ building }) => (
+    const BuildingCard = ({ building }: { building: Warehouse }) => (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4 }}
-            className="group relative w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="group relative flex h-[520px] w-full flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
         >
+            {/* Image Section - Fixed Height */}
             <div className="relative h-64 overflow-hidden">
                 <img
                     src={building.image}
@@ -95,15 +146,17 @@ const FeaturedBuildings = () => {
                         </span>
                     </div>
                 )}
-                <div className="absolute bottom-4 left-4">
-                    <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800 uppercase">{building.category}</span>
-                </div>
             </div>
 
-            <div className="p-6">
-                <h3 className="mb-3 truncate text-lg font-semibold text-gray-900 group-hover:text-orange-600">{truncateText(building.title)}</h3>
+            {/* Content Section - Flexible with Fixed Footer */}
+            <div className="flex flex-1 flex-col p-4">
+                {/* Title */}
+                <h3 className="mb-3 line-clamp-1 text-lg font-semibold text-gray-900 group-hover:text-orange-600" title={building.title}>
+                    {building.title}
+                </h3>
 
-                <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                {/* Area Info */}
+                <div className="mb-3 flex items-center justify-between rounded-lg bg-gray-50 p-2">
                     <div className="flex items-center">
                         <Square className="mr-2 h-4 w-4 text-orange-500" />
                         <span className="text-sm text-gray-600">{t('total_area')}</span>
@@ -111,30 +164,39 @@ const FeaturedBuildings = () => {
                     <span className="text-base font-semibold text-gray-900">{building.totalArea}</span>
                 </div>
 
-                <div className="mb-4">
-                    <div className="flex items-center">
-                        <Building className="mr-2 h-4 w-4 text-gray-500" />
-                        <span className="text-sm font-medium text-gray-600">{t('construction')}</span>
-                    </div>
-                    <p className="mt-1 text-sm text-gray-500">{truncateText(building.construction)}</p>
-                </div>
-
-                <div className="mb-6">
-                    <div className="flex items-center">
+                {/* Specifications - Scrollable */}
+                <div className="mb-3">
+                    <div className="mb-1 flex items-center">
                         <Ruler className="mr-2 h-4 w-4 text-gray-500" />
                         <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
-                    <div className="mt-2 space-y-2">
-                        {building.specifications.map((spec, idx) => (
-                            <div key={idx} className="flex items-center justify-between text-sm">
-                                <span className="text-gray-700">{spec.name}</span>
-                                <span className="text-gray-500">{spec.dimensions}</span>
-                            </div>
-                        ))}
+                    <div
+                        className="max-h-[100px] overflow-y-auto pr-1"
+                        style={{
+                            scrollbarWidth: 'thin',
+                            scrollbarColor: '#d1d5db #f3f4f6',
+                        }}
+                    >
+                        <div className="space-y-1">
+                            {building.specifications.map((spec: Specification, idx: number) => (
+                                <div key={idx} className="flex items-center justify-between text-sm">
+                                    <span className="max-w-[60%] truncate text-gray-700" title={spec.name}>
+                                        {truncateSpec(spec.name)}
+                                    </span>
+                                    <span className="max-w-[40%] truncate text-gray-500" title={spec.dimensions}>
+                                        {spec.dimensions}
+                                    </span>
+                                </div>
+                            ))}
+                            {building.specifications.length === 0 && (
+                                <div className="py-1 text-center text-sm text-gray-500 italic">{t('no_specifications_available')}</div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex gap-2">
+                {/* Action Buttons - Always at Bottom */}
+                <div className="mt-auto flex gap-2 pt-3">
                     <Button asChild className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
                         <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
                             <Eye className="mr-2 h-4 w-4" /> {t('details')}

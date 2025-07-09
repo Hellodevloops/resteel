@@ -20,7 +20,7 @@ class WarehouseController extends Controller
 
     // Ensure array fields are initialized for each warehouse
     $warehouses->each(function ($warehouse) {
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (is_null($warehouse->$field)) {
           $warehouse->$field = [];
@@ -48,31 +48,31 @@ class WarehouseController extends Controller
     ]);
   }
   public function warehosue_view_api()
-{
+  {
     $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
 
     return response()->json([
-        'status' => 'success',
-        'data' => $warehouses
+      'status' => 'success',
+      'data' => $warehouses
     ]);
-}
+  }
 
-public function warehouse_detail_api($id)
-{
+  public function warehouse_detail_api($id)
+  {
     $warehouse = Warehouse::find($id);
 
     if (!$warehouse) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Warehouse not found'
-        ], 404);
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Warehouse not found'
+      ], 404);
     }
 
     return response()->json([
-        'status' => 'success',
-        'data' => $warehouse
+      'status' => 'success',
+      'data' => $warehouse
     ]);
-}
+  }
 
 
   /**
@@ -117,7 +117,7 @@ public function warehouse_detail_api($id)
       }
 
       // Ensure empty arrays are properly handled
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (!isset($validated[$field]) || (is_array($validated[$field]) && empty($validated[$field]))) {
           $validated[$field] = [];
@@ -166,7 +166,7 @@ public function warehouse_detail_api($id)
   public function show(Warehouse $warehouse)
   {
     // Ensure array fields are initialized
-    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
     foreach ($arrayFields as $field) {
       if (is_null($warehouse->$field)) {
         $warehouse->$field = [];
@@ -184,7 +184,7 @@ public function warehouse_detail_api($id)
   public function edit(Warehouse $warehouse)
   {
     // Ensure array fields are initialized
-    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
     foreach ($arrayFields as $field) {
       if (is_null($warehouse->$field)) {
         $warehouse->$field = [];
@@ -230,7 +230,7 @@ public function warehouse_detail_api($id)
       }
 
       // Ensure empty arrays are properly handled
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (!isset($validated[$field]) || (is_array($validated[$field]) && empty($validated[$field]))) {
           $validated[$field] = [];
@@ -310,7 +310,7 @@ public function warehouse_detail_api($id)
       'capacity' => 'nullable|string|max:255',
       'occupied' => 'nullable|string|max:255',
       'occupancy_rate' => 'nullable|numeric|min:0|max:100',
-      'type' => 'nullable|string|max:255',
+      'type' => 'nullable|string|max:255', // No longer required
       'last_inspection' => 'nullable|date',
       'revenue' => 'nullable|string|max:255',
       'alerts' => 'nullable|integer|min:0',
@@ -323,13 +323,17 @@ public function warehouse_detail_api($id)
       'has_video' => 'nullable|boolean',
       'video_urls' => 'nullable',
       'features' => 'nullable',
+      'area_dimensions' => 'nullable|array',
+      'area_dimensions.*.name' => 'nullable|string|max:255',
+      'area_dimensions.*.dimensions' => 'nullable|string|max:255',
+      'area_dimensions.*.area' => 'nullable|string|max:255',
       'main_hall_dimensions' => 'nullable|string|max:255',
       'main_hall_area' => 'nullable|string|max:255',
       'office_space_dimensions' => 'nullable|string|max:255',
       'office_space_area' => 'nullable|string|max:255',
       'loading_dock_dimensions' => 'nullable|string|max:255',
       'loading_dock_area' => 'nullable|string|max:255',
-      'category' => 'nullable|string|max:255',
+      'category' => 'nullable|string|max:255', // No longer required
       'ceiling_height' => 'nullable|string|max:255',
       'floor_load_capacity' => 'nullable|string|max:255',
       'number_of_loading_docks' => 'nullable|integer|min:0',

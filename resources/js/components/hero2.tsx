@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
     return (
         <section className="relative min-h-screen w-full overflow-hidden bg-slate-950">
             {/* Background Image with overlay effects */}
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/assets/hero.jpg')" }}>
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/assets/6300613837098961878.jpg')" }}>
                 {/* Radiant Gradient Glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-blue-600/20 to-slate-900 backdrop-blur-xs" />
 
@@ -28,8 +28,7 @@ const Hero: React.FC = () => {
                     transition={{ duration: 0.8 }}
                     className="max-w-6xl text-4xl leading-tight font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] md:text-4xl"
                 >
-                    Purchase - Sale - Assembly - Disassembly - Transport of second-hand warehouses and steel constructions Across{' '}
-                    <span className="text-orange-500">{t('hero2_title').split(' ').slice(-1)[0]}</span>
+                    {t('hero2_title')}
                 </motion.h1>
 
                 <motion.p

@@ -155,7 +155,7 @@ const Footer = () => {
                 {/* Footer Bottom */}
                 <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-white/10 pt-6 text-sm text-slate-400 md:flex-row md:space-y-0">
                     <p className="text-center md:text-left">
-                        © {new Date().getFullYear()} {siteSettings?.company_name || 'Resteel'}. {t('all_rights_reserved')}{' '}
+                        © {new Date().getFullYear()} {siteSettings?.company_name || t('resteel_solutions')}. {t('all_rights_reserved')}{' '}
                         {t('engineering_excellence_since')}
                     </p>
                     <div className="flex space-x-6">

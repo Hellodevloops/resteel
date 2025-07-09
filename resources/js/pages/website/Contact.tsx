@@ -154,7 +154,7 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                     <Textarea id="message" value={data.message} onChange={handleChange} rows={5} />
                                     {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
                                 </div>
-
+                                {/* 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <Label htmlFor="building_category">Building Types</Label>
@@ -185,8 +185,8 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                         </select>
                                         {errors.building_type && <p className="text-sm text-red-500">{errors.building_type}</p>}
                                     </div>
-                                </div>
-
+                                </div> */}
+                                {/* 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <Label htmlFor="building_width">Width</Label>
@@ -208,8 +208,8 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                         />
                                         {errors.building_length && <p className="text-sm text-red-500">{errors.building_length}</p>}
                                     </div>
-                                </div>
-
+                                </div> */}
+                                {/* 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
                                         <Label htmlFor="gutter_height">High Gutter</Label>
@@ -221,7 +221,7 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                         <Input id="top_height" value={data.top_height} onChange={handleChange} placeholder="Height in meters" />
                                         {errors.top_height && <p className="text-sm text-red-500">{errors.top_height}</p>}
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <Button
                                     type="submit"
@@ -295,7 +295,7 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                 </div>
                             </div>
                             <iframe
-                                className="h-92 w-full rounded-md border"
+                                className="h-30 w-full rounded-md border"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2488.4054706121573!2d5.659797676888595!3d51.48243397952794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c728cc878e130f%3A0x465e58709af94a83!2sWaterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1690225065506!5m2!1sen!2sus"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
