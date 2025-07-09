@@ -28,8 +28,7 @@ const Hero: React.FC = () => {
                     transition={{ duration: 0.8 }}
                     className="max-w-6xl text-4xl leading-tight font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] md:text-4xl"
                 >
-                    Purchase - Sale - Assembly - Disassembly - Transport of second-hand warehouses and steel constructions Across{' '}
-                    <span className="text-orange-500">{t('hero2_title').split(' ').slice(-1)[0]}</span>
+                    {t('hero2_title')}
                 </motion.h1>
 
                 <motion.p

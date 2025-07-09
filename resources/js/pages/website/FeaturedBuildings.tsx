@@ -8,10 +8,43 @@ import { ArrowRight, Building, Building2, Eye, Factory, Play, Ruler, Square, Squ
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+interface Specification {
+    name: string;
+    dimensions: string;
+    area: string;
+}
+
+interface Warehouse {
+    id: number;
+    title: string;
+    status: string;
+    type: string;
+    category: string;
+    totalArea: string;
+    construction: string;
+    image: string;
+    hasVideo: boolean;
+    videoUrls: string[];
+    specifications: Specification[];
+}
+
+interface WarehouseApiItem {
+    id: number;
+    name: string;
+    category?: string;
+    total_area?: string;
+    unit_of_measurement?: string;
+    construction?: string;
+    image_path?: string;
+    has_video: boolean;
+    video_urls?: string[];
+    main_hall_dimensions?: string;
+}
+
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
 
-const truncateText = (text, maxWords = 19) => {
+const truncateText = (text: string, maxWords = 19): string => {
     if (!text) return '';
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
@@ -19,25 +52,22 @@ const truncateText = (text, maxWords = 19) => {
 
 const FeaturedBuildings = () => {
     const { t } = useTranslation();
-    const [isVisible, setIsVisible] = useState(false);
-    const [warehouses, setWarehouses] = useState([]);
+    const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
 
     const buildingTypes = [
         { id: 'all', label: t('all'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'Steelconstructions', label: t('Steel Constructions'), icon: Factory },
+        { id: 'Steelconstructions', label: t('steel_constructions'), icon: Factory },
         { id: 'other', label: t('other'), icon: SquareStack },
     ];
 
     useEffect(() => {
-        setTimeout(() => setIsVisible(true), 100);
-
         const fetchWarehouses = async () => {
             try {
                 const res = await fetch('/api/warehouses');
                 const json = await res.json();
                 if (json.status === 'success') {
-                    const formatted = json.data.map((item) => ({
+                    const formatted = json.data.map((item: WarehouseApiItem) => ({
                         id: item.id,
                         title: item.name,
                         status: t('sale').toUpperCase(),
@@ -66,7 +96,7 @@ const FeaturedBuildings = () => {
         fetchWarehouses();
     }, [t]);
 
-    const BuildingCard = ({ building }) => (
+    const BuildingCard = ({ building }: { building: Warehouse }) => (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -125,7 +155,7 @@ const FeaturedBuildings = () => {
                         <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
                     <div className="mt-2 space-y-2">
-                        {building.specifications.map((spec, idx) => (
+                        {building.specifications.map((spec: Specification, idx: number) => (
                             <div key={idx} className="flex items-center justify-between text-sm">
                                 <span className="text-gray-700">{spec.name}</span>
                                 <span className="text-gray-500">{spec.dimensions}</span>

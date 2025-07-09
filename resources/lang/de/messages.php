@@ -352,11 +352,15 @@ return [
   // NewsletterSection Component
   'stay_updated_with' => 'Bleiben Sie auf dem Laufenden mit',
   'industry_insights' => 'Brancheneinblicken',
-  'newsletter_weekly_desc' => 'Erhalten Sie die neuesten Updates zu Stahllösungen, Trends und technischen Innovationen — wöchentlich in Ihr Postfach geliefert.',
-  'enter_your_email' => 'Geben Sie Ihre E-Mail ein',
+  'newsletter_heading' => 'Denken Sie über den Bau eines neuen Gebäudes nach? Warum nicht gebrauchte Materialien verwenden?',
+  'newsletter_subheading' => 'Erhalten Sie die neuesten Angebote für Gewerbeimmobilien. Wöchentliche Brancheneinblicke direkt in Ihrem Posteingang.',
+  'enter_your_email' => 'E-Mail-Adresse eingeben',
+  'subscribe' => 'Abonnieren',
   'project_support_24_7' => '24/7 Projektunterstützung',
-  'satisfied_clients_500' => '500+ zufriedene Kunden',
-  'weekly_updates' => 'Wöchentliche Updates',
+  'satisfied_clients_500' => '500+ Zufriedene Kunden',
+  'weekly_updates' => 'Wöchentliche Markt-Updates',
+  'subscription_error' => 'Ihr Abonnement konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.',
+  'subscription_success' => 'Ihr Abonnement war erfolgreich.',
 
   // Footer Component
   'resteel_solutions' => 'Resteel Solutions',
@@ -370,7 +374,7 @@ return [
   'engineering_excellence_since' => 'Ingenieursexzellenz seit 2005.',
 
   // Hero2 Component
-  'hero2_title' => 'Gebrauchte Stahlkonstruktionen in ganz Europa kaufen und verkaufen',
+  'hero2_title' => 'Ankauf - Verkauf - Montage - Demontage - Transport von gebrauchten Lagerhallen und Stahlkonstruktionen in ganz Europa',
   'hero2_subtitle' => 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2005.',
   'browse_structures_btn' => 'Strukturen durchsuchen',
   'sell_your_property_btn' => 'Ihre Immobilie verkaufen',
@@ -509,4 +513,26 @@ return [
   'industrial' => 'Industriell',
   'no_buildings_found' => 'Keine Gebäude gefunden',
   'try_different_filter' => 'Versuchen Sie einen anderen Filter zu wählen, um mehr Optionen zu sehen',
+
+  // Featured Buildings Component
+  'featured' => 'Ausgewählte',
+  'buildings' => 'Gebäude',
+  'featured_buildings_subtitle' => 'Entdecken Sie unsere kuratierte Auswahl an hochwertigen gebrauchten Gebäuden, bereit für die Verlagerung mit Expertenpräzision.',
+  'all' => 'Alle',
+  'warehouses' => 'Lagerhallen',
+  'steel_constructions' => 'Stahlkonstruktionen',
+  'other' => 'Andere',
+  'total_area' => 'Gesamtfläche',
+  'construction' => 'Konstruktion',
+  'specifications' => 'Spezifikationen',
+  'details' => 'Details',
+  'video' => 'Video',
+  'sale' => 'Zu Verkaufen',
+  'uncategorized' => 'Nicht Kategorisiert',
+  'not_available' => 'Nicht Verfügbar',
+  'not_specified' => 'Nicht Angegeben',
+  'main_hall' => 'Haupthalle',
+  'no_buildings_found' => 'Keine Gebäude Gefunden',
+  'check_back_later' => 'Bitte schauen Sie später für neue Angebote vorbei.',
+  'view_all_buildings' => 'Alle Gebäude Anzeigen',
 ];
