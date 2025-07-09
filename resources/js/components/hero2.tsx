@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
     return (
         <section className="relative min-h-screen w-full overflow-hidden bg-slate-950">
             {/* Background Image with overlay effects */}
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/assets/hero.jpg')" }}>
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/assets/6300613837098961878.jpg')" }}>
                 {/* Radiant Gradient Glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-blue-600/20 to-slate-900 backdrop-blur-xs" />
 

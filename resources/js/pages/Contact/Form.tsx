@@ -152,7 +152,7 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
                             {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
                         </div>
 
-                        <div className="space-y-6">
+                        {/* <div className="space-y-6">
                             <h3 className="text-lg font-medium">Building Specifications</h3>
 
                             <div className="grid gap-6 md:grid-cols-2">
@@ -230,7 +230,7 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
                                     {errors.top_height && <p className="mt-1 text-sm text-red-600">{errors.top_height}</p>}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="pt-4 text-right">
                             <Button type="submit" disabled={processing}>
