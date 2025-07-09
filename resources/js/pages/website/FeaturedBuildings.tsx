@@ -148,7 +148,11 @@ const FeaturedBuildings = () => {
             </div>
 
             <div className="flex h-[286px] flex-col p-6">
-                <h3 className="mb-3 line-clamp-1 text-lg font-semibold text-gray-900 group-hover:text-orange-600">{building.title}</h3>
+                <div className="mb-4 min-h-[28px]">
+                    <h3 className="line-clamp-1 text-lg font-semibold text-gray-900 group-hover:text-orange-600" title={building.title}>
+                        {building.title}
+                    </h3>
+                </div>
 
                 <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-3">
                     <div className="flex items-center">
@@ -158,12 +162,12 @@ const FeaturedBuildings = () => {
                     <span className="text-base font-semibold text-gray-900">{building.totalArea}</span>
                 </div>
 
-                <div className="mb-auto">
-                    <div className="flex items-center">
+                <div className="mb-6 flex-1">
+                    <div className="mb-2 flex items-center">
                         <Ruler className="mr-2 h-4 w-4 text-gray-500" />
                         <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
-                    <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mt-2 max-h-[100px] overflow-y-auto pr-1">
+                    <div className="scrollbar-hide max-h-[110px] overflow-y-auto">
                         <div className="space-y-2">
                             {building.specifications.map((spec: Specification, idx: number) => (
                                 <div key={idx} className="flex items-center justify-between text-sm">
@@ -175,11 +179,14 @@ const FeaturedBuildings = () => {
                                     </span>
                                 </div>
                             ))}
+                            {building.specifications.length === 0 && (
+                                <div className="py-2 text-center text-sm text-gray-500 italic">{t('no_specifications_available')}</div>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="mt-auto flex gap-2">
                     <Button asChild className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
                         <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
                             <Eye className="mr-2 h-4 w-4" /> {t('details')}
