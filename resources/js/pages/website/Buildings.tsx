@@ -61,10 +61,31 @@ interface Building {
     description?: string;
 }
 
+interface ApiWarehouse {
+    id: number;
+    name?: string;
+    status?: string;
+    type?: string;
+    category?: string;
+    construction?: string;
+    image_path?: string;
+    total_area?: string;
+    unit_of_measurement?: string;
+    has_video: boolean;
+    video_urls?: string[];
+    year_built?: string;
+    location?: string;
+    description?: string;
+    main_hall_dimensions?: string;
+    main_hall_area?: string;
+    office_space_dimensions?: string;
+    office_space_area?: string;
+    loading_dock_dimensions?: string;
+    loading_dock_area?: string;
+}
+
 const Buildings = () => {
     const { t } = useTranslation();
-    const [scrollY, setScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
     const [filter, setFilter] = useState('all');
     const { isMobile, isTablet } = useResponsiveBreakpoints();
     const [buildings, setBuildings] = useState<Building[]>([]);
@@ -74,21 +95,17 @@ const Buildings = () => {
     const buildingTypes = [
         { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'steelconstructions', label: 'steel_constructions', icon: Factory },
+        { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
         // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
     useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll);
-        setTimeout(() => setIsVisible(true), 100);
-
         const fetchWarehouses = async () => {
             try {
                 setLoading(true);
                 const response = await axios.get('/api/warehouses');
                 if (response.data && response.data.data) {
-                    const transformed: Building[] = response.data.data.map((item: any) => ({
+                    const transformed: Building[] = response.data.data.map((item: ApiWarehouse) => ({
                         id: item.id,
                         title: item.name || t('untitled'),
                         status: item.status || t('unknown'),
@@ -139,7 +156,6 @@ const Buildings = () => {
         };
 
         fetchWarehouses();
-        return () => window.removeEventListener('scroll', handleScroll);
     }, [t]);
 
     const filteredBuildings = filter === 'all' ? buildings : buildings.filter((b) => b.type === filter);

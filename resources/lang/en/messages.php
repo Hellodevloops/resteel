@@ -348,15 +348,16 @@ return [
   'subscription_success' => 'Your subscription has been successful.',
 
   // Footer Component
-  'resteel_solutions' => 'Resteel Solutions',
   'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
+  'resteel_solutions' => 'Resteel Solutions',
+  'quick_links' => 'Quick Links',
   'home' => 'Home',
   'about_us' => 'About Us',
   'browse_structures' => 'Browse Structures',
   'contact_us' => 'Contact Us',
   'terms' => 'Terms',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Engineering Excellence Since 2005.',
+  'engineering_excellence_since' => 'Technical excellence since 2005.',
 
   // Hero2 Component
   'hero2_title' => 'Purchase - Sale - Assembly - Disassembly - Transport of second-hand warehouses and steel constructions Across Europe',
@@ -561,7 +562,7 @@ return [
 
   // Featured Buildings Component
   'warehouses' => 'Warehouses',
-  'steel_constructions' => 'Steel Constructions',
+  'steel_constructions' => 'Steel constructions',
   'total_area' => 'Total Area',
   'construction' => 'Construction',
   'specifications' => 'Specifications',

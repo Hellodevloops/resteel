@@ -139,7 +139,7 @@ return [
 
   // Footer
   'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 2005.',
-  'quick_links' => 'Snelkoppelingen',
+  'quick_links' => 'Snelle Links',
   'follow_us' => 'Volg ons',
   'newsletter_signup' => 'Nieuwsbrief aanmelden',
   'newsletter_description' => 'Blijf op de hoogte van onze nieuwste gebouwen en branchenieuws',
@@ -363,15 +363,17 @@ return [
   'subscription_success' => 'Je abonnement is succesvol.',
 
   // Footer Component
+  'footer_company_desc' => 'Specialisten in het kopen en verkopen van tweedehands bedrijfspanden en bouwmaterialen met meer dan 20 jaar ervaring.',
   'resteel_solutions' => 'Resteel Solutions',
-  'footer_company_desc' => 'Specialisten in het kopen en verkopen van tweedehands gebouwen en bouwmaterialen met meer dan 20 jaar ervaring.',
+  'quick_links' => 'Snelle Links',
   'home' => 'Home',
-  'about_us' => 'Over ons',
-  'browse_structures' => 'Structuren bekijken',
+  'about_us' => 'Over Ons',
+  'browse_structures' => 'Bekijk Panden',
   'contact_us' => 'Contact',
+  'all_rights_reserved' => 'Alle rechten voorbehouden.',
+  'engineering_excellence_since' => 'Technische uitmuntendheid sinds 2005.',
   'terms' => 'Voorwaarden',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Engineering Excellence sincs 2005.',
 
   // Hero2 Component
   'hero2_title' => 'Inkoop - Verkoop - Montage - Demontage - Transport van 2ehands bouwmaterialen en staalconstructies door heel Europa',
