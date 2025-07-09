@@ -1,4 +1,4 @@
-import { Warehouse } from '@/types/warehouse';
+import { AreaDimension, Warehouse } from '@/types/warehouse';
 import { useForm } from '@inertiajs/react';
 import { Plus, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
@@ -9,9 +9,51 @@ interface Props {
     isEditing?: boolean;
 }
 
+type FormData = {
+    name: string;
+    location: string;
+    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive';
+    capacity: string;
+    occupied: string;
+    occupancy_rate: number;
+    type: string;
+    last_inspection: string;
+    revenue: string;
+    alerts: number;
+    description: string;
+    construction: string;
+    year_built: string;
+    price: string;
+    total_area: string;
+    has_video: boolean;
+    video_urls: string[];
+    features: string[];
+    area_dimensions: { name: string; dimensions: string; area: string }[];
+    category: string;
+    image: File | null;
+    images: File[];
+    contact_person: string;
+    contact_email: string;
+    contact_phone: string;
+    address: string;
+    postal_code: string;
+    city: string;
+    country: string;
+    ceiling_height: string;
+    floor_load_capacity: string;
+    number_of_loading_docks: number;
+    parking_spaces: number;
+    security_features: string[];
+    utilities: string[];
+    certificates: string[];
+    availability_date: string;
+    lease_terms: string;
+    unit_of_measurement: string;
+};
+
 export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
     const steelBlue = '#0076A8';
-    const { data, setData, post, put, processing, errors, reset, setError } = useForm({
+    const { data, setData, post, put, processing, errors, reset, setError } = useForm<FormData>({
         name: warehouse?.name || '',
         location: warehouse?.location || '',
         status: warehouse?.status || 'active',
@@ -28,17 +70,12 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         price: warehouse?.price || '',
         total_area: warehouse?.total_area || '',
         has_video: warehouse?.has_video || false,
-        video_urls: warehouse?.video_urls?.filter((url) => url !== null) || [''],
-        features: warehouse?.features?.filter((feature) => feature !== null) || [''],
-        main_hall_dimensions: warehouse?.main_hall_dimensions || '',
-        main_hall_area: warehouse?.main_hall_area || '',
-        office_space_dimensions: warehouse?.office_space_dimensions || '',
-        office_space_area: warehouse?.office_space_area || '',
-        loading_dock_dimensions: warehouse?.loading_dock_dimensions || '',
-        loading_dock_area: warehouse?.loading_dock_area || '',
+        video_urls: warehouse?.video_urls?.filter((url): url is string => url !== null) || [''],
+        features: warehouse?.features?.filter((feature): feature is string => feature !== null) || [''],
+        area_dimensions: warehouse?.area_dimensions || [{ name: 'Main Hall', dimensions: '', area: '' }],
         category: warehouse?.category || '',
-        image: null as File | null,
-        images: [] as File[],
+        image: null,
+        images: [],
         contact_person: warehouse?.contact_person || '',
         contact_email: warehouse?.contact_email || '',
         contact_phone: warehouse?.contact_phone || '',
@@ -46,15 +83,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         postal_code: warehouse?.postal_code || '',
         city: warehouse?.city || '',
         country: warehouse?.country || '',
-        // latitude: warehouse?.latitude || '',
-        // longitude: warehouse?.longitude || '',
         ceiling_height: warehouse?.ceiling_height || '',
         floor_load_capacity: warehouse?.floor_load_capacity || '',
         number_of_loading_docks: warehouse?.number_of_loading_docks || 0,
         parking_spaces: warehouse?.parking_spaces || 0,
-        security_features: warehouse?.security_features?.filter((feature) => feature !== null) || [''],
-        utilities: warehouse?.utilities?.filter((utility) => utility !== null) || [''],
-        certificates: warehouse?.certificates?.filter((cert) => cert !== null) || [''],
+        security_features: warehouse?.security_features?.filter((feature): feature is string => feature !== null) || [''],
+        utilities: warehouse?.utilities?.filter((utility): utility is string => utility !== null) || [''],
+        certificates: warehouse?.certificates?.filter((cert): cert is string => cert !== null) || [''],
         availability_date: warehouse?.availability_date ? formatDate(warehouse.availability_date) : '',
         lease_terms: warehouse?.lease_terms || '',
         unit_of_measurement: warehouse?.unit_of_measurement || 'm²',
@@ -118,8 +153,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         if (!data.name.trim()) newErrors.name = 'Warehouse name is required';
         if (!data.location.trim()) newErrors.location = 'Location is required';
         if (!data.status) newErrors.status = 'Status is required';
-        if (!data.category) newErrors.category = 'Category is required';
-        if (!data.type) newErrors.type = 'Warehouse type is required';
 
         // Numeric fields
         if (data.capacity && !validateNumber(data.capacity, 'capacity')) {
@@ -191,12 +224,16 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
             formData.utilities = (formData.utilities || []).filter((u) => u && u.trim());
             formData.certificates = (formData.certificates || []).filter((c) => c && c.trim());
 
+            // Clean up area dimensions
+            formData.area_dimensions = (formData.area_dimensions || []).filter((dim) => dim.name && dim.name.trim());
+
             // Ensure empty arrays
             if (formData.features.length === 0) formData.features = [''];
             if (formData.video_urls.length === 0) formData.video_urls = [''];
             if (formData.security_features.length === 0) formData.security_features = [''];
             if (formData.utilities.length === 0) formData.utilities = [''];
             if (formData.certificates.length === 0) formData.certificates = [''];
+            if (formData.area_dimensions.length === 0) formData.area_dimensions = [];
 
             // Create FormData object for file uploads
             const submitFormData = new FormData();
@@ -482,6 +519,39 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         }
     };
 
+    // Area Dimensions Management Functions
+    const addAreaDimension = () => {
+        try {
+            setData('area_dimensions', [...data.area_dimensions, { name: '', dimensions: '', area: '' }]);
+        } catch (error) {
+            console.error('Error adding area dimension:', error);
+            toast.error('Failed to add area dimension');
+        }
+    };
+
+    const removeAreaDimension = (index: number) => {
+        try {
+            setData(
+                'area_dimensions',
+                data.area_dimensions.filter((_, idx) => idx !== index),
+            );
+        } catch (error) {
+            console.error('Error removing area dimension:', error);
+            toast.error('Failed to remove area dimension');
+        }
+    };
+
+    const updateAreaDimension = (index: number, field: keyof AreaDimension, value: string) => {
+        try {
+            const dimensions = [...data.area_dimensions];
+            dimensions[index] = { ...dimensions[index], [field]: value };
+            setData('area_dimensions', dimensions);
+        } catch (error) {
+            console.error('Error updating area dimension:', error);
+            toast.error('Failed to update area dimension');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -623,6 +693,19 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         </p>
                                     )}
                                 </div>
+
+                                <div>
+                                    <label htmlFor="has_video" className="flex items-center">
+                                        <input
+                                            id="has_video"
+                                            type="checkbox"
+                                            checked={data.has_video}
+                                            onChange={(e) => setData('has_video', e.target.checked)}
+                                            className="rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Has Video Content</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <div className="space-y-6">
@@ -658,6 +741,61 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             </div>
                         </div>
                     </div>
+
+                    {/* Video URLs section - only shown when has_video is true */}
+                    {data.has_video && (
+                        <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+                            <div className="mb-6 flex items-center">
+                                <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                    <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <h2 className="ml-4 text-xl font-bold text-gray-900">Video Content</h2>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <label className="block text-sm font-medium text-gray-700">Video URLs</label>
+                                    <button
+                                        type="button"
+                                        onClick={addVideoUrl}
+                                        className="inline-flex items-center bg-orange-50 px-3 py-1.5 text-sm font-medium text-[#0076A8] transition-colors duration-200 hover:bg-orange-100"
+                                    >
+                                        <Plus className="mr-1 h-4 w-4" />
+                                        Add Video URL
+                                    </button>
+                                </div>
+                                <div className="space-y-3">
+                                    {(data.video_urls || []).map((url, idx) => (
+                                        <div key={idx} className="flex items-center space-x-3">
+                                            <input
+                                                type="text"
+                                                value={url || ''}
+                                                onChange={(e) => updateVideoUrl(idx, e.target.value)}
+                                                placeholder={`Video URL ${idx + 1}`}
+                                                className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
+                                            />
+                                            {(data.video_urls || []).length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeVideoUrl(idx)}
+                                                    className="p-2 text-gray-400 hover:text-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                                                >
+                                                    <X className="h-5 w-5" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
                         <div className="mb-6 flex items-center">
@@ -829,217 +967,101 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         </div>
                     </div>
 
-                    {/* Detailed Area Dimensions Card */}
+                    {/* Detailed Area Dimensions Card - Now Repeatable */}
                     <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
-                        <div className="mb-6 flex items-center">
-                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
-                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M4 8V4a1 1 0 011-1h4M4 8l4 4 4-4m6 0a1 1 0 011-1h4v4M16 8v8a1 1 0 01-1 1H9a1 1 0 01-1-1V8"
-                                    />
-                                </svg>
+                        <div className="mb-6 flex items-center justify-between">
+                            <div className="flex items-center">
+                                <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
+                                    <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M4 8V4a1 1 0 011-1h4M4 8l4 4 4-4m6 0a1 1 0 011-1h4v4M16 8v8a1 1 0 01-1 1H9a1 1 0 01-1-1V8"
+                                        />
+                                    </svg>
+                                </div>
+                                <h2 className="ml-4 text-xl font-bold text-gray-900">Detailed Area Dimensions</h2>
                             </div>
-                            <h2 className="ml-4 text-xl font-bold text-gray-900">Detailed Area Dimensions</h2>
+                            <button
+                                type="button"
+                                onClick={addAreaDimension}
+                                className="flex items-center rounded-lg bg-[#0076A8] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#005a85]"
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Area
+                            </button>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                            <div>
-                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Main Hall</h4>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label htmlFor="main_hall_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Dimensions
-                                        </label>
-                                        <input
-                                            id="main_hall_dimensions"
-                                            type="text"
-                                            placeholder="e.g. 20m x 30m"
-                                            value={data.main_hall_dimensions}
-                                            onChange={(e) => setData('main_hall_dimensions', e.target.value)}
-                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                errors.main_hall_dimensions
-                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                            }`}
-                                        />
-                                        {errors.main_hall_dimensions && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.main_hall_dimensions}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="main_hall_area" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Area
-                                        </label>
-                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
-                                            <input
-                                                id="main_hall_area"
-                                                type="text"
-                                                value={data.main_hall_area}
-                                                onChange={(e) => setData('main_hall_area', e.target.value)}
-                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
-                                                placeholder="Enter area"
-                                            />
-                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
-                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
-                                            </div>
-                                        </div>
-                                        {errors.main_hall_area && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.main_hall_area}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="space-y-6">
+                            {data.area_dimensions.map((dimension, index) => (
+                                <div key={index} className="relative rounded-xl border border-gray-200 p-6">
+                                    {data.area_dimensions.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => removeAreaDimension(index)}
+                                            className="absolute top-4 right-4 rounded-full bg-red-100 p-2 text-red-600 transition-colors hover:bg-red-200"
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </button>
+                                    )}
 
-                            <div>
-                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Office Space</h4>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label htmlFor="office_space_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Dimensions
-                                        </label>
-                                        <input
-                                            id="office_space_dimensions"
-                                            type="text"
-                                            placeholder="e.g. 5m x 8m"
-                                            value={data.office_space_dimensions}
-                                            onChange={(e) => setData('office_space_dimensions', e.target.value)}
-                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                errors.office_space_dimensions
-                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                            }`}
-                                        />
-                                        {errors.office_space_dimensions && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.office_space_dimensions}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="office_space_area" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Area
-                                        </label>
-                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                                        <div>
+                                            <label htmlFor={`area-name-${index}`} className="mb-2 block text-sm font-semibold text-gray-700">
+                                                Area Name
+                                            </label>
                                             <input
-                                                id="office_space_area"
+                                                id={`area-name-${index}`}
                                                 type="text"
-                                                value={data.office_space_area}
-                                                onChange={(e) => setData('office_space_area', e.target.value)}
-                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
-                                                placeholder="Enter area"
+                                                placeholder="e.g. Main Hall"
+                                                value={dimension.name}
+                                                onChange={(e) => updateAreaDimension(index, 'name', e.target.value)}
+                                                className="block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
                                             />
-                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
-                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
-                                            </div>
                                         </div>
-                                        {errors.office_space_area && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.office_space_area}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div>
-                                <h4 className="mb-3 text-sm font-semibold text-gray-700">Loading Dock</h4>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label htmlFor="loading_dock_dimensions" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Dimensions
-                                        </label>
-                                        <input
-                                            id="loading_dock_dimensions"
-                                            type="text"
-                                            placeholder="e.g. 10m x 15m"
-                                            value={data.loading_dock_dimensions}
-                                            onChange={(e) => setData('loading_dock_dimensions', e.target.value)}
-                                            className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
-                                                errors.loading_dock_dimensions
-                                                    ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
-                                                    : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
-                                            }`}
-                                        />
-                                        {errors.loading_dock_dimensions && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.loading_dock_dimensions}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="loading_dock_area" className="mb-2 block text-sm font-semibold text-gray-700">
-                                            Area
-                                        </label>
-                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                        <div>
+                                            <label htmlFor={`area-dimensions-${index}`} className="mb-2 block text-sm font-semibold text-gray-700">
+                                                Dimensions
+                                            </label>
                                             <input
-                                                id="loading_dock_area"
+                                                id={`area-dimensions-${index}`}
                                                 type="text"
-                                                value={data.loading_dock_area}
-                                                onChange={(e) => setData('loading_dock_area', e.target.value)}
-                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
-                                                placeholder="Enter area"
+                                                placeholder="e.g. 20m x 30m"
+                                                value={dimension.dimensions}
+                                                onChange={(e) => updateAreaDimension(index, 'dimensions', e.target.value)}
+                                                className="block w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100 focus:outline-none"
                                             />
-                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
-                                                <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor={`area-area-${index}`} className="mb-2 block text-sm font-semibold text-gray-700">
+                                                Area
+                                            </label>
+                                            <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                                <input
+                                                    id={`area-area-${index}`}
+                                                    type="text"
+                                                    value={dimension.area}
+                                                    onChange={(e) => updateAreaDimension(index, 'area', e.target.value)}
+                                                    className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                                    placeholder="Enter area"
+                                                />
+                                                <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                                    <span className="text-sm text-gray-500">{data.unit_of_measurement}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        {errors.loading_dock_area && (
-                                            <p className="mt-2 flex items-center text-sm text-red-600">
-                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                                {errors.loading_dock_area}
-                                            </p>
-                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            ))}
+
+                            {data.area_dimensions.length === 0 && (
+                                <div className="py-8 text-center text-gray-500">
+                                    <p>No area dimensions added yet. Click "Add Area" to get started.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 

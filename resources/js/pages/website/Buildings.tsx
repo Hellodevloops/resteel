@@ -76,6 +76,12 @@ interface ApiWarehouse {
     year_built?: string;
     location?: string;
     description?: string;
+    area_dimensions?: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+    // OLD FIELDS - for backward compatibility
     main_hall_dimensions?: string;
     main_hall_area?: string;
     office_space_dimensions?: string;
@@ -105,43 +111,56 @@ const Buildings = () => {
                 setLoading(true);
                 const response = await axios.get('/api/warehouses');
                 if (response.data && response.data.data) {
-                    const transformed: Building[] = response.data.data.map((item: ApiWarehouse) => ({
-                        id: item.id,
-                        title: item.name || t('untitled'),
-                        status: item.status || t('unknown'),
-                        type: item.type || t('unknown'),
-                        category: item.category || t('not_available'),
-                        construction: item.construction || t('not_available'),
-                        image: item.image_path
-                            ? item.image_path.startsWith('/storage')
-                                ? `${location.origin}${item.image_path}`
-                                : item.image_path
-                            : 'https://via.placeholder.com/600x400?text=No+Image',
-                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : t('not_available'),
-                        hasVideo: item.has_video || false,
-                        videoUrls: (item.video_urls || []).filter((v: string | null) => !!v),
-                        featured: false,
-                        year_built: item.year_built || '',
-                        location: item.location || '',
-                        description: item.description || '',
-                        specifications: [
-                            {
-                                name: t('main_hall'),
-                                dimensions: item.main_hall_dimensions || t('not_available'),
-                                area: item.main_hall_area || t('not_available'),
-                            },
-                            {
-                                name: t('office_space'),
-                                dimensions: item.office_space_dimensions || t('not_available'),
-                                area: item.office_space_area || t('not_available'),
-                            },
-                            {
-                                name: t('loading_dock'),
-                                dimensions: item.loading_dock_dimensions || t('not_available'),
-                                area: item.loading_dock_area || t('not_available'),
-                            },
-                        ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available')),
-                    }));
+                    const transformed: Building[] = response.data.data.map((item: ApiWarehouse) => {
+                        // Convert area_dimensions array or fall back to old fields
+                        let specifications: Array<{ name: string; dimensions: string; area: string }> = [];
+
+                        if (item.area_dimensions && item.area_dimensions.length > 0) {
+                            // Use new area_dimensions array
+                            specifications = item.area_dimensions.filter((dim) => dim.name || dim.dimensions || dim.area);
+                        } else {
+                            // Fall back to old fields for backward compatibility
+                            specifications = [
+                                {
+                                    name: t('main_hall'),
+                                    dimensions: item.main_hall_dimensions || t('not_available'),
+                                    area: item.main_hall_area || t('not_available'),
+                                },
+                                {
+                                    name: t('office_space'),
+                                    dimensions: item.office_space_dimensions || t('not_available'),
+                                    area: item.office_space_area || t('not_available'),
+                                },
+                                {
+                                    name: t('loading_dock'),
+                                    dimensions: item.loading_dock_dimensions || t('not_available'),
+                                    area: item.loading_dock_area || t('not_available'),
+                                },
+                            ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available'));
+                        }
+
+                        return {
+                            id: item.id,
+                            title: item.name || t('untitled'),
+                            status: item.status || t('unknown'),
+                            type: item.type || t('unknown'),
+                            category: item.category || t('not_available'),
+                            construction: item.construction || t('not_available'),
+                            image: item.image_path
+                                ? item.image_path.startsWith('/storage')
+                                    ? `${location.origin}${item.image_path}`
+                                    : item.image_path
+                                : 'https://via.placeholder.com/600x400?text=No+Image',
+                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : t('not_available'),
+                            hasVideo: item.has_video || false,
+                            videoUrls: (item.video_urls || []).filter((v: string | null) => !!v),
+                            featured: false,
+                            year_built: item.year_built || '',
+                            location: item.location || '',
+                            description: item.description || '',
+                            specifications: specifications,
+                        };
+                    });
 
                     setBuildings(transformed);
                 } else {

@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogHeader } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
-import { ArrowLeft, Building, Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
+import { ArrowLeft, Building, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
 import ContactForm from './ContactForm';
 
 interface BuildingType {
@@ -44,9 +44,24 @@ const BuildingDetails = () => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [showFullDescription, setShowFullDescription] = useState(false);
-    const [showAllFeatures, setShowAllFeatures] = useState(false);
-    const [showFullConstruction, setShowFullConstruction] = useState(false);
     const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
+
+    // Calculate total area from specifications
+    const calculateTotalArea = (specs: Array<{ name: string; dimensions: string; area: string }>, unit: string): string => {
+        try {
+            // Extract numeric values from area strings and sum them
+            const totalArea = specs.reduce((sum, spec) => {
+                const areaValue = parseFloat(spec.area.replace(/[^0-9.]/g, ''));
+                return isNaN(areaValue) ? sum : sum + areaValue;
+            }, 0);
+
+            // Return formatted total with unit
+            return totalArea > 0 ? `${totalArea.toFixed(2)} ${unit}` : t('not_available');
+        } catch (error) {
+            console.error('Error calculating total area:', error);
+            return t('not_available');
+        }
+    };
 
     useEffect(() => {
         const fetchBuilding = async () => {
@@ -55,22 +70,18 @@ const BuildingDetails = () => {
                 const json = await res.json();
                 if (json.status === 'success') {
                     const data = json.data;
-                    setBuilding({
-                        id: data.id,
-                        title: data.name,
-                        status: data.status || t('sale'),
-                        category: data.category || t('warehouse'),
-                        construction: data.construction || t('not_specified'),
-                        description: data.description || t('no_description_available'),
-                        location: `${data.city || ''}, ${data.country || ''}`,
-                        yearBuilt: data.year_built || t('unknown'),
-                        price: data.price ? `€${data.price}` : t('contact_for_price'),
-                        images: data.additional_images?.length > 0 ? data.additional_images : data.image_path ? [data.image_path] : [],
-                        totalArea: data.total_area ? `${data.total_area} ${data.unit_of_measurement || ''}` : t('not_available'),
-                        hasVideo: data.has_video,
-                        videoUrls: (data.video_urls || []).filter(Boolean),
-                        features: (data.features || []).filter(Boolean),
-                        specifications: [
+
+                    // Convert area_dimensions array or fall back to old fields
+                    let specifications: Array<{ name: string; dimensions: string; area: string }> = [];
+
+                    if (data.area_dimensions && data.area_dimensions.length > 0) {
+                        // Use new area_dimensions array
+                        specifications = data.area_dimensions.filter(
+                            (dim: { name: string; dimensions: string; area: string }) => dim.name || dim.dimensions || dim.area,
+                        );
+                    } else {
+                        // Fall back to old fields for backward compatibility
+                        specifications = [
                             {
                                 name: t('main_hall'),
                                 dimensions: data.main_hall_dimensions || t('not_available'),
@@ -86,7 +97,28 @@ const BuildingDetails = () => {
                                 dimensions: data.loading_dock_dimensions || t('not_available'),
                                 area: data.loading_dock_area || t('not_available'),
                             },
-                        ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available')),
+                        ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available'));
+                    }
+
+                    // Calculate total area from specifications
+                    const totalArea = calculateTotalArea(specifications, data.unit_of_measurement || 'm²');
+
+                    setBuilding({
+                        id: data.id,
+                        title: data.name,
+                        status: data.status || t('sale'),
+                        category: data.category || t('warehouse'),
+                        construction: data.construction || t('not_specified'),
+                        description: data.description || t('no_description_available'),
+                        location: `${data.city || ''}, ${data.country || ''}`,
+                        yearBuilt: data.year_built || t('unknown'),
+                        price: data.price ? `€${data.price}` : t('contact_for_price'),
+                        images: data.additional_images?.length > 0 ? data.additional_images : data.image_path ? [data.image_path] : [],
+                        totalArea: totalArea, // Use calculated total area
+                        hasVideo: data.has_video,
+                        videoUrls: (data.video_urls || []).filter(Boolean),
+                        features: (data.features || []).filter(Boolean),
+                        specifications: specifications,
                     });
                 }
             } catch (err) {
@@ -212,12 +244,12 @@ const BuildingDetails = () => {
                                         <MapPin className="mr-1 h-4 w-4 text-orange-500" />
                                         <span className="text-sm">{building.location}</span>
                                     </div>
-                                    <div className="flex items-center">
+                                    {/* <div className="flex items-center">
                                         <Calendar className="mr-1 h-4 w-4 text-orange-500" />
                                         <span className="text-sm">
                                             {t('built')} {building.yearBuilt}
                                         </span>
-                                    </div>
+                                    </div> */}
                                     <div className="flex items-center">
                                         <Square className="mr-1 h-4 w-4 text-orange-500" />
                                         <span className="text-sm">{building.totalArea}</span>
@@ -239,9 +271,9 @@ const BuildingDetails = () => {
                         {/* Image Gallery */}
                         <div className="xl:col-span-2">
                             <Card className="overflow-hidden">
-                                <CardContent className="p-0">
+                                <CardContent>
                                     {/* Main Image */}
-                                    <div className="relative aspect-[4/3] bg-gray-200">
+                                    <div className="relative -m-6 aspect-[4/3] bg-gray-200">
                                         {building.images.length > 0 ? (
                                             <>
                                                 <img
@@ -307,7 +339,7 @@ const BuildingDetails = () => {
 
                                     {/* Thumbnail Grid */}
                                     {building.images.length > 1 && (
-                                        <div className="bg-gray-50 p-4">
+                                        <div className="mt-6 rounded-lg bg-gray-50 p-4">
                                             <div className="grid grid-cols-6 gap-2 sm:grid-cols-8 md:grid-cols-10">
                                                 {building.images.slice(0, 10).map((image, index) => (
                                                     <button
@@ -370,38 +402,6 @@ const BuildingDetails = () => {
                                     </CardContent>
                                 </Card>
 
-                                {/* Key Features */}
-                                <Card>
-                                    <CardHeader className="pb-4">
-                                        <CardTitle className="text-lg">{t('key_features')}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="space-y-3">
-                                            {building.features.slice(0, 6).map((feature, index) => (
-                                                <div key={index} className="flex items-start space-x-3">
-                                                    <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></div>
-                                                    <span className="text-sm leading-relaxed text-gray-700">{feature}</span>
-                                                </div>
-                                            ))}
-                                            {building.features.length > 6 && (
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="w-full text-orange-500 hover:bg-orange-50 hover:text-orange-600"
-                                                    onClick={() => setShowAllFeatures(!showAllFeatures)}
-                                                >
-                                                    {showAllFeatures ? t('show_less') : t('view_all_features', { count: building.features.length })}
-                                                    {showAllFeatures ? (
-                                                        <ChevronUp className="ml-1 h-4 w-4" />
-                                                    ) : (
-                                                        <ChevronDown className="ml-1 h-4 w-4" />
-                                                    )}
-                                                </Button>
-                                            )}
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
                                 {/* Quick Stats */}
                                 <Card>
                                     <CardHeader className="pb-4">
@@ -412,20 +412,20 @@ const BuildingDetails = () => {
                                             <span className="text-sm text-gray-600">{t('total_area')}</span>
                                             <span className="font-semibold">{building.totalArea}</span>
                                         </div>
-                                        <div className="flex items-center justify-between">
+                                        {/* <div className="flex items-center justify-between">
                                             <span className="text-sm text-gray-600">{t('year_built')}</span>
                                             <span className="font-semibold">{building.yearBuilt}</span>
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm text-gray-600">{t('property_type')}</span>
                                             <span className="font-semibold">{building.category}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">{t('status')}</span>
-                                            <Badge variant="secondary" className="bg-orange-500 text-xs text-white">
+                                        </div> */}
+                                        {/* <div className="flex items-center justify-between">
+                                            {/* <span className="text-sm text-gray-600">{t('status')}</span> */}
+                                        {/* <Badge variant="secondary" className="bg-orange-500 text-xs text-white">
                                                 {building.status}
-                                            </Badge>
-                                        </div>
+                                            </Badge> */}
+                                        {/* </div> */}
                                     </CardContent>
                                 </Card>
                             </div>
@@ -470,7 +470,8 @@ const BuildingDetails = () => {
 
                                 <Separator />
 
-                                <div>
+                                {/* Features section - commented out since we're not using showAllFeatures anymore */}
+                                {/* <div>
                                     <h3 className="mb-3 font-semibold text-gray-800">{t('construction_details')}</h3>
                                     <div className="max-h-48 overflow-x-hidden overflow-y-auto">
                                         <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">
@@ -497,24 +498,20 @@ const BuildingDetails = () => {
                                             )}
                                         </Button>
                                     )}
-                                </div>
+                                </div> */}
 
-                                {showAllFeatures && (
-                                    <>
-                                        <Separator />
-                                        <div>
-                                            <h3 className="mb-4 font-semibold text-gray-800">{t('all_features')}</h3>
-                                            <div className="grid max-h-56 grid-cols-1 gap-3 overflow-x-hidden overflow-y-auto sm:grid-cols-2">
-                                                {building.features.map((feature, index) => (
-                                                    <div key={index} className="flex items-start space-x-3">
-                                                        <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></div>
-                                                        <span className="text-sm leading-relaxed break-words text-gray-700">{feature}</span>
-                                                    </div>
-                                                ))}
+                                {/* Features section - commented out since we're not using showAllFeatures anymore */}
+                                {/* <div>
+                                    <h3 className="mb-4 font-semibold text-gray-800">{t('all_features')}</h3>
+                                    <div className="grid max-h-56 grid-cols-1 gap-3 overflow-x-hidden overflow-y-auto sm:grid-cols-2">
+                                        {building.features.map((feature, index) => (
+                                            <div key={index} className="flex items-start space-x-3">
+                                                <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></div>
+                                                <span className="text-sm leading-relaxed break-words text-gray-700">{feature}</span>
                                             </div>
-                                        </div>
-                                    </>
-                                )}
+                                        ))}
+                                    </div>
+                                </div> */}
                             </CardContent>
                         </Card>
 

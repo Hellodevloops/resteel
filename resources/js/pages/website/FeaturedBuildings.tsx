@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Building, Building2, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
+import { ArrowRight, Building2, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -38,16 +38,23 @@ interface WarehouseApiItem {
     image_path?: string;
     has_video: boolean;
     video_urls?: string[];
+    area_dimensions?: Array<{
+        name: string;
+        dimensions: string;
+        area: string;
+    }>;
+    // OLD FIELDS - for backward compatibility
     main_hall_dimensions?: string;
+    main_hall_area?: string;
 }
 
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
 
-const truncateText = (text: string, maxWords = 19): string => {
+// Add a new function to truncate specification name if needed
+const truncateSpec = (text: string, maxLength = 15): string => {
     if (!text) return '';
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
 };
 
 const FeaturedBuildings = () => {
@@ -67,25 +74,38 @@ const FeaturedBuildings = () => {
                 const res = await fetch('/api/warehouses');
                 const json = await res.json();
                 if (json.status === 'success') {
-                    const formatted = json.data.map((item: WarehouseApiItem) => ({
-                        id: item.id,
-                        title: item.name,
-                        status: t('sale').toUpperCase(),
-                        type: 'warehouses',
-                        category: item.category || t('uncategorized'),
-                        totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
-                        construction: item.construction || t('not_specified'),
-                        image: item.image_path || '/placeholder.jpg',
-                        hasVideo: item.has_video,
-                        videoUrls: (item.video_urls || []).filter(Boolean),
-                        specifications: [
-                            {
-                                name: t('main_hall'),
-                                dimensions: item.main_hall_dimensions || t('not_available'),
-                                area: item.total_area || t('not_available'),
-                            },
-                        ],
-                    }));
+                    const formatted = json.data.map((item: WarehouseApiItem) => {
+                        // Convert area_dimensions array or fall back to old fields
+                        let specifications: Specification[] = [];
+
+                        if (item.area_dimensions && item.area_dimensions.length > 0) {
+                            // Use new area_dimensions array
+                            specifications = item.area_dimensions.filter((dim) => dim.name || dim.dimensions || dim.area);
+                        } else if (item.main_hall_dimensions || item.main_hall_area) {
+                            // Fall back to old fields for backward compatibility
+                            specifications = [
+                                {
+                                    name: t('main_hall'),
+                                    dimensions: item.main_hall_dimensions || t('not_available'),
+                                    area: item.main_hall_area || t('not_available'),
+                                },
+                            ];
+                        }
+
+                        return {
+                            id: item.id,
+                            title: item.name,
+                            status: t('sale').toUpperCase(),
+                            type: 'warehouses',
+                            category: item.category || t('uncategorized'),
+                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
+                            construction: item.construction || t('not_specified'),
+                            image: item.image_path || '/placeholder.jpg',
+                            hasVideo: item.has_video,
+                            videoUrls: (item.video_urls || []).filter(Boolean),
+                            specifications: specifications,
+                        };
+                    });
                     setWarehouses(formatted);
                 }
             } catch (error) {
@@ -102,7 +122,7 @@ const FeaturedBuildings = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4 }}
-            className="group relative w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="group relative h-[550px] w-full overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
         >
             <div className="relative h-64 overflow-hidden">
                 <img
@@ -125,13 +145,10 @@ const FeaturedBuildings = () => {
                         </span>
                     </div>
                 )}
-                <div className="absolute bottom-4 left-4">
-                    <span className="rounded-lg bg-white/90 px-2 py-1 text-xs font-medium text-gray-800 uppercase">{building.category}</span>
-                </div>
             </div>
 
-            <div className="p-6">
-                <h3 className="mb-3 truncate text-lg font-semibold text-gray-900 group-hover:text-orange-600">{truncateText(building.title)}</h3>
+            <div className="flex h-[286px] flex-col p-6">
+                <h3 className="mb-3 line-clamp-1 text-lg font-semibold text-gray-900 group-hover:text-orange-600">{building.title}</h3>
 
                 <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-3">
                     <div className="flex items-center">
@@ -141,26 +158,24 @@ const FeaturedBuildings = () => {
                     <span className="text-base font-semibold text-gray-900">{building.totalArea}</span>
                 </div>
 
-                <div className="mb-4">
-                    <div className="flex items-center">
-                        <Building className="mr-2 h-4 w-4 text-gray-500" />
-                        <span className="text-sm font-medium text-gray-600">{t('construction')}</span>
-                    </div>
-                    <p className="mt-1 text-sm text-gray-500">{truncateText(building.construction)}</p>
-                </div>
-
-                <div className="mb-6">
+                <div className="mb-auto">
                     <div className="flex items-center">
                         <Ruler className="mr-2 h-4 w-4 text-gray-500" />
                         <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
-                    <div className="mt-2 space-y-2">
-                        {building.specifications.map((spec: Specification, idx: number) => (
-                            <div key={idx} className="flex items-center justify-between text-sm">
-                                <span className="text-gray-700">{spec.name}</span>
-                                <span className="text-gray-500">{spec.dimensions}</span>
-                            </div>
-                        ))}
+                    <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 mt-2 max-h-[100px] overflow-y-auto pr-1">
+                        <div className="space-y-2">
+                            {building.specifications.map((spec: Specification, idx: number) => (
+                                <div key={idx} className="flex items-center justify-between text-sm">
+                                    <span className="max-w-[60%] truncate text-gray-700" title={spec.name}>
+                                        {truncateSpec(spec.name)}
+                                    </span>
+                                    <span className="max-w-[40%] truncate text-gray-500" title={spec.dimensions}>
+                                        {spec.dimensions}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
