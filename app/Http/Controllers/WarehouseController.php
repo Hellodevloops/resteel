@@ -310,7 +310,7 @@ class WarehouseController extends Controller
       'capacity' => 'nullable|string|max:255',
       'occupied' => 'nullable|string|max:255',
       'occupancy_rate' => 'nullable|numeric|min:0|max:100',
-      'type' => 'nullable|string|max:255', // No longer required
+      'type' => 'nullable|string|max:255',
       'last_inspection' => 'nullable|date',
       'revenue' => 'nullable|string|max:255',
       'alerts' => 'nullable|integer|min:0',
@@ -327,13 +327,7 @@ class WarehouseController extends Controller
       'area_dimensions.*.name' => 'nullable|string|max:255',
       'area_dimensions.*.dimensions' => 'nullable|string|max:255',
       'area_dimensions.*.area' => 'nullable|string|max:255',
-      'main_hall_dimensions' => 'nullable|string|max:255',
-      'main_hall_area' => 'nullable|string|max:255',
-      'office_space_dimensions' => 'nullable|string|max:255',
-      'office_space_area' => 'nullable|string|max:255',
-      'loading_dock_dimensions' => 'nullable|string|max:255',
-      'loading_dock_area' => 'nullable|string|max:255',
-      'category' => 'nullable|string|max:255', // No longer required
+      'category' => 'nullable|string|max:255',
       'ceiling_height' => 'nullable|string|max:255',
       'floor_load_capacity' => 'nullable|string|max:255',
       'number_of_loading_docks' => 'nullable|integer|min:0',
@@ -413,7 +407,7 @@ class WarehouseController extends Controller
 
       // Ensure array fields are initialized for each warehouse
       $warehouses->each(function ($warehouse) {
-        $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+        $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
         foreach ($arrayFields as $field) {
           if (is_null($warehouse->$field)) {
             $warehouse->$field = [];
@@ -423,30 +417,20 @@ class WarehouseController extends Controller
 
       // Transform warehouses into the format expected by the frontend
       $formattedWarehouses = $warehouses->map(function ($warehouse) {
-        // Extract the main hall dimensions if available
+        // Extract specifications from area_dimensions array
         $specifications = [];
-        if ($warehouse->main_hall_dimensions && $warehouse->main_hall_area) {
-          $specifications[] = [
-            'name' => 'Main Hall',
-            'dimensions' => $warehouse->main_hall_dimensions,
-            'area' => $warehouse->main_hall_area . ' ' . $warehouse->unit_of_measurement
-          ];
-        }
 
-        if ($warehouse->office_space_dimensions && $warehouse->office_space_area) {
-          $specifications[] = [
-            'name' => 'Office Space',
-            'dimensions' => $warehouse->office_space_dimensions,
-            'area' => $warehouse->office_space_area . ' ' . $warehouse->unit_of_measurement
-          ];
-        }
-
-        if ($warehouse->loading_dock_dimensions && $warehouse->loading_dock_area) {
-          $specifications[] = [
-            'name' => 'Loading Dock',
-            'dimensions' => $warehouse->loading_dock_dimensions,
-            'area' => $warehouse->loading_dock_area . ' ' . $warehouse->unit_of_measurement
-          ];
+        if (!empty($warehouse->area_dimensions)) {
+          foreach ($warehouse->area_dimensions as $dimension) {
+            if (!empty($dimension['name'])) {
+              $specifications[] = [
+                'name' => $dimension['name'],
+                'dimensions' => $dimension['dimensions'] ?? 'Not specified',
+                'area' => ($dimension['area'] ?? 'Not specified') .
+                  (!empty($dimension['area']) ? ' ' . $warehouse->unit_of_measurement : '')
+              ];
+            }
+          }
         }
 
         // If no specifications were added, add a generic one with the total area
@@ -465,7 +449,7 @@ class WarehouseController extends Controller
           'type' => 'warehouses', // Default type
           'category' => $warehouse->category ?: 'Industrial Warehouses',
           'construction' => $warehouse->construction ?: 'Not specified',
-          'image' => 'https://www.tradingbv.com/wp-content/uploads/2024/06/20240523_101558000_iOS-2048x1152.jpg', // Default image
+          'image' => $warehouse->image_path ?: 'https://www.tradingbv.com/wp-content/uploads/2024/06/20240523_101558000_iOS-2048x1152.jpg', // Use warehouse image if available
           'specifications' => $specifications,
           'totalArea' => $warehouse->total_area . ' ' . $warehouse->unit_of_measurement,
           'hasVideo' => $warehouse->has_video,
