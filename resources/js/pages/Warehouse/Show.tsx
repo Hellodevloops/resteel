@@ -27,6 +27,14 @@ export default function Show({ warehouse }: Props) {
         { title: warehouse.name, href: route('admin.warehouses.show', warehouse.id) },
     ];
 
+    // Format status for display
+    const formatStatus = (status: string) => {
+        return status
+            .split('_')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
     return (
         <AppLayout>
             <Head title={`${warehouse.name} - Admin`} />
@@ -87,27 +95,33 @@ export default function Show({ warehouse }: Props) {
                                                 </dt>
                                                 <dd className="text-sm text-slate-900">{warehouse.location}</dd>
                                             </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Package className="mr-2 h-4 w-4 text-[#E75B12]" />
-                                                    Type
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.type}</dd>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Calendar className="mr-2 h-4 w-4 text-[#E75B12]" />
-                                                    Year Built
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.year_built}</dd>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Calendar className="mr-2 h-4 w-4 text-[#E75B12]" />
-                                                    Last Inspection
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.last_inspection}</dd>
-                                            </div>
+                                            {warehouse.type && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Package className="mr-2 h-4 w-4 text-[#E75B12]" />
+                                                        Type
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">{warehouse.type}</dd>
+                                                </div>
+                                            )}
+                                            {warehouse.year_built && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Calendar className="mr-2 h-4 w-4 text-[#E75B12]" />
+                                                        Year Built
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">{warehouse.year_built}</dd>
+                                                </div>
+                                            )}
+                                            {warehouse.last_inspection && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Calendar className="mr-2 h-4 w-4 text-[#E75B12]" />
+                                                        Last Inspection
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">{warehouse.last_inspection}</dd>
+                                                </div>
+                                            )}
                                             <div>
                                                 <dt className="mb-2 flex items-center text-sm font-medium text-slate-500">Status</dt>
                                                 <dd className="mt-1">
@@ -127,7 +141,7 @@ export default function Show({ warehouse }: Props) {
                                                         ) : (
                                                             <XCircle className="mr-1 h-4 w-4" />
                                                         )}
-                                                        {warehouse.status.charAt(0).toUpperCase() + warehouse.status.slice(1)}
+                                                        {formatStatus(warehouse.status)}
                                                     </span>
                                                 </dd>
                                             </div>
@@ -137,57 +151,69 @@ export default function Show({ warehouse }: Props) {
                                     <div>
                                         <h3 className="text-lg font-medium text-[#434B4D]">Capacity Information</h3>
                                         <dl className="mt-4 space-y-4">
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
-                                                    Capacity
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.capacity}</dd>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
-                                                    Occupied
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.occupied}</dd>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
-                                                    Total Area
-                                                </dt>
-                                                <dd className="text-sm text-slate-900">{warehouse.total_area}</dd>
-                                            </div>
-                                            <div>
-                                                <dt className="mb-2 flex items-center text-sm font-medium text-slate-500">
-                                                    <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
-                                                    Occupancy Rate
-                                                </dt>
-                                                <dd className="mt-1">
-                                                    <div className="mb-1 flex items-center justify-between">
-                                                        <span className="text-sm font-medium text-slate-700">{warehouse.occupancy_rate}%</span>
-                                                    </div>
-                                                    <div className="h-2 w-full rounded-full bg-slate-200">
-                                                        <div
-                                                            className={`h-2 rounded-full ${
-                                                                warehouse.occupancy_rate > 80
-                                                                    ? 'bg-red-500'
-                                                                    : warehouse.occupancy_rate > 50
-                                                                      ? 'bg-yellow-500'
-                                                                      : 'bg-green-500'
-                                                            }`}
-                                                            style={{ width: `${warehouse.occupancy_rate}%` }}
-                                                        ></div>
-                                                    </div>
-                                                </dd>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
-                                                    <Zap className="mr-2 h-4 w-4 text-[#E75B12]" />
-                                                    Revenue
-                                                </dt>
-                                                <dd className="text-sm font-semibold text-slate-900">{warehouse.revenue}</dd>
-                                            </div>
+                                            {warehouse.capacity && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
+                                                        Capacity
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">{warehouse.capacity}</dd>
+                                                </div>
+                                            )}
+                                            {warehouse.occupied && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
+                                                        Occupied
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">{warehouse.occupied}</dd>
+                                                </div>
+                                            )}
+                                            {warehouse.total_area && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
+                                                        Total Area
+                                                    </dt>
+                                                    <dd className="text-sm text-slate-900">
+                                                        {warehouse.total_area} {warehouse.unit_of_measurement}
+                                                    </dd>
+                                                </div>
+                                            )}
+                                            {typeof warehouse.occupancy_rate === 'number' && (
+                                                <div>
+                                                    <dt className="mb-2 flex items-center text-sm font-medium text-slate-500">
+                                                        <Box className="mr-2 h-4 w-4 text-[#1E2460]" />
+                                                        Occupancy Rate
+                                                    </dt>
+                                                    <dd className="mt-1">
+                                                        <div className="mb-1 flex items-center justify-between">
+                                                            <span className="text-sm font-medium text-slate-700">{warehouse.occupancy_rate}%</span>
+                                                        </div>
+                                                        <div className="h-2 w-full rounded-full bg-slate-200">
+                                                            <div
+                                                                className={`h-2 rounded-full ${
+                                                                    warehouse.occupancy_rate > 80
+                                                                        ? 'bg-red-500'
+                                                                        : warehouse.occupancy_rate > 50
+                                                                          ? 'bg-yellow-500'
+                                                                          : 'bg-green-500'
+                                                                }`}
+                                                                style={{ width: `${warehouse.occupancy_rate}%` }}
+                                                            ></div>
+                                                        </div>
+                                                    </dd>
+                                                </div>
+                                            )}
+                                            {warehouse.revenue && (
+                                                <div className="flex items-center">
+                                                    <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
+                                                        <Zap className="mr-2 h-4 w-4 text-[#E75B12]" />
+                                                        Revenue
+                                                    </dt>
+                                                    <dd className="text-sm font-semibold text-slate-900">{warehouse.revenue}</dd>
+                                                </div>
+                                            )}
                                             {warehouse.price && (
                                                 <div className="flex items-center">
                                                     <dt className="flex w-32 items-center text-sm font-medium text-slate-500">
@@ -203,98 +229,87 @@ export default function Show({ warehouse }: Props) {
 
                                 {/* Warehouse Details */}
                                 <div className="space-y-6">
-                                    <div>
-                                        <h3 className="text-lg font-medium text-[#434B4D]">Description</h3>
-                                        <p className="mt-2 text-sm whitespace-pre-wrap text-slate-600">{warehouse.description}</p>
-                                    </div>
+                                    {warehouse.description && (
+                                        <div>
+                                            <h3 className="text-lg font-medium text-[#434B4D]">Description</h3>
+                                            <p className="mt-2 text-sm whitespace-pre-wrap text-slate-600">{warehouse.description}</p>
+                                        </div>
+                                    )}
 
-                                    <div>
-                                        <h3 className="text-lg font-medium text-[#434B4D]">Construction</h3>
-                                        <p className="mt-2 text-sm whitespace-pre-wrap text-slate-600">{warehouse.construction}</p>
-                                    </div>
+                                    {warehouse.construction && (
+                                        <div>
+                                            <h3 className="text-lg font-medium text-[#434B4D]">Construction</h3>
+                                            <p className="mt-2 text-sm whitespace-pre-wrap text-slate-600">{warehouse.construction}</p>
+                                        </div>
+                                    )}
 
-                                    <div>
-                                        <h3 className="text-lg font-medium text-[#434B4D]">Features</h3>
-                                        <ul className="mt-2 space-y-2">
-                                            {warehouse.features && warehouse.features.length > 0 ? (
-                                                warehouse.features.map((feature, index) => (
-                                                    <li key={index} className="flex items-start">
-                                                        <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-[#E75B12]" />
-                                                        <span className="text-sm text-slate-600">{feature}</span>
-                                                    </li>
-                                                ))
-                                            ) : (
-                                                <li className="text-sm text-slate-500">No features listed</li>
-                                            )}
-                                        </ul>
-                                    </div>
+                                    {warehouse.features && warehouse.features.length > 0 && (
+                                        <div>
+                                            <h3 className="text-lg font-medium text-[#434B4D]">Features</h3>
+                                            <ul className="mt-2 space-y-2">
+                                                {warehouse.features
+                                                    .filter((feature) => feature && feature.trim() !== '')
+                                                    .map((feature, index) => (
+                                                        <li key={index} className="flex items-start">
+                                                            <CheckCircle className="mr-2 h-5 w-5 flex-shrink-0 text-[#E75B12]" />
+                                                            <span className="text-sm text-slate-600">{feature}</span>
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </div>
+                                    )}
 
                                     {warehouse.has_video && warehouse.video_urls && warehouse.video_urls.length > 0 && (
                                         <div>
                                             <h3 className="text-lg font-medium text-[#434B4D]">Videos</h3>
                                             <ul className="mt-2 space-y-2">
-                                                {warehouse.video_urls.map((url, index) => (
-                                                    <li key={index} className="flex items-start">
-                                                        <a
-                                                            href={url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-sm text-[#1E2460] underline hover:text-[#30378E]"
-                                                        >
-                                                            Video {index + 1}
-                                                        </a>
-                                                    </li>
-                                                ))}
+                                                {warehouse.video_urls
+                                                    .filter((url) => url && url.trim() !== '')
+                                                    .map((url, index) => (
+                                                        <li key={index} className="flex items-start">
+                                                            <a
+                                                                href={url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-sm text-[#1E2460] underline hover:text-[#30378E]"
+                                                            >
+                                                                Video {index + 1}
+                                                            </a>
+                                                        </li>
+                                                    ))}
                                             </ul>
                                         </div>
                                     )}
 
-                                    <div>
-                                        <h3 className="text-lg font-medium text-[#434B4D]">Specifications</h3>
-                                        <div className="mt-4 space-y-6">
-                                            <div className="space-y-2">
-                                                <h4 className="text-sm font-medium text-slate-700">Main Hall</h4>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Dimensions</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.main_hall_dimensions}</p>
+                                    {/* Render area dimensions from the array */}
+                                    {warehouse.area_dimensions && warehouse.area_dimensions.length > 0 && (
+                                        <div>
+                                            <h3 className="text-lg font-medium text-[#434B4D]">Area Specifications</h3>
+                                            <div className="mt-4 space-y-6">
+                                                {warehouse.area_dimensions.map((dimension, index) => (
+                                                    <div key={index} className="space-y-2">
+                                                        <h4 className="text-sm font-medium text-slate-700">{dimension.name}</h4>
+                                                        <div className="grid grid-cols-2 gap-4">
+                                                            {dimension.dimensions && (
+                                                                <div>
+                                                                    <p className="text-xs text-slate-500">Dimensions</p>
+                                                                    <p className="text-sm text-slate-900">{dimension.dimensions}</p>
+                                                                </div>
+                                                            )}
+                                                            {dimension.area && (
+                                                                <div>
+                                                                    <p className="text-xs text-slate-500">Area</p>
+                                                                    <p className="text-sm text-slate-900">
+                                                                        {dimension.area} {warehouse.unit_of_measurement}
+                                                                    </p>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Area</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.main_hall_area}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <h4 className="text-sm font-medium text-slate-700">Office Space</h4>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Dimensions</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.office_space_dimensions}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Area</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.office_space_area}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <h4 className="text-sm font-medium text-slate-700">Loading Dock</h4>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Dimensions</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.loading_dock_dimensions}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs text-slate-500">Area</p>
-                                                        <p className="text-sm text-slate-900">{warehouse.loading_dock_area}</p>
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -125,7 +125,7 @@ const FeaturedBuildings = () => {
             className="group relative flex h-[520px] w-full flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
         >
             {/* Image Section - Fixed Height */}
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative h-48 flex-shrink-0 overflow-hidden">
                 <img
                     src={building.image}
                     alt={building.title}
@@ -148,65 +148,78 @@ const FeaturedBuildings = () => {
                 )}
             </div>
 
-            {/* Content Section - Flexible with Fixed Footer */}
-            <div className="flex flex-1 flex-col p-4">
-                {/* Title */}
-                <h3 className="mb-3 line-clamp-1 text-lg font-semibold text-gray-900 group-hover:text-orange-600" title={building.title}>
-                    {building.title}
-                </h3>
-
-                {/* Area Info */}
-                <div className="mb-3 flex items-center justify-between rounded-lg bg-gray-50 p-2">
-                    <div className="flex items-center">
-                        <Square className="mr-2 h-4 w-4 text-orange-500" />
-                        <span className="text-sm text-gray-600">{t('total_area')}</span>
-                    </div>
-                    <span className="text-base font-semibold text-gray-900">{building.totalArea}</span>
+            {/* Content Section - Flexible with proper height management */}
+            <div className="flex min-h-0 flex-1 flex-col p-4">
+                {/* Title - Fixed Height */}
+                <div className="mb-3 h-7 flex-shrink-0">
+                    <h3
+                        className="line-clamp-1 overflow-hidden text-lg font-semibold text-gray-900 group-hover:text-orange-600"
+                        title={building.title}
+                    >
+                        {building.title}
+                    </h3>
                 </div>
 
-                {/* Specifications - Scrollable */}
-                <div className="mb-3">
-                    <div className="mb-1 flex items-center">
+                {/* Area Info - Fixed Height */}
+                <div className="mb-3 flex-shrink-0">
+                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-2">
+                        <div className="flex items-center">
+                            <Square className="mr-2 h-4 w-4 flex-shrink-0 text-orange-500" />
+                            <span className="text-sm text-gray-600">{t('total_area')}</span>
+                        </div>
+                        <span className="ml-2 truncate text-sm font-semibold text-gray-900" title={building.totalArea}>
+                            {building.totalArea}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Specifications - Flexible with scrolling */}
+                <div className="mb-3 min-h-0 flex-1">
+                    <div className="mb-2 flex flex-shrink-0 items-center">
                         <Ruler className="mr-2 h-4 w-4 text-gray-500" />
                         <span className="text-sm font-medium text-gray-600">{t('specifications')}</span>
                     </div>
-                    <div
-                        className="max-h-[100px] overflow-y-auto pr-1"
-                        style={{
-                            scrollbarWidth: 'thin',
-                            scrollbarColor: '#d1d5db #f3f4f6',
-                        }}
-                    >
-                        <div className="space-y-1">
-                            {building.specifications.map((spec: Specification, idx: number) => (
-                                <div key={idx} className="flex items-center justify-between text-sm">
-                                    <span className="max-w-[60%] truncate text-gray-700" title={spec.name}>
-                                        {truncateSpec(spec.name)}
-                                    </span>
-                                    <span className="max-w-[40%] truncate text-gray-500" title={spec.dimensions}>
-                                        {spec.dimensions}
-                                    </span>
-                                </div>
-                            ))}
-                            {building.specifications.length === 0 && (
-                                <div className="py-1 text-center text-sm text-gray-500 italic">{t('no_specifications_available')}</div>
-                            )}
+                    <div className="flex-1 overflow-hidden">
+                        <div
+                            className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 h-full max-h-[120px] overflow-y-auto pr-2"
+                            style={{
+                                scrollbarWidth: 'thin',
+                                scrollbarColor: '#d1d5db #f3f4f6',
+                            }}
+                        >
+                            <div className="space-y-2">
+                                {building.specifications.length > 0 ? (
+                                    building.specifications.map((spec: Specification, idx: number) => (
+                                        <div key={idx} className="flex items-start justify-between gap-2 text-sm">
+                                            <span className="min-w-0 flex-1 truncate text-gray-700" title={spec.name}>
+                                                {spec.name}
+                                            </span>
+                                            <span className="max-w-[80px] flex-shrink-0 truncate text-xs text-gray-500" title={spec.dimensions}>
+                                                {spec.dimensions}
+                                            </span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="py-2 text-center text-sm text-gray-500 italic">{t('no_specifications_available')}</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Action Buttons - Always at Bottom */}
-                <div className="mt-auto flex gap-2 pt-3">
-                    <Button asChild className="flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
+                {/* Action Buttons - Fixed at Bottom */}
+                <div className="flex flex-shrink-0 gap-2">
+                    <Button asChild className="h-10 flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D]">
                         <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
-                            <Eye className="mr-2 h-4 w-4" /> {t('details')}
+                            <Eye className="mr-2 h-4 w-4" />
+                            <span className="truncate">{t('details')}</span>
                         </a>
                     </Button>
 
                     {building.hasVideo && (
                         <Button
                             variant="outline"
-                            className="rounded-lg border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+                            className="h-10 w-10 flex-shrink-0 rounded-lg border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
                             onClick={() => window.open(building.videoUrls?.[0], '_blank')}
                         >
                             <Play className="h-4 w-4" />
