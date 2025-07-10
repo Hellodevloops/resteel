@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm, usePage } from '@inertiajs/react';
-import { Globe, Plus, RefreshCw, Save, Settings, Trash } from 'lucide-react';
+import { Globe, RefreshCw, Save, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface ServiceItem {
@@ -96,17 +96,64 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     // Initialize with the current page locale
     const [selectedLocale, setSelectedLocale] = useState(currentPageLocale);
 
+    // Helper function to create default items with content
+    const createDefaultServiceItem = (index: number): ServiceItem => ({
+        icon: 'Store',
+        title: `Service ${index + 1}`,
+        description: `Description for Service ${index + 1}`,
+    });
+
+    const createDefaultFeatureItem = (index: number): FeatureItem => ({
+        icon: 'Globe',
+        title: `Feature ${index + 1}`,
+        description: `Description for Feature ${index + 1}`,
+    });
+
+    const createDefaultOfferingItem = (index: number): OfferingItem => ({
+        icon: 'Building2',
+        title: `Offering ${index + 1}`,
+        description: `Description for Offering ${index + 1}`,
+    });
+
+    const createDefaultStatItem = (index: number): StatItem => ({
+        label: `Statistic ${index + 1}`,
+        value: `${(index + 1) * 10}+`,
+    });
+
+    const createDefaultMissionItem = (index: number): MissionItem => ({
+        icon: 'CheckCircle2',
+        title: `Mission Value ${index + 1}`,
+        description: `Description for Mission Value ${index + 1}`,
+    });
+
     // Get content for the selected locale with fallback to default values
     const getContentForLocale = (locale: string): ContentSettings => {
+        // Create default arrays with content
+        const defaultServicesItems = Array(4)
+            .fill(null)
+            .map((_, index) => createDefaultServiceItem(index));
+        const defaultFeaturesItems = Array(3)
+            .fill(null)
+            .map((_, index) => createDefaultFeatureItem(index));
+        const defaultOfferingsItems = Array(4)
+            .fill(null)
+            .map((_, index) => createDefaultOfferingItem(index));
+        const defaultStatsItems = Array(4)
+            .fill(null)
+            .map((_, index) => createDefaultStatItem(index));
+        const defaultMissionItems = Array(3)
+            .fill(null)
+            .map((_, index) => createDefaultMissionItem(index));
+
         const defaultContent: ContentSettings = {
             // Services Section
             services_title: '',
             services_subtitle: '',
-            services_items: [],
+            services_items: defaultServicesItems,
             // Why Choose Us Section
             why_choose_us_title: '',
             why_choose_us_subtitle: '',
-            why_choose_us_items: [],
+            why_choose_us_items: defaultFeaturesItems,
             // About - Who We Are
             who_we_are_title: '',
             who_we_are_description: '',
@@ -114,18 +161,106 @@ export default function ContentForm({ content, isEditing = false }: Props) {
             // About - What We Offer
             what_we_offer_title: '',
             what_we_offer_subtitle: '',
-            what_we_offer_items: [],
+            what_we_offer_items: defaultOfferingsItems,
             // About - Stats Section
             stats_title: '',
             stats_subtitle: '',
-            stats_items: [],
+            stats_items: defaultStatsItems,
             // About - Mission Section
             mission_title: '',
             mission_subtitle: '',
-            mission_items: [],
+            mission_items: defaultMissionItems,
         };
 
-        return content?.[locale] || defaultContent;
+        if (content?.[locale]) {
+            // Ensure each section has the exact number of items
+            const localeContent = { ...content[locale] };
+
+            // Fix Services section to have exactly 4 items
+            if (!localeContent.services_items || localeContent.services_items.length !== 4) {
+                const items = [...(localeContent.services_items || [])];
+                localeContent.services_items = items.slice(0, 4);
+                while (localeContent.services_items.length < 4) {
+                    const index = localeContent.services_items.length;
+                    localeContent.services_items.push(createDefaultServiceItem(index));
+                }
+            }
+
+            // Fix Why Choose Us section to have exactly 3 items
+            if (!localeContent.why_choose_us_items || localeContent.why_choose_us_items.length !== 3) {
+                const items = [...(localeContent.why_choose_us_items || [])];
+                localeContent.why_choose_us_items = items.slice(0, 3);
+                while (localeContent.why_choose_us_items.length < 3) {
+                    const index = localeContent.why_choose_us_items.length;
+                    localeContent.why_choose_us_items.push(createDefaultFeatureItem(index));
+                }
+            }
+
+            // Fix What We Offer section to have exactly 4 items
+            if (!localeContent.what_we_offer_items || localeContent.what_we_offer_items.length !== 4) {
+                const items = [...(localeContent.what_we_offer_items || [])];
+                localeContent.what_we_offer_items = items.slice(0, 4);
+                while (localeContent.what_we_offer_items.length < 4) {
+                    const index = localeContent.what_we_offer_items.length;
+                    localeContent.what_we_offer_items.push(createDefaultOfferingItem(index));
+                }
+            }
+
+            // Fix Stats section to have exactly 4 items
+            if (!localeContent.stats_items || localeContent.stats_items.length !== 4) {
+                const items = [...(localeContent.stats_items || [])];
+                localeContent.stats_items = items.slice(0, 4);
+                while (localeContent.stats_items.length < 4) {
+                    const index = localeContent.stats_items.length;
+                    localeContent.stats_items.push(createDefaultStatItem(index));
+                }
+            }
+
+            // Fix Mission section to have exactly 3 items
+            if (!localeContent.mission_items || localeContent.mission_items.length !== 3) {
+                const items = [...(localeContent.mission_items || [])];
+                localeContent.mission_items = items.slice(0, 3);
+                while (localeContent.mission_items.length < 3) {
+                    const index = localeContent.mission_items.length;
+                    localeContent.mission_items.push(createDefaultMissionItem(index));
+                }
+            }
+
+            // Check for empty required fields in each item
+            localeContent.services_items = localeContent.services_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Service ${index + 1}`,
+                description: item.description || `Description for Service ${index + 1}`,
+            }));
+
+            localeContent.why_choose_us_items = localeContent.why_choose_us_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Feature ${index + 1}`,
+                description: item.description || `Description for Feature ${index + 1}`,
+            }));
+
+            localeContent.what_we_offer_items = localeContent.what_we_offer_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Offering ${index + 1}`,
+                description: item.description || `Description for Offering ${index + 1}`,
+            }));
+
+            localeContent.stats_items = localeContent.stats_items.map((item, index) => ({
+                ...item,
+                label: item.label || `Statistic ${index + 1}`,
+                value: item.value || `${(index + 1) * 10}+`,
+            }));
+
+            localeContent.mission_items = localeContent.mission_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Mission Value ${index + 1}`,
+                description: item.description || `Description for Mission Value ${index + 1}`,
+            }));
+
+            return localeContent;
+        }
+
+        return defaultContent;
     };
 
     const contentForLocale = getContentForLocale(selectedLocale);
@@ -146,6 +281,38 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Ensure no empty values before submitting
+        const processedData = {
+            ...data,
+            services_items: data.services_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Service ${index + 1}`,
+                description: item.description || `Description for Service ${index + 1}`,
+            })),
+            why_choose_us_items: data.why_choose_us_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Feature ${index + 1}`,
+                description: item.description || `Description for Feature ${index + 1}`,
+            })),
+            what_we_offer_items: data.what_we_offer_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Offering ${index + 1}`,
+                description: item.description || `Description for Offering ${index + 1}`,
+            })),
+            stats_items: data.stats_items.map((item, index) => ({
+                ...item,
+                label: item.label || `Statistic ${index + 1}`,
+                value: item.value || `${(index + 1) * 10}+`,
+            })),
+            mission_items: data.mission_items.map((item, index) => ({
+                ...item,
+                title: item.title || `Mission Value ${index + 1}`,
+                description: item.description || `Description for Mission Value ${index + 1}`,
+            })),
+        };
+
+        setData(processedData);
 
         if (isEditing) {
             // Use PUT for updating existing content
@@ -177,33 +344,16 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     };
 
     // Helper to update content data
+    // Using 'any' type here as ContentSettings has diverse field types including arrays and strings
     const updateContent = (field: keyof ContentSettings, value: any) => {
         setData(field, value);
     };
 
-    // Helper methods for managing array items
-    const addServiceItem = () => {
-        setData('services_items', [...data.services_items, { icon: 'Store', title: '', description: '' }]);
-    };
-
-    const removeServiceItem = (index: number) => {
-        const updatedItems = data.services_items.filter((_: any, i: number) => i !== index);
-        setData('services_items', updatedItems);
-    };
-
+    // Helper methods for updating array items
     const updateServiceItem = (index: number, field: keyof ServiceItem, value: string) => {
         const updatedItems = [...data.services_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
         setData('services_items', updatedItems);
-    };
-
-    const addWhyChooseUsItem = () => {
-        setData('why_choose_us_items', [...data.why_choose_us_items, { icon: 'Globe', title: '', description: '' }]);
-    };
-
-    const removeWhyChooseUsItem = (index: number) => {
-        const updatedItems = data.why_choose_us_items.filter((_: any, i: number) => i !== index);
-        setData('why_choose_us_items', updatedItems);
     };
 
     const updateWhyChooseUsItem = (index: number, field: keyof FeatureItem, value: string) => {
@@ -212,45 +362,16 @@ export default function ContentForm({ content, isEditing = false }: Props) {
         setData('why_choose_us_items', updatedItems);
     };
 
-    const addOfferingItem = () => {
-        setData('what_we_offer_items', [...data.what_we_offer_items, { icon: 'Building2', title: '', description: '' }]);
-    };
-
-    const removeOfferingItem = (index: number) => {
-        const updatedItems = data.what_we_offer_items.filter((_: any, i: number) => i !== index);
-        setData('what_we_offer_items', updatedItems);
-    };
-
     const updateOfferingItem = (index: number, field: keyof OfferingItem, value: string) => {
         const updatedItems = [...data.what_we_offer_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
         setData('what_we_offer_items', updatedItems);
     };
 
-    // Stats Section helpers
-    const addStatItem = () => {
-        setData('stats_items', [...data.stats_items, { label: '', value: '' }]);
-    };
-
-    const removeStatItem = (index: number) => {
-        const updatedItems = data.stats_items.filter((_: any, i: number) => i !== index);
-        setData('stats_items', updatedItems);
-    };
-
     const updateStatItem = (index: number, field: keyof StatItem, value: string) => {
         const updatedItems = [...data.stats_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
         setData('stats_items', updatedItems);
-    };
-
-    // Mission Section helpers
-    const addMissionItem = () => {
-        setData('mission_items', [...data.mission_items, { icon: 'CheckCircle2', title: '', description: '' }]);
-    };
-
-    const removeMissionItem = (index: number) => {
-        const updatedItems = data.mission_items.filter((_: any, i: number) => i !== index);
-        setData('mission_items', updatedItems);
     };
 
     const updateMissionItem = (index: number, field: keyof MissionItem, value: string) => {
@@ -338,20 +459,13 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <Label>Service Items</Label>
-                                <Button type="button" variant="outline" size="sm" onClick={addServiceItem}>
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Service
-                                </Button>
+                                <Label>Service Items (4)</Label>
                             </div>
 
                             {data.services_items.map((service, index) => (
                                 <div key={index} className="space-y-3 rounded-lg border p-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Service {index + 1}</Label>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => removeServiceItem(index)}>
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -430,20 +544,13 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <Label>Feature Items</Label>
-                                <Button type="button" variant="outline" size="sm" onClick={addWhyChooseUsItem}>
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Feature
-                                </Button>
+                                <Label>Feature Items (3)</Label>
                             </div>
 
                             {data.why_choose_us_items.map((feature, index) => (
                                 <div key={index} className="space-y-3 rounded-lg border p-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Feature {index + 1}</Label>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => removeWhyChooseUsItem(index)}>
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -568,20 +675,13 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <Label>Service Offerings</Label>
-                                <Button type="button" variant="outline" size="sm" onClick={addOfferingItem}>
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Offering
-                                </Button>
+                                <Label>Service Offerings (4)</Label>
                             </div>
 
                             {data.what_we_offer_items.map((offering, index) => (
                                 <div key={index} className="space-y-3 rounded-lg border p-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Offering {index + 1}</Label>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => removeOfferingItem(index)}>
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -660,20 +760,13 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <Label>Statistics</Label>
-                                <Button type="button" variant="outline" size="sm" onClick={addStatItem}>
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Stat
-                                </Button>
+                                <Label>Statistics (4)</Label>
                             </div>
 
                             {data.stats_items.map((stat, index) => (
                                 <div key={index} className="space-y-3 rounded-lg border p-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Statistic {index + 1}</Label>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => removeStatItem(index)}>
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -736,20 +829,13 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <Label>Mission Values</Label>
-                                <Button type="button" variant="outline" size="sm" onClick={addMissionItem}>
-                                    <Plus className="mr-1 h-4 w-4" />
-                                    Add Value
-                                </Button>
+                                <Label>Mission Values (3)</Label>
                             </div>
 
                             {data.mission_items.map((mission, index) => (
                                 <div key={index} className="space-y-3 rounded-lg border p-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Value {index + 1}</Label>
-                                        <Button type="button" variant="ghost" size="sm" onClick={() => removeMissionItem(index)}>
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
