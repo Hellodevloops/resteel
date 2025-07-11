@@ -247,24 +247,78 @@ class WarehouseController extends Controller
 
         $path = $request->file('image')->store('warehouses', 'public');
         $validated['image_path'] = Storage::url($path);
+        Log::info('Main image updated for warehouse ' . $warehouse->id, ['new_path' => $validated['image_path']]);
+      } elseif ($request->has('remove_main_image') && $request->input('remove_main_image') === '1') {
+        // Remove main image if requested
+        if ($warehouse->image_path) {
+          $oldPath = str_replace('/storage/', '', $warehouse->image_path);
+          Storage::disk('public')->delete($oldPath);
+        }
+        $validated['image_path'] = null;
+        Log::info('Main image removed for warehouse ' . $warehouse->id);
       }
 
       // Handle additional images
-      if ($request->hasFile('images')) {
-        // Delete old additional images if they exist
+      Log::info('Additional images request data:', [
+        'hasFile_images' => $request->hasFile('images'),
+        'remove_additional_images' => $request->input('remove_additional_images'),
+        'existing_images_count' => count($warehouse->additional_images ?? []),
+        'existing_images_to_remove' => $request->input('existing_images_to_remove'),
+        'request_all' => $request->all()
+      ]);
+
+      if ($request->hasFile('images') || $request->has('existing_images_to_remove')) {
+        // Start with existing images (if any)
+        $additionalImages = $warehouse->additional_images ?? [];
+
+        // Remove specific existing images if requested
+        if ($request->has('existing_images_to_remove')) {
+          $imagesToRemove = $request->input('existing_images_to_remove');
+          if (is_array($imagesToRemove)) {
+            // Sort in descending order to avoid index shifting issues
+            rsort($imagesToRemove);
+            foreach ($imagesToRemove as $index) {
+              if (isset($additionalImages[$index])) {
+                // Delete the file from storage
+                $oldPath = str_replace('/storage/', '', $additionalImages[$index]);
+                Storage::disk('public')->delete($oldPath);
+                // Remove from array
+                unset($additionalImages[$index]);
+              }
+            }
+            // Re-index the array
+            $additionalImages = array_values($additionalImages);
+          }
+        }
+
+        // Add new images if uploaded
+        if ($request->hasFile('images')) {
+          foreach ($request->file('images') as $image) {
+            $path = $image->store('warehouses', 'public');
+            $additionalImages[] = Storage::url($path);
+          }
+        }
+
+        $validated['additional_images'] = $additionalImages;
+        Log::info('Additional images updated for warehouse ' . $warehouse->id, [
+          'existing_kept' => count($warehouse->additional_images ?? []) - count($request->input('existing_images_to_remove', [])),
+          'new_added' => $request->hasFile('images') ? count($request->file('images')) : 0,
+          'total' => count($additionalImages)
+        ]);
+      } elseif ($request->has('remove_additional_images') && $request->input('remove_additional_images') === '1') {
+        // Remove all additional images if requested
         if (!empty($warehouse->additional_images)) {
           foreach ($warehouse->additional_images as $oldImage) {
             $oldPath = str_replace('/storage/', '', $oldImage);
             Storage::disk('public')->delete($oldPath);
           }
         }
-
-        $additionalImages = [];
-        foreach ($request->file('images') as $image) {
-          $path = $image->store('warehouses', 'public');
-          $additionalImages[] = Storage::url($path);
-        }
-        $validated['additional_images'] = $additionalImages;
+        $validated['additional_images'] = [];
+        Log::info('All additional images removed for warehouse ' . $warehouse->id);
+      } else {
+        // Preserve existing additional images if no new images uploaded and no removal requested
+        // Don't modify the additional_images field, so existing images are preserved
+        Log::info('Preserving existing additional images for warehouse ' . $warehouse->id, ['count' => count($warehouse->additional_images ?? [])]);
       }
 
       // Remove the image and images from validated data as they are File objects
@@ -346,9 +400,11 @@ class WarehouseController extends Controller
       'country' => 'nullable|string|max:255',
       'latitude' => 'nullable|string|max:255',
       'longitude' => 'nullable|string|max:255',
-      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif|max:10240',
       'images' => 'nullable|array',
-      'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+      'images.*' => 'image|mimes:jpeg,png,jpg,gif,avif|max:10240',
+      'existing_images_to_remove' => 'nullable|array',
+      'existing_images_to_remove.*' => 'integer|min:0',
     ]);
   }
 
