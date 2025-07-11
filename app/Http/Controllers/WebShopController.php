@@ -41,21 +41,21 @@ class WebShopController extends Controller
     public function store(Request $request)
     {
         try {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'description' => 'required|string',
-            'rating' => 'required|numeric|min:0|max:5',
-            'status' => 'required|in:inStock,soldOut',
-            'features' => 'required|array|min:1',
+                'description' => 'required|string',
+                'rating' => 'required|numeric|min:0|max:5',
+                'status' => 'required|in:inStock,soldOut',
+                'features' => 'required|array|min:1',
                 'features.*' => 'required|string|max:255',
-        ]);
+            ]);
 
             // Handle image upload
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
-            $validated['image'] = Storage::url($path);
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('products', 'public');
+                $validated['image'] = Storage::url($path);
             }
 
             // Create the product
@@ -178,10 +178,17 @@ class WebShopController extends Controller
                 'updated_at' => $product->updated_at->toDateString(),
             ];
         });
-        // dd($products);
+
+        $siteSettings = \App\Http\Controllers\SiteSettingsController::getPublicSettings();
+        $contentSettings = \App\Http\Controllers\ContentController::getPublicContentSettings();
+
+        // Merge content settings into site settings for backward compatibility
+        $mergedSettings = array_merge($siteSettings, $contentSettings);
+
         return Inertia::render('website/WebShop', [
             'products' => $products,
             'filters' => request()->only(['search', 'status', 'sort']),
+            'siteSettings' => $mergedSettings,
         ]);
     }
 

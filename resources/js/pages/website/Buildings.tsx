@@ -1,4 +1,3 @@
-import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
@@ -123,20 +122,20 @@ const Buildings = () => {
                             specifications = [
                                 {
                                     name: t('main_hall'),
-                                    dimensions: item.main_hall_dimensions || t('not_available'),
-                                    area: item.main_hall_area || t('not_available'),
+                                    dimensions: item.main_hall_dimensions || 'Not Available',
+                                    area: item.main_hall_area || 'Not Available',
                                 },
                                 {
                                     name: t('office_space'),
-                                    dimensions: item.office_space_dimensions || t('not_available'),
-                                    area: item.office_space_area || t('not_available'),
+                                    dimensions: item.office_space_dimensions || 'Not Available',
+                                    area: item.office_space_area || 'Not Available',
                                 },
                                 {
                                     name: t('loading_dock'),
-                                    dimensions: item.loading_dock_dimensions || t('not_available'),
-                                    area: item.loading_dock_area || t('not_available'),
+                                    dimensions: item.loading_dock_dimensions || 'Not Available',
+                                    area: item.loading_dock_area || 'Not Available',
                                 },
-                            ].filter((spec) => spec.dimensions !== t('not_available') || spec.area !== t('not_available'));
+                            ].filter((spec) => spec.dimensions !== 'Not Available' || spec.area !== 'Not Available');
                         }
 
                         return {
@@ -144,14 +143,14 @@ const Buildings = () => {
                             title: item.name || t('untitled'),
                             status: item.status || t('unknown'),
                             type: item.type || t('unknown'),
-                            category: item.category || t('not_available'),
-                            construction: item.construction || t('not_available'),
+                            category: item.category || 'Not Available',
+                            construction: item.construction || 'Not Available',
                             image: item.image_path
                                 ? item.image_path.startsWith('/storage')
                                     ? `${location.origin}${item.image_path}`
                                     : item.image_path
                                 : 'https://via.placeholder.com/600x400?text=No+Image',
-                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : t('not_available'),
+                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement || ''}` : 'Not Available',
                             hasVideo: item.has_video || false,
                             videoUrls: (item.video_urls || []).filter((v: string | null) => !!v),
                             featured: false,
@@ -236,7 +235,7 @@ const Buildings = () => {
                         <Button asChild className="flex-1">
                             <Link href={`/building-details/${building.id}`}>
                                 <Eye className="mr-1 h-4 w-4" />
-                                {t('view')}
+                                Details
                             </Link>
                         </Button>
                         {building.hasVideo && building.videoUrls && building.videoUrls[0] && (
@@ -281,7 +280,7 @@ const Buildings = () => {
                             </div>
                         </div>
                     </main>
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
             </Layout>
         );
@@ -325,7 +324,7 @@ const Buildings = () => {
                             </div>
                         </div>
                     </main>
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
             </Layout>
         );

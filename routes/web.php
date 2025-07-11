@@ -46,9 +46,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Public website pages
-Route::get('/buildings', fn() => Inertia::render('website/Buildings'))->name('buildings');
+Route::get('/buildings', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Buildings', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('buildings');
 Route::get('/building-details/{id}', function ($id) {
-    return Inertia::render('website/BuildingsDetails', ['id' => $id]);
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/BuildingsDetails', [
+        'id' => $id,
+        'siteSettings' => $mergedSettings
+    ]);
 })->name('buildingsdetails');
 Route::get('/services', function () {
     $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
@@ -72,11 +91,61 @@ Route::get('/about', function () {
         'siteSettings' => $mergedSettings
     ]);
 })->name('about');
-Route::get('/terms', fn() => Inertia::render('website/Terms'))->name('terms');
-Route::get('/privacy', fn() => Inertia::render('website/Privacy'))->name('privacy');
-Route::get('/career', fn() => Inertia::render('website/Career'))->name('career');
-Route::get('/cart', fn() => Inertia::render('website/Cart'))->name('cart');
-Route::get('/contact', fn() => Inertia::render('website/ContactPage'))->name('contact');
+Route::get('/terms', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Terms', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('terms');
+Route::get('/privacy', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Privacy', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('privacy');
+Route::get('/career', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Career', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('career');
+Route::get('/cart', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/Cart', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('cart');
+Route::get('/contact', function () {
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/ContactPage', [
+        'siteSettings' => $mergedSettings
+    ]);
+})->name('contact');
 
 Route::get('/api/webshop/{id}', [WebShopController::class, 'webshop_detail_api']);
 Route::get('/api/webshop', [WebShopController::class, 'webshop_view_api']);
@@ -87,7 +156,7 @@ Route::get('/api/warehouses', [WarehouseController::class, 'warehosue_view_api']
 Route::post('/contacts', [ContactController::class, 'store'])->name('public.contacts.store');
 
 // Public webshop route (calls controller, not just Inertia page)
-// Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.frontend');
+Route::get('/webshops', [WebShopController::class, 'frontend'])->name('webshop.frontend');
 
 // Public API routes
 Route::get('/api/featured-warehouses', [WarehouseController::class, 'featured'])->name('api.featured-warehouses');
@@ -170,7 +239,16 @@ Route::get('/locale/{locale}', function ($locale) {
 
 
 Route::get('/webshopdetail/{id}', function ($id) {
-    return Inertia::render('website/WebshopItemDetail', ['productId' => $id]);
+    $siteSettings = App\Http\Controllers\SiteSettingsController::getPublicSettings();
+    $contentSettings = App\Http\Controllers\ContentController::getPublicContentSettings();
+
+    // Merge content settings into site settings for backward compatibility
+    $mergedSettings = array_merge($siteSettings, $contentSettings);
+
+    return Inertia::render('website/WebshopItemDetail', [
+        'productId' => $id,
+        'siteSettings' => $mergedSettings
+    ]);
 })->name('WebshopItemDetail');
 
 require __DIR__ . '/settings.php';

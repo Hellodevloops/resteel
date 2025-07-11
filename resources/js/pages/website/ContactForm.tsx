@@ -3,10 +3,6 @@ import { AlertCircle, Building, CheckCircle, Mail, MessageSquare, Phone, User, X
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const steelBlue = '#0076A8';
-const charcoal = '#3C3F48';
-const lightGray = '#F8FAFC';
-
 export type ContactFormData = {
     name: string;
     email: string;
@@ -43,8 +39,72 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [statusMessage, setStatusMessage] = useState('');
 
+    // Validation functions
+    const validateEmail = (email: string): string => {
+        if (!email) return '';
+
+        // Check if email contains uppercase letters
+        if (email !== email.toLowerCase()) {
+            return 'Email must be all lowercase';
+        }
+
+        // Basic email format validation
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            return 'Please enter a valid email address (e.g., test@domain.com)';
+        }
+
+        return '';
+    };
+
+    const validatePhone = (phone: string): string => {
+        if (!phone) return '';
+
+        // Remove any non-numeric characters for validation
+        const numericOnly = phone.replace(/\D/g, '');
+
+        // Check if input contains non-numeric characters
+        if (numericOnly.length !== phone.length) {
+            return 'Phone number can only contain numeric digits';
+        }
+
+        // Check maximum length
+        if (numericOnly.length > 12) {
+            return 'Phone number cannot exceed 12 digits';
+        }
+
+        return '';
+    };
+
+    const validateForm = (): boolean => {
+        const newErrors: Record<string, string> = {};
+
+        // Validate email
+        const emailError = validateEmail(formData.email);
+        if (emailError) {
+            newErrors.email = emailError;
+        }
+
+        // Validate phone
+        const phoneError = validatePhone(formData.phone);
+        if (phoneError) {
+            newErrors.phone = phoneError;
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Client-side validation
+        if (!validateForm()) {
+            setSubmitStatus('error');
+            setStatusMessage('Please correct the validation errors below');
+            return;
+        }
+
         setProcessing(true);
         setErrors({});
         setSubmitStatus('idle');
@@ -63,7 +123,7 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
 
             const response = await axios.post('/contacts', formData, {
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    'X-CSRF-TOKEN': csrfToken || '',
                     Accept: 'application/json',
                 },
             });
@@ -94,30 +154,36 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
                 setSubmitStatus('error');
                 setStatusMessage(t('contact_form_unexpected_response'));
             }
-        } catch (error: any) {
-            if (error.response) {
-                // Server responded with error status
-                const { status, data } = error.response;
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    // Server responded with error status
+                    const { status, data } = error.response;
 
-                if (status === 422 && data.errors) {
-                    // Validation errors
-                    setErrors(data.errors);
+                    if (status === 422 && data.errors) {
+                        // Validation errors
+                        setErrors(data.errors);
+                        setSubmitStatus('error');
+                        setStatusMessage(t('contact_form_validation_error'));
+                    } else if (status === 419) {
+                        // CSRF token mismatch
+                        setSubmitStatus('error');
+                        setStatusMessage(t('contact_form_csrf_error'));
+                    } else {
+                        setSubmitStatus('error');
+                        setStatusMessage(data.message || t('contact_form_server_error'));
+                    }
+                } else if (error.request) {
+                    // Network error
                     setSubmitStatus('error');
-                    setStatusMessage(t('contact_form_validation_error'));
-                } else if (status === 419) {
-                    // CSRF token mismatch
-                    setSubmitStatus('error');
-                    setStatusMessage(t('contact_form_csrf_error'));
+                    setStatusMessage(t('contact_form_network_error'));
                 } else {
+                    // Other error
                     setSubmitStatus('error');
-                    setStatusMessage(data.message || t('contact_form_server_error'));
+                    setStatusMessage(t('contact_form_unexpected_error'));
                 }
-            } else if (error.request) {
-                // Network error
-                setSubmitStatus('error');
-                setStatusMessage(t('contact_form_network_error'));
             } else {
-                // Other error
+                // Non-axios error
                 setSubmitStatus('error');
                 setStatusMessage(t('contact_form_unexpected_error'));
             }
@@ -128,9 +194,21 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+
+        // Special handling for email field - convert to lowercase
+        let processedValue = value;
+        if (name === 'email') {
+            processedValue = value.toLowerCase();
+        }
+
+        // Special handling for phone field - only allow numeric input
+        if (name === 'phone') {
+            processedValue = value.replace(/\D/g, '');
+        }
+
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: processedValue,
         }));
 
         // Clear status messages when user starts typing
@@ -138,11 +216,34 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
             setSubmitStatus('idle');
             setStatusMessage('');
         }
+
+        // Clear field-specific error when user starts typing
         if (errors[name]) {
             setErrors((prev) => ({
                 ...prev,
                 [name]: '',
             }));
+        }
+
+        // Real-time validation for email and phone
+        if (name === 'email') {
+            const emailError = validateEmail(processedValue);
+            if (emailError) {
+                setErrors((prev) => ({
+                    ...prev,
+                    email: emailError,
+                }));
+            }
+        }
+
+        if (name === 'phone') {
+            const phoneError = validatePhone(processedValue);
+            if (phoneError) {
+                setErrors((prev) => ({
+                    ...prev,
+                    phone: phoneError,
+                }));
+            }
         }
     };
 
@@ -202,7 +303,7 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
                         </div>
                     )}
 
-                    <div className="space-y-5" onSubmit={handleSubmit}>
+                    <form className="space-y-5" onSubmit={handleSubmit}>
                         {/* Name Field */}
                         <div>
                             <label className="mb-2 flex items-center text-sm font-semibold text-slate-700">
@@ -373,7 +474,7 @@ const ContactForm = ({ isOpen, onClose, productName }: ContactFormProps) => {
                                 </>
                             )}
                         </button>
-                    </div>
+                    </form>
 
                     {/* Footer Note */}
                     <p className="mt-6 text-center text-xs leading-relaxed text-slate-500">{t('contact_form_privacy_note')}</p>

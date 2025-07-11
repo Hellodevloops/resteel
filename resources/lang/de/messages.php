@@ -26,8 +26,8 @@ return [
   'learn_more' => 'Mehr erfahren',
   'get_started' => 'Loslegen',
   'browse_structures' => 'Strukturen durchsuchen',
-  'lets_work_together' => 'Lassen Sie uns zusammenarbeiten',
-  'get_in_touch' => 'Kontakt aufnehmen',
+  'lets_work_together' => 'Lass uns zusammenarbeiten',
+  'get_in_touch' => 'Kontakt Aufnehmen',
   'view_details' => 'Details anzeigen',
   'add_to_cart' => 'In den Warenkorb',
   'buy_now' => 'Jetzt kaufen',
@@ -42,6 +42,7 @@ return [
   'filters' => 'Filter',
   'categories' => 'Kategorien',
   'contact' => 'Kontakt',
+  'back_to_home' => 'Zurück zur Startseite',
 
   // Hero Section
   'hero_title' => 'Premium Second-Hand Industriegebäude',
@@ -65,8 +66,8 @@ return [
   'why_choose_subtitle' => 'Kombination von Expertise mit modernster Technologie',
 
   // About Page
-  'about_hero_title' => 'Stahlbau neu definieren',
-  'about_hero_subtitle' => 'Bei Resteel geben wir gebrauchten Stahlkonstruktionen ein kraftvolles zweites Leben — mit Nachhaltigkeit, Größe und Präzision.',
+  'about_hero_title' => 'Stahlbau Neu Definiert',
+  'about_hero_subtitle' => 'Bei Resteel geben wir gebrauchten Stahlkonstruktionen ein kraftvolles zweites Leben – mit Nachhaltigkeit, Größe und Präzision.',
   'who_we_are' => 'Wer wir sind',
   'who_we_are_description' => 'Resteel ist ein vertrauenswürdiger europäischer Marktführer im nachhaltigen Stahlbau. Wir helfen Unternehmen dabei, die Infrastruktur mit zurückgewonnenen, hochwertigen Materialien zu überdenken — ohne Kompromisse bei Festigkeit, Sicherheit oder Stil.',
   'founded_info' => 'Gegründet 2005 · Hauptsitz in Helmond, Niederlande',
@@ -94,8 +95,12 @@ return [
   'countries_served' => 'Länder bedient',
   'projects_delivered' => 'Projekte geliefert',
   'max_hall_size' => 'Max. Hallengröße',
-  'lets_build_sustainable' => 'Lassen Sie uns etwas Nachhaltiges bauen',
-  'lets_build_sustainable_desc' => 'Ob ein landwirtschaftlicher Schuppen oder eine 60.000 m² Stahlhalle — wir haben die Materialien, das Team und die Erfolgsbilanz.',
+  'lets_build_sustainable' => 'Lass Uns Etwas Nachhaltiges Bauen',
+  'lets_build_sustainable_desc' => 'Bereit, dein nächstes Projekt mit hochwertigem recyceltem Stahl zu transformieren?',
+  'about_mission_subtitle' => 'Förderung nachhaltigen Bauens durch innovative Stahllösungen',
+  'honest_transparent_business' => 'Ehrliche, transparente Geschäftspraktiken',
+  'deep_industry_knowledge' => 'Tiefgehendes Branchenwissen und Erfahrung',
+  'creative_solutions_challenges' => 'Kreative Lösungen für komplexe Herausforderungen',
 
   // Services
   'our_services' => 'Unsere Dienstleistungen',

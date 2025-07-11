@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Eye, Pencil, Search, Trash2, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const steelBlue = '#0076A8';
 
@@ -35,11 +35,26 @@ interface Props {
         time: string;
         type: string;
     }>;
+    flash?: {
+        success?: string;
+        error?: string;
+    };
 }
 
-export default function ContactList({ contacts: initialContacts, recentActivity = [] }: Props) {
+export default function ContactList({ contacts: initialContacts, recentActivity = [], flash = {} }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const { delete: destroy } = useForm();
+
+    // Handle flash messages
+    useEffect(() => {
+        if (flash.success) {
+            setShowSuccessAlert(true);
+            // Auto-hide success message after 5 seconds
+            const timer = setTimeout(() => setShowSuccessAlert(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [flash]);
 
     const handleDelete = (id: number) => {
         if (window.confirm('Are you sure you want to delete this contact?')) {
@@ -74,6 +89,32 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
             <Head title="Contact List" />
 
             <div className="min-h-screen bg-gray-100">
+                {/* Success Alert */}
+                {showSuccessAlert && flash.success && (
+                    <div className="fixed top-4 right-4 z-50 max-w-md">
+                        <div className="rounded-lg border border-green-200 bg-green-50 p-4 shadow-lg">
+                            <div className="flex items-start">
+                                <div className="flex-shrink-0">
+                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+                                        <svg className="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div className="ml-3 flex-1">
+                                    <p className="text-sm font-medium text-green-800">{flash.success}</p>
+                                </div>
+                                <button onClick={() => setShowSuccessAlert(false)} className="ml-3 flex-shrink-0 text-green-400 hover:text-green-600">
+                                    <X className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {/* Header */}
                 <div className="border-b border-gray-200 bg-white shadow-sm">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -130,8 +171,8 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Email</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Phone</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Company</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Type</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Status</th>
+                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Type</th> */}
+                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Status</th> */}
                                     {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Building</th> */}
                                     <th className="px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500 uppercase">Actions</th>
                                 </tr>
@@ -143,7 +184,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                         <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.email}</td>
                                         <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.phone}</td>
                                         <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.company}</td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
+                                        {/* <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
                                             <span
                                                 className={`inline-flex rounded-full px-2 text-xs leading-5 font-semibold ${
                                                     contact.type === 'Lead'
@@ -154,8 +195,8 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                                 }`}
                                             >
                                                 {contact.type}
-                                            </span>
-                                        </td>
+                                            </span> */}
+                                        {/* </td>
                                         <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
                                             <span
                                                 className={`inline-flex rounded-full px-2 text-xs leading-5 font-semibold ${
@@ -168,7 +209,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                             >
                                                 {contact.status}
                                             </span>
-                                        </td>
+                                        </td> */}
                                         {/* <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
                                             {contact.building_category && (
                                                 <div>

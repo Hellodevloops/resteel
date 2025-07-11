@@ -76,15 +76,8 @@ class ContactController extends Controller
             'last_contact' => now(),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Contact created successfully.',
-            'data' => [
-                'id' => $contact->id,
-                'name' => $contact->name,
-                'email' => $contact->email,
-            ]
-        ], 201);
+        return Redirect::route('admin.contacts.index')
+            ->with('success', 'Contact created successfully.');
     }
 
     public function show(Contact $contact)
@@ -165,7 +158,7 @@ class ContactController extends Controller
 
         $contact->update($validated);
 
-        return Redirect::route('admin.contacts.show', $contact->id)
+        return Redirect::route('admin.contacts.index')
             ->with('success', 'Contact updated successfully.');
     }
 
