@@ -27,7 +27,7 @@ return [
   'get_started' => 'Aan de slag',
   'browse_structures' => 'Structuren bekijken',
   'lets_work_together' => 'Laten we samenwerken',
-  'get_in_touch' => 'Neem contact op',
+  'get_in_touch' => 'Neem Contact Op',
   'view_details' => 'Details bekijken',
   'add_to_cart' => 'Toevoegen aan winkelwagen',
   'buy_now' => 'Nu kopen',
@@ -38,10 +38,11 @@ return [
   'more' => 'meer',
   'all' => 'Alle',
   'video' => 'Video',
-  'sale' => 'Verkoop',
+  'sale' => 'Te koop',
   'filters' => 'Filters',
   'categories' => 'Categorieën',
   'contact' => 'Contact',
+  'back_to_home' => 'Terug naar home',
 
   // Hero Section
   'hero_title' => 'Premium Tweedehands Industriële Gebouwen',
@@ -65,7 +66,7 @@ return [
   'why_choose_subtitle' => 'Combinatie van expertise met geavanceerde technologie',
 
   // About Page
-  'about_hero_title' => 'Staalconstructie herdefiniëren',
+  'about_hero_title' => 'Staalbouw Opnieuw Gedefinieerd',
   'about_hero_subtitle' => 'Bij Resteel geven we tweedehands staalconstructies een krachtig tweede leven — met duurzaamheid, schaal en precisie.',
   'who_we_are' => 'Wie we zijn',
   'who_we_are_description' => 'Resteel is een vertrouwde Europese leider in duurzame staalconstructie. We helpen bedrijven infrastructuur te heroverwegen met gerecyclede, eersteklas materialen — zonder compromissen op sterkte, veiligheid of stijl.',
@@ -94,8 +95,12 @@ return [
   'countries_served' => 'Landen bediend',
   'projects_delivered' => 'Projecten opgeleverd',
   'max_hall_size' => 'Max. halgrootte',
-  'lets_build_sustainable' => 'Laten we iets duurzaams bouwen',
-  'lets_build_sustainable_desc' => 'Of het nu een agrarische schuur of een 60.000 m² staalhal is — we hebben de materialen, het team en de track record.',
+  'lets_build_sustainable' => 'Laten We Iets Duurzaams Bouwen',
+  'lets_build_sustainable_desc' => 'Klaar om je volgende project te transformeren met hoogwaardig hergebruikt staal?',
+  'about_mission_subtitle' => 'Bevorderen van duurzaam bouwen door innovatieve staaloplossingen',
+  'honest_transparent_business' => 'Eerlijke, transparante bedrijfspraktijken',
+  'deep_industry_knowledge' => 'Diepgaande branchekennis en ervaring',
+  'creative_solutions_challenges' => 'Creatieve oplossingen voor complexe uitdagingen',
 
   // Services
   'our_services' => 'Onze diensten',
@@ -373,7 +378,7 @@ return [
   'all_rights_reserved' => 'Alle rechten voorbehouden.',
   'engineering_excellence_since' => 'Technische uitmuntendheid sinds 2005.',
   'terms' => 'Voorwaarden',
-  'privacy' => 'Privacy',
+  'privacy' => 'Privacybeleid',
 
   // Hero2 Component
   'hero2_title' => 'Inkoop - Verkoop - Montage - Demontage - Transport van 2ehands bouwmaterialen en staalconstructies door heel Europa',
@@ -453,6 +458,8 @@ return [
   'terms_contact_us' => 'Neem Contact Op',
   'terms_contact_us_text' => 'Als u vragen heeft over deze Voorwaarden, neem dan contact met ons op via:',
   'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: info@resteel-solutions.com<br />Telefoon: +31 (6) 25334951',
+  'terms_full_document' => 'Volledig Document',
+  'terms_download_complete' => 'Download de volledige algemene voorwaarden',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacybeleid',

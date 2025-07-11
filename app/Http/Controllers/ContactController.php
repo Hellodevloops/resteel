@@ -25,6 +25,7 @@ class ContactController extends Controller
                 'source' => $contact->source,
                 'value' => $contact->value,
                 'alerts' => $contact->alerts,
+                'building_category' => $contact->building_category,
                 'building_type' => $contact->building_type,
                 'building_width' => $contact->building_width,
                 'building_length' => $contact->building_length,
@@ -61,6 +62,7 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_category' => 'nullable|string|max:255',
             'building_type' => 'nullable|string|in:Industrial,AGRI',
             'building_width' => 'nullable|string|max:50',
             'building_length' => 'nullable|string|max:50',
@@ -74,15 +76,8 @@ class ContactController extends Controller
             'last_contact' => now(),
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Contact created successfully.',
-            'data' => [
-                'id' => $contact->id,
-                'name' => $contact->name,
-                'email' => $contact->email,
-            ]
-        ], 201);
+        return Redirect::route('admin.contacts.index')
+            ->with('success', 'Contact created successfully.');
     }
 
     public function show(Contact $contact)
@@ -102,6 +97,7 @@ class ContactController extends Controller
             'alerts' => $contact->alerts,
             'created_at' => $contact->created_at->toDateString(),
             'updated_at' => $contact->updated_at->toDateString(),
+            'building_category' => $contact->building_category,
             'building_type' => $contact->building_type,
             'building_width' => $contact->building_width,
             'building_length' => $contact->building_length,
@@ -127,6 +123,7 @@ class ContactController extends Controller
             'type' => $contact->type,
             'source' => $contact->source,
             'value' => $contact->value,
+            'building_category' => $contact->building_category,
             'building_type' => $contact->building_type,
             'building_width' => $contact->building_width,
             'building_length' => $contact->building_length,
@@ -151,6 +148,7 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_category' => 'nullable|string|max:255',
             'building_type' => 'nullable|string|in:Industrial,AGRI',
             'building_width' => 'nullable|string|max:50',
             'building_length' => 'nullable|string|max:50',
@@ -160,7 +158,7 @@ class ContactController extends Controller
 
         $contact->update($validated);
 
-        return Redirect::route('admin.contacts.show', $contact->id)
+        return Redirect::route('admin.contacts.index')
             ->with('success', 'Contact updated successfully.');
     }
 

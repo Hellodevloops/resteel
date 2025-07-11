@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { Head, useForm } from '@inertiajs/react';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 interface ContactFormData {
     name: string;
@@ -38,7 +37,9 @@ interface Props {
 }
 
 export default function ContactForm({ contact, isEditing = false }: Props) {
-    const { data, setData, post, put, processing, errors } = useForm<ContactFormData>({
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+
+    const { data, setData, post, put, processing, errors } = useForm({
         name: contact?.name || '',
         email: contact?.email || '',
         phone: contact?.phone || '',
@@ -56,12 +57,118 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
         top_height: contact?.top_height || '',
     });
 
+    // Validation functions
+    const validateEmail = (email: string): string => {
+        if (!email) return '';
+
+        // Check if email contains uppercase letters
+        if (email !== email.toLowerCase()) {
+            return 'Email must be all lowercase';
+        }
+
+        // Basic email format validation
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            return 'Please enter a valid email address (e.g., test@domain.com)';
+        }
+
+        return '';
+    };
+
+    const validatePhone = (phone: string): string => {
+        if (!phone) return '';
+
+        // Remove any non-numeric characters for validation
+        const numericOnly = phone.replace(/\D/g, '');
+
+        // Check if input contains non-numeric characters
+        if (numericOnly.length !== phone.length) {
+            return 'Phone number can only contain numeric digits';
+        }
+
+        // Check maximum length
+        if (numericOnly.length > 12) {
+            return 'Phone number cannot exceed 12 digits';
+        }
+
+        return '';
+    };
+
+    const validateForm = (): boolean => {
+        const newErrors: Record<string, string> = {};
+
+        // Validate email
+        const emailError = validateEmail(data.email);
+        if (emailError) {
+            newErrors.email = emailError;
+        }
+
+        // Validate phone
+        const phoneError = validatePhone(data.phone);
+        if (phoneError) {
+            newErrors.phone = phoneError;
+        }
+
+        setValidationErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+
+        // Client-side validation
+        if (!validateForm()) {
+            return;
+        }
+
         if (isEditing && contact?.id) {
-            put(`/admin/contacts/${contact.id}`, { preserveScroll: true });
+            put(`/admin/contacts/${contact.id}`);
         } else {
-            post('/admin/contacts', { preserveScroll: true });
+            post('/admin/contacts');
+        }
+    };
+
+    const handleEmailChange = (value: string) => {
+        const lowerCaseValue = value.toLowerCase();
+        setData('email', lowerCaseValue);
+
+        // Clear validation errors when user starts typing
+        if (validationErrors.email) {
+            setValidationErrors((prev) => ({
+                ...prev,
+                email: '',
+            }));
+        }
+
+        // Real-time validation for email
+        const emailError = validateEmail(lowerCaseValue);
+        if (emailError) {
+            setValidationErrors((prev) => ({
+                ...prev,
+                email: emailError,
+            }));
+        }
+    };
+
+    const handlePhoneChange = (value: string) => {
+        const numericValue = value.replace(/\D/g, '');
+        setData('phone', numericValue);
+
+        // Clear validation errors when user starts typing
+        if (validationErrors.phone) {
+            setValidationErrors((prev) => ({
+                ...prev,
+                phone: '',
+            }));
+        }
+
+        // Real-time validation for phone
+        const phoneError = validatePhone(numericValue);
+        if (phoneError) {
+            setValidationErrors((prev) => ({
+                ...prev,
+                phone: phoneError,
+            }));
         }
     };
 
@@ -86,46 +193,22 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
                             </div>
                             <div>
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} />
-                                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                                <Input id="email" type="email" value={data.email} onChange={(e) => handleEmailChange(e.target.value)} />
+                                {(errors.email || validationErrors.email) && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.email || validationErrors.email}</p>
+                                )}
                             </div>
                             <div>
                                 <Label htmlFor="phone">Phone</Label>
-                                <Input id="phone" type="tel" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
-                                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
+                                <Input id="phone" type="tel" value={data.phone} onChange={(e) => handlePhoneChange(e.target.value)} />
+                                {(errors.phone || validationErrors.phone) && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.phone || validationErrors.phone}</p>
+                                )}
                             </div>
                             <div>
                                 <Label htmlFor="company">Company</Label>
                                 <Input id="company" value={data.company} onChange={(e) => setData('company', e.target.value)} />
                                 {errors.company && <p className="mt-1 text-sm text-red-600">{errors.company}</p>}
-                            </div>
-                            <div>
-                                <Label htmlFor="status">Status</Label>
-                                <Select value={data.status} onValueChange={(value) => setData('status', value)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="pending">Pending</SelectItem>
-                                        <SelectItem value="inactive">Inactive</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.status && <p className="mt-1 text-sm text-red-600">{errors.status}</p>}
-                            </div>
-                            <div>
-                                <Label htmlFor="type">Type</Label>
-                                <Select value={data.type} onValueChange={(value) => setData('type', value)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Lead">Lead</SelectItem>
-                                        <SelectItem value="Customer">Customer</SelectItem>
-                                        <SelectItem value="Partner">Partner</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
                             </div>
                         </div>
 
@@ -136,101 +219,10 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
                         </div>
 
                         <div>
-                            <Label htmlFor="value">Value</Label>
-                            <Input
-                                id="value"
-                                type="number"
-                                value={data.value || ''}
-                                onChange={(e) => setData('value', e.target.value ? parseFloat(e.target.value) : null)}
-                            />
-                            {errors.value && <p className="mt-1 text-sm text-red-600">{errors.value}</p>}
-                        </div>
-
-                        <div>
                             <Label htmlFor="message">Message</Label>
                             <Textarea id="message" rows={4} value={data.message} onChange={(e) => setData('message', e.target.value)} />
                             {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
                         </div>
-
-                        {/* <div className="space-y-6">
-                            <h3 className="text-lg font-medium">Building Specifications</h3>
-
-                            <div className="grid gap-6 md:grid-cols-2">
-                                <div>
-                                    <Label htmlFor="building_category">Building Type</Label>
-                                    <Select value={data.building_category} onValueChange={(value) => setData('building_category', value)}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select building type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="Warehouses">Warehouses</SelectItem>
-                                            <SelectItem value="Steel Constructions">Steel Constructions</SelectItem>
-                                            <SelectItem value="Other">Other</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    {errors.building_category && <p className="mt-1 text-sm text-red-600">{errors.building_category}</p>}
-                                </div>
-                                <div>
-                                    <Label htmlFor="building_type">Type Building</Label>
-                                    <Select value={data.building_type} onValueChange={(value) => setData('building_type', value)}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="Industrial">Industrial</SelectItem>
-                                            <SelectItem value="AGRI">AGRI</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    {errors.building_type && <p className="mt-1 text-sm text-red-600">{errors.building_type}</p>}
-                                </div>
-                            </div>
-
-                            <div className="grid gap-6 md:grid-cols-2">
-                                <div>
-                                    <Label htmlFor="building_width">Width (meters)</Label>
-                                    <Input
-                                        id="building_width"
-                                        value={data.building_width}
-                                        onChange={(e) => setData('building_width', e.target.value)}
-                                        placeholder="e.g. 10"
-                                    />
-                                    {errors.building_width && <p className="mt-1 text-sm text-red-600">{errors.building_width}</p>}
-                                </div>
-                                <div>
-                                    <Label htmlFor="building_length">Length (meters)</Label>
-                                    <Input
-                                        id="building_length"
-                                        value={data.building_length}
-                                        onChange={(e) => setData('building_length', e.target.value)}
-                                        placeholder="e.g. 20"
-                                    />
-                                    {errors.building_length && <p className="mt-1 text-sm text-red-600">{errors.building_length}</p>}
-                                </div>
-                            </div>
-
-                            <div className="grid gap-6 md:grid-cols-2">
-                                <div>
-                                    <Label htmlFor="gutter_height">High Gutter (meters)</Label>
-                                    <Input
-                                        id="gutter_height"
-                                        value={data.gutter_height}
-                                        onChange={(e) => setData('gutter_height', e.target.value)}
-                                        placeholder="e.g. 4"
-                                    />
-                                    {errors.gutter_height && <p className="mt-1 text-sm text-red-600">{errors.gutter_height}</p>}
-                                </div>
-                                <div>
-                                    <Label htmlFor="top_height">High Top (meters)</Label>
-                                    <Input
-                                        id="top_height"
-                                        value={data.top_height}
-                                        onChange={(e) => setData('top_height', e.target.value)}
-                                        placeholder="e.g. 6"
-                                    />
-                                    {errors.top_height && <p className="mt-1 text-sm text-red-600">{errors.top_height}</p>}
-                                </div>
-                            </div>
-                        </div> */}
 
                         <div className="pt-4 text-right">
                             <Button type="submit" disabled={processing}>

@@ -63,14 +63,85 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
         setErrors({});
     };
 
+    // Validation functions
+    const validatePhone = (phone: string): string | null => {
+        if (!phone) return null; // Phone is optional
+
+        // Remove all non-numeric characters
+        const numericOnly = phone.replace(/\D/g, '');
+
+        if (numericOnly.length > 12) {
+            return 'Phone number cannot exceed 12 digits';
+        }
+
+        if (numericOnly.length < 6) {
+            return 'Phone number must be at least 6 digits';
+        }
+
+        return null;
+    };
+
+    const validateEmail = (email: string): string | null => {
+        if (!email) return 'Email is required';
+
+        // Check if email contains capital letters
+        if (email !== email.toLowerCase()) {
+            return 'Email address cannot contain capital letters';
+        }
+
+        // Standard email regex pattern
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailRegex.test(email)) {
+            return 'Please enter a valid email address';
+        }
+
+        return null;
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        setData({ ...data, [e.target.id]: e.target.value });
+        const { id, value } = e.target;
+
+        // For phone field, only allow numeric input
+        if (id === 'phone') {
+            const numericValue = value.replace(/\D/g, '');
+            setData({ ...data, [id]: numericValue });
+        } else {
+            setData({ ...data, [id]: value });
+        }
+
+        // Clear error when user starts typing
+        if (errors[id]) {
+            setErrors((prev) => ({ ...prev, [id]: '' }));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setErrors({});
+
+        // Client-side validation
+        const validationErrors: { [key: string]: string } = {};
+
+        // Validate email
+        const emailError = validateEmail(data.email);
+        if (emailError) {
+            validationErrors.email = emailError;
+        }
+
+        // Validate phone
+        const phoneError = validatePhone(data.phone);
+        if (phoneError) {
+            validationErrors.phone = phoneError;
+        }
+
+        // If there are validation errors, stop submission
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            setLoading(false);
+            return;
+        }
 
         try {
             await axios.post('/contacts', {

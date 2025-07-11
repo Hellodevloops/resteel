@@ -188,7 +188,7 @@ const BuildingDetails = () => {
                             <Button asChild className="bg-orange-500 hover:bg-orange-600">
                                 <Link href="/">
                                     <ArrowLeft className="mr-2 h-4 w-4" />
-                                    Back to home
+                                    {t('back_to_home')}
                                 </Link>
                             </Button>
                             <Button asChild className="bg-orange-500 hover:bg-orange-600">
@@ -215,8 +215,8 @@ const BuildingDetails = () => {
                                 <Button variant="ghost" size="sm" asChild>
                                     <Link href="/">
                                         <ArrowLeft className="mr-2 h-4 w-4" />
-                                        <span className="hidden sm:inline">Back to Home</span>
-                                        <span className="sm:hidden">Home</span>
+                                        <span className="hidden sm:inline">{t('back_to_home')}</span>
+                                        <span className="sm:hidden">{t('home')}</span>
                                     </Link>
                                 </Button>
                                 <div className="hidden h-6 w-px bg-gray-300 sm:block"></div>
@@ -258,11 +258,11 @@ const BuildingDetails = () => {
                             </div>
                             <div className="text-right">
                                 <p className="mb-1 text-3xl font-bold text-orange-600 sm:text-4xl">{building.price}</p>
-                                <p className="text-sm text-gray-500">
+                                {/* <p className="text-sm text-gray-500">
                                     {building.totalArea !== t('not_available')
                                         ? `~€${Math.round(parseInt(building.price.replace(/[^0-9]/g, '')) / parseInt(building.totalArea.replace(/[^0-9]/g, '')))} ${t('per_m2')}`
                                         : t('contact_for_details')}
-                                </p>
+                                </p> */}
                             </div>
                         </div>
                     </div>
@@ -566,7 +566,7 @@ const BuildingDetails = () => {
                             <p className="mb-6 text-orange-100">{t('interested_text')}</p>
                             <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                 <Button size="lg" variant="secondary" className="bg-white text-orange-600 hover:bg-gray-100" asChild>
-                                    <Link href="/contact">
+                                    <Link href="/contacts">
                                         <Phone className="mr-2 h-4 w-4" />
                                         {t('contact_us')}
                                     </Link>

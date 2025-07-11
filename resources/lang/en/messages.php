@@ -42,6 +42,7 @@ return [
   'filters' => 'Filters',
   'categories' => 'Categories',
   'contact' => 'Contact',
+  'back_to_home' => 'Back to Home',
 
   // Hero Section
   'hero_title' => 'Premium Second-Hand Industrial Buildings',
@@ -95,7 +96,11 @@ return [
   'projects_delivered' => 'Projects Delivered',
   'max_hall_size' => 'Max Hall Size',
   'lets_build_sustainable' => "Let's Build Something Sustainable",
-  'lets_build_sustainable_desc' => "Whether it's an agricultural shed or a 60,000 m² steel hall — we've got the materials, the team, and the track record.",
+  'lets_build_sustainable_desc' => 'Ready to transform your next project with premium reclaimed steel?',
+  'about_mission_subtitle' => 'Advancing sustainable construction through innovative steel solutions',
+  'honest_transparent_business' => 'Honest, transparent business practices',
+  'deep_industry_knowledge' => 'Deep industry knowledge and experience',
+  'creative_solutions_challenges' => 'Creative solutions for complex challenges',
 
   // Services
   'our_services' => 'Our Services',
@@ -407,6 +412,7 @@ return [
   'sent_successfully' => 'Sent Successfully!',
   'send_inquiry' => 'Send Inquiry',
   'contact_form_privacy_note' => "By submitting this form, you agree to our privacy policy. We'll get back to you within 24 hours.",
+  'we_d_love_to_hear_from_you' => 'We\'d Love to Hear From You',
 
   // WebShop Item Detail (additional)
   'view_more_products' => 'View More Products',
@@ -437,6 +443,8 @@ return [
   'terms_contact_us' => 'Contact Us',
   'terms_contact_us_text' => 'If you have any questions about these Terms, please contact us at:',
   'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (6) 25334951',
+  'terms_full_document' => 'Full Document',
+  'terms_download_complete' => 'Download complete terms & conditions',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacy Policy',

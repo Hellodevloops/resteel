@@ -1,5 +1,5 @@
 import { AreaDimension, Warehouse } from '@/types/warehouse';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { Plus, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -53,7 +53,7 @@ type FormData = {
 
 export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
     const steelBlue = '#0076A8';
-    const { data, setData, post, put, processing, errors, reset, setError } = useForm<FormData>({
+    const { data, setData, processing, errors, reset, setError } = useForm<FormData>({
         name: warehouse?.name || '',
         location: warehouse?.location || '',
         status: warehouse?.status || 'active',
@@ -97,6 +97,9 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
 
     const [imagePreview, setImagePreview] = useState<string | null>(warehouse?.image_path || null);
     const [imagePreviews, setImagePreviews] = useState<string[]>(warehouse?.additional_images || []);
+    const [removeMainImage, setRemoveMainImage] = useState<boolean>(false);
+    const [removeAdditionalImages, setRemoveAdditionalImages] = useState<boolean>(false);
+    const [existingImagesToRemove, setExistingImagesToRemove] = useState<number[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const multipleFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -110,6 +113,8 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                 if (warehouse.additional_images && warehouse.additional_images.length > 0) {
                     setImagePreviews(warehouse.additional_images);
                 }
+                // Reset existing images to remove when component initializes
+                setExistingImagesToRemove([]);
             }
         } catch (error) {
             console.error('Error initializing image previews:', error);
@@ -246,53 +251,108 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             submitFormData.append(`${key}[${index}]`, value);
                         });
                     } else if (formData[key as keyof typeof formData] !== null && formData[key as keyof typeof formData] !== undefined) {
-                        submitFormData.append(key, String(formData[key as keyof typeof formData]));
+                        const value = formData[key as keyof typeof formData];
+                        // Handle boolean values properly for Laravel
+                        if (typeof value === 'boolean') {
+                            submitFormData.append(key, value ? '1' : '0');
+                        } else {
+                            submitFormData.append(key, String(value));
+                        }
                     }
                 }
             });
 
-            // Add main image
-            if (formData.image) {
+            // Add main image only if it's a valid File
+            if (formData.image && formData.image instanceof File && formData.image.size > 0) {
                 submitFormData.append('image', formData.image);
+                // Reset removal flag when new image is uploaded
+                setRemoveMainImage(false);
+            } else if (removeMainImage && isEditing) {
+                // Mark main image for removal
+                submitFormData.append('remove_main_image', '1');
             }
 
-            // Add additional images
+            // Add additional images only if they are valid Files
             if (formData.images && formData.images.length > 0) {
-                formData.images.forEach((image, index) => {
-                    submitFormData.append(`images[${index}]`, image);
-                });
+                const validImages = formData.images.filter((image) => image instanceof File && image.size > 0);
+                console.log('Valid additional images found:', validImages.length);
+                if (validImages.length > 0) {
+                    validImages.forEach((image, index) => {
+                        submitFormData.append(`images[${index}]`, image);
+                        console.log(`Added image ${index}:`, image.name, image.size);
+                    });
+                    // Reset removal flag when new images are uploaded
+                    setRemoveAdditionalImages(false);
+                }
+            } else if (removeAdditionalImages && isEditing) {
+                // Mark additional images for removal
+                submitFormData.append('remove_additional_images', '1');
+                console.log('Marked additional images for removal');
+            } else if (isEditing && warehouse?.additional_images && warehouse.additional_images.length > 0) {
+                // If we're editing and there are existing images, but no new images uploaded and no removal requested,
+                // we need to preserve the existing images by not sending any images field
+                console.log('Preserving existing additional images:', warehouse.additional_images.length);
+            } else {
+                console.log('No additional images to process');
             }
 
-            // Prepare options for Inertia submission
-            const inertiaOptions = {
-                preserveScroll: true,
-                forceFormData: true,
-                onSuccess: () => {
-                    toast.success(isEditing ? 'Warehouse updated successfully' : 'Warehouse created successfully');
-                    if (!isEditing) {
-                        reset();
-                        setImagePreview(null);
-                        setImagePreviews([]);
-                    }
-                },
-                onError: (errs: Record<string, string>) => {
-                    toast.error('Failed to submit form. Please check the errors.');
-                    console.error('Server validation errors:', errs);
-                    Object.entries(errs).forEach(([field, message]) => {
-                        console.error(`Error in field '${field}':`, message);
-                    });
-                },
-                onFinish: () => {
-                    if (fileInputRef.current) fileInputRef.current.value = '';
-                    if (multipleFileInputRef.current) multipleFileInputRef.current.value = '';
-                },
-            };
+            // Add existing images to remove if any
+            if (existingImagesToRemove.length > 0) {
+                existingImagesToRemove.forEach((index) => {
+                    submitFormData.append('existing_images_to_remove[]', index.toString());
+                });
+                console.log('Marked existing images for removal:', existingImagesToRemove);
+            }
+
+            console.log('Current data.images:', data.images);
+            console.log('Current imagePreviews:', imagePreviews);
+
+            // Debug: Log FormData contents for troubleshooting
+            console.log('FormData contents:');
+            for (const [key, value] of submitFormData.entries()) {
+                console.log(`${key}:`, value);
+            }
+            console.log('Image removal flags:', { removeMainImage, removeAdditionalImages });
 
             // Submit the form
             if (isEditing && warehouse) {
-                put(route('admin.warehouses.update', warehouse.id), submitFormData, inertiaOptions);
+                // For file uploads with PUT requests, use POST with _method field
+                // This is more reliable than using put() directly with FormData
+                submitFormData.append('_method', 'PUT');
+                router.post(route('admin.warehouses.update', warehouse.id), submitFormData, {
+                    preserveScroll: true,
+                    forceFormData: true,
+                    onSuccess: () => {
+                        toast.success('Warehouse updated successfully');
+                    },
+                    onError: (errs: Record<string, string>) => {
+                        toast.error('Failed to submit form. Please check the errors.');
+                        console.error('Server validation errors:', errs);
+                    },
+                    onFinish: () => {
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                        if (multipleFileInputRef.current) multipleFileInputRef.current.value = '';
+                    },
+                });
             } else {
-                post(route('admin.warehouses.store'), submitFormData, inertiaOptions);
+                router.post(route('admin.warehouses.store'), submitFormData, {
+                    preserveScroll: true,
+                    forceFormData: true,
+                    onSuccess: () => {
+                        toast.success('Warehouse created successfully');
+                        reset();
+                        setImagePreview(null);
+                        setImagePreviews([]);
+                    },
+                    onError: (errs: Record<string, string>) => {
+                        toast.error('Failed to submit form. Please check the errors.');
+                        console.error('Server validation errors:', errs);
+                    },
+                    onFinish: () => {
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                        if (multipleFileInputRef.current) multipleFileInputRef.current.value = '';
+                    },
+                });
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -311,6 +371,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
             }
 
             setData('image', file);
+            setRemoveMainImage(false); // Reset removal flag when new image is selected
             const reader = new FileReader();
             reader.onloadend = () => setImagePreview(reader.result as string);
             reader.onerror = () => {
@@ -320,6 +381,15 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         } catch (error) {
             console.error('Error handling image change:', error);
             toast.error('Error processing image upload');
+        }
+    };
+
+    const handleRemoveMainImage = () => {
+        setData('image', null);
+        setImagePreview(null);
+        setRemoveMainImage(true);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
 
@@ -334,7 +404,9 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                 return;
             }
 
+            // Add new files to existing images array
             setData('images', [...data.images, ...newFiles]);
+            setRemoveAdditionalImages(false); // Reset removal flag when new images are selected
 
             const newPreviews: string[] = [];
             let processedFiles = 0;
@@ -357,6 +429,37 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
             console.error('Error handling multiple images change:', error);
             toast.error('Error processing additional images');
         }
+    };
+
+    const handleRemoveAdditionalImages = () => {
+        setData('images', []);
+        setImagePreviews([]);
+        setRemoveAdditionalImages(true);
+        setExistingImagesToRemove([]);
+        if (multipleFileInputRef.current) {
+            multipleFileInputRef.current.value = '';
+        }
+    };
+
+    const handleRemoveIndividualImage = (index: number) => {
+        // Check if this is an existing image (from warehouse data) or a new image
+        const existingImagesCount = warehouse?.additional_images?.length || 0;
+
+        if (index < existingImagesCount) {
+            // This is an existing image - mark it for removal
+            setExistingImagesToRemove((prev) => [...prev, index]);
+        } else {
+            // This is a new image - remove it from the new images array
+            const newImages = [...data.images];
+            const newImageIndex = index - existingImagesCount;
+            newImages.splice(newImageIndex, 1);
+            setData('images', newImages);
+        }
+
+        // Remove from previews
+        const newPreviews = [...imagePreviews];
+        newPreviews.splice(index, 1);
+        setImagePreviews(newPreviews);
     };
 
     const addFeature = () => {
@@ -452,70 +555,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         } catch (error) {
             console.error('Error updating security feature:', error);
             toast.error('Failed to update security feature');
-        }
-    };
-
-    const addUtility = () => {
-        try {
-            setData('utilities', [...(data.utilities || []), '']);
-        } catch (error) {
-            console.error('Error adding utility:', error);
-            toast.error('Failed to add utility');
-        }
-    };
-
-    const removeUtility = (i: number) => {
-        try {
-            setData(
-                'utilities',
-                (data.utilities || []).filter((_, idx) => idx !== i),
-            );
-        } catch (error) {
-            console.error('Error removing utility:', error);
-            toast.error('Failed to remove utility');
-        }
-    };
-
-    const updateUtility = (i: number, val: string) => {
-        try {
-            const utils = [...(data.utilities || [])];
-            utils[i] = val;
-            setData('utilities', utils);
-        } catch (error) {
-            console.error('Error updating utility:', error);
-            toast.error('Failed to update utility');
-        }
-    };
-
-    const addCertificate = () => {
-        try {
-            setData('certificates', [...(data.certificates || []), '']);
-        } catch (error) {
-            console.error('Error adding certificate:', error);
-            toast.error('Failed to add certificate');
-        }
-    };
-
-    const removeCertificate = (i: number) => {
-        try {
-            setData(
-                'certificates',
-                (data.certificates || []).filter((_, idx) => idx !== i),
-            );
-        } catch (error) {
-            console.error('Error removing certificate:', error);
-            toast.error('Failed to remove certificate');
-        }
-    };
-
-    const updateCertificate = (i: number, val: string) => {
-        try {
-            const certs = [...(data.certificates || [])];
-            certs[i] = val;
-            setData('certificates', certs);
-        } catch (error) {
-            console.error('Error updating certificate:', error);
-            toast.error('Failed to update certificate');
         }
     };
 
@@ -1233,10 +1272,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                 <img src={imagePreview} alt="Preview" className="mb-3 h-40 w-auto rounded-md object-cover" />
                                                 <button
                                                     type="button"
-                                                    onClick={() => {
-                                                        setData('image', null);
-                                                        setImagePreview(null);
-                                                    }}
+                                                    onClick={handleRemoveMainImage}
                                                     className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                                                 >
                                                     <X className="h-4 w-4" />
@@ -1276,7 +1312,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                     </label>
                                                     <p className="pl-1">or drag and drop</p>
                                                 </div>
-                                                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                                <p className="text-xs text-gray-500">PNG, JPG, GIF, AVIF up to 10MB</p>
                                             </>
                                         )}
                                     </div>
@@ -1296,7 +1332,19 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             </div>
 
                             <div>
-                                <h3 className="mb-4 text-lg font-semibold text-gray-900">Additional Images</h3>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <h3 className="text-lg font-semibold text-gray-900">Additional Images</h3>
+                                    {(imagePreviews.length > 0 ||
+                                        (isEditing && warehouse?.additional_images && warehouse.additional_images.length > 0)) && (
+                                        <button
+                                            type="button"
+                                            onClick={handleRemoveAdditionalImages}
+                                            className="rounded-lg bg-red-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                                        >
+                                            Remove All
+                                        </button>
+                                    )}
+                                </div>
                                 <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                                     <div className="space-y-1 text-center">
                                         {imagePreviews.length > 0 ? (
@@ -1310,14 +1358,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                         />
                                                         <button
                                                             type="button"
-                                                            onClick={() => {
-                                                                const newImages = [...data.images];
-                                                                newImages.splice(idx, 1);
-                                                                setData('images', newImages);
-                                                                const newPreviews = [...imagePreviews];
-                                                                newPreviews.splice(idx, 1);
-                                                                setImagePreviews(newPreviews);
-                                                            }}
+                                                            onClick={() => handleRemoveIndividualImage(idx)}
                                                             className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                                                         >
                                                             <X className="h-4 w-4" />
@@ -1379,7 +1420,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                     </label>
                                                     <p className="pl-1">or drag and drop</p>
                                                 </div>
-                                                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</p>
+                                                <p className="text-xs text-gray-500">PNG, JPG, GIF, AVIF up to 10MB each</p>
                                             </>
                                         )}
                                     </div>

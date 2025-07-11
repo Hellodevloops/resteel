@@ -15,6 +15,7 @@ import {
     Users2,
     Wrench,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
 
 interface OfferingItem {
@@ -96,24 +97,23 @@ const formatSimpleTitle = (title: string, fallback: string = 'Title'): { firstPa
 
 const About = () => {
     const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
+    const { t } = useTranslation();
 
     return (
         <Layout title="About Us | Resteel">
             {/* Hero Section */}
             <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 px-4 pt-35 pb-20 text-center text-white">
-                <h1 className="mb-4 text-4xl leading-tight font-bold md:text-6xl">Redefining Steel Construction</h1>
-                <p className="mx-auto max-w-2xl text-lg text-slate-300 md:text-xl">
-                    At Resteel, we give second-hand steel constructions a powerful second life — with sustainability, scale, and precision.
-                </p>
+                <h1 className="mb-4 text-4xl leading-tight font-bold md:text-6xl">{t('about_hero_title')}</h1>
+                <p className="mx-auto max-w-2xl text-lg text-slate-300 md:text-xl">{t('about_hero_subtitle')}</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
                     <Button variant="outline" asChild className="text-text-orange-500 rounded-xl border-white px-6 py-4 hover:text-orange-600">
                         <Link href="/buildings" className="text-orange-500">
-                            Browse Structures
+                            {t('browse_structures')}
                         </Link>
                     </Button>
                     <Button asChild className="rounded-xl bg-orange-500 px-6 py-4 text-white hover:bg-orange-600">
                         <Link href="/contact">
-                            Let's Work Together <ArrowRight className="h-4 w-4" />
+                            {t('lets_work_together')} <ArrowRight className="h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
@@ -160,16 +160,14 @@ const About = () => {
                         })()}
                     </h2>
 
-                    <p className="mb-12 text-lg text-gray-600">
-                        {siteSettings?.mission_subtitle || 'Advancing sustainable construction through innovative steel solutions'}
-                    </p>
+                    <p className="mb-12 text-lg text-gray-600">{siteSettings?.mission_subtitle || t('about_mission_subtitle')}</p>
                     <div className="grid gap-6 text-left sm:grid-cols-3">
                         {(siteSettings?.mission_items && siteSettings.mission_items.length > 0
                             ? siteSettings.mission_items
                             : [
-                                  { icon: 'CheckCircle2', title: 'Integrity', description: 'Honest, transparent business practices' },
-                                  { icon: 'BriefcaseBusiness', title: 'Expertise', description: 'Deep industry knowledge and experience' },
-                                  { icon: 'Lightbulb', title: 'Innovation', description: 'Creative solutions for complex challenges' },
+                                  { icon: 'CheckCircle2', title: t('integrity'), description: t('honest_transparent_business') },
+                                  { icon: 'BriefcaseBusiness', title: t('expertise'), description: t('deep_industry_knowledge') },
+                                  { icon: 'Lightbulb', title: t('innovation'), description: t('creative_solutions_challenges') },
                               ]
                         ).map((item, idx) => {
                             const IconComponent = iconMap[item.icon as keyof typeof iconMap] || CheckCircle2;
@@ -272,13 +270,13 @@ const About = () => {
 
             {/* Final CTA */}
             <section className="bg-gradient-to-tr from-slate-100 to-slate-100 px-4 py-16 text-center text-slate-800">
-                <h2 className="mb-4 text-3xl font-bold md:text-4xl">Let's Build Something Sustainable</h2>
-                <p className="mx-auto mb-6 max-w-xl text-slate-800">Ready to transform your next project with premium reclaimed steel?</p>
+                <h2 className="mb-4 text-3xl font-bold md:text-4xl">{t('lets_build_sustainable')}</h2>
+                <p className="mx-auto mb-6 max-w-xl text-slate-800">{t('lets_build_sustainable_desc')}</p>
                 <Button
                     asChild
                     className="rounded-xl border border-orange-500 bg-white px-6 py-3 font-semibold text-orange-500 hover:bg-orange-500 hover:text-white"
                 >
-                    <Link href="/contact">Get in Touch</Link>
+                    <Link href="/contact">{t('get_in_touch')}</Link>
                 </Button>
             </section>
         </Layout>
