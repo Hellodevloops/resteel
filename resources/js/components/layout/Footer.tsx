@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { ArrowRight, Facebook, Globe, Instagram, Linkedin, Mail, MapPin, Twitter, Youtube } from 'lucide-react';
+import { ArrowRight, Facebook, Instagram, Linkedin, Mail, MapPin, Twitter, Youtube } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { FaWhatsapp } from 'react-icons/fa';
 
@@ -53,7 +53,7 @@ const Footer = () => {
             show: !!siteSettings?.social_linkedin,
         },
         {
-            icon: <Globe size={20} />,
+            icon: <img src="/assets/Over_Marktplaats.png" alt="Marktplaats" width={20} height={30} className="text-white" />,
             href: siteSettings?.social_website ? `https://${siteSettings.social_website.replace(/^https?:\/\//, '')}` : '',
             hover: 'hover:text-green-600',
             show: !!siteSettings?.social_website,
