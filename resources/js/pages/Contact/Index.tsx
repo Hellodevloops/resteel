@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Eye, Pencil, Search, Trash2 } from 'lucide-react';
+import { Eye, Pencil, Search, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 
 const steelBlue = '#0076A8';
@@ -53,13 +53,21 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
     };
 
     // Filter contacts based on search term
-    const filteredContacts = initialContacts.filter(
-        (contact) =>
-            contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            contact.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            contact.type.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const filteredContacts = initialContacts.filter((contact) => {
+        if (!searchTerm.trim()) return true;
+
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            (contact.name && contact.name.toLowerCase().includes(searchLower)) ||
+            (contact.email && contact.email.toLowerCase().includes(searchLower)) ||
+            (contact.phone && contact.phone.toLowerCase().includes(searchLower)) ||
+            (contact.company && contact.company.toLowerCase().includes(searchLower)) ||
+            (contact.type && contact.type.toLowerCase().includes(searchLower)) ||
+            (contact.status && contact.status.toLowerCase().includes(searchLower)) ||
+            (contact.building_category && contact.building_category.toLowerCase().includes(searchLower)) ||
+            (contact.building_type && contact.building_type.toLowerCase().includes(searchLower))
+        );
+    });
 
     return (
         <AppLayout>
@@ -92,12 +100,25 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Search contacts..."
+                                placeholder="Search contacts by name, email, phone, company, type, status, or building details..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full border border-gray-300 py-2 pr-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
+                            {searchTerm && (
+                                <button
+                                    onClick={() => setSearchTerm('')}
+                                    className="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 transform text-gray-400 hover:text-gray-600"
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
+                            )}
                         </div>
+                        {searchTerm && (
+                            <div className="mt-2 text-sm text-gray-600">
+                                Showing {filteredContacts.length} of {initialContacts.length} contacts
+                            </div>
+                        )}
                     </div>
 
                     {/* Contact List */}
@@ -111,7 +132,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Company</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Type</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Building</th>
+                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Building</th> */}
                                     <th className="px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
@@ -148,7 +169,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                                 {contact.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
+                                        {/* <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
                                             {contact.building_category && (
                                                 <div>
                                                     <span className="font-medium">{contact.building_category}</span>
@@ -166,7 +187,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                                     )}
                                                 </div>
                                             )}
-                                        </td>
+                                        </td> */}
                                         <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
                                             <div className="flex justify-end space-x-3">
                                                 <Link href={`/admin/contacts/${contact.id}`} className="text-blue-600 hover:text-blue-900">
