@@ -31,33 +31,11 @@ const NewsletterSection = () => {
         };
         window.AUTOHIDE = Boolean(0);
 
-        // Wait for the DOM to be ready
-        const loadBrevoScript = () => {
-            const existingScript = document.querySelector('script[src="https://sibforms.com/forms/end-form/build/main.js"]');
-            if (!existingScript) {
-                const script = document.createElement('script');
-                script.src = 'https://sibforms.com/forms/end-form/build/main.js';
-                script.defer = true;
-                document.body.appendChild(script);
-            }
-        };
+        // We intentionally do NOT load Brevo’s JavaScript here so that the form falls back to a normal HTML POST.
+        // This prevents the Brevo script from intercepting the submission and displaying an in-page confirmation,
+        // allowing the browser to follow the response/redirect in a **new tab** thanks to `target="_blank"`.
 
-        // Only load the script once the form is in the DOM
-        const interval = setInterval(() => {
-            if (document.getElementById('sib-form')) {
-                loadBrevoScript();
-                clearInterval(interval);
-            }
-        }, 100);
-
-        // Cleanup
-        return () => {
-            clearInterval(interval);
-            const script = document.querySelector('script[src="https://sibforms.com/forms/end-form/build/main.js"]');
-            if (script) {
-                document.body.removeChild(script);
-            }
-        };
+        // No cleanup required because no script or interval is created.
     }, []);
 
     const features = [
@@ -104,6 +82,7 @@ const NewsletterSection = () => {
                                     method="POST"
                                     action="https://063e6ab8.sibforms.com/serve/MUIFAD972bnEpiWpFk-eyW12k0sDvqdiq9f7gxspg4ccCSeC-MmsZrFYdwXAlOoCdwe-qpk7aYrANGTKXERrAAttC6k8CzSynLB-wo9tUTQe-gxpuq4K2c2f-FLibWBcEx7cT-2FTp6-MLyWR17OyweXyxlyH3f-bnPprGPjXhv_6r_f3xaVSef9bYJqa2f-JvTZ91JxOpHN6EFO"
                                     data-type="subscription"
+                                    target="_blank"
                                     className="flex flex-col items-center gap-4 sm:flex-row"
                                 >
                                     <div className="relative w-full">
