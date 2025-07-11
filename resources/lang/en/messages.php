@@ -443,6 +443,8 @@ return [
   'terms_contact_us' => 'Contact Us',
   'terms_contact_us_text' => 'If you have any questions about these Terms, please contact us at:',
   'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (6) 25334951',
+  'terms_full_document' => 'Full Document',
+  'terms_download_complete' => 'Download complete terms & conditions',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacy Policy',

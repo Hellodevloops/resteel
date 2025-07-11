@@ -376,7 +376,7 @@ return [
   'contact_us' => 'Kontakt',
   'all_rights_reserved' => 'Alle Rechte vorbehalten.',
   'engineering_excellence_since' => 'Technische Exzellenz seit 2005.',
-  'terms' => 'AGB',
+  'terms' => 'Bedingungen',
   'privacy' => 'Datenschutz',
 
   // Hero2 Component
@@ -457,6 +457,8 @@ return [
   'terms_contact_us' => 'Kontaktieren Sie uns',
   'terms_contact_us_text' => 'Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter:',
   'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Niederlande<br />E-Mail: info@resteel-solutions.com<br />Telefon: +31 (6) 25334951',
+  'terms_full_document' => 'Vollständiges Dokument',
+  'terms_download_complete' => 'Lade die vollständigen Geschäftsbedingungen herunter',
 
   // Privacy Policy
   'privacy_policy_title' => 'Datenschutzrichtlinie',

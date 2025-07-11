@@ -378,7 +378,7 @@ return [
   'all_rights_reserved' => 'Alle rechten voorbehouden.',
   'engineering_excellence_since' => 'Technische uitmuntendheid sinds 2005.',
   'terms' => 'Voorwaarden',
-  'privacy' => 'Privacy',
+  'privacy' => 'Privacybeleid',
 
   // Hero2 Component
   'hero2_title' => 'Inkoop - Verkoop - Montage - Demontage - Transport van 2ehands bouwmaterialen en staalconstructies door heel Europa',
@@ -458,6 +458,8 @@ return [
   'terms_contact_us' => 'Neem Contact Op',
   'terms_contact_us_text' => 'Als u vragen heeft over deze Voorwaarden, neem dan contact met ons op via:',
   'terms_contact_info' => 'Resteel<br />Westerbeemd 2B<br />5705 DN Helmond<br />Nederland<br />E-mail: info@resteel-solutions.com<br />Telefoon: +31 (6) 25334951',
+  'terms_full_document' => 'Volledig Document',
+  'terms_download_complete' => 'Download de volledige algemene voorwaarden',
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacybeleid',
