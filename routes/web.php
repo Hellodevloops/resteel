@@ -142,7 +142,7 @@ Route::get('/contact', function () {
     // Merge content settings into site settings for backward compatibility
     $mergedSettings = array_merge($siteSettings, $contentSettings);
 
-    return Inertia::render('website/ContactPage', [
+    return Inertia::render('website/Contact', [
         'siteSettings' => $mergedSettings
     ]);
 })->name('contact');
