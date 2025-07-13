@@ -10,6 +10,7 @@ import axios from 'axios';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Layout from './Layout';
 
 // Brand colors
 const steelBlue = '#0076A8';
@@ -380,4 +381,16 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
     );
 };
 
-export default ContactCTA;
+interface PageProps {
+    siteSettings: SiteSettings;
+}
+
+const ContactPage = ({ siteSettings }: PageProps) => {
+    return (
+        <Layout title={`${siteSettings.company_name} | Contact`} siteSettings={siteSettings}>
+            <ContactCTA siteSettings={siteSettings} />
+        </Layout>
+    );
+};
+
+export default ContactPage;

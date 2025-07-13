@@ -53,7 +53,7 @@ const Footer = () => {
             show: !!siteSettings?.social_linkedin,
         },
         {
-            icon: <img src="/assets/Over_Marktplaats.png" alt="Marktplaats" width={20} height={30} className="text-white" />,
+            icon: <img src="/assets/Marktplaats.nl-Icon-Logo.wine.png" alt="Marktplaats" width={20} height={30} className="h-7 w-10 text-white" />,
             href: siteSettings?.social_website ? `https://${siteSettings.social_website.replace(/^https?:\/\//, '')}` : '',
             hover: 'hover:text-green-600',
             show: !!siteSettings?.social_website,
