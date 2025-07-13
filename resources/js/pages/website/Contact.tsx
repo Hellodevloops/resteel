@@ -385,7 +385,7 @@ interface PageProps {
     siteSettings: SiteSettings;
 }
 
-const ContactPage = ({ siteSettings }: PageProps) => {
+export const ContactPage = ({ siteSettings }: PageProps) => {
     return (
         <Layout title={`${siteSettings.company_name} | Contact`} siteSettings={siteSettings}>
             <ContactCTA siteSettings={siteSettings} />
@@ -393,4 +393,4 @@ const ContactPage = ({ siteSettings }: PageProps) => {
     );
 };
 
-export default ContactPage;
+export default ContactCTA;
