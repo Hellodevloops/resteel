@@ -212,7 +212,9 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
             if (!isValid) {
                 // Set client-side validation errors to display on form fields
                 Object.entries(validationErrors).forEach(([field, message]) => {
-                    setError(field, message);
+                    if (field in data) {
+                        setError(field as keyof FormData, message);
+                    }
                 });
                 toast.error('Please fix the form errors before submitting');
                 // console.log('Validation errors:', validationErrors);
@@ -246,7 +248,15 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
             // Add all text fields to FormData
             Object.keys(formData).forEach((key) => {
                 if (key !== 'image' && key !== 'images') {
-                    if (Array.isArray(formData[key as keyof typeof formData])) {
+                    if (key === 'area_dimensions') {
+                        // Handle area_dimensions as array of objects
+                        const areaDimensions = formData[key as keyof typeof formData] as { name: string; dimensions: string; area: string }[];
+                        areaDimensions.forEach((dimension, index) => {
+                            submitFormData.append(`${key}[${index}][name]`, dimension.name || '');
+                            submitFormData.append(`${key}[${index}][dimensions]`, dimension.dimensions || '');
+                            submitFormData.append(`${key}[${index}][area]`, dimension.area || '');
+                        });
+                    } else if (Array.isArray(formData[key as keyof typeof formData])) {
                         (formData[key as keyof typeof formData] as string[]).forEach((value: string, index: number) => {
                             submitFormData.append(`${key}[${index}]`, value);
                         });
@@ -462,38 +472,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         setImagePreviews(newPreviews);
     };
 
-    const addFeature = () => {
-        try {
-            setData('features', [...(data.features || []), '']);
-        } catch (error) {
-            console.error('Error adding feature:', error);
-            toast.error('Failed to add new feature');
-        }
-    };
-
-    const removeFeature = (i: number) => {
-        try {
-            setData(
-                'features',
-                (data.features || []).filter((_, idx) => idx !== i),
-            );
-        } catch (error) {
-            console.error('Error removing feature:', error);
-            toast.error('Failed to remove feature');
-        }
-    };
-
-    const updateFeature = (i: number, val: string) => {
-        try {
-            const fs = [...(data.features || [])];
-            fs[i] = val;
-            setData('features', fs);
-        } catch (error) {
-            console.error('Error updating feature:', error);
-            toast.error('Failed to update feature');
-        }
-    };
-
     const addVideoUrl = () => {
         try {
             setData('video_urls', [...(data.video_urls || []), '']);
@@ -523,38 +501,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         } catch (error) {
             console.error('Error updating video URL:', error);
             toast.error('Failed to update video URL');
-        }
-    };
-
-    const addSecurityFeature = () => {
-        try {
-            setData('security_features', [...(data.security_features || []), '']);
-        } catch (error) {
-            console.error('Error adding security feature:', error);
-            toast.error('Failed to add security feature');
-        }
-    };
-
-    const removeSecurityFeature = (i: number) => {
-        try {
-            setData(
-                'security_features',
-                (data.security_features || []).filter((_, idx) => idx !== i),
-            );
-        } catch (error) {
-            console.error('Error removing security feature:', error);
-            toast.error('Failed to remove security feature');
-        }
-    };
-
-    const updateSecurityFeature = (i: number, val: string) => {
-        try {
-            const features = [...(data.security_features || [])];
-            features[i] = val;
-            setData('security_features', features);
-        } catch (error) {
-            console.error('Error updating security feature:', error);
-            toast.error('Failed to update security feature');
         }
     };
 
@@ -617,9 +563,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
                                 <div className="ml-3">
                                     <h3 className="text-base font-semibold text-red-800">Form Validation Errors</h3>
-                                    <p className="mt-1 text-sm text-red-700">
-                                        {errors.general || 'Please correct the errors in the form before proceeding'}
-                                    </p>
+                                    <p className="mt-1 text-sm text-red-700">{'Please correct the errors in the form before proceeding'}</p>
                                 </div>
                             </div>
                         </div>
