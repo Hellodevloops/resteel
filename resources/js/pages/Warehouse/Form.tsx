@@ -12,7 +12,7 @@ interface Props {
 type FormData = {
     name: string;
     location: string;
-    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive';
+    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive' | 'sale' | 'sold';
     capacity: string;
     occupied: string;
     occupancy_rate: number;
@@ -537,6 +537,17 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         }
     };
 
+    // Add status options including 'sale' and 'sold'
+    const statusOptions = [
+        // { value: 'active', label: 'Active' },
+        // { value: 'leased', label: 'Leased' },
+        // { value: 'under_maintenance', label: 'Under Maintenance' },
+        // { value: 'coming_soon', label: 'Coming Soon' },
+        // { value: 'inactive', label: 'Inactive' },
+        { value: 'sale', label: 'For Sale' },
+        { value: 'sold', label: 'Sold' },
+    ];
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -663,18 +674,25 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
 
                                 <div>
-                                    {errors.status && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.status}
-                                        </p>
-                                    )}
+                                    <label htmlFor="status" className="mb-2 block text-sm font-semibold text-gray-700">
+                                        Status *
+                                    </label>
+                                    <select
+                                        id="status"
+                                        value={data.status}
+                                        onChange={(e) => setData('status', e.target.value as FormData['status'])}
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.status
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                    >
+                                        {statusOptions.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
 
                                 <div>
