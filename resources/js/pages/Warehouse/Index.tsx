@@ -5,9 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Building2, Calendar, Eye, MapPin, Package, Plus, Search } from 'lucide-react';
+import { Building2, Eye, MapPin, Package, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 
 interface Warehouse {
@@ -62,8 +61,6 @@ export default function Index({ warehouseData }: Props) {
         return matchesSearch && matchesFilter;
     });
 
-    const breadcrumbs: BreadcrumbItem[] = [{ title: 'Warehouses', href: route('admin.warehouses.index') }];
-
     const getStatusBadge = (status: string) => {
         switch (status) {
             case 'active':
@@ -75,12 +72,6 @@ export default function Index({ warehouseData }: Props) {
             default:
                 return <Badge variant="secondary">{status}</Badge>;
         }
-    };
-
-    const getOccupancyColor = (rate: number) => {
-        if (rate >= 80) return 'bg-red-500';
-        if (rate >= 60) return 'bg-yellow-500';
-        return 'bg-green-500';
     };
 
     return (
@@ -148,7 +139,7 @@ export default function Index({ warehouseData }: Props) {
                             {/* Warehouses Grid */}
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                                 {filteredWarehouses.map((warehouse) => (
-                                    <Card key={warehouse.id} className="rounded-sm">
+                                    <Card key={warehouse.id} className="flex h-80 flex-col rounded-sm">
                                         <CardHeader className="pb-3">
                                             <div className="flex items-start justify-between">
                                                 <div>
@@ -161,35 +152,21 @@ export default function Index({ warehouseData }: Props) {
                                                 {getStatusBadge(warehouse.status)}
                                             </div>
                                         </CardHeader>
-                                        <CardContent className="space-y-4">
-                                            {/* Occupancy */}
-
-                                            {/* Stats */}
-                                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                                <div>
-                                                    <p className="text-muted-foreground">Capacity</p>
-                                                    <p className="font-medium">{warehouse.capacity}</p>
+                                        <CardContent className="flex flex-1 flex-col justify-between space-y-4">
+                                            {/* Main Cover Image */}
+                                            {warehouse.image_path && (
+                                                <div className="flex justify-center">
+                                                    <img src={warehouse.image_path} alt="Main Cover" className="h-24 w-auto rounded object-cover" />
                                                 </div>
-                                                <div>
-                                                    <p className="text-muted-foreground">Revenue</p>
-                                                    <p className="font-medium">{warehouse.revenue}</p>
-                                                </div>
+                                            )}
+                                            {/* Total Area */}
+                                            <div className="mt-2 text-sm">
+                                                <span className="text-muted-foreground">Total Area: </span>
+                                                <span className="font-medium">
+                                                    {warehouse.total_area} {warehouse.unit_of_measurement || 'm²'}
+                                                </span>
                                             </div>
-
-                                            {/* Type and Inspection */}
-                                            <div className="flex items-center justify-between text-sm">
-                                                <div className="flex items-center">
-                                                    <Package className="text-muted-foreground mr-1 h-3 w-3" />
-                                                    <span>{warehouse.type}</span>
-                                                </div>
-                                                <div className="text-muted-foreground flex items-center">
-                                                    <Calendar className="mr-1 h-3 w-3" />
-                                                    <span>Last: {warehouse.last_inspection}</span>
-                                                </div>
-                                            </div>
-
                                             <Separator />
-
                                             {/* Actions */}
                                             <div className="flex gap-2">
                                                 <Button asChild size="sm" className="flex-1 rounded-sm">
@@ -198,9 +175,6 @@ export default function Index({ warehouseData }: Props) {
                                                         View Details
                                                     </Link>
                                                 </Button>
-                                                {/* <Button variant="outline" size="sm" className="rounded-sm">
-                                                    <Settings className="h-3 w-3" />
-                                                </Button> */}
                                             </div>
                                         </CardContent>
                                     </Card>
