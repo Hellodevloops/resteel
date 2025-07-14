@@ -1,6 +1,4 @@
-import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Warehouse } from '@/types/warehouse';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Box, Calendar, CheckCircle, Edit, MapPin, Package, Trash2, XCircle, Zap } from 'lucide-react';
@@ -20,13 +18,6 @@ export default function Show({ warehouse }: Props) {
         }
     };
 
-    // Define breadcrumbs
-    const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Dashboard', href: route('admin.dashboard') },
-        { title: 'Warehouses', href: route('admin.warehouses.index') },
-        { title: warehouse.name, href: route('admin.warehouses.show', warehouse.id) },
-    ];
-
     // Format status for display
     const formatStatus = (status: string) => {
         return status
@@ -38,7 +29,7 @@ export default function Show({ warehouse }: Props) {
     return (
         <AppLayout>
             <Head title={`${warehouse.name} - Admin`} />
-            <AppSidebarHeader breadcrumbs={breadcrumbs} />
+            {/* <AppSidebarHeader /> */}
 
             <div className="min-h-screen bg-slate-50">
                 {/* Header */}
