@@ -21,6 +21,9 @@ interface Warehouse {
     last_inspection: string;
     revenue: string;
     alerts: number;
+    total_area?: string;
+    unit_of_measurement?: string;
+    image_path?: string;
 }
 
 interface Activity {
@@ -165,6 +168,11 @@ export default function Index({ warehouseData }: Props) {
                                                 <span className="font-medium">
                                                     {warehouse.total_area} {warehouse.unit_of_measurement || 'm²'}
                                                 </span>
+                                            </div>
+                                            {/* Building Type */}
+                                            <div className="text-sm">
+                                                <span className="text-muted-foreground">Building Type: </span>
+                                                <span className="font-medium capitalize">{warehouse.type || 'Not specified'}</span>
                                             </div>
                                             <Separator />
                                             {/* Actions */}

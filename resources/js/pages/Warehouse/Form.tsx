@@ -1,7 +1,8 @@
 import { AreaDimension, Warehouse } from '@/types/warehouse';
 import { router, useForm } from '@inertiajs/react';
-import { Plus, X } from 'lucide-react';
+import { Factory, Plus, SquareStack, Warehouse as WarehouseIcon, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -53,6 +54,15 @@ type FormData = {
 
 export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
     const steelBlue = '#0076A8';
+    const { t } = useTranslation();
+
+    // Building type options matching the frontend filters
+    const buildingTypes = [
+        { id: 'warehouses', label: t('warehouses'), icon: WarehouseIcon },
+        { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
+        { id: 'other', label: t('other'), icon: SquareStack },
+    ];
+
     const { data, setData, processing, errors, reset, setError } = useForm<FormData>({
         name: warehouse?.name || '',
         location: warehouse?.location || '',
@@ -158,6 +168,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         if (!data.name.trim()) newErrors.name = 'Warehouse name is required';
         if (!data.location.trim()) newErrors.location = 'Location is required';
         if (!data.status) newErrors.status = 'Status is required';
+        if (!data.type.trim()) newErrors.type = 'Building type is required';
 
         // Numeric fields
         if (data.capacity && !validateNumber(data.capacity, 'capacity')) {
@@ -696,21 +707,26 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="has_video" className="flex items-center">
-                                        <input
-                                            id="has_video"
-                                            type="checkbox"
-                                            checked={data.has_video}
-                                            onChange={(e) => setData('has_video', e.target.checked)}
-                                            className="rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
-                                        />
-                                        <span className="ml-2 text-sm text-gray-700">Has Video Content</span>
+                                    <label htmlFor="type" className="mb-2 block text-sm font-semibold text-gray-700">
+                                        Building Type *
                                     </label>
-                                </div>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div>
+                                    <select
+                                        id="type"
+                                        value={data.type}
+                                        onChange={(e) => setData('type', e.target.value)}
+                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                            errors.type
+                                                ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+                                                : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
+                                        }`}
+                                    >
+                                        <option value="">Select building type</option>
+                                        {buildingTypes.map((type) => (
+                                            <option key={type.id} value={type.id}>
+                                                {type.label}
+                                            </option>
+                                        ))}
+                                    </select>
                                     {errors.type && (
                                         <p className="mt-2 flex items-center text-sm text-red-600">
                                             <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -725,6 +741,21 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     )}
                                 </div>
 
+                                <div>
+                                    <label htmlFor="has_video" className="flex items-center">
+                                        <input
+                                            id="has_video"
+                                            type="checkbox"
+                                            checked={data.has_video}
+                                            onChange={(e) => setData('has_video', e.target.checked)}
+                                            className="rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
+                                        />
+                                        <span className="ml-2 text-sm text-gray-700">Has Video Content</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="space-y-6">
                                 <div>
                                     {errors.last_inspection && (
                                         <p className="mt-2 flex items-center text-sm text-red-600">

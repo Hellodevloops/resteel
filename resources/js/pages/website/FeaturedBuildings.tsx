@@ -57,10 +57,11 @@ const FeaturedBuildings = () => {
     const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
 
     const buildingTypes = [
-        { id: 'all', label: t('all'), icon: Building2 },
+        { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
-        { id: 'Steelconstructions', label: t('steel_constructions'), icon: Factory },
+        { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
         { id: 'other', label: t('other'), icon: SquareStack },
+        // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
     useEffect(() => {
@@ -91,7 +92,7 @@ const FeaturedBuildings = () => {
                             id: item.id,
                             title: item.name,
                             status: (item.status || 'sale').toUpperCase(),
-                            type: 'warehouses',
+                            type: item.type || 'warehouses', // Use actual type from database, fallback to 'warehouses'
                             category: item.category || t('uncategorized'),
                             totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
                             construction: item.construction || t('not_specified'),

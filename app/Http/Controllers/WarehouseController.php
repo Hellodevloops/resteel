@@ -364,7 +364,7 @@ class WarehouseController extends Controller
       'capacity' => 'nullable|string|max:255',
       'occupied' => 'nullable|string|max:255',
       'occupancy_rate' => 'nullable|numeric|min:0|max:100',
-      'type' => 'nullable|string|max:255',
+      'type' => 'required|string|in:warehouses,steelconstructions,other',
       'last_inspection' => 'nullable|date',
       'revenue' => 'nullable|string|max:255',
       'alerts' => 'nullable|integer|min:0',
