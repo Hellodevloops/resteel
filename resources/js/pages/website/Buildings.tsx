@@ -188,11 +188,42 @@ const Buildings = () => {
     const BuildingCard = ({ building }: { building: Building }) => {
         const truncation = getTextTruncation();
 
+        // Function to format status display
+        const formatStatusDisplay = (status: string) => {
+            const statusUpper = status.toUpperCase();
+            if (statusUpper === 'SOLD') {
+                return { label: t('sold').toUpperCase(), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60' };
+            } else if (statusUpper === 'SALE') {
+                return { label: t('sale').toUpperCase(), bgColor: 'bg-orange-500', pulseColor: 'bg-white' };
+            } else if (statusUpper === 'ACTIVE') {
+                return { label: t('active').toUpperCase(), bgColor: 'bg-green-500', pulseColor: 'bg-white' };
+            } else if (statusUpper === 'LEASED') {
+                return { label: t('leased').toUpperCase(), bgColor: 'bg-blue-500', pulseColor: 'bg-white' };
+            } else if (statusUpper === 'UNDER_MAINTENANCE') {
+                return { label: t('under_maintenance').toUpperCase(), bgColor: 'bg-yellow-500', pulseColor: 'bg-white' };
+            } else if (statusUpper === 'COMING_SOON') {
+                return { label: t('coming_soon').toUpperCase(), bgColor: 'bg-purple-500', pulseColor: 'bg-white' };
+            } else if (statusUpper === 'INACTIVE') {
+                return { label: t('inactive').toUpperCase(), bgColor: 'bg-red-500', pulseColor: 'bg-white' };
+            } else {
+                return { label: statusUpper, bgColor: 'bg-gray-500', pulseColor: 'bg-white' };
+            }
+        };
+
+        const statusDisplay = formatStatusDisplay(building.status);
+
         return (
             <div className="flex h-full flex-col rounded-xl bg-white p-4 pt-10 shadow-md transition-all hover:shadow-lg">
                 {/* Image Container with Fixed Height */}
                 <div className="relative mb-4 h-48 w-full overflow-hidden rounded-md">
                     <img src={building.image} alt={building.title} className="h-full w-full object-cover" />
+                    {/* Status Badge */}
+                    <div className="absolute top-3 left-3">
+                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white ${statusDisplay.bgColor}`}>
+                            <span className={`mr-2 h-2 w-2 animate-pulse rounded-full ${statusDisplay.pulseColor}`} />
+                            {statusDisplay.label}
+                        </span>
+                    </div>
                 </div>
 
                 {/* Content Container with Flex Grow */}
