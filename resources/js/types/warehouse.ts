@@ -8,7 +8,7 @@ export interface Warehouse {
     id?: number;
     name: string;
     location: string;
-    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive';
+    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive' | 'sale' | 'sold';
     capacity: string;
     occupied: string;
     occupancy_rate: number;

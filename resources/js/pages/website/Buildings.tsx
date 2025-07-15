@@ -2,7 +2,7 @@ import Header from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import axios from 'axios';
-import { Building, Building2, Eye, Factory, Play, Warehouse } from 'lucide-react';
+import { Building, Building2, Eye, Factory, Play, SquareStack, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
@@ -101,6 +101,7 @@ const Buildings = () => {
         { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
         { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
+        { id: 'other', label: t('other'), icon: SquareStack },
         // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
@@ -202,9 +203,9 @@ const Buildings = () => {
                     </div>
 
                     {/* Description with Fixed Height */}
-                    <div className="mb-2 min-h-[2.5rem]">
+                    {/* <div className="mb-2 min-h-[2.5rem]">
                         <p className="line-clamp-2 text-sm text-gray-600">{truncateText(building.construction, truncation.construction)}</p>
-                    </div>
+                    </div> */}
 
                     {/* Total Area with Fixed Height */}
                     <div className="mb-4 min-h-[1.5rem]">

@@ -537,13 +537,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         }
     };
 
-    // Add status options including 'sale' and 'sold'
+    // Add status options including all available statuses
     const statusOptions = [
-        // { value: 'active', label: 'Active' },
-        // { value: 'leased', label: 'Leased' },
-        // { value: 'under_maintenance', label: 'Under Maintenance' },
-        // { value: 'coming_soon', label: 'Coming Soon' },
-        // { value: 'inactive', label: 'Inactive' },
+        { value: 'active', label: 'Active' },
+        { value: 'leased', label: 'Leased' },
+        { value: 'under_maintenance', label: 'Under Maintenance' },
+        { value: 'coming_soon', label: 'Coming Soon' },
+        { value: 'inactive', label: 'Inactive' },
         { value: 'sale', label: 'For Sale' },
         { value: 'sold', label: 'Sold' },
     ];

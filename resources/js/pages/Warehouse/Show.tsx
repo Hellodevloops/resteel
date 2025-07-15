@@ -120,14 +120,24 @@ export default function Show({ warehouse }: Props) {
                                                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                                                             warehouse.status === 'active'
                                                                 ? 'bg-green-100 text-green-800'
-                                                                : warehouse.status === 'under_maintenance'
-                                                                  ? 'bg-yellow-100 text-yellow-800'
-                                                                  : 'bg-red-100 text-red-800'
+                                                                : warehouse.status === 'leased'
+                                                                  ? 'bg-blue-100 text-blue-800'
+                                                                  : warehouse.status === 'under_maintenance'
+                                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                                    : warehouse.status === 'coming_soon'
+                                                                      ? 'bg-purple-100 text-purple-800'
+                                                                      : warehouse.status === 'sale'
+                                                                        ? 'bg-orange-100 text-orange-800'
+                                                                        : warehouse.status === 'sold'
+                                                                          ? 'bg-gray-100 text-gray-800'
+                                                                          : 'bg-red-100 text-red-800'
                                                         }`}
                                                     >
-                                                        {warehouse.status === 'active' ? (
+                                                        {warehouse.status === 'active' || warehouse.status === 'leased' ? (
                                                             <CheckCircle className="mr-1 h-4 w-4" />
-                                                        ) : warehouse.status === 'under_maintenance' ? (
+                                                        ) : warehouse.status === 'under_maintenance' || warehouse.status === 'coming_soon' ? (
+                                                            <CheckCircle className="mr-1 h-4 w-4" />
+                                                        ) : warehouse.status === 'sold' ? (
                                                             <CheckCircle className="mr-1 h-4 w-4" />
                                                         ) : (
                                                             <XCircle className="mr-1 h-4 w-4" />
