@@ -641,7 +641,7 @@ const predefinedTranslations = {
         search_criteria_no_match: 'We konden geen producten vinden die overeenkomen met uw zoekcriteria.',
         in_stock: 'Op voorraad',
         out_of_stock: 'Niet op voorraad',
-        sold_out: 'Uitverkocht',
+        sold_out: 'SOLD',
         add_to_cart_failed: 'Mislukt om artikel toe te voegen aan winkelwagen. Probeer het opnieuw.',
         contact_about_product: 'Contact over product',
         filters: 'Filters',

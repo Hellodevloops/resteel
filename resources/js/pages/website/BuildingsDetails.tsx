@@ -239,6 +239,18 @@ const BuildingDetails = () => {
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                             <div className="flex-1">
                                 <h1 className="mb-2 text-3xl leading-tight font-bold text-gray-900 sm:text-4xl">{building.title}</h1>
+                                {/* Status Badge */}
+                                <div className="mb-2">
+                                    {/* <Badge
+                                        className={`rounded-full px-3 py-1 text-xs font-semibold text-white ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                                    >
+                                        {building.status === 'SALE'
+                                            ? t('sale').toUpperCase()
+                                            : building.status === 'SOLD'
+                                              ? t('sold').toUpperCase()
+                                              : building.status}
+                                    </Badge> */}
+                                </div>
                                 <div className="flex flex-wrap items-center gap-4 text-gray-600">
                                     <div className="flex items-center">
                                         <MapPin className="mr-1 h-4 w-4 text-orange-500" />
@@ -274,6 +286,18 @@ const BuildingDetails = () => {
                                 <CardContent>
                                     {/* Main Image */}
                                     <div className="relative -m-6 aspect-[4/3] bg-gray-200">
+                                        {/* Status Badge Overlay */}
+                                        <div className="absolute top-4 left-4 z-10">
+                                            <Badge
+                                                className={`rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                                            >
+                                                {building.status === 'SALE'
+                                                    ? t('sale').toUpperCase()
+                                                    : building.status === 'SOLD'
+                                                      ? t('sold').toUpperCase()
+                                                      : building.status}
+                                            </Badge>
+                                        </div>
                                         {building.images.length > 0 ? (
                                             <>
                                                 <img

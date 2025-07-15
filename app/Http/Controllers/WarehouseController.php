@@ -360,7 +360,7 @@ class WarehouseController extends Controller
     return $request->validate([
       'name' => 'required|string|max:255',
       'location' => 'required|string|max:255',
-      'status' => 'required|in:active,leased,under_maintenance,coming_soon,inactive',
+      'status' => 'required|in:active,leased,under_maintenance,coming_soon,inactive,sale,sold',
       'capacity' => 'nullable|string|max:255',
       'occupied' => 'nullable|string|max:255',
       'occupancy_rate' => 'nullable|numeric|min:0|max:100',

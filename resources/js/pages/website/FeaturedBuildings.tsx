@@ -46,16 +46,11 @@ interface WarehouseApiItem {
     // OLD FIELDS - for backward compatibility
     main_hall_dimensions?: string;
     main_hall_area?: string;
+    status?: string;
 }
 
 const steelBlue = '#0076A8';
 const charcoal = '#3C3F48';
-
-// Add a new function to truncate specification name if needed
-const truncateSpec = (text: string, maxLength = 15): string => {
-    if (!text) return '';
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-};
 
 const FeaturedBuildings = () => {
     const { t } = useTranslation();
@@ -95,7 +90,7 @@ const FeaturedBuildings = () => {
                         return {
                             id: item.id,
                             title: item.name,
-                            status: t('sale').toUpperCase(),
+                            status: (item.status || 'sale').toUpperCase(),
                             type: 'warehouses',
                             category: item.category || t('uncategorized'),
                             totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
@@ -133,9 +128,15 @@ const FeaturedBuildings = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center rounded-full bg-orange-500 px-3 py-1 text-xs font-semibold text-white">
-                        <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-white" />
-                        {building.status}
+                    <span
+                        className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                    >
+                        <span className={`mr-2 h-2 w-2 animate-pulse rounded-full ${building.status === 'SOLD' ? 'bg-white/60' : 'bg-white'}`} />
+                        {building.status === 'SALE'
+                            ? t('sale').toUpperCase()
+                            : building.status === 'SOLD'
+                              ? t('sold').toUpperCase()
+                              : building.status}
                     </span>
                 </div>
                 {building.hasVideo && (

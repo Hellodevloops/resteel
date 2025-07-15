@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('warehouses', function (Blueprint $table) {
             $table->json('area_dimensions')->nullable()->after('features');
+            // Modify the status column to add 'sold' and 'sale' as valid values
+            $table->enum('status', ['active', 'leased', 'under_maintenance', 'coming_soon', 'inactive', 'sale', 'sold'])->default('active')->change();
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('warehouses', function (Blueprint $table) {
             $table->dropColumn('area_dimensions');
+            // Optionally revert status column to previous enum values if needed
+            $table->enum('status', ['active', 'leased', 'under_maintenance', 'coming_soon', 'inactive'])->default('active')->change();
         });
     }
 };
