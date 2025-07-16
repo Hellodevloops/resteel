@@ -157,9 +157,9 @@ const Header: React.FC = () => {
 
                         {/* Mobile Webshop + Cart */}
                         <div className="flex items-center space-x-4 lg:hidden">
-                            <Link href="/buildings" className="text-sm font-medium text-slate-700 hover:text-orange-500">
+                            {/* <Link href="/buildings" className="text-sm font-medium text-slate-700 hover:text-orange-500">
                                 Buildings
-                            </Link>
+                            </Link> */}
 
                             {/* Mobile YouTube Button */}
                             <a
@@ -303,8 +303,8 @@ const Header: React.FC = () => {
                             <Link href="/about" className="block font-medium text-slate-700">
                                 {t('about_us')}
                             </Link>
-                            <Link href="/webshops" className="block font-medium text-slate-700">
-                                {t('shop')}
+                            <Link href="/Buildings" className="block font-medium text-slate-700">
+                                {t('buildings')}
                             </Link>
                             <Link href="/contact" className="block font-medium text-slate-700">
                                 {t('contact_us')}

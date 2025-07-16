@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogHeader } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 
-import { ArrowLeft, Building, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
+import { ArrowLeft, Building, ChevronLeft, ChevronRight, Eye, MapPin, Phone, Play, Square } from 'lucide-react';
 import ContactForm from './ContactForm';
 
 interface BuildingType {
@@ -43,7 +43,7 @@ const BuildingDetails = () => {
     const [building, setBuilding] = useState<BuildingType | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [showFullDescription, setShowFullDescription] = useState(false);
+    const [showFullDescription, setShowFullDescription] = useState(true);
     const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
 
     // Calculate total area from specifications
@@ -295,7 +295,7 @@ const BuildingDetails = () => {
                                                     ? t('sale').toUpperCase()
                                                     : building.status === 'SOLD'
                                                       ? t('sold').toUpperCase()
-                                                      : building.status}
+                                                      : building.status.toUpperCase()}
                                             </Badge>
                                         </div>
                                         {building.images.length > 0 ? (
@@ -343,9 +343,9 @@ const BuildingDetails = () => {
 
                                                 {/* Video Badge */}
                                                 {building.hasVideo && (
-                                                    <div className="absolute top-4 left-4">
+                                                    <div className="absolute top-4 right-4">
                                                         <Badge className="bg-blue-500 text-white">
-                                                            <Play className="mr-1 h-3 w-3" />
+                                                            <Play className="mr-1 h-4 w-3" />
                                                             Video Available
                                                         </Badge>
                                                     </div>
@@ -470,14 +470,14 @@ const BuildingDetails = () => {
                                             {showFullDescription ? building.description : truncateText(building.description, 300)}
                                         </p>
                                     </div>
-                                    {building.description && building.description.length > 300 && (
+                                    {/* {building.description && building.description.length > 300 && (
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => setShowFullDescription(!showFullDescription)}
                                             className="mt-3 p-0 text-orange-500 hover:text-orange-600"
-                                        >
-                                            {showFullDescription ? (
+                                        > */}
+                                    {/* {showFullDescription ? (
                                                 <>
                                                     <ChevronUp className="mr-1 h-4 w-4" />
                                                     {t('show_less')}
@@ -487,9 +487,9 @@ const BuildingDetails = () => {
                                                     <ChevronDown className="mr-1 h-4 w-4" />
                                                     {t('read_more')}
                                                 </>
-                                            )}
-                                        </Button>
-                                    )}
+                                            )} */}
+                                    {/* </Button>
+                                    )} */}
                                 </div>
 
                                 <Separator />
