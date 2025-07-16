@@ -396,15 +396,14 @@ const Buildings = () => {
                     </div>
 
                     {/* Enhanced Filter Section */}
-                    {/* Enhanced Filter Section */}
                     <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8">
                         <div className="mb-6 flex justify-center sm:mb-8">
-                            <div className="grid w-full max-w-full grid-cols-2 gap-0.5 rounded-lg bg-gray-200 p-0.5 sm:flex sm:max-w-2xl sm:gap-1 sm:p-1">
+                            <div className="grid w-full max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
                                 {buildingTypes.map((type) => (
                                     <button
                                         key={type.id}
                                         onClick={() => setFilter(type.id)}
-                                        className={`flex min-h-[36px] items-center justify-center rounded-md px-2 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-300 sm:min-h-[40px] sm:px-3 sm:py-2 sm:text-sm ${
+                                        className={`flex min-h-[36px] items-center justify-center rounded-md px-2 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-300 sm:min-h-[40px] sm:px-4 sm:py-2 sm:text-sm lg:px-10 lg:py-2.5 lg:text-base ${
                                             filter === type.id ? 'bg-orange-500 text-white' : ''
                                         }`}
                                     >
