@@ -88,7 +88,7 @@ Translation keys are organized by sections:
 
 // Buildings
 'featured_buildings' => 'Featured Buildings',
-'all_buildings' => 'All Buildings',
+'all_buildings' => 'All',
 'specifications' => 'Specifications',
 
 // WebShop

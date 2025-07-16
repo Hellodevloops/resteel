@@ -164,14 +164,23 @@ const FloatingChatbot: React.FC = () => {
                     throw new Error(result.message || 'Submission failed');
                 }
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error submitting form:', error);
 
-            if (error.response?.status === 419) {
-                setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ CSRF token mismatch. Please refresh the page and try again.' }]);
-            } else if (error.response?.data?.errors) {
-                setErrors(error.response.data.errors);
-                setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ Please check your input and try again.' }]);
+            if (error && typeof error === 'object' && 'response' in error) {
+                const axiosError = error as { response?: { status?: number; data?: { errors?: Record<string, string> } } };
+
+                if (axiosError.response?.status === 419) {
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ CSRF token mismatch. Please refresh the page and try again.' }]);
+                } else if (axiosError.response?.data?.errors) {
+                    setErrors(axiosError.response.data.errors);
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ Please check your input and try again.' }]);
+                } else {
+                    setChatMessages((prev) => [
+                        ...prev,
+                        { type: 'bot', text: '❌ Sorry, there was an error submitting your information. Please try again later.' },
+                    ]);
+                }
             } else {
                 setChatMessages((prev) => [
                     ...prev,
@@ -195,32 +204,32 @@ const FloatingChatbot: React.FC = () => {
     const isSubmitted = currentStep >= steps.length;
 
     return (
-        <div className="fixed right-6 bottom-6 z-50">
+        <div className="fixed right-4 bottom-4 z-50 sm:right-6 sm:bottom-6">
             {/* Chat Window */}
             {isOpen && (
-                <div className="absolute right-0 bottom-20 mb-4 w-80 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xl">
+                <div className="absolute right-0 bottom-16 mb-3 w-72 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xl sm:bottom-20 sm:mb-4 sm:w-80">
                     {/* Header */}
-                    <div className="flex items-center justify-between bg-blue-600 p-4 text-white">
+                    <div className="flex items-center justify-between bg-blue-600 p-3 text-white sm:p-4">
                         <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500">
-                                <MessageCircle className="h-5 w-5" />
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 sm:h-8 sm:w-8">
+                                <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                             </div>
                             <div>
-                                <h3 className="font-semibold">Resteel Assistant</h3>
+                                <h3 className="text-sm font-semibold sm:text-base">Resteel Assistant</h3>
                                 <p className="text-xs text-blue-100">Industrial Buildings Expert</p>
                             </div>
                         </div>
                         <button onClick={toggleChatbot} className="text-white transition-colors hover:text-gray-200">
-                            <X className="h-5 w-5" />
+                            <X className="h-4 w-4 sm:h-5 sm:w-5" />
                         </button>
                     </div>
 
                     {/* Messages */}
-                    <div className="h-64 space-y-3 overflow-y-auto bg-gray-50 p-4">
+                    <div className="h-56 space-y-2 overflow-y-auto bg-gray-50 p-3 sm:h-64 sm:space-y-3 sm:p-4">
                         {chatMessages.map((msg, index) => (
                             <div key={index} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 <div
-                                    className={`max-w-xs rounded-lg px-3 py-2 text-sm ${
+                                    className={`max-w-[200px] rounded-lg px-2 py-1.5 text-xs sm:max-w-xs sm:px-3 sm:py-2 sm:text-sm ${
                                         msg.type === 'user' ? 'bg-blue-600 text-white' : 'border bg-white text-gray-800'
                                     }`}
                                 >
@@ -232,9 +241,9 @@ const FloatingChatbot: React.FC = () => {
                         {/* Current Question */}
                         {!isSubmitted && currentStepData && (
                             <div className="flex justify-start">
-                                <div className="max-w-xs rounded-lg border bg-white px-3 py-2 text-sm text-gray-800">
-                                    <div className="mb-2 flex items-center space-x-2">
-                                        <currentStepData.icon className="h-4 w-4 text-blue-600" />
+                                <div className="max-w-[200px] rounded-lg border bg-white px-2 py-1.5 text-xs text-gray-800 sm:max-w-xs sm:px-3 sm:py-2 sm:text-sm">
+                                    <div className="mb-1 flex items-center space-x-1 sm:mb-2 sm:space-x-2">
+                                        <currentStepData.icon className="h-3 w-3 text-blue-600 sm:h-4 sm:w-4" />
                                         <span className="font-medium">{currentStepData.question}</span>
                                     </div>
                                 </div>
@@ -244,7 +253,7 @@ const FloatingChatbot: React.FC = () => {
 
                     {/* Input Area */}
                     {!isSubmitted && currentStepData && (
-                        <div className="border-t bg-white p-4">
+                        <div className="border-t bg-white p-3 sm:p-4">
                             <div className="flex space-x-2">
                                 <div className="flex-1">
                                     {currentStepData.field === 'message' ? (
@@ -253,7 +262,7 @@ const FloatingChatbot: React.FC = () => {
                                             onChange={(e) => handleInputChange(currentStepData.field as keyof ContactFormData, e.target.value)}
                                             onKeyPress={handleKeyPress}
                                             placeholder={currentStepData.placeholder}
-                                            className="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                            className="w-full resize-none rounded-lg border border-gray-300 px-2 py-1.5 text-xs focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none sm:px-3 sm:py-2 sm:text-sm"
                                             rows={2}
                                         />
                                     ) : (
@@ -263,7 +272,7 @@ const FloatingChatbot: React.FC = () => {
                                             onChange={(e) => handleInputChange(currentStepData.field as keyof ContactFormData, e.target.value)}
                                             onKeyPress={handleKeyPress}
                                             placeholder={currentStepData.placeholder}
-                                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                            className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-xs focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none sm:px-3 sm:py-2 sm:text-sm"
                                         />
                                     )}
                                     {errors[currentStepData.field as keyof ContactFormData] && (
@@ -273,12 +282,12 @@ const FloatingChatbot: React.FC = () => {
                                 <button
                                     onClick={handleNext}
                                     disabled={isSubmitting || (!currentValue && !currentStepData.optional)}
-                                    className="flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:px-4 sm:py-2"
                                 >
                                     {isSubmitting ? (
-                                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                                        <div className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent sm:h-4 sm:w-4"></div>
                                     ) : (
-                                        <Send className="h-4 w-4" />
+                                        <Send className="h-3 w-3 sm:h-4 sm:w-4" />
                                     )}
                                 </button>
                             </div>
@@ -292,7 +301,7 @@ const FloatingChatbot: React.FC = () => {
 
                     {/* Progress Bar */}
                     {!isSubmitted && (
-                        <div className="px-4 pb-2">
+                        <div className="px-3 pb-2 sm:px-4">
                             <div className="h-1 w-full rounded-full bg-gray-200">
                                 <div
                                     className="h-1 rounded-full bg-blue-600 transition-all duration-300"
@@ -310,13 +319,13 @@ const FloatingChatbot: React.FC = () => {
             {/* Floating Button */}
             <button
                 onClick={toggleChatbot}
-                className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-blue-700 hover:shadow-xl"
+                className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-blue-700 hover:shadow-xl active:scale-95 sm:h-14 sm:w-14"
                 aria-label="Open chat"
             >
                 {isOpen ? (
-                    <X className="h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" />
+                    <X className="h-5 w-5 text-white transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
                 ) : (
-                    <MessageCircle className="h-6 w-6 text-white transition-transform duration-300 group-hover:scale-110" />
+                    <MessageCircle className="h-5 w-5 text-white transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
                 )}
 
                 {/* Pulse animation */}
@@ -324,13 +333,11 @@ const FloatingChatbot: React.FC = () => {
                     <div className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping"></div>
                 )} */}
 
-                {/* Tooltip */}
+                {/* Tooltip - Hidden on mobile, shown on hover for desktop */}
                 {!isOpen && (
-                    <div className="absolute right-full mr-3 hidden group-hover:block">
-                        <div className="rounded-lg bg-gray-800 px-3 py-2 text-sm whitespace-nowrap text-white shadow-lg">
-                            Need help? Let's chat!
-                            <div className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
-                        </div>
+                    <div className="absolute right-full mr-2 hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-white shadow-lg group-hover:block sm:mr-3 sm:px-3 sm:py-2 sm:text-sm">
+                        <span className="whitespace-nowrap">Need help? Let's chat!</span>
+                        <div className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
                     </div>
                 )}
             </button>

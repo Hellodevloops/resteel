@@ -192,7 +192,7 @@ return [
 
   // Buildings/Products
   'featured_buildings' => 'Featured Buildings',
-  'all_buildings' => 'All Buildings',
+  'all_buildings' => 'All',
   'building_details' => 'Building Details',
   'dimensions' => 'Dimensions',
   'year_built' => 'Year Built',
@@ -501,7 +501,7 @@ return [
   'unable_to_load_properties' => 'Unable to Load Properties',
   'refresh_page' => 'Refresh Page',
   'view_details' => 'View Details',
-  'all_buildings' => 'All Buildings',
+  'all_buildings' => 'All',
   'warehouses' => 'Warehouses',
   'commercial' => 'Commercial',
   'industrial' => 'Industrial',

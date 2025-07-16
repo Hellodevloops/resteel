@@ -71,23 +71,27 @@ export default function ServicesWeProvide() {
     const { firstPart, lastWord } = formatTitle(titleText);
 
     return (
-        <section className="bg-slate-100 px-6 py-20">
+        <section className="bg-slate-100 px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
             <div className="mx-auto max-w-7xl text-center">
-                <h2 className="text-charcoal mt-4 text-4xl font-bold md:text-5xl">
+                <h2 className="text-charcoal mt-2 text-2xl font-bold sm:mt-4 sm:text-3xl md:text-4xl lg:text-5xl">
                     {firstPart} <span className="text-[var(--primary)]">{lastWord}</span>
                 </h2>
-                <p className="mx-auto mt-3 max-w-2xl text-gray-600">{subtitle}</p>
+                <p className="mx-auto mt-2 max-w-2xl text-sm text-gray-600 sm:mt-3 sm:text-base lg:text-lg">{subtitle}</p>
 
-                <div className="mt-10 grid gap-6 md:grid-cols-4">
+                <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {services.map((service, idx) => {
                         const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Store;
                         return (
-                            <Card key={idx} className="shadow-sm transition hover:shadow-md">
-                                <CardHeader className="flex flex-col items-center gap-2">
-                                    <IconComponent className="h-6 w-6 text-[var(--primary)]" />
-                                    <CardTitle className="text-md">{service.title}</CardTitle>
+                            <Card key={idx} className="bg-white p-4 shadow-sm transition duration-200 hover:shadow-md sm:p-6">
+                                <CardHeader className="flex flex-col items-center gap-3 pb-3 sm:gap-4 sm:pb-4">
+                                    <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary)]/10 sm:h-14 sm:w-14">
+                                        <IconComponent className="h-5 w-5 text-[var(--primary)] sm:h-6 sm:w-6" />
+                                    </div>
+                                    <CardTitle className="text-base font-semibold sm:text-lg">{service.title}</CardTitle>
                                 </CardHeader>
-                                <CardContent className="text-center text-sm text-gray-600">{service.description}</CardContent>
+                                <CardContent className="px-2 text-center text-sm text-gray-600 sm:px-4 sm:text-base">
+                                    {service.description}
+                                </CardContent>
                             </Card>
                         );
                     })}

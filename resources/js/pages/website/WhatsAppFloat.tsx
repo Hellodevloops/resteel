@@ -16,15 +16,15 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
     };
 
     return (
-        <div className="fixed right-6 bottom-20 z-40 mb-3">
+        <div className="fixed right-4 bottom-16 z-40 sm:right-6 sm:bottom-20">
             <button
                 onClick={handleWhatsAppClick}
-                className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-green-500 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-green-600 hover:shadow-xl"
+                className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-green-500 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-green-600 hover:shadow-xl active:scale-95 sm:h-14 sm:w-14"
                 aria-label="Contact us on WhatsApp"
             >
                 {/* WhatsApp Icon */}
                 <svg
-                    className="h-8 w-8 fill-white transition-transform duration-300 group-hover:scale-110"
+                    className="h-6 w-6 fill-white transition-transform duration-300 group-hover:scale-110 sm:h-8 sm:w-8"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                 >
@@ -34,12 +34,10 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
                 {/* Pulse animation */}
                 {/* <div className="absolute inset-0 rounded-full bg-green-400 opacity-75 animate-ping"></div> */}
 
-                {/* Tooltip */}
-                <div className="absolute right-full mr-3 hidden group-hover:block">
-                    <div className="rounded-lg bg-gray-800 px-3 py-2 text-sm whitespace-nowrap text-white shadow-lg">
-                        Chat with us on WhatsApp
-                        <div className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
-                    </div>
+                {/* Tooltip - Hidden on mobile, shown on hover for desktop */}
+                <div className="absolute right-full mr-2 hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-white shadow-lg group-hover:block sm:mr-3 sm:px-3 sm:py-2 sm:text-sm">
+                    <span className="whitespace-nowrap">Chat with us on WhatsApp</span>
+                    <div className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
                 </div>
             </button>
         </div>

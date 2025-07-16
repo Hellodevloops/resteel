@@ -168,8 +168,8 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
     };
 
     return (
-        <section id="contact-section" className="bg-slate-200/80 py-25">
-            <div className="container mx-auto max-w-7xl space-y-16 px-4">
+        <section id="contact-section" className="bg-slate-200/80 py-12 sm:py-16 lg:py-25">
+            <div className="container mx-auto max-w-7xl space-y-8 px-4 sm:space-y-12 lg:space-y-16">
                 <div className="text-center">
                     <span
                         className="mb-2 inline-block rounded-full px-3 py-1 text-xs font-medium"
@@ -177,148 +177,93 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                     >
                         {t('expert_consultation')}
                     </span>
-                    <h2 className="text-4xl font-bold md:text-5xl" style={{ color: charcoal }}>
+                    <h2 className="mt-2 text-2xl font-bold sm:mt-4 sm:text-3xl md:text-4xl lg:text-5xl" style={{ color: charcoal }}>
                         {t('ready_to_build_great').split(' ').slice(0, -2).join(' ')}{' '}
                         <span style={{ color: steelBlue }}>{t('ready_to_build_great').split(' ').slice(-2).join(' ')}</span>
                     </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-slate-600">{t('transform_vision_subtitle')}</p>
+                    <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-600 sm:mt-4 sm:text-base lg:text-lg">{t('transform_vision_subtitle')}</p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-10">
                     {/* Form */}
                     <Card className="shadow-md">
-                        <CardHeader>
-                            <CardTitle className="text-2xl font-semibold md:text-3xl" style={{ color: steelBlue }}>
+                        <CardHeader className="pb-4 sm:pb-6">
+                            <CardTitle className="text-xl font-semibold sm:text-2xl md:text-3xl" style={{ color: steelBlue }}>
                                 {t('send_us_message')}
                             </CardTitle>
-                            <CardDescription className="text-md">{t('respond_soon')}</CardDescription>
+                            <CardDescription className="text-sm sm:text-base">{t('respond_soon')}</CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="p-4 sm:p-6">
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <Label htmlFor="name">{t('name_required')}</Label>
-                                        <Input id="name" value={data.name} onChange={handleChange} />
-                                        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+                                        <Label htmlFor="name" className="text-sm sm:text-base">
+                                            {t('name_required')}
+                                        </Label>
+                                        <Input id="name" value={data.name} onChange={handleChange} className="mt-1 h-10 sm:h-11" />
+                                        {errors.name && <p className="mt-1 text-xs text-red-500 sm:text-sm">{errors.name}</p>}
                                     </div>
                                     <div>
-                                        <Label htmlFor="phone">{t('phone')}</Label>
-                                        <Input id="phone" value={data.phone} onChange={handleChange} />
-                                        {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+                                        <Label htmlFor="phone" className="text-sm sm:text-base">
+                                            {t('phone')}
+                                        </Label>
+                                        <Input id="phone" value={data.phone} onChange={handleChange} className="mt-1 h-10 sm:h-11" />
+                                        {errors.phone && <p className="mt-1 text-xs text-red-500 sm:text-sm">{errors.phone}</p>}
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <Label htmlFor="email">{t('email_required')}</Label>
-                                        <Input id="email" type="email" value={data.email} onChange={handleChange} />
-                                        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+                                        <Label htmlFor="email" className="text-sm sm:text-base">
+                                            {t('email_required')}
+                                        </Label>
+                                        <Input id="email" type="email" value={data.email} onChange={handleChange} className="mt-1 h-10 sm:h-11" />
+                                        {errors.email && <p className="mt-1 text-xs text-red-500 sm:text-sm">{errors.email}</p>}
                                     </div>
                                     <div>
-                                        <Label htmlFor="company">{t('your_company')}</Label>
-                                        <Input id="company" value={data.company} onChange={handleChange} />
-                                        {errors.company && <p className="text-sm text-red-500">{errors.company}</p>}
+                                        <Label htmlFor="company" className="text-sm sm:text-base">
+                                            {t('your_company')}
+                                        </Label>
+                                        <Input id="company" value={data.company} onChange={handleChange} className="mt-1 h-10 sm:h-11" />
+                                        {errors.company && <p className="mt-1 text-xs text-red-500 sm:text-sm">{errors.company}</p>}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <Label htmlFor="message">{t('message_required')}</Label>
-                                    <Textarea id="message" value={data.message} onChange={handleChange} rows={5} />
-                                    {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
+                                    <Label htmlFor="message" className="text-sm sm:text-base">
+                                        {t('message_required')}
+                                    </Label>
+                                    <Textarea id="message" value={data.message} onChange={handleChange} rows={4} className="sm:rows-5 mt-1" />
+                                    {errors.message && <p className="mt-1 text-xs text-red-500 sm:text-sm">{errors.message}</p>}
                                 </div>
-                                {/* 
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <Label htmlFor="building_category">Building Types</Label>
-                                        <select
-                                            id="building_category"
-                                            value={data.building_category}
-                                            onChange={handleChange}
-                                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                                        >
-                                            <option value="">Select building type</option>
-                                            <option value="Warehouses">Warehouses</option>
-                                            <option value="Steel Constructions">Steel Constructions</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                        {errors.building_category && <p className="text-sm text-red-500">{errors.building_category}</p>}
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="building_type">Type Building</Label>
-                                        <select
-                                            id="building_type"
-                                            value={data.building_type}
-                                            onChange={handleChange}
-                                            className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-                                        >
-                                            <option value="">Select type</option>
-                                            <option value="Industrial">Industrial</option>
-                                            <option value="AGRI">AGRI</option>
-                                        </select>
-                                        {errors.building_type && <p className="text-sm text-red-500">{errors.building_type}</p>}
-                                    </div>
-                                </div> */}
-                                {/* 
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <Label htmlFor="building_width">Width</Label>
-                                        <Input
-                                            id="building_width"
-                                            value={data.building_width}
-                                            onChange={handleChange}
-                                            placeholder="Width in meters"
-                                        />
-                                        {errors.building_width && <p className="text-sm text-red-500">{errors.building_width}</p>}
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="building_length">Length</Label>
-                                        <Input
-                                            id="building_length"
-                                            value={data.building_length}
-                                            onChange={handleChange}
-                                            placeholder="Length in meters"
-                                        />
-                                        {errors.building_length && <p className="text-sm text-red-500">{errors.building_length}</p>}
-                                    </div>
-                                </div> */}
-                                {/* 
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div>
-                                        <Label htmlFor="gutter_height">High Gutter</Label>
-                                        <Input id="gutter_height" value={data.gutter_height} onChange={handleChange} placeholder="Height in meters" />
-                                        {errors.gutter_height && <p className="text-sm text-red-500">{errors.gutter_height}</p>}
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="top_height">High Top</Label>
-                                        <Input id="top_height" value={data.top_height} onChange={handleChange} placeholder="Height in meters" />
-                                        {errors.top_height && <p className="text-sm text-red-500">{errors.top_height}</p>}
-                                    </div>
-                                </div> */}
 
                                 <Button
                                     type="submit"
-                                    className="mt-6 flex w-full items-center justify-center gap-2 text-white"
+                                    className="mt-4 flex w-full items-center justify-center gap-2 py-3 text-sm text-white sm:mt-6 sm:py-4 sm:text-base"
                                     style={{ backgroundColor: vibrantOrange }}
                                     disabled={loading}
                                 >
-                                    {loading ? t('sending') : t('send_message_btn')} <Send className="h-5 w-5" />
+                                    {loading ? t('sending') : t('send_message_btn')} <Send className="h-4 w-4 sm:h-5 sm:w-5" />
                                 </Button>
                             </form>
                         </CardContent>
                     </Card>
 
                     {/* Contact Info */}
-                    <div className="flex flex-col gap-6">
-                        <Card className="flex items-start gap-4 p-6">
-                            <div className="flex items-start gap-4">
-                                <div className="rounded-xl p-3 text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
-                                    <Mail className="h-6 w-6" />
+                    <div className="flex flex-col gap-4 sm:gap-6">
+                        <Card className="p-4 sm:p-6">
+                            <div className="flex items-start gap-3 sm:gap-4">
+                                <div
+                                    className="flex-shrink-0 rounded-xl p-2 text-white sm:p-3"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </div>
-                                <div>
-                                    <p className="font-semibold">{t('email_inquiries')}</p>
+                                <div className="min-w-0 flex-1">
+                                    <p className="text-sm font-semibold sm:text-base">{t('email_inquiries')}</p>
                                     <a
                                         href={`mailto:${siteSettings?.contact_email || 'Info@2ndhandholding.com'}`}
-                                        className="text-md hover:underline"
+                                        className="text-sm hover:underline sm:text-base"
                                         style={{ color: steelBlue }}
                                     >
                                         {siteSettings?.contact_email || 'Info@2ndhandholding.com'}
@@ -327,16 +272,19 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                             </div>
                         </Card>
 
-                        <Card className="flex items-start gap-4 p-6">
-                            <div className="flex items-start gap-4">
-                                <div className="rounded-xl p-3 text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
-                                    <Phone className="h-6 w-6" />
+                        <Card className="p-4 sm:p-6">
+                            <div className="flex items-start gap-3 sm:gap-4">
+                                <div
+                                    className="flex-shrink-0 rounded-xl p-2 text-white sm:p-3"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </div>
-                                <div>
-                                    <p className="font-semibold">{t('direct_consultation')}</p>
+                                <div className="min-w-0 flex-1">
+                                    <p className="text-sm font-semibold sm:text-base">{t('direct_consultation')}</p>
                                     <a
                                         href={`tel:${siteSettings?.contact_phone?.replace(/\s+/g, '') || '+31625334951'}`}
-                                        className="text-md hover:underline"
+                                        className="text-sm hover:underline sm:text-base"
                                         style={{ color: steelBlue }}
                                     >
                                         {siteSettings?.contact_phone || '+31 (6) 25334951'}
@@ -345,21 +293,24 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                             </div>
                         </Card>
 
-                        <Card className="p-6">
-                            <div className="flex items-start gap-4">
-                                <div className="rounded-xl p-3 text-white" style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}>
-                                    <MapPin className="h-6 w-6" />
+                        <Card className="p-4 sm:p-6">
+                            <div className="flex items-start gap-3 sm:gap-4">
+                                <div
+                                    className="flex-shrink-0 rounded-xl p-2 text-white sm:p-3"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </div>
-                                <div>
-                                    <p className="font-semibold">{t('visit_our_facility')}</p>
-                                    <p className="text-muted-foreground text-sm">
+                                <div className="min-w-0 flex-1">
+                                    <p className="text-sm font-semibold sm:text-base">{t('visit_our_facility')}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">
                                         {siteSettings?.contact_address || 'Waterbeemd 2B, 5705 DN Helmond, Netherlands'}
                                     </p>
                                     <a
                                         href="https://www.google.com/maps?q=Waterbeemd+2B,+5705+DN+Helmond,+Netherlands"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm hover:underline"
+                                        className="text-xs hover:underline sm:text-sm"
                                         style={{ color: steelBlue }}
                                     >
                                         {t('schedule_tour')}
@@ -367,7 +318,7 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
                                 </div>
                             </div>
                             <iframe
-                                className="h-30 w-full rounded-md border"
+                                className="mt-4 h-48 w-full rounded-md border sm:h-60 lg:h-72"
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2488.4054706121573!2d5.659797676888595!3d51.48243397952794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c728cc878e130f%3A0x465e58709af94a83!2sWaterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1690225065506!5m2!1sen!2sus"
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
