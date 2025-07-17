@@ -102,27 +102,31 @@ const About = () => {
     return (
         <Layout title="About Us | Resteel">
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 px-4 pt-35 pb-20 text-center text-white">
-                <h1 className="mb-4 text-4xl leading-tight font-bold md:text-6xl">{t('about_hero_title')}</h1>
-                <p className="mx-auto max-w-2xl text-lg text-slate-300 md:text-xl">{t('about_hero_subtitle')}</p>
-                <div className="mt-8 flex flex-wrap justify-center gap-4">
-                    <Button variant="outline" asChild className="text-text-orange-500 rounded-xl border-white px-6 py-4 hover:text-orange-600">
+            <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 px-4 pt-20 pb-16 text-center text-white sm:pt-24 sm:pb-20 md:pt-32 md:pb-24">
+                <h1 className="mb-4 text-3xl leading-tight font-bold sm:text-4xl md:text-5xl lg:text-6xl">{t('about_hero_title')}</h1>
+                <p className="mx-auto max-w-2xl text-base text-slate-300 sm:text-lg md:text-xl">{t('about_hero_subtitle')}</p>
+                <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
+                    <Button
+                        variant="outline"
+                        asChild
+                        className="w-full rounded-xl border-white px-6 py-3 text-orange-500 hover:text-orange-600 sm:w-auto sm:px-6 sm:py-4"
+                    >
                         <Link href="/buildings" className="text-orange-500">
                             {t('browse_structures')}
                         </Link>
                     </Button>
-                    <Button asChild className="rounded-xl bg-orange-500 px-6 py-4 text-white hover:bg-orange-600">
+                    <Button asChild className="w-full rounded-xl bg-orange-500 px-6 py-3 text-white hover:bg-orange-600 sm:w-auto sm:px-6 sm:py-4">
                         <Link href="/contact">
-                            {t('lets_work_together')} <ArrowRight className="h-4 w-4" />
+                            {t('lets_work_together')} <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
             </section>
 
             {/* Company Story */}
-            <section className="bg-white px-4 py-20 text-center">
+            <section className="bg-white px-4 py-12 text-center sm:py-16 md:py-20">
                 <div className="mx-auto max-w-4xl">
-                    <h2 className="text-charcoal mt-4 mb-4 text-4xl font-bold md:text-5xl">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
                         {(() => {
                             const titleText = siteSettings?.who_we_are_title || 'Who We Are';
                             const { firstWord, restWords } = formatWhoWeAreTitle(titleText);
@@ -134,20 +138,20 @@ const About = () => {
                             );
                         })()}
                     </h2>
-                    <p className="mb-6 text-lg text-gray-600">
+                    <p className="mb-6 text-base text-gray-600 sm:text-lg">
                         {siteSettings?.who_we_are_description ||
                             'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.'}
                     </p>
-                    <div className="text-sm text-gray-400 italic">
+                    <div className="text-xs text-gray-400 italic sm:text-sm">
                         {siteSettings?.who_we_are_founded || 'Founded in 2005 · Headquartered in Helmond, Netherlands'}
                     </div>
                 </div>
             </section>
 
             {/* Mission Section */}
-            <section className="bg-slate-50 px-4 py-20">
+            <section className="bg-slate-50 px-4 py-12 sm:py-16 md:py-20">
                 <div className="mx-auto max-w-5xl text-center">
-                    <h2 className="text-charcoal mt-4 mb-4 text-4xl font-bold md:text-5xl">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
                         {(() => {
                             const titleText = siteSettings?.mission_title || 'Our Mission';
                             const { firstPart, lastWord } = formatSimpleTitle(titleText, 'Our Mission');
@@ -160,8 +164,10 @@ const About = () => {
                         })()}
                     </h2>
 
-                    <p className="mb-12 text-lg text-gray-600">{siteSettings?.mission_subtitle || t('about_mission_subtitle')}</p>
-                    <div className="grid gap-6 text-left sm:grid-cols-3">
+                    <p className="mb-8 text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
+                        {siteSettings?.mission_subtitle || t('about_mission_subtitle')}
+                    </p>
+                    <div className="grid gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
                         {(siteSettings?.mission_items && siteSettings.mission_items.length > 0
                             ? siteSettings.mission_items
                             : [
@@ -172,13 +178,13 @@ const About = () => {
                         ).map((item, idx) => {
                             const IconComponent = iconMap[item.icon as keyof typeof iconMap] || CheckCircle2;
                             return (
-                                <div key={idx} className="flex items-start gap-4">
-                                    <div className="rounded-xl bg-slate-100 p-3 text-slate-600">
-                                        <IconComponent className="h-5 w-5" />
+                                <div key={idx} className="flex items-start gap-3 sm:gap-4">
+                                    <div className="rounded-xl bg-slate-100 p-2 text-slate-600 sm:p-3">
+                                        <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
                                     </div>
                                     <div>
-                                        <h4 className="text-lg font-semibold text-gray-800">{item.title}</h4>
-                                        <p className="text-sm text-gray-600">{item.description}</p>
+                                        <h4 className="text-base font-semibold text-gray-800 sm:text-lg">{item.title}</h4>
+                                        <p className="text-xs text-gray-600 sm:text-sm">{item.description}</p>
                                     </div>
                                 </div>
                             );
@@ -188,9 +194,9 @@ const About = () => {
             </section>
 
             {/* What We Offer */}
-            <section className="bg-white px-4 py-20">
+            <section className="bg-white px-4 py-12 sm:py-16 md:py-20">
                 <div className="mx-auto max-w-6xl text-center">
-                    <h2 className="text-charcoal mt-4 mb-4 text-4xl font-bold md:text-5xl">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
                         {(() => {
                             const titleText = siteSettings?.what_we_offer_title || 'What We Offer';
                             const { firstPart, lastPart } = formatWhatWeOfferTitle(titleText);
@@ -202,12 +208,12 @@ const About = () => {
                             );
                         })()}
                     </h2>
-                    <p className="mb-12 text-lg text-gray-600">
+                    <p className="mb-8 text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
                         {siteSettings?.what_we_offer_subtitle ||
                             'More than just buying and selling — we help move, manage, and optimize every structure'}
                     </p>
 
-                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                         {(siteSettings?.what_we_offer_items && siteSettings.what_we_offer_items.length > 0
                             ? siteSettings.what_we_offer_items
                             : [
@@ -219,12 +225,12 @@ const About = () => {
                         ).map((item, idx) => {
                             const IconComponent = iconMap[item.icon as keyof typeof iconMap] || Building2;
                             return (
-                                <div key={idx} className="rounded-xl bg-slate-50 p-6 shadow transition hover:shadow-md">
-                                    <div className="mb-4 inline-block rounded-lg bg-white p-3 text-slate-700">
-                                        <IconComponent className="h-5 w-5" />
+                                <div key={idx} className="rounded-xl bg-slate-50 p-4 shadow transition hover:shadow-md sm:p-6">
+                                    <div className="mb-3 inline-block rounded-lg bg-white p-2 text-slate-700 sm:mb-4 sm:p-3">
+                                        <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
                                     </div>
-                                    <h4 className="mb-1 text-lg font-semibold text-gray-800">{item.title}</h4>
-                                    <p className="text-sm text-gray-600">{item.description}</p>
+                                    <h4 className="mb-1 text-base font-semibold text-gray-800 sm:text-lg">{item.title}</h4>
+                                    <p className="text-xs text-gray-600 sm:text-sm">{item.description}</p>
                                 </div>
                             );
                         })}
@@ -233,8 +239,8 @@ const About = () => {
             </section>
 
             {/* Stats Section */}
-            <section className="bg-slate-50 px-4 py-20 text-center">
-                <h2 className="text-charcoal mt-4 mb-4 text-4xl font-bold md:text-5xl">
+            <section className="bg-slate-50 px-4 py-12 text-center sm:py-16 md:py-20">
+                <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
                     {(() => {
                         const titleText = siteSettings?.stats_title || 'Across Borders';
                         const { firstPart, lastWord } = formatSimpleTitle(titleText, 'Across Borders');
@@ -247,10 +253,10 @@ const About = () => {
                     })()}
                 </h2>
 
-                <p className="mx-auto mb-12 max-w-2xl text-lg text-gray-600">
+                <p className="mx-auto mb-8 max-w-2xl text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
                     {siteSettings?.stats_subtitle || 'Our structures stand in more than 25 countries — from farms in Finland to factories in France'}
                 </p>
-                <div className="mx-auto grid max-w-6xl gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mx-auto grid max-w-6xl gap-6 text-center sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
                     {(siteSettings?.stats_items && siteSettings.stats_items.length > 0
                         ? siteSettings.stats_items
                         : [
@@ -260,21 +266,21 @@ const About = () => {
                               { label: 'Max Hall Size', value: '60,000 m²' },
                           ]
                     ).map((stat, idx) => (
-                        <div key={idx}>
-                            <div className="text-4xl font-bold text-[var(--primary)]">{stat.value}</div>
-                            <div className="mt-1 text-sm text-gray-600">{stat.label}</div>
+                        <div key={idx} className="py-4">
+                            <div className="text-3xl font-bold text-[var(--primary)] sm:text-4xl">{stat.value}</div>
+                            <div className="mt-1 text-xs text-gray-600 sm:text-sm">{stat.label}</div>
                         </div>
                     ))}
                 </div>
             </section>
 
             {/* Final CTA */}
-            <section className="bg-gradient-to-tr from-slate-100 to-slate-100 px-4 py-16 text-center text-slate-800">
-                <h2 className="mb-4 text-3xl font-bold md:text-4xl">{t('lets_build_sustainable')}</h2>
-                <p className="mx-auto mb-6 max-w-xl text-slate-800">{t('lets_build_sustainable_desc')}</p>
+            <section className="bg-gradient-to-tr from-slate-100 to-slate-100 px-4 py-12 text-center text-slate-800 sm:py-16">
+                <h2 className="mb-4 text-2xl font-bold sm:text-3xl md:text-4xl">{t('lets_build_sustainable')}</h2>
+                <p className="mx-auto mb-6 max-w-xl text-sm text-slate-800 sm:text-base">{t('lets_build_sustainable_desc')}</p>
                 <Button
                     asChild
-                    className="rounded-xl border border-orange-500 bg-white px-6 py-3 font-semibold text-orange-500 hover:bg-orange-500 hover:text-white"
+                    className="w-full rounded-xl border border-orange-500 bg-white px-6 py-3 font-semibold text-orange-500 hover:bg-orange-500 hover:text-white sm:w-auto"
                 >
                     <Link href="/contact">{t('get_in_touch')}</Link>
                 </Button>

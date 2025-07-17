@@ -205,6 +205,15 @@ class WarehouseController extends Controller
       // Log the request data for debugging
       Log::info('Update warehouse request data:', $request->all());
 
+      // Additional debugging for status field
+      Log::info('Status field debug:', [
+        'status_value' => $request->input('status'),
+        'status_type' => gettype($request->input('status')),
+        'status_length' => strlen($request->input('status') ?? ''),
+        'status_empty' => empty($request->input('status')),
+        'status_null' => is_null($request->input('status')),
+      ]);
+
       // Validate the warehouse data
       $validated = $this->validateWarehouse($request);
 

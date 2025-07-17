@@ -158,6 +158,12 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         if (data.alerts && !validateNumber(data.alerts, 'alerts')) {
             newErrors.alerts = 'Alerts must be a valid number';
         }
+        if (data.number_of_loading_docks && !validateNumber(data.number_of_loading_docks, 'number_of_loading_docks')) {
+            newErrors.number_of_loading_docks = 'Number of loading docks must be a valid number';
+        }
+        if (data.parking_spaces && !validateNumber(data.parking_spaces, 'parking_spaces')) {
+            newErrors.parking_spaces = 'Parking spaces must be a valid number';
+        }
 
         // Email validation
         if (data.contact_email && !validateEmail(data.contact_email)) {
@@ -303,6 +309,13 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                 console.log(`${key}:`, value);
             }
             console.log('Image removal flags:', { removeMainImage, removeAdditionalImages });
+
+            // Additional debugging for status field specifically
+            console.log('Status field debug:');
+            console.log('- data.status:', data.status);
+            console.log('- data.status type:', typeof data.status);
+            console.log('- data.status length:', data.status?.length);
+            console.log('- FormData status value:', submitFormData.get('status'));
 
             // Submit the form
             if (isEditing && warehouse) {
