@@ -22,6 +22,7 @@ type FormData = {
     year_built: string;
     has_video: boolean;
     video_urls: string[];
+    total_area: string;
     features: string[];
     area_dimensions: { name: string; dimensions: string; area: string }[];
     category: string;
@@ -72,6 +73,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         category: warehouse?.category || '',
         image: null,
         images: [],
+        total_area: warehouse?.total_area || '',
         contact_person: warehouse?.contact_person || '',
         contact_email: warehouse?.contact_email || '',
         contact_phone: warehouse?.contact_phone || '',
@@ -867,7 +869,46 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         </p>
                                     )}
                                 </div>
-
+                                <div className="mt-8">
+                                    <div className="md:col-span-2 lg:col-span-1">
+                                        <label htmlFor="total_area" className="mb-2 block text-sm font-semibold text-gray-700">
+                                            Total Area
+                                        </label>
+                                        <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
+                                            <input
+                                                id="total_area"
+                                                type="text"
+                                                value={data.total_area}
+                                                onChange={(e) => setData('total_area', e.target.value)}
+                                                className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
+                                                placeholder="Enter area"
+                                            />
+                                            <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
+                                                <select
+                                                    value={data.unit_of_measurement}
+                                                    onChange={(e) => setData('unit_of_measurement', e.target.value)}
+                                                    className="border-0 bg-transparent text-gray-500 focus:ring-0"
+                                                >
+                                                    <option value="m²">m²</option>
+                                                    <option value="ft²">ft²</option>
+                                                    <option value="sqm">sqm</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {errors.total_area && (
+                                            <p className="mt-2 flex items-center text-sm text-red-600">
+                                                <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                                {errors.total_area}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
                                 <div>
                                     {errors.construction && (
                                         <p className="mt-2 flex items-center text-sm text-red-600">
