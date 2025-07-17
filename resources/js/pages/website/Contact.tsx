@@ -1,423 +1,393 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { useForm } from '@inertiajs/react';
-import { ArrowRight, Award, Clock, Mail, MapPin, MessageSquare, Phone, Send, User, Users, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { SiteSettings } from '@/types/site-settings';
+import axios from 'axios';
+import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Layout from './Layout';
 
-const ContactCTA = () => {
-    const [scrollY, setScrollY] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+// Brand colors
+const steelBlue = '#0076A8';
+const charcoal = '#3C3F48';
+const vibrantOrange = '#FF6600';
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+interface ContactCTAProps {
+    siteSettings?: SiteSettings;
+}
+
+const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
+    const { t } = useTranslation();
+    const [data, setData] = useState({
         name: '',
         email: '',
         phone: '',
         company: '',
         message: '',
+        status: 'pending',
+        type: 'Lead',
+        source: 'Website Form',
+        value: '',
+        building_category: '',
+        building_type: '',
+        building_width: '',
+        building_length: '',
+        gutter_height: '',
+        top_height: '',
     });
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll);
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 },
-        );
-
-        const element = document.getElementById('contact-section');
-        if (element) observer.observe(element);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            observer.disconnect();
-        };
-    }, []);
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        post('/contacts', {
-            onSuccess: () => {
-                reset();
-                alert('Thank you for your inquiry! We will get back to you within 24 hours.');
-            },
+    const reset = () => {
+        setData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            message: '',
+            status: 'pending',
+            type: 'Lead',
+            source: 'Website Form',
+            value: '',
+            building_category: '',
+            building_type: '',
+            building_width: '',
+            building_length: '',
+            gutter_height: '',
+            top_height: '',
         });
+        setErrors({});
     };
 
-    const contactMethods = [
-        {
-            icon: Mail,
-            title: 'Email Inquiries',
-            subtitle: 'Get detailed quotations & technical specifications',
-            contact: 'Info@2ndhandholding.com',
-            href: 'mailto:Info@2ndhandholding.com?subject=Premium Steel Solutions Inquiry',
-            color: 'from-orange-500 to-orange-600',
-            accent: 'border-orange-500/30',
-        },
-        {
-            icon: Phone,
-            title: 'Direct Consultation',
-            subtitle: 'Speak with our engineering specialists',
-            contact: '+31 (0) 123 456 789',
-            href: 'tel:+31123456789',
-            color: 'from-blue-600 to-blue-700',
-            accent: 'border-blue-600/30',
-        },
-        {
-            icon: MapPin,
-            title: 'Visit Our Facility',
-            subtitle: 'Westerbeemd 2B, 5705 DN Helmond, NL',
-            contact: 'Schedule Tour',
-            href: '/contact',
-            color: 'from-teal-500 to-teal-600',
-            accent: 'border-teal-500/30',
-        },
-    ];
+    // Validation functions
+    const validatePhone = (phone: string): string | null => {
+        if (!phone) return null; // Phone is optional
 
-    const features = [
-        { icon: Clock, text: '24/7 Project Support' },
-        { icon: Award, text: 'ISO 9001 Certified' },
-        { icon: Users, text: '500+ Satisfied Clients' },
-        { icon: Zap, text: 'Rapid Response Time' },
-    ];
+        // Remove all non-numeric characters
+        const numericOnly = phone.replace(/\D/g, '');
+
+        if (numericOnly.length > 12) {
+            return 'Phone number cannot exceed 12 digits';
+        }
+
+        if (numericOnly.length < 6) {
+            return 'Phone number must be at least 6 digits';
+        }
+
+        return null;
+    };
+
+    const validateEmail = (email: string): string | null => {
+        if (!email) return 'Email is required';
+
+        // Check if email contains capital letters
+        if (email !== email.toLowerCase()) {
+            return 'Email address cannot contain capital letters';
+        }
+
+        // Standard email regex pattern
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailRegex.test(email)) {
+            return 'Please enter a valid email address';
+        }
+
+        return null;
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+
+        // For phone field, only allow numeric input
+        if (id === 'phone') {
+            const numericValue = value.replace(/\D/g, '');
+            setData({ ...data, [id]: numericValue });
+        } else {
+            setData({ ...data, [id]: value });
+        }
+
+        // Clear error when user starts typing
+        if (errors[id]) {
+            setErrors((prev) => ({ ...prev, [id]: '' }));
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setErrors({});
+
+        // Client-side validation
+        const validationErrors: { [key: string]: string } = {};
+
+        // Validate email
+        const emailError = validateEmail(data.email);
+        if (emailError) {
+            validationErrors.email = emailError;
+        }
+
+        // Validate phone
+        const phoneError = validatePhone(data.phone);
+        if (phoneError) {
+            validationErrors.phone = phoneError;
+        }
+
+        // If there are validation errors, stop submission
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            await axios.post('/contacts', {
+                ...data,
+                value: data.value ? parseFloat(data.value) : null,
+            });
+            reset();
+            alert('Thank you for your inquiry! We will get back to you within 24 hours.');
+        } catch (error: unknown) {
+            if (error && typeof error === 'object' && 'response' in error) {
+                const axiosError = error as { response?: { data?: { errors?: { [key: string]: string } } } };
+                if (axiosError.response?.data?.errors) {
+                    setErrors(axiosError.response.data.errors);
+                } else {
+                    alert('Something went wrong. Please try again later.');
+                }
+            } else {
+                alert('Something went wrong. Please try again later.');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <>
-            <section id="contact-section" className="relative overflow-hidden bg-slate-50 pt-30 pb-16">
-                {/* Animated Background Elements */}
-
-                {/* <div className="absolute inset-0 overflow-hidden">
-                    <div
-                        className="absolute top-20 -right-32 h-96 w-96 rounded-full bg-gradient-to-br from-orange-500/10 to-orange-600/5 blur-3xl"
-                        style={{ transform: `translate3d(0, ${scrollY * 0.1}px, 0)` }}
-                    ></div>
-                    <div
-                        className="absolute bottom-0 -left-32 h-96 w-96 rounded-full bg-gradient-to-br from-blue-600/10 to-slate-700/5 blur-3xl"
-                        style={{ transform: `translate3d(0, ${scrollY * -0.1}px, 0)` }}
-                    ></div>
-                    <div
-                        className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-teal-500/5 to-transparent blur-2xl"
-                        style={{ transform: `translate(-50%, -50%) translate3d(0, ${scrollY * 0.05}px, 0)` }}
-                    ></div>
-                    <div
-                        className="absolute inset-0 opacity-10"
-                        style={{
-                            backgroundImage: `linear-gradient(rgba(74, 83, 99, 0.3) 1px, transparent 1px),
-                                         linear-gradient(90deg, rgba(74, 83, 99, 0.3) 1px, transparent 1px)`,
-                            backgroundSize: '40px 40px',
-                            transform: `translate3d(0, ${scrollY * 0.02}px, 0)`,
-                        }}
-                    ></div>
-                    <div
-                        className="absolute top-10 left-10 h-3 w-3 animate-bounce rounded-full bg-orange-500/40"
-                        style={{ animationDuration: '4s' }}
-                    ></div>
-                    <div
-                        className="absolute top-40 right-20 h-2 w-2 animate-bounce rounded-full bg-blue-600/40"
-                        style={{ animationDuration: '6s', animationDelay: '-2s' }}
-                    ></div>
-                    <div
-                        className="absolute bottom-20 left-1/4 h-4 w-4 animate-bounce rounded-full bg-teal-500/30"
-                        style={{ animationDuration: '5s', animationDelay: '-1s' }}
-                    ></div>
-                </div> */}
-
-                <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        className={`mb-12 text-center transition-all duration-1000 md:mb-16 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+        <section id="contact-section" className="bg-slate-200/80 px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-12 lg:mt-4 lg:px-8 lg:py-16 xl:py-20">
+            <div className="mx-auto max-w-7xl space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
+                {/* Hero Section */}
+                <div className="space-y-3 text-center sm:space-y-4 md:space-y-6">
+                    <span
+                        className="inline-block rounded-full px-2.5 py-1 text-xs font-medium sm:px-3 sm:text-sm"
+                        style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
                     >
-                        <div className="mb-6 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500/10 to-blue-600/10 px-6 py-3 backdrop-blur-sm">
-                            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-orange-500"></span>
-                            <span className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Expert Consultation</span>
-                        </div>
-
-                        <h1 className="mb-6 text-4xl leading-tight font-bold text-cyan-600 md:text-5xl lg:text-6xl">
-                            Ready to Build
-                            <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                                Something Great?
-                            </span>
-                        </h1>
-
-                        <p className="mx-auto max-w-3xl text-xl leading-relaxed text-slate-600">
-                            Transform your vision into reality with our precision engineering and decades of expertise. Let's discuss your next
-                            industrial project.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-                        <div className="space-y-6">
-                            {contactMethods.map((method, index) => (
-                                <div
-                                    key={index}
-                                    className={`group relative overflow-hidden rounded-2xl border bg-white/80 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl md:p-8 ${method.accent} ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'}`}
-                                    style={{ transitionDelay: `${index * 200}ms` }}
-                                >
-                                    <div
-                                        className={`absolute inset-0 bg-gradient-to-br ${method.color} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
-                                    ></div>
-                                    <div className="relative flex items-start space-x-4 md:space-x-6">
-                                        <div
-                                            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br md:h-16 md:w-16 ${method.color} shadow-lg`}
-                                        >
-                                            <method.icon className="h-7 w-7 text-white md:h-8 md:w-8" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                            <h3 className="mb-2 text-xl font-bold text-cyan-600 md:text-2xl">{method.title}</h3>
-                                            <p className="mb-4 text-sm text-slate-600 md:text-base">{method.subtitle}</p>
-                                            <a
-                                                href={method.href}
-                                                className="group/link inline-flex items-center text-base font-semibold text-cyan-600 transition-colors hover:text-orange-600 md:text-lg"
-                                            >
-                                                <span className="truncate">{method.contact}</span>
-                                                <ArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover/link:translate-x-1 md:h-5 md:w-5" />
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className={`absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r ${method.color} transition-all duration-300 group-hover:w-full`}
-                                    ></div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div
-                            className={`space-y-6 transition-all duration-1000 md:space-y-8 ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'}`}
-                        >
-                            {/* <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-800 via-slate-700 to-blue-800 p-8 md:p-10 text-white shadow-2xl">
-                                <div
-                                    className="absolute inset-0 opacity-10"
-                                    style={{
-                                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.3) 0%, transparent 50%),
-                                                     radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.3) 0%, transparent 50%)`,
-                                    }}
-                                ></div>
-                                <div className="relative">
-
-                                    <h3 className="mb-4 md:mb-6 text-cyan-600 text-2xl md:text-3xl font-bold">Start Your Project Today</h3>
-
-                                    <p className="mb-6 md:mb-8 text-base md:text-lg text-white/80">
-                                        Get a personalized consultation and detailed project estimate within 24 hours. Our experts are ready to bring
-                                        your vision to life.
-                                    </p>
-                                    <div className="flex flex-col gap-3 md:gap-4 sm:flex-row">
-                                        <Button
-                                            size="lg"
-                                            className="bg-orange-500 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-orange-600 hover:shadow-2xl hover:shadow-orange-500/25"
-                                        >
-                                            Get Free Consultation
-                                            <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-                                        </Button>
-                                        <Button
-                                            size="lg"
-                                            variant="outline"
-                                            className="border-white/30 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/10"
-                                        >
-                                            <a href="tel:+31123456789">Call Now</a>
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className="absolute top-4 right-4 h-16 w-16 md:h-20 md:w-20 animate-pulse rounded-full bg-orange-500/20"></div>
-                                <div
-                                    className="absolute bottom-4 left-4 h-12 w-12 md:h-16 md:w-16 animate-pulse rounded-full bg-blue-600/20"
-                                    style={{ animationDelay: '1s' }}
-                                ></div>
-                            </div> */}
-
-                            <div className="grid grid-cols-2 gap-3 md:gap-4">
-                                {features.map((feature, index) => (
-                                    <div
-                                        key={index}
-                                        className={`group rounded-2xl border border-slate-200 bg-white/80 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-6 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
-                                        style={{ transitionDelay: `${600 + index * 100}ms` }}
-                                    >
-                                        <div className="mb-3 flex justify-center md:mb-4">
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 transition-transform duration-300 group-hover:scale-110 md:h-12 md:w-12">
-                                                <feature.icon className="h-5 w-5 text-white md:h-6 md:w-6" />
-                                            </div>
-                                        </div>
-                                        <p className="text-xs font-semibold text-cyan-600 md:text-sm">{feature.text}</p>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-center backdrop-blur-sm md:p-6">
-                                <div className="mb-2 flex justify-center space-x-1 md:mb-3">
-                                    {[...Array(5)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className="h-4 w-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 md:h-5 md:w-5"
-                                        ></div>
-                                    ))}
-                                </div>
-                                <p className="text-xs font-semibold text-cyan-600 md:text-sm">Trusted by 500+ Industrial Clients</p>
-                                <p className="text-xs text-slate-500">Average 4.9/5 satisfaction rating</p>
-                            </div>
-                        </div>
-                    </div>
+                        {t('expert_consultation')}
+                    </span>
+                    <h2
+                        className="text-xl leading-tight font-bold sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl"
+                        style={{ color: charcoal }}
+                    >
+                        {t('ready_to_build_great').split(' ').slice(0, -2).join(' ')}{' '}
+                        <span style={{ color: steelBlue }}>{t('ready_to_build_great').split(' ').slice(-2).join(' ')}</span>
+                    </h2>
+                    <p className="mx-auto max-w-2xl text-xs text-slate-600 sm:text-sm md:text-base lg:text-lg xl:text-xl">
+                        {t('transform_vision_subtitle')}
+                    </p>
                 </div>
-            </section>
 
-            <section className="w-full bg-slate-100">
-                <div className="grid min-h-[500px] grid-cols-1 lg:grid-cols-2">
-                    <div className="flex items-center justify-center bg-white p-8 md:p-12 lg:p-16">
-                        <div className="w-full max-w-lg">
-                            <div className="mb-8">
-                                <div className="mb-6 flex items-center">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-xl">
-                                        <MessageSquare className="h-8 w-8 text-white" />
-                                    </div>
-                                    <div className="ml-6">
-                                        <h3 className="text-3xl font-bold text-cyan-600">
-                                            Send us a{' '}
-                                            <span className="bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
-                                                Message
-                                            </span>
-                                        </h3>
-                                        <p className="mt-2 text-lg text-cyan-600">We'll respond within 24 hours</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div className="relative">
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                            <User className="h-5 w-5 text-slate-400" />
-                                        </div>
-                                        <input
-                                            type="text"
-                                            name="name"
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 gap-4 sm:gap-6 md:gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+                    {/* Contact Form */}
+                    <Card className="shadow-lg sm:shadow-xl">
+                        <CardHeader className="pb-3 sm:pb-4 md:pb-6 lg:pb-8">
+                            <CardTitle className="text-lg font-semibold sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl" style={{ color: steelBlue }}>
+                                {t('send_us_message')}
+                            </CardTitle>
+                            <CardDescription className="text-xs sm:text-sm md:text-base lg:text-lg">{t('respond_soon')}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-3 sm:p-4 md:p-6 lg:p-8">
+                            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 md:space-y-6">
+                                {/* Name and Phone Row */}
+                                <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 md:gap-6">
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <Label htmlFor="name" className="text-xs font-medium sm:text-sm md:text-base">
+                                            {t('name_required')}
+                                        </Label>
+                                        <Input
+                                            id="name"
                                             value={data.name}
-                                            onChange={(e) => setData('name', e.target.value)}
-                                            className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-4 pr-4 pl-12 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                            placeholder="Your Name *"
-                                            required
+                                            onChange={handleChange}
+                                            className="h-11 text-sm sm:h-12 sm:text-base md:h-14 lg:h-16"
                                         />
-                                        {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+                                        {errors.name && <p className="text-xs text-red-500 sm:text-sm">{errors.name}</p>}
                                     </div>
-                                    <div className="relative">
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                            <Phone className="h-5 w-5 text-slate-400" />
-                                        </div>
-                                        <input
-                                            type="tel"
-                                            name="phone"
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <Label htmlFor="phone" className="text-xs font-medium sm:text-sm md:text-base">
+                                            {t('phone')}
+                                        </Label>
+                                        <Input
+                                            id="phone"
                                             value={data.phone}
-                                            onChange={(e) => setData('phone', e.target.value)}
-                                            className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-4 pr-4 pl-12 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                            placeholder="Phone Number"
+                                            onChange={handleChange}
+                                            className="h-11 text-sm sm:h-12 sm:text-base md:h-14 lg:h-16"
                                         />
-                                        {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
+                                        {errors.phone && <p className="text-xs text-red-500 sm:text-sm">{errors.phone}</p>}
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div className="relative">
-                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                            <Mail className="h-5 w-5 text-slate-400" />
-                                        </div>
-                                        <input
+
+                                {/* Email and Company Row */}
+                                <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 md:gap-6">
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <Label htmlFor="email" className="text-xs font-medium sm:text-sm md:text-base">
+                                            {t('email_required')}
+                                        </Label>
+                                        <Input
+                                            id="email"
                                             type="email"
-                                            name="email"
                                             value={data.email}
-                                            onChange={(e) => setData('email', e.target.value)}
-                                            className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-4 pr-4 pl-12 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                            placeholder="Email Address *"
-                                            required
+                                            onChange={handleChange}
+                                            className="h-11 text-sm sm:h-12 sm:text-base md:h-14 lg:h-16"
                                         />
-                                        {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                                        {errors.email && <p className="text-xs text-red-500 sm:text-sm">{errors.email}</p>}
                                     </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            name="company"
+                                    <div className="space-y-1.5 sm:space-y-2">
+                                        <Label htmlFor="company" className="text-xs font-medium sm:text-sm md:text-base">
+                                            {t('your_company')}
+                                        </Label>
+                                        <Input
+                                            id="company"
                                             value={data.company}
-                                            onChange={(e) => setData('company', e.target.value)}
-                                            className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-4 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                            placeholder="Company Name"
+                                            onChange={handleChange}
+                                            className="h-11 text-sm sm:h-12 sm:text-base md:h-14 lg:h-16"
                                         />
-                                        {errors.company && <p className="mt-1 text-xs text-red-500">{errors.company}</p>}
+                                        {errors.company && <p className="text-xs text-red-500 sm:text-sm">{errors.company}</p>}
                                     </div>
                                 </div>
-                                <div>
-                                    <textarea
-                                        name="message"
+
+                                {/* Message Field */}
+                                <div className="space-y-1.5 sm:space-y-2">
+                                    <Label htmlFor="message" className="text-xs font-medium sm:text-sm md:text-base">
+                                        {t('message_required')}
+                                    </Label>
+                                    <Textarea
+                                        id="message"
                                         value={data.message}
-                                        onChange={(e) => setData('message', e.target.value)}
-                                        rows={5}
-                                        className="w-full resize-none rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-4 text-slate-800 placeholder-slate-500 transition-all duration-300 focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-500/10 focus:outline-none"
-                                        placeholder="Tell us about your project requirements *"
-                                        required
-                                    ></textarea>
-                                    {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message}</p>}
+                                        onChange={handleChange}
+                                        rows={4}
+                                        className="min-h-[120px] resize-none text-sm sm:min-h-[140px] sm:text-base md:min-h-[160px] lg:min-h-[180px]"
+                                    />
+                                    {errors.message && <p className="text-xs text-red-500 sm:text-sm">{errors.message}</p>}
                                 </div>
+
+                                {/* Submit Button */}
                                 <Button
                                     type="submit"
-                                    disabled={processing}
-                                    size="lg"
-                                    className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 py-4 text-lg font-bold text-white transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-orange-700 hover:shadow-2xl hover:shadow-orange-500/25"
+                                    className="mt-4 flex w-full items-center justify-center gap-2 py-3 text-sm font-medium text-white sm:mt-6 sm:py-4 sm:text-base md:mt-8 md:py-5 lg:py-6 lg:text-lg"
+                                    style={{ backgroundColor: vibrantOrange }}
+                                    disabled={loading}
                                 >
-                                    Send Message
-                                    <Send className="ml-3 h-6 w-6" />
+                                    {loading ? t('sending') : t('send_message_btn')}
+                                    <Send className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7" />
                                 </Button>
-                                <div className="border-t border-slate-200 pt-6">
-                                    <div className="space-y-2 text-center">
-                                        <p className="text-sm text-cyan-600">Need immediate assistance?</p>
-                                        <p className="text-sm text-cyan-600">
-                                            Call us directly at{' '}
-                                            <a
-                                                href="tel:+31123456789"
-                                                className="font-semibold text-orange-600 transition-colors hover:text-orange-700"
-                                            >
-                                                +31 (0) 123 456 789
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
                             </form>
-                        </div>
-                    </div>
+                        </CardContent>
+                    </Card>
 
-                    <div className="relative min-h-[500px] bg-slate-200">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2486.123456789!2d5.6234567!3d51.4567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWesterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1234567890123"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                            title="Resteel Location Map"
-                        ></iframe>
-                        <div className="absolute top-10 left-10 max-w-sm rounded-2xl border border-white/50 bg-white/95 p-6 shadow-xl backdrop-blur-sm">
-                            <div className="flex items-start space-x-4">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 shadow-lg">
-                                    <MapPin className="h-6 w-6 text-white" />
+                    {/* Contact Information */}
+                    <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 lg:gap-8">
+                        {/* Email Card */}
+                        <Card className="p-3 sm:p-4 md:p-6 lg:p-8">
+                            <div className="flex items-start gap-2.5 sm:gap-3 md:gap-4 lg:gap-5">
+                                <div
+                                    className="flex-shrink-0 rounded-lg p-2 sm:rounded-xl sm:p-3 md:p-4"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <Mail className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7" />
                                 </div>
-                                <div>
-                                    <h4 className="mb-2 text-lg font-bold text-cyan-600">Our Location</h4>
-                                    <p className="text-sm leading-relaxed text-slate-600">
-                                        Westerbeemd 2B
-                                        <br />
-                                        5705 DN Helmond
-                                        <br />
-                                        Netherlands
-                                    </p>
-                                    <div className="mt-4 border-t border-slate-200 pt-4">
-                                        <p className="text-xs text-slate-500">
-                                            Open Monday - Friday
-                                            <br />
-                                            8:00 AM - 6:00 PM CET
-                                        </p>
-                                    </div>
+                                <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
+                                    <p className="text-xs font-semibold sm:text-sm md:text-base lg:text-lg">{t('email_inquiries')}</p>
+                                    <a
+                                        href={`mailto:${siteSettings?.contact_email || 'Info@2ndhandholding.com'}`}
+                                        className="text-xs transition-colors duration-200 hover:underline sm:text-sm md:text-base lg:text-lg"
+                                        style={{ color: steelBlue }}
+                                    >
+                                        {siteSettings?.contact_email || 'Info@2ndhandholding.com'}
+                                    </a>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
+
+                        {/* Phone Card */}
+                        <Card className="p-3 sm:p-4 md:p-6 lg:p-8">
+                            <div className="flex items-start gap-2.5 sm:gap-3 md:gap-4 lg:gap-5">
+                                <div
+                                    className="flex-shrink-0 rounded-lg p-2 sm:rounded-xl sm:p-3 md:p-4"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <Phone className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7" />
+                                </div>
+                                <div className="min-w-0 flex-1 space-y-0.5 sm:space-y-1">
+                                    <p className="text-xs font-semibold sm:text-sm md:text-base lg:text-lg">{t('direct_consultation')}</p>
+                                    <a
+                                        href={`tel:${siteSettings?.contact_phone?.replace(/\s+/g, '') || '+31625334951'}`}
+                                        className="text-xs transition-colors duration-200 hover:underline sm:text-sm md:text-base lg:text-lg"
+                                        style={{ color: steelBlue }}
+                                    >
+                                        {siteSettings?.contact_phone || '+31 (6) 25334951'}
+                                    </a>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Address and Map Card */}
+                        <Card className="p-3 sm:p-4 md:p-6 lg:p-8">
+                            <div className="mb-3 flex items-start gap-2.5 sm:mb-4 sm:gap-3 md:mb-6 md:gap-4 lg:gap-5">
+                                <div
+                                    className="flex-shrink-0 rounded-lg p-2 sm:rounded-xl sm:p-3 md:p-4"
+                                    style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
+                                >
+                                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7" />
+                                </div>
+                                <div className="min-w-0 flex-1 space-y-1 sm:space-y-2">
+                                    <p className="text-xs font-semibold sm:text-sm md:text-base lg:text-lg">{t('visit_our_facility')}</p>
+                                    <p className="text-xs text-slate-600 sm:text-sm md:text-base">
+                                        {siteSettings?.contact_address || 'Waterbeemd 2B, 5705 DN Helmond, Netherlands'}
+                                    </p>
+                                    <a
+                                        href="https://www.google.com/maps?q=Waterbeemd+2B,+5705+DN+Helmond,+Netherlands"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block text-xs transition-colors duration-200 hover:underline sm:text-sm md:text-base"
+                                        style={{ color: steelBlue }}
+                                    >
+                                        {t('schedule_tour')}
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Responsive Map */}
+                            <div className="relative w-full overflow-hidden rounded-lg border">
+                                <iframe
+                                    className="h-40 w-full sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-80"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2488.4054706121573!2d5.659797676888595!3d51.48243397952794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c728cc878e130f%3A0x465e58709af94a83!2sWaterbeemd%202B%2C%205705%20DN%20Helmond%2C%20Netherlands!5e0!3m2!1sen!2sus!4v1690225065506!5m2!1sen!2sus"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Resteel Location Map"
+                                    style={{ border: 0 }}
+                                />
+                            </div>
+                        </Card>
                     </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
+    );
+};
+
+interface PageProps {
+    siteSettings: SiteSettings;
+}
+
+export const ContactPage = ({ siteSettings }: PageProps) => {
+    return (
+        <Layout title={`${siteSettings.company_name} | Contact`} siteSettings={siteSettings}>
+            <ContactCTA siteSettings={siteSettings} />
+        </Layout>
     );
 };
 

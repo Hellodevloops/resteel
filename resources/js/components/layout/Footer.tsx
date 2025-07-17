@@ -1,200 +1,184 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { ArrowRight, Facebook, Instagram, Linkedin, Mail, MapPin, Twitter, Youtube } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { FaWhatsapp } from 'react-icons/fa';
 
-import { ArrowRight, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from 'lucide-react';
+interface SiteSettings {
+    contact_email?: string;
+    contact_phone?: string | number;
+    contact_address?: string;
+    company_name?: string;
+    social_twitter?: string;
+    social_instagram?: string;
+    social_youtube?: string;
+    social_facebook?: string;
+    social_linkedin?: string;
+    social_website?: string;
+}
 
 const Footer = () => {
-    return (
-        <footer className="relative overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 text-white">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: `radial-gradient(circle at 20% 80%, rgba(244, 70, 17, 0.1) 0%, transparent 50%),
-                         radial-gradient(circle at 80% 20%, rgba(30, 76, 138, 0.1) 0%, transparent 50%),
-                         radial-gradient(circle at 40% 40%, rgba(74, 83, 99, 0.1) 0%, transparent 50%)`,
-                    }}
-                ></div>
-                <div
-                    className="absolute inset-0 opacity-30"
-                    style={{
-                        backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                       linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px',
-                    }}
-                ></div>
-            </div>
+    const { t } = useTranslation();
+    const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
 
-            <div className="relative container mx-auto px-4 py-8 md:py-16 lg:py-20">
-                {/* Main Footer Content */}
-                <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-4 lg:gap-16">
+    // Social media links configuration
+    const socialLinks = [
+        {
+            icon: <Twitter size={18} />,
+            href: siteSettings?.social_twitter || '',
+            hover: 'hover:text-blue-400',
+            show: !!siteSettings?.social_twitter,
+        },
+        {
+            icon: <Instagram size={18} />,
+            href: siteSettings?.social_instagram || '',
+            hover: 'hover:text-pink-400',
+            show: !!siteSettings?.social_instagram,
+        },
+        {
+            icon: <Youtube size={18} />,
+            href: siteSettings?.social_youtube || '',
+            hover: 'hover:text-red-500',
+            show: !!siteSettings?.social_youtube,
+        },
+        {
+            icon: <Facebook size={18} />,
+            href: siteSettings?.social_facebook || '',
+            hover: 'hover:text-blue-600',
+            show: !!siteSettings?.social_facebook,
+        },
+        {
+            icon: <Linkedin size={18} />,
+            href: siteSettings?.social_linkedin || '',
+            hover: 'hover:text-blue-700',
+            show: !!siteSettings?.social_linkedin,
+        },
+        {
+            icon: (
+                <img
+                    src="/assets/Marktplaats.nl-Icon-Logo.wine.png"
+                    alt="Marktplaats"
+                    width={18}
+                    height={25}
+                    className="h-6 w-8 text-white sm:h-7 sm:w-10"
+                />
+            ),
+            href: siteSettings?.social_website ? `https://${siteSettings.social_website.replace(/^https?:\/\//, '')}` : '',
+            hover: 'hover:text-green-600',
+            show: !!siteSettings?.social_website,
+        },
+    ].filter((link) => link.show); // Only show links that have URLs
+
+    return (
+        <footer className="relative overflow-hidden bg-slate-900 text-white">
+            {/* Top shimmer gradient */}
+            <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40" />
+
+            <div className="relative z-10 container mx-auto max-w-7xl px-4 py-8 sm:py-12 md:py-16">
+                <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-4 lg:gap-12">
                     {/* Company Info */}
                     <div className="lg:col-span-2">
-                        <div className="mb-6 md:mb-8">
-                            <h3 className="mb-4 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-2xl font-bold text-transparent md:mb-6 md:text-3xl">
-                                Resteel
-                            </h3>
-                            <p className="mb-4 max-w-md text-base leading-relaxed text-slate-300 md:mb-6 md:text-lg">
-                                Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.
-                            </p>
-
-                            {/* Social Links */}
-                            <div className="flex space-x-3 md:space-x-4">
-                                <a
-                                    href="https://twitter.com/resteel"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20 md:h-12 md:w-12"
-                                >
-                                    <Twitter size={18} className="transition-colors group-hover:text-orange-400 md:h-5 md:w-5" />
-                                    <span className="sr-only">Twitter</span>
-                                </a>
-                                <a
-                                    href="https://www.instagram.com/resteel"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-orange-500/30 hover:bg-orange-500/20 md:h-12 md:w-12"
-                                >
-                                    <Instagram size={18} className="transition-colors group-hover:text-orange-400 md:h-5 md:w-5" />
-                                    <span className="sr-only">Instagram</span>
-                                </a>
-
-                                {/* Highlighted YouTube Link */}
-                                <a
-                                    href="https://youtube.com"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border-red-500/50 bg-gradient-to-br from-red-600/20 to-red-500/10 transition-all duration-300 hover:scale-110 hover:border-red-400 hover:bg-gradient-to-br hover:from-red-500/30 hover:to-red-400/20 hover:shadow-lg hover:shadow-red-500/25 md:h-12 md:w-12"
-                                >
-                                    <Youtube size={18} className="text-red-400 transition-colors group-hover:text-red-300 md:h-5 md:w-5" />
-                                    <span className="sr-only">YouTube</span>
-                                    {/* Accent glow effect */}
-                                    <div className="absolute inset-0 rounded-xl bg-red-500/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                                </a>
+                        <h3 className="mb-3 bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-xl font-bold text-transparent sm:mb-4 sm:text-2xl">
+                            {siteSettings?.company_name || t('resteel_solutions')}
+                        </h3>
+                        <p className="mb-4 max-w-md text-sm text-slate-300 sm:mb-6 sm:text-base">{t('footer_company_desc')}</p>
+                        {socialLinks.length > 0 && (
+                            <div className="flex space-x-2 sm:space-x-3">
+                                {socialLinks.map(({ icon, href, hover }, i) => (
+                                    <a
+                                        key={i}
+                                        href={href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`flex h-8 w-8 items-center justify-center rounded-md bg-white/10 text-white transition-all duration-300 hover:bg-white/20 sm:h-10 sm:w-10 ${hover}`}
+                                    >
+                                        {icon}
+                                    </a>
+                                ))}
                             </div>
-                        </div>
+                        )}
                     </div>
 
-                    {/* Quick Links - Hidden on mobile */}
+                    {/* Quick Links */}
                     <div className="hidden md:block">
-                        <h3 className="relative mb-6 text-xl font-semibold">
-                            Quick Links
-                            <div className="absolute -bottom-2 left-0 h-0.5 w-12 bg-gradient-to-r from-orange-500 to-transparent"></div>
-                        </h3>
-                        <nav>
-                            <ul className="space-y-3">
-                                {[
-                                    { href: '/', label: 'Home' },
-                                    { href: '/buildings', label: 'Buildings' },
-                                    { href: '/services', label: 'Services' },
-                                    { href: '/about', label: 'About Us' },
-                                    { href: '/contact', label: 'Contact' },
-                                ].map((link) => (
-                                    <li key={link.href}>
-                                        <Link
-                                            href={link.href}
-                                            className="group flex items-center text-slate-300 transition-all duration-300 hover:text-orange-400"
-                                        >
-                                            <ArrowRight
-                                                size={14}
-                                                className="mr-2 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-                                            />
-                                            <span className="transition-transform duration-300 group-hover:translate-x-2">{link.label}</span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
+                        <h4 className="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">{t('quick_links')}</h4>
+                        <ul className="space-y-2 text-sm text-slate-300 sm:space-y-3 sm:text-base">
+                            {[
+                                { label: t('home'), href: '/' },
+                                { label: t('about_us'), href: '/about' },
+                                { label: t('browse_structures'), href: '/buildings' },
+                                { label: t('contact_us'), href: '/contact' },
+                            ].map(({ label, href }) => (
+                                <li key={href}>
+                                    <Link href={href} className="group flex items-center transition-colors hover:text-orange-400">
+                                        <span className="transition-transform group-hover:translate-x-1">{label}</span>
+                                        <ArrowRight
+                                            size={12}
+                                            className="ml-2 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100 sm:size-14"
+                                        />
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="relative mb-4 text-lg font-semibold md:mb-6 md:text-xl">
-                            Contact Us
-                            <div className="absolute -bottom-2 left-0 h-0.5 w-12 bg-gradient-to-r from-blue-600 to-transparent"></div>
-                        </h3>
-                        <address className="space-y-3 not-italic md:space-y-4">
-                            {/* Address - Simplified on mobile */}
-                            <div className="group flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10 md:p-3">
-                                <MapPin
-                                    size={16}
-                                    className="mt-1 shrink-0 text-slate-400 transition-colors group-hover:text-orange-400 md:h-5 md:w-5"
-                                />
-                                <span className="text-sm text-slate-300 transition-colors group-hover:text-white md:text-base">
-                                    <span className="block md:hidden">Helmond, Netherlands</span>
-                                    <span className="hidden md:block">Westerbeemd 2B, 5705 DN Helmond, Netherlands</span>
+                        <h4 className="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">{t('contact_us')}</h4>
+                        <address className="space-y-3 text-sm text-slate-300 not-italic sm:space-y-4 sm:text-base">
+                            <div className="flex items-start gap-2 sm:gap-3">
+                                <MapPin size={16} className="mt-1 flex-shrink-0 text-slate-400 sm:size-14 md:size-12 lg:size-7" />
+                                <span className="min-w-0 flex-1">
+                                    <span className="font-bold md:block">Resteel-Solutions B.V</span>
+                                    <span className="block md:hidden">{siteSettings?.contact_address?.split(',')[0] || 'Helmond, Netherlands'}</span>
+                                    <span className="hidden md:block">
+                                        {siteSettings?.contact_address || 'Westerbeemd 2B, 5705 DN Helmond, Netherlands'}
+                                    </span>
                                 </span>
                             </div>
-                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-2 transition-all duration-300 hover:bg-white/10 md:p-3">
-                                <Phone size={16} className="text-slate-400 transition-colors group-hover:text-orange-400 md:h-5 md:w-5" />
-                                <a href="tel:+31123456789" className="text-sm text-slate-300 transition-colors hover:text-orange-400 md:text-base">
-                                    +31 (0) 123 456 789
-                                </a>
-                            </div>
-
-                            <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
-                                <Mail size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
-                                <a href="mailto:Info@2ndhandholding.com" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    Info@2ndhandholding.com
-                                </a>
-                            </div>
+                            {siteSettings?.contact_phone && (
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                    <FaWhatsapp size={16} className="flex-shrink-0 text-slate-400 sm:size-14 md:size-12 lg:size-7" />
+                                    <a
+                                        href={`https://wa.me/${String(siteSettings.contact_phone).replace(/[^0-9]/g, '')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="transition-colors hover:text-orange-400"
+                                    >
+                                        {siteSettings.contact_phone}
+                                    </a>
+                                </div>
+                            )}
+                            {siteSettings?.contact_email && (
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                    <Mail size={16} className="flex-shrink-0 text-slate-400 sm:size-14 md:size-12 lg:size-7" />
+                                    <a href={`mailto:${siteSettings.contact_email}`} className="transition-colors hover:text-orange-400">
+                                        {siteSettings.contact_email}
+                                    </a>
+                                </div>
+                            )}
                         </address>
                     </div>
                 </div>
 
-                {/* Stats Section - Simplified on mobile */}
-                <div className="mt-8 border-t border-white/10 pt-6 md:mt-16 md:pt-12">
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
-                        {[
-                            { number: '500+', label: 'Projects' },
-                            { number: '38', label: 'Years Exp.' },
-                            { number: '99%', label: 'Satisfaction' },
-                            { number: '24/7', label: 'Support' },
-                        ].map((stat, index) => (
-                            <div key={index} className="group text-center">
-                                <div className="mb-1 text-xl font-bold text-orange-500 transition-transform duration-300 group-hover:scale-110 md:mb-2 md:text-3xl">
-                                    {stat.number}
-                                </div>
-                                <div className="text-xs text-slate-400 transition-colors group-hover:text-slate-300 md:text-sm">
-                                    <span className="block md:hidden">{stat.label}</span>
-                                    <span className="hidden md:block">
-                                        {stat.label === 'Projects'
-                                            ? 'Projects Completed'
-                                            : stat.label === 'Years Exp.'
-                                              ? 'Years Experience'
-                                              : stat.label === 'Satisfaction'
-                                                ? 'Client Satisfaction'
-                                                : 'Support Available'}
-                                    </span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Bottom Bar */}
-                <div className="mt-8 border-t border-white/10 pt-6 md:mt-12 md:pt-8">
-                    <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                        <p className="text-center text-xs text-slate-400 md:text-left md:text-sm">
-                            <span className="block md:hidden">© {new Date().getFullYear()} Resteel. All rights reserved.</span>
-                            <span className="hidden md:block">
-                                © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 1985.
-                            </span>
-                        </p>
-                        <div className="flex space-x-4 md:space-x-6">
-                            <Link href="/terms" className="group text-xs text-slate-400 transition-colors hover:text-orange-400 md:text-sm">
-                                <span className="group-hover:underline">Terms</span>
-                            </Link>
-                            <Link href="/privacy" className="group text-xs text-slate-400 transition-colors hover:text-orange-400 md:text-sm">
-                                <span className="group-hover:underline">Privacy</span>
-                            </Link>
-                        </div>
+                {/* Footer Bottom */}
+                <div className="mt-8 flex flex-col items-center justify-between space-y-4 border-t border-white/10 pt-4 text-xs text-slate-400 sm:mt-10 sm:pt-6 sm:text-sm md:flex-row md:space-y-0">
+                    <p className="text-center md:text-left">
+                        © {new Date().getFullYear()} {siteSettings?.company_name || t('resteel_solutions')}. {t('all_rights_reserved')}{' '}
+                        {t('engineering_excellence_since')}
+                    </p>
+                    <div className="flex space-x-4 sm:space-x-6">
+                        <Link href="/terms" className="transition-colors hover:text-orange-400">
+                            {t('terms')}
+                        </Link>
+                        <Link href="/privacy" className="transition-colors hover:text-orange-400">
+                            {t('privacy')}
+                        </Link>
                     </div>
                 </div>
             </div>
 
-            {/* Bottom Gradient */}
-            <div className="absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"></div>
+            {/* Bottom shimmer gradient */}
+            <div className="absolute right-0 bottom-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40" />
         </footer>
     );
 };

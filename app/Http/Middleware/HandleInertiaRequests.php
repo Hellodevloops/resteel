@@ -6,6 +6,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+use App\Http\Controllers\ContentController;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -39,6 +40,18 @@ class HandleInertiaRequests extends Middleware
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
+        // Get current locale and supported locales
+        $locale = app()->getLocale();
+        $fallback_locale = config('app.fallback_locale');
+        $supported_locales = config('app.supported_locales');
+
+        // Load translations for current locale
+        $translations = [];
+        $messagesPath = resource_path("lang/{$locale}/messages.php");
+        if (file_exists($messagesPath)) {
+            $translations['messages'] = include $messagesPath;
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -46,11 +59,18 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'ziggy' => fn (): array => [
+            'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            // Add locale information for language switcher
+            'locale' => $locale,
+            'fallback_locale' => $fallback_locale,
+            'supported_locales' => $supported_locales,
+            'translations' => $translations,
+            // Share content settings globally for dynamic components
+            'siteSettings' => ContentController::getPublicContentSettings(),
         ];
     }
 }

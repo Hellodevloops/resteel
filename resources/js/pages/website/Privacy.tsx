@@ -1,136 +1,117 @@
-
-import { useEffect } from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { Separator } from '@/components/ui/separator';
+// pages/privacy.tsx
+import { useTranslation } from 'react-i18next';
+import Layout from './Layout';
 
 const Privacy = () => {
-  useEffect(() => {
-    document.title = 'Privacy Policy | Resteel';
-  }, []);
+    const { t } = useTranslation();
 
-  return (
-    <>
-      <Header />
-      
-      <main className="pt-28">
-        {/* Hero Banner */}
-        <section className="bg-resteel-primary text-white py-12 md:py-20">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
-            <p className="text-lg text-white/90">
-              Last updated: May 21, 2025
-            </p>
-          </div>
-        </section>
-        
-        {/* Privacy Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-sm">
-              <div className="prose prose-lg max-w-none">
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">1. Introduction</h2>
-                <p className="mb-6">
-                  At Resteel, we respect your privacy and are committed to protecting your personal data. 
-                  This Privacy Policy explains how we collect, use, and safeguard your information when you 
-                  visit our website or use our services.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">2. Information We Collect</h2>
-                <p className="mb-2">We may collect the following types of information:</p>
-                <ul className="list-disc pl-6 mb-6">
-                  <li>
-                    <span className="font-medium">Personal Identification Information:</span> 
-                    Name, email address, phone number, postal address, and business information when you 
-                    contact us or submit an inquiry.
-                  </li>
-                  <li>
-                    <span className="font-medium">Technical Information:</span> 
-                    IP address, browser type, device information, and cookies.
-                  </li>
-                  <li>
-                    <span className="font-medium">Usage Information:</span> 
-                    How you use our website, services, and the pages you visit.
-                  </li>
-                </ul>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">3. How We Use Your Information</h2>
-                <p className="mb-2">We use your information for the following purposes:</p>
-                <ul className="list-disc pl-6 mb-6">
-                  <li>To provide and manage our services</li>
-                  <li>To respond to your inquiries and fulfill your requests</li>
-                  <li>To send you important information about our services</li>
-                  <li>To improve our website and services</li>
-                  <li>To comply with legal obligations</li>
-                </ul>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">4. Data Security</h2>
-                <p className="mb-6">
-                  We implement appropriate technical and organizational measures to protect your personal data 
-                  against unauthorized or unlawful processing, accidental loss, destruction, or damage. 
-                  However, no method of transmission over the Internet or electronic storage is 100% secure.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">5. Data Retention</h2>
-                <p className="mb-6">
-                  We will retain your personal data only for as long as necessary to fulfill the purposes 
-                  for which it was collected, including for the purposes of satisfying any legal, accounting, 
-                  or reporting requirements.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">6. Your Rights</h2>
-                <p className="mb-2">Under applicable data protection laws, you may have the following rights:</p>
-                <ul className="list-disc pl-6 mb-6">
-                  <li>The right to access your personal data</li>
-                  <li>The right to rectification of inaccurate data</li>
-                  <li>The right to erasure of your data</li>
-                  <li>The right to restrict processing of your data</li>
-                  <li>The right to data portability</li>
-                  <li>The right to object to processing</li>
-                </ul>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">7. Cookies</h2>
-                <p className="mb-6">
-                  We use cookies to enhance your experience on our website. You can set your browser to refuse 
-                  all or some browser cookies, or to alert you when websites set or access cookies. If you disable 
-                  or refuse cookies, please note that some parts of this website may become inaccessible or not 
-                  function properly.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">8. Third-Party Links</h2>
-                <p className="mb-6">
-                  Our website may include links to third-party websites. Clicking on those links may allow third 
-                  parties to collect or share data about you. We do not control these third-party websites and are 
-                  not responsible for their privacy policies.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">9. Changes to this Policy</h2>
-                <p className="mb-6">
-                  We may update this Privacy Policy from time to time. Any changes will be posted on this page with 
-                  an updated revision date.
-                </p>
-                
-                <h2 className="text-2xl font-bold mb-4 text-resteel-primary">10. Contact Us</h2>
-                <p className="mb-6">
-                  If you have any questions about this Privacy Policy or our data practices, please contact us at:
-                </p>
-                <p className="mb-6">
-                  Resteel<br />
-                  Westerbeemd 2B<br />
-                  5705 DN Helmond<br />
-                  Netherlands<br />
-                  Email: privacy@resteel.com<br />
-                  Phone: +31 (0) 123 456 789
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
-    </>
-  );
+    return (
+        <Layout title={`${t('privacy_policy_title')} | Resteel`}>
+            {/* Hero Banner */}
+            <section className="bg-resteel-primary text-white">
+                <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+                    <div className="mx-auto max-w-4xl">
+                        <h1 className="mb-3 text-2xl leading-tight font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl">
+                            {t('privacy_policy_title')}
+                        </h1>
+                        <p className="text-base text-white/90 sm:text-lg lg:text-xl">{t('privacy_last_updated')}</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Privacy Content */}
+            <section className="py-8 sm:py-12 lg:py-16">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-4xl rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+                        <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                1. {t('privacy_introduction')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_introduction_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                2. {t('privacy_information_collect')}
+                            </h2>
+                            <p className="mb-2 text-sm leading-relaxed sm:text-base">{t('privacy_information_collect_text')}</p>
+                            <ul className="mb-4 list-disc space-y-2 pl-4 text-sm sm:mb-6 sm:pl-6 sm:text-base">
+                                <li className="leading-relaxed">
+                                    <span className="font-medium">{t('privacy_personal_identification')}</span>
+                                    {t('privacy_personal_identification_text')}
+                                </li>
+                                <li className="leading-relaxed">
+                                    <span className="font-medium">{t('privacy_technical_information')}</span>
+                                    {t('privacy_technical_information_text')}
+                                </li>
+                                <li className="leading-relaxed">
+                                    <span className="font-medium">{t('privacy_usage_information')}</span>
+                                    {t('privacy_usage_information_text')}
+                                </li>
+                            </ul>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                3. {t('privacy_how_we_use')}
+                            </h2>
+                            <p className="mb-2 text-sm leading-relaxed sm:text-base">{t('privacy_how_we_use_text')}</p>
+                            <ul className="mb-4 list-disc space-y-2 pl-4 text-sm sm:mb-6 sm:pl-6 sm:text-base">
+                                <li className="leading-relaxed">{t('privacy_use_provide_services')}</li>
+                                <li className="leading-relaxed">{t('privacy_use_respond_inquiries')}</li>
+                                <li className="leading-relaxed">{t('privacy_use_send_information')}</li>
+                                <li className="leading-relaxed">{t('privacy_use_improve_services')}</li>
+                                <li className="leading-relaxed">{t('privacy_use_comply_legal')}</li>
+                            </ul>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                4. {t('privacy_data_security')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_data_security_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                5. {t('privacy_data_retention')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_data_retention_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                6. {t('privacy_your_rights')}
+                            </h2>
+                            <p className="mb-2 text-sm leading-relaxed sm:text-base">{t('privacy_your_rights_text')}</p>
+                            <ul className="mb-4 list-disc space-y-2 pl-4 text-sm sm:mb-6 sm:pl-6 sm:text-base">
+                                <li className="leading-relaxed">{t('privacy_right_access')}</li>
+                                <li className="leading-relaxed">{t('privacy_right_rectification')}</li>
+                                <li className="leading-relaxed">{t('privacy_right_erasure')}</li>
+                                <li className="leading-relaxed">{t('privacy_right_restrict')}</li>
+                                <li className="leading-relaxed">{t('privacy_right_portability')}</li>
+                                <li className="leading-relaxed">{t('privacy_right_object')}</li>
+                            </ul>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                7. {t('privacy_cookies')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_cookies_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                8. {t('privacy_third_party_links')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_third_party_links_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                9. {t('privacy_changes_policy')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_changes_policy_text')}</p>
+
+                            <h2 className="text-resteel-primary mb-3 text-xl leading-tight font-bold sm:mb-4 sm:text-2xl">
+                                10. {t('privacy_contact_us')}
+                            </h2>
+                            <p className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">{t('privacy_contact_us_text')}</p>
+                            <p
+                                className="mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base"
+                                dangerouslySetInnerHTML={{ __html: t('privacy_contact_info') }}
+                            ></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </Layout>
+    );
 };
 
 export default Privacy;

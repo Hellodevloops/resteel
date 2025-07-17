@@ -25,22 +25,12 @@ export default function Edit({ warehouse }: Props) {
 
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50/30 to-slate-100/20">
                 {/* Header */}
-                <div className="border-b border-slate-200/80 bg-white shadow-sm">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h1 className="text-3xl font-bold text-[#434B4D]">Edit Warehouse</h1>
-                                <p className="mt-1 text-sm text-slate-500">Update warehouse information and details</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 {/* Main Content */}
-                <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                    <div className="px-4 py-6 sm:px-0">
+                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+                    <div className="px-0 py-4 sm:px-0 sm:py-6">
                         <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm">
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 <WarehouseForm warehouse={warehouse} isEditing />
                             </div>
                         </div>

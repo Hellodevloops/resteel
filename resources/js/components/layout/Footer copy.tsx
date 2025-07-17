@@ -146,7 +146,7 @@ const Footer = () => {
                             <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
                                 <Phone size={20} className="text-slate-400 transition-colors group-hover:text-orange-400" />
                                 <a href="tel:+31123456789" className="text-slate-300 transition-colors hover:text-orange-400">
-                                    +31 (0) 123 456 789
+                                    +31 (6) 25334951
                                 </a>
                             </div>
                             <div className="group flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
@@ -182,7 +182,7 @@ const Footer = () => {
                 <div className="mt-12 border-t border-white/10 pt-8">
                     <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                         <p className="text-slate-400">
-                            © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 1985.
+                            © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 2005.
                         </p>
                         <div className="flex space-x-6">
                             <Link href="/terms" className="group text-sm text-slate-400 transition-colors hover:text-orange-400">

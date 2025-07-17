@@ -1,8 +1,10 @@
 import Header from '@/components/layout/Header';
 import { Phone } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ResteelHero = () => {
+    const { t } = useTranslation();
     const [scrollY, setScrollY] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -16,23 +18,24 @@ const ResteelHero = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const features = [
-        {
-            title: 'Precision Engineering',
-            description: 'Advanced CAD/CAM systems ensure millimeter-perfect fabrication',
-            color: 'bg-orange-500',
-        },
-        {
-            title: 'On-Time Delivery',
-            description: 'Rigorous project management ensures deadlines are always met',
-            color: 'bg-blue-600',
-        },
-        {
-            title: 'Sustainable Solutions',
-            description: 'Eco-friendly processes and materials for a greener future',
-            color: 'bg-teal-500',
-        },
-    ];
+    // Features for future use - currently commented out in JSX
+    // const features = [
+    //     {
+    //         title: t('precision_engineering'),
+    //         description: t('precision_engineering_desc'),
+    //         color: 'bg-orange-500',
+    //     },
+    //     {
+    //         title: t('on_time_delivery'),
+    //         description: t('on_time_delivery_desc'),
+    //         color: 'bg-blue-600',
+    //     },
+    //     {
+    //         title: t('sustainable_solutions'),
+    //         description: t('sustainable_solutions_desc'),
+    //         color: 'bg-teal-500',
+    //     },
+    // ];
 
     return (
         <div className="mt-12 bg-slate-50 sm:mt-16 md:mt-20">
@@ -81,24 +84,26 @@ const ResteelHero = () => {
                             <h1
                                 className={`mb-4 text-2xl leading-tight font-bold text-cyan-600 transition-all delay-200 duration-1000 sm:mb-8 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                Engineering
-                                <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Tomorrow's</span>
-                                Infrastructure
+                                {t('hero_engineering_title')}
+                                <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">
+                                    {t('hero_tomorrows')}
+                                </span>
+                                {t('hero_infrastructure')}
                             </h1>
 
                             <p
                                 className={`mx-auto mb-6 max-w-2xl text-base leading-relaxed text-white/80 transition-all delay-400 duration-1000 sm:mb-10 sm:text-xl lg:mx-0 lg:text-2xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                Delivering world-class steel fabrication and construction solutions with precision and innovation.
+                                {t('hero_description')}
                             </p>
 
                             <div
                                 className={`flex flex-col items-center gap-4 transition-all delay-600 duration-1000 sm:gap-6 lg:items-start ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                             >
-                                <a href="tel:+31 (0) 123 456 789" className="w-full sm:w-auto">
+                                <a href="tel:+31 (6) 25334951" className="w-full sm:w-auto">
                                     <button className="flex min-h-[48px] w-full touch-manipulation items-center justify-center gap-2 rounded-lg border-2 border-white/30 bg-cyan-600 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 sm:min-h-[60px] sm:rounded-xl sm:px-8 sm:py-4 sm:text-base">
                                         <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
-                                        <span className="whitespace-nowrap">+31 (0) 123 456 789</span>
+                                        <span className="whitespace-nowrap">+31 (6) 25334951</span>
                                     </button>
                                 </a>
                             </div>
@@ -115,18 +120,18 @@ const ResteelHero = () => {
             </section>
 
             {/* Features Preview Section */}
-            <section className="relative bg-white py-8 sm:py-16 lg:py-20">
+            {/* <section className="relative bg-white py-8 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12 xl:px-16">
                     <div className="mb-8 text-center sm:mb-16 lg:mb-20">
                         <h2 className="mb-3 text-xl font-bold text-cyan-600 sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl">
-                            Why Choose
+                            {t('why_choose_title')}
                             <span className="block bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent sm:ms-4 sm:inline">
-                                Resteel Solutions?
+                                {t('why_choose_resteel')}
                             </span>
                         </h2>
 
                         <p className="mx-auto max-w-3xl text-sm text-slate-600 sm:text-lg md:text-xl lg:text-2xl">
-                            Combining expertise with cutting-edge technology
+                            {t('why_choose_subtitle')}
                         </p>
                     </div>
 
@@ -147,7 +152,7 @@ const ResteelHero = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 };

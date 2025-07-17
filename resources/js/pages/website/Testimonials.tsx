@@ -1,176 +1,196 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { usePage } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const testimonials = [
-    {
-        id: 1,
-        quote: 'Resteel helped us find the perfect industrial building for our expanding operations. Their expertise in disassembly and reassembly was invaluable.',
-        author: 'Thomas Weber',
-        position: 'Operations Director',
-        company: 'EuroManufacturing GmbH',
-        rating: 5,
-        projectValue: '€2.3M',
-        location: 'Munich, Germany',
-    },
-    {
-        id: 2,
-        quote: "The team's knowledge of cross-border regulations saved us significant time and resources. They managed the entire transport process seamlessly.",
-        author: 'Laura Jansen',
-        position: 'Logistics Manager',
-        company: 'Nordic Industrial Group',
-        rating: 5,
-        projectValue: '€1.8M',
-        location: 'Stockholm, Sweden',
-    },
-    {
-        id: 3,
-        quote: "We've worked with Resteel on multiple projects across different countries. Their consistent quality and reliability keeps us coming back.",
-        author: 'Markus Voss',
-        position: 'Project Lead',
-        company: 'Continental Development Ltd.',
-        rating: 5,
-        projectValue: '€3.1M',
-        location: 'Amsterdam, Netherlands',
-    },
-];
+interface Testimonial {
+    quote: string;
+    author: string;
+    position?: string | null;
+    company?: string | null;
+    rating?: number;
+}
 
-const Testimonials = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [isVisible, setIsVisible] = useState(false);
+const TestimonialsCarousel = () => {
+    const { t } = useTranslation();
+    const { testimonials: dynamicTestimonials } = usePage().props as unknown as { testimonials: Testimonial[] };
+
+    // Use dynamic testimonials from database, or fall back to defaults
+    const testimonials =
+        dynamicTestimonials?.length > 0
+            ? dynamicTestimonials
+            : [
+                  {
+                      quote: 'Resteel made our entire site relocation process seamless...',
+                      author: 'Stefan Döring',
+                      position: null,
+                      company: 'RheinBuild GmbH',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'We saved over 40% on our structural build...',
+                      author: 'Anita Kovács',
+                      position: null,
+                      company: 'Danube Construction',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'International coordination is always a challenge...',
+                      author: 'Gilles Moreau',
+                      position: null,
+                      company: 'ProStruct Industries',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'Resteel proved to be a reliable partner...',
+                      author: 'Jakub Nowak',
+                      position: null,
+                      company: 'AgroFab Polska',
+                      rating: 5,
+                  },
+                  {
+                      quote: 'When we urgently needed a large-scale steel hall...',
+                      author: 'Luca Bianchi',
+                      position: null,
+                      company: 'Infrastrutture SRL',
+                      rating: 5,
+                  },
+              ];
+    const containerRef = useRef<HTMLDivElement>(null);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Determine if we should duplicate testimonials for infinite scroll
+    const shouldDuplicate = testimonials.length >= 4;
+
+    // Create display array - only duplicate if we have enough testimonials
+    const displayTestimonials = shouldDuplicate ? [...testimonials, ...testimonials] : testimonials;
+
+    const scrollAmount = typeof window !== 'undefined' && window.innerWidth < 768 ? 250 : 360;
+
+    const scrollNext = () => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+        // Only do infinite scroll if we have duplicated testimonials
+        if (shouldDuplicate && container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
+            setTimeout(() => {
+                container.scrollTo({ left: 0, behavior: 'auto' });
+            }, 600);
+        }
+    };
+
+    const scrollPrev = () => {
+        const container = containerRef.current;
+        if (!container) return;
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    };
 
     useEffect(() => {
-        setTimeout(() => setIsVisible(true), 100);
+        // Only auto-scroll if we have enough testimonials
+        if (!isHovered && shouldDuplicate) {
+            intervalRef.current = setInterval(scrollNext, 5000);
+        }
+        return () => clearInterval(intervalRef.current!);
+    }, [isHovered, shouldDuplicate]);
 
-        const interval = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % testimonials.length);
-        }, 6000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const nextTestimonial = () => {
-        setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    };
-
-    const prevTestimonial = () => {
-        setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-    };
+    // Don't render the section if there are no testimonials
+    if (!testimonials || testimonials.length === 0) {
+        return null;
+    }
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-slate-600 via-slate-700 to-blue-800 py-12 md:py-20 lg:py-24">
-            {/* Simplified Background Effects */}
-            <div className="absolute inset-0 opacity-20">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-blue-600/5"></div>
-            </div>
-
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div
-                    className={`mx-auto mb-12 max-w-2xl text-center transition-all duration-1000 ${
-                        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                    }`}
-                >
-                    <div className="mb-4 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm">
-                        <Star className="mr-2 h-4 w-4 fill-orange-500 text-orange-500" />
-                        Client Success Stories
-                    </div>
-                    <h2 className="mb-4 text-3xl font-light text-cyan-600 sm:text-4xl lg:text-5xl">
-                        What Our
-                        <span className="ml-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent">Clients Say</span>
+        <section className="bg-slate-100 py-12">
+            {/* Inline Scrollbar Hide Styles */}
+            <style>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+            <div className="mx-auto max-w-7xl space-y-10 px-4 sm:px-6 lg:px-8">
+                <div className="mb-10 px-4 text-center">
+                    <h2 className="text-4xl font-bold text-[#3C3F48] md:text-5xl">
+                        {t('what_our_clients_say').split(' ').slice(0, -1).join(' ')}{' '}
+                        <span className="text-[#0076A8]">{t('what_our_clients_say').split(' ').slice(-1)[0]}</span>
                     </h2>
-                    <p className="text-lg font-light text-white/80">Trusted by businesses across Europe for quality building solutions</p>
+                    <p className="mt-2 text-lg text-gray-600">{t('real_results_subtitle')}</p>
                 </div>
 
-                {/* Testimonial Cards */}
-                <div className="relative mx-auto max-w-4xl">
-                    <div className="relative overflow-hidden">
-                        <div
-                            className="flex transition-transform duration-700 ease-in-out"
-                            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-                        >
-                            {testimonials.map((testimonial, index) => (
-                                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                                    <Card className="border-0 bg-white/10 shadow-xl backdrop-blur-lg">
-                                        <CardContent className="p-8 sm:p-10 lg:p-12">
-                                            {/* Quote */}
-                                            <div className="mb-8">
-                                                <Quote className="mb-6 h-8 w-8 text-orange-500" />
-                                                <blockquote className="text-xl leading-relaxed font-light text-white sm:text-2xl">
-                                                    "{testimonial.quote}"
-                                                </blockquote>
-                                            </div>
-
-                                            {/* Rating */}
-                                            <div className="mb-6 flex items-center">
-                                                {[...Array(testimonial.rating)].map((_, i) => (
-                                                    <Star key={i} className="mr-1 h-4 w-4 fill-orange-500 text-orange-500" />
-                                                ))}
-                                            </div>
-
-                                            {/* Author Section */}
-                                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                                                <div className="mb-4 sm:mb-0">
-                                                    <div className="text-lg font-medium text-white">{testimonial.author}</div>
-                                                    <div className="text-sm text-white/70">{testimonial.position}</div>
-                                                    <div className="text-sm font-medium text-orange-400">{testimonial.company}</div>
-                                                </div>
-
-                                                <div className="text-right">
-                                                    <div className="text-sm text-white/60">{testimonial.location}</div>
-                                                    <div className="text-sm font-medium text-cyan-400">{testimonial.projectValue}</div>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            ))}
-                        </div>
+                <div
+                    className="relative mx-auto max-w-screen-xl px-4"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {/* Carousel Track */}
+                    <div
+                        ref={containerRef}
+                        className={`no-scrollbar flex gap-6 overflow-y-hidden scroll-smooth pb-6 ${
+                            testimonials.length <= 3 ? 'justify-center overflow-x-visible' : 'overflow-x-auto'
+                        }`}
+                    >
+                        {displayTestimonials.map((t, idx) => (
+                            <Card
+                                key={shouldDuplicate ? `${t.author}-${idx}` : `${t.author}-${t.company || t.position || idx}`}
+                                className="w-[85vw] max-w-[350px] flex-shrink-0 border border-gray-200 shadow-sm sm:w-[60vw] md:w-[40vw] lg:w-[30vw] xl:w-[25vw]"
+                            >
+                                <CardContent className="flex h-full flex-col justify-between p-6">
+                                    <p className="text-base leading-relaxed text-[#3C3F48]">"{t.quote}"</p>
+                                    <div className="mt-4 font-semibold text-[#0076A8]">{t.author}</div>
+                                    {(t.position || t.company) && (
+                                        <div className="text-sm text-gray-500">
+                                            {t.position && t.company ? `${t.position} at ${t.company}` : t.company || t.position}
+                                        </div>
+                                    )}
+                                    {t.rating && (
+                                        <div className="mt-2 flex">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star
+                                                    key={i}
+                                                    className={`h-4 w-4 ${i < (t.rating || 0) ? 'fill-[#FF6600] text-[#FF6600]' : 'fill-gray-300 text-gray-300'}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
 
-                    {/* Navigation */}
-                    <div className="mt-8 flex items-center justify-center space-x-6">
-                        {/* Previous Button */}
-                        <button
-                            onClick={prevTestimonial}
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
-                            aria-label="Previous testimonial"
-                        >
-                            <ChevronLeft className="h-5 w-5" />
-                        </button>
-
-                        {/* Dots Indicator */}
-                        <div className="flex space-x-2">
-                            {testimonials.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setActiveIndex(index)}
-                                    className={`h-2 w-2 rounded-full transition-all duration-200 ${
-                                        index === activeIndex ? 'w-6 bg-orange-500' : 'bg-white/30 hover:bg-white/50'
-                                    }`}
-                                    aria-label={`Go to testimonial ${index + 1}`}
-                                />
-                            ))}
+                    {/* Navigation Buttons - Only show if we have enough testimonials to scroll */}
+                    {testimonials.length > 2 && (
+                        <div className="absolute right-4 flex gap-2">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={scrollPrev}
+                                className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100"
+                            >
+                                <ChevronLeft className="h-5 w-5" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={scrollNext}
+                                className="h-10 w-10 rounded-full bg-white shadow hover:bg-gray-100"
+                            >
+                                <ChevronRight className="h-5 w-5" />
+                            </Button>
                         </div>
-
-                        {/* Next Button */}
-                        <button
-                            onClick={nextTestimonial}
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-white/20 focus:ring-2 focus:ring-white/30 focus:outline-none"
-                            aria-label="Next testimonial"
-                        >
-                            <ChevronRight className="h-5 w-5" />
-                        </button>
-                    </div>
-                </div>
-
-                {/* Mobile Swipe Indicator */}
-                <div className="mt-6 text-center sm:hidden">
-                    <p className="text-sm text-white/50">Swipe or use arrows to navigate</p>
+                    )}
                 </div>
             </div>
         </section>
     );
 };
 
-export default Testimonials;
+export default TestimonialsCarousel;

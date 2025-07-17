@@ -1,8 +1,14 @@
+export interface AreaDimension {
+    name: string;
+    dimensions: string;
+    area: string;
+}
+
 export interface Warehouse {
     id?: number;
     name: string;
     location: string;
-    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive';
+    status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive' | 'sale' | 'sold';
     capacity: string;
     occupied: string;
     occupancy_rate: number;
@@ -19,12 +25,7 @@ export interface Warehouse {
     has_video: boolean;
     video_urls: string[];
     features: string[];
-    main_hall_dimensions: string;
-    main_hall_area: string;
-    office_space_dimensions: string;
-    office_space_area: string;
-    loading_dock_dimensions: string;
-    loading_dock_area: string;
+    area_dimensions: AreaDimension[];
     category: string;
     ceiling_height: string;
     floor_load_capacity: string;
@@ -48,7 +49,7 @@ export interface Warehouse {
     additional_images?: string[];
     created_at?: string;
     updated_at?: string;
-    [key: string]: string | string[] | number | boolean | null | undefined | File | File[];
+    [key: string]: string | string[] | number | boolean | null | undefined | File | File[] | AreaDimension[];
 }
 
 export interface WarehouseFormData extends Omit<Warehouse, 'image'> {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
@@ -24,6 +25,12 @@ class ContactController extends Controller
                 'source' => $contact->source,
                 'value' => $contact->value,
                 'alerts' => $contact->alerts,
+                'building_category' => $contact->building_category,
+                'building_type' => $contact->building_type,
+                'building_width' => $contact->building_width,
+                'building_length' => $contact->building_length,
+                'gutter_height' => $contact->gutter_height,
+                'top_height' => $contact->top_height,
             ];
         });
 
@@ -55,6 +62,12 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_category' => 'nullable|string|max:255',
+            'building_type' => 'nullable|string|in:Industrial,AGRI',
+            'building_width' => 'nullable|string|max:50',
+            'building_length' => 'nullable|string|max:50',
+            'gutter_height' => 'nullable|string|max:50',
+            'top_height' => 'nullable|string|max:50',
         ]);
 
         $contact = Contact::create([
@@ -63,7 +76,18 @@ class ContactController extends Controller
             'last_contact' => now(),
         ]);
 
-        return Redirect::route('admin.contacts.show', $contact->id)
+        // Check if this is a public submission (from website) or admin submission
+        if ($request->expectsJson()) {
+            // This is likely a public submission from the website contact form
+            return response()->json([
+                'success' => true,
+                'message' => 'Thank you for your message! We will get back to you soon.',
+                'contact_id' => $contact->id
+            ]);
+        }
+
+        // This is an admin submission, redirect to admin contacts index
+        return Redirect::route('admin.contacts.index')
             ->with('success', 'Contact created successfully.');
     }
 
@@ -84,6 +108,12 @@ class ContactController extends Controller
             'alerts' => $contact->alerts,
             'created_at' => $contact->created_at->toDateString(),
             'updated_at' => $contact->updated_at->toDateString(),
+            'building_category' => $contact->building_category,
+            'building_type' => $contact->building_type,
+            'building_width' => $contact->building_width,
+            'building_length' => $contact->building_length,
+            'gutter_height' => $contact->gutter_height,
+            'top_height' => $contact->top_height,
         ];
 
         return Inertia::render('Contact/Show', [
@@ -104,6 +134,12 @@ class ContactController extends Controller
             'type' => $contact->type,
             'source' => $contact->source,
             'value' => $contact->value,
+            'building_category' => $contact->building_category,
+            'building_type' => $contact->building_type,
+            'building_width' => $contact->building_width,
+            'building_length' => $contact->building_length,
+            'gutter_height' => $contact->gutter_height,
+            'top_height' => $contact->top_height,
         ];
 
         return Inertia::render('Contact/Edit', [
@@ -123,11 +159,17 @@ class ContactController extends Controller
             'type' => 'required|string|in:Lead,Customer,Partner',
             'source' => 'required|string|max:255',
             'value' => 'nullable|numeric',
+            'building_category' => 'nullable|string|max:255',
+            'building_type' => 'nullable|string|in:Industrial,AGRI',
+            'building_width' => 'nullable|string|max:50',
+            'building_length' => 'nullable|string|max:50',
+            'gutter_height' => 'nullable|string|max:50',
+            'top_height' => 'nullable|string|max:50',
         ]);
 
         $contact->update($validated);
 
-        return Redirect::route('admin.contacts.show', $contact->id)
+        return Redirect::route('admin.contacts.index')
             ->with('success', 'Contact updated successfully.');
     }
 

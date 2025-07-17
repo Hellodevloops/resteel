@@ -1,38 +1,32 @@
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
+// pages/index.tsx
+import FeaturesPreview from '@/components/FeaturesPreview';
+import Hero from '@/components/hero2';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import FeaturedBuildings from '@/pages/website/FeaturedBuildings';
 import Services from '@/pages/website/Services';
-import { useEffect } from 'react';
+import { SiteSettings } from '@/types/site-settings';
 import ContactCTA from './Contact';
-import Hero from './Hero';
+import Layout from './Layout';
 import NewsletterSection from './NewsletterSection';
-import Testimonials from './Testimonials';
 
-const Index = () => {
-    // Initialize scroll animations
+interface Props {
+    siteSettings: SiteSettings;
+}
+
+const Index = ({ siteSettings }: Props) => {
     useScrollAnimation();
 
-    // Update document title
-    useEffect(() => {
-        document.title = 'Resteel | Second-Hand Industrial Buildings';
-    }, []);
-
     return (
-        <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-grow">
-                <Hero />
-                <Services />
-                <FeaturedBuildings />
-                <Testimonials />
-                {/* <Career /> */}
-                <ContactCTA />
-                {/* <NewsLetter /> */}
-                <NewsletterSection />
-            </main>
-            <Footer />
-        </div>
+        <Layout title={`${siteSettings.company_name} | ${siteSettings.company_tagline}`} siteSettings={siteSettings}>
+            <Hero siteSettings={siteSettings} />
+            <FeaturedBuildings />
+            <FeaturesPreview />
+            {/* <CarouselSection /> */}
+            <Services />
+            {/* <Testimonials /> */}
+            <ContactCTA siteSettings={siteSettings} />
+            <NewsletterSection />
+        </Layout>
     );
 };
 

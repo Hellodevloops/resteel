@@ -44,7 +44,7 @@ class WebShopController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'description' => 'required|string',
                 'rating' => 'required|numeric|min:0|max:5',
                 'status' => 'required|in:inStock,soldOut',
@@ -115,7 +115,7 @@ class WebShopController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'price' => 'required|numeric|min:0',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'description' => 'required|string',
                 'rating' => 'required|numeric|min:0|max:5',
                 'status' => 'required|in:inStock,soldOut',
@@ -178,10 +178,44 @@ class WebShopController extends Controller
                 'updated_at' => $product->updated_at->toDateString(),
             ];
         });
-        // dd($products);
+
+        $siteSettings = \App\Http\Controllers\SiteSettingsController::getPublicSettings();
+        $contentSettings = \App\Http\Controllers\ContentController::getPublicContentSettings();
+
+        // Merge content settings into site settings for backward compatibility
+        $mergedSettings = array_merge($siteSettings, $contentSettings);
+
         return Inertia::render('website/WebShop', [
             'products' => $products,
             'filters' => request()->only(['search', 'status', 'sort']),
+            'siteSettings' => $mergedSettings,
+        ]);
+    }
+
+    public function webshop_view_api()
+    {
+        $webshop = WebShop::orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $webshop
+        ]);
+    }
+
+    public function webshop_detail_api($id)
+    {
+        $webshop = WebShop::find($id);
+
+        if (!$webshop) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'WebShop not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $webshop
         ]);
     }
 }

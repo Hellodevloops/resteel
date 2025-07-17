@@ -1,282 +1,319 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from '@inertiajs/react';
-import axios from 'axios';
-import { ArrowRight, Building, Building2, ExternalLink, Eye, Factory, Play, Ruler, Square, SquareStack, Warehouse } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, Building2, Eye, Factory, Play, Ruler, Square, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-// Utility function to truncate text to 19 words
-const truncateText = (text: string, maxWords: number = 19) => {
-    if (!text) return '';
-    const words = text.split(' ');
-    if (words.length > maxWords) {
-        return words.slice(0, maxWords).join(' ') + '...';
-    }
-    return text;
-};
+interface Specification {
+    name: string;
+    dimensions: string;
+    area: string;
+}
 
-// Building types
-const buildingTypes = [
-    { id: 'all', label: 'All', icon: Building2 },
-    { id: 'warehouses', label: 'Warehouses', icon: Warehouse },
-    { id: 'halls', label: 'Halls', icon: Factory },
-    { id: 'other', label: 'Other', icon: SquareStack },
-];
-
-// Define the building type interface
-interface Building {
+interface Warehouse {
     id: number;
     title: string;
     status: string;
     type: string;
     category: string;
+    totalArea: string;
     construction: string;
     image: string;
-    specifications: Array<{
+    hasVideo: boolean;
+    videoUrls: string[];
+    specifications: Specification[];
+}
+
+interface WarehouseApiItem {
+    id: number;
+    name: string;
+    category?: string;
+    type?: string;
+    total_area?: string;
+    unit_of_measurement?: string;
+    construction?: string;
+    image_path?: string;
+    has_video: boolean;
+    video_urls?: string[];
+    area_dimensions?: Array<{
         name: string;
         dimensions: string;
         area: string;
     }>;
-    totalArea: string;
-    hasVideo: boolean;
-    videoUrls?: string[];
-    featured: boolean;
-    year_built?: string;
-    location?: string;
-    description?: string;
+    // OLD FIELDS - for backward compatibility
+    main_hall_dimensions?: string;
+    main_hall_area?: string;
+    status?: string;
 }
 
+const steelBlue = '#0076A8';
+const charcoal = '#3C3F48';
+
 const FeaturedBuildings = () => {
-    const [activeFilter, setActiveFilter] = useState('all');
-    const [isVisible, setIsVisible] = useState(false);
-    const [buildings, setBuildings] = useState<Building[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { t } = useTranslation();
+    const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+    const [filter, setFilter] = useState('all');
+
+    const buildingTypes = [
+        { id: 'all', label: t('all_buildings'), icon: Building2 },
+        { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
+        { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
+        { id: 'other', label: t('other') },
+        // { id: 'industrial', label: t('industrial'), icon: SquareStack },
+    ];
 
     useEffect(() => {
-        // Animation delay
-        setTimeout(() => setIsVisible(true), 100);
-
-        // Fetch warehouse data from the backend
         const fetchWarehouses = async () => {
             try {
-                setLoading(true);
-                const response = await axios.get('/api/featured-warehouses');
-                if (response.data && response.data.warehouses) {
-                    // Limit to only 3 warehouses
-                    const limitedWarehouses = response.data.warehouses.slice(0, 3);
-                    setBuildings(limitedWarehouses);
-                } else {
-                    setError('No warehouses found');
+                const res = await fetch('/api/warehouses');
+                const json = await res.json();
+                if (json.status === 'success') {
+                    const formatted = json.data.map((item: WarehouseApiItem) => {
+                        // Convert area_dimensions array or fall back to old fields
+                        let specifications: Specification[] = [];
+
+                        if (item.area_dimensions && item.area_dimensions.length > 0) {
+                            // Use new area_dimensions array
+                            specifications = item.area_dimensions.filter((dim) => dim.name || dim.dimensions || dim.area);
+                        } else if (item.main_hall_dimensions || item.main_hall_area) {
+                            // Fall back to old fields for backward compatibility
+                            specifications = [
+                                {
+                                    name: t('main_hall'),
+                                    dimensions: item.main_hall_dimensions || t('not_available'),
+                                    area: item.main_hall_area || t('not_available'),
+                                },
+                            ];
+                        }
+
+                        return {
+                            id: item.id,
+                            title: item.name,
+                            status: (item.status || 'sale').toUpperCase(),
+                            type: item.type || 'warehouses', // Use actual type from database, fallback to 'warehouses'
+                            category: item.category || t('uncategorized'),
+                            totalArea: item.total_area ? `${item.total_area} ${item.unit_of_measurement}` : t('not_available'),
+                            construction: item.construction || t('not_specified'),
+                            image: item.image_path || '/placeholder.jpg',
+                            hasVideo: item.has_video,
+                            videoUrls: (item.video_urls || []).filter(Boolean),
+                            specifications: specifications,
+                        };
+                    });
+                    setWarehouses(formatted);
                 }
-            } catch (err) {
-                console.error('Error fetching warehouses:', err);
-                setError('Failed to load warehouses');
-            } finally {
-                setLoading(false);
+            } catch (error) {
+                console.error('Failed to load warehouses:', error);
             }
         };
 
         fetchWarehouses();
-    }, []);
+    }, [t]);
 
-    const filteredBuildings = activeFilter === 'all' ? buildings : buildings.filter((building) => building.type === activeFilter);
-
-    const BuildingCard = ({ building, index }: { building: Building; index: number }) => {
-        return (
-            <div
-                className={
-                    // Added min-h to ensure consistent card height
-                    'group relative mx-3 min-h-[600px] w-10/12 overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-slate-900/20' +
-                    (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0')
-                }
-                style={{ animationDelay: `${800 + index * 100}ms` }}
-            >
-                {/* Image Section with fixed height */}
-                <div className="relative h-72 overflow-hidden">
-                    <img
-                        src={building.image}
-                        alt={building.title}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                        <div className="flex items-center rounded-full bg-orange-500 px-4 py-2 text-sm font-bold text-white shadow-lg">
-                            <span className="mr-2 h-2 w-2 animate-pulse rounded-full bg-white"></span>
-                            {building.status}
-                        </div>
+    const BuildingCard = ({ building }: { building: Warehouse }) => (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.4 }}
+            className="group relative flex h-[480px] w-full flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:h-[520px] sm:rounded-2xl"
+        >
+            {/* Image Section - Responsive Height */}
+            <div className="relative h-40 flex-shrink-0 overflow-hidden sm:h-48">
+                <img
+                    src={building.image}
+                    alt={building.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                    <span
+                        className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1 ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                    >
+                        <span
+                            className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full sm:mr-2 sm:h-2 sm:w-2 ${building.status === 'SOLD' ? 'bg-white/60' : 'bg-white'}`}
+                        />
+                        <span className="text-xs sm:text-xs">
+                            {building.status === 'SALE'
+                                ? t('sale').toUpperCase()
+                                : building.status === 'SOLD'
+                                  ? t('sold').toUpperCase()
+                                  : building.status}
+                        </span>
+                    </span>
+                </div>
+                {building.hasVideo && (
+                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+                        <span className="inline-flex items-center rounded-full bg-blue-500/90 px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1">
+                            <Play className="mr-1 h-3 w-3" />
+                            <span className="text-xs sm:text-xs">{t('video')}</span>
+                        </span>
                     </div>
-                    {building.hasVideo && (
-                        <div className="absolute top-4 right-4">
-                            <div className="flex items-center rounded-full bg-blue-600/90 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm">
-                                <Play className="mr-1 h-3 w-3" />
-                                Video Available
+                )}
+            </div>
+
+            {/* Content Section - Flexible with proper height management */}
+            <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-4">
+                {/* Title - Responsive Height */}
+                <div className="mb-2 h-6 flex-shrink-0 sm:mb-3 sm:h-7">
+                    <h3
+                        className="line-clamp-1 overflow-hidden text-base font-semibold text-gray-900 group-hover:text-orange-600 sm:text-lg"
+                        title={building.title}
+                    >
+                        {building.title}
+                    </h3>
+                </div>
+
+                {/* Area Info - Responsive Height */}
+                <div className="mb-2 flex-shrink-0 sm:mb-3">
+                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-2">
+                        <div className="flex items-center">
+                            <Square className="mr-2 h-3 w-3 flex-shrink-0 text-orange-500 sm:h-4 sm:w-4" />
+                            <span className="text-xs text-gray-600 sm:text-sm">{t('total_area')}</span>
+                        </div>
+                        <span className="ml-2 truncate text-xs font-semibold text-gray-900 sm:text-sm" title={building.totalArea}>
+                            {building.totalArea}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Specifications - Flexible with scrolling */}
+                <div className="mb-2 min-h-0 flex-1 sm:mb-3">
+                    <div className="mb-1 flex flex-shrink-0 items-center sm:mb-2">
+                        <Ruler className="mr-2 h-3 w-3 text-gray-500 sm:h-4 sm:w-4" />
+                        <span className="text-xs font-medium text-gray-600 sm:text-sm">{t('specifications')}</span>
+                    </div>
+                    <div className="flex-1 overflow-hidden">
+                        <div
+                            className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 h-full max-h-[100px] overflow-y-auto pr-2 sm:max-h-[120px]"
+                            style={{
+                                scrollbarWidth: 'thin',
+                                scrollbarColor: '#d1d5db #f3f4f6',
+                            }}
+                        >
+                            <div className="space-y-1 sm:space-y-2">
+                                {building.specifications.length > 0 ? (
+                                    building.specifications.map((spec: Specification, idx: number) => (
+                                        <div key={idx} className="flex items-start justify-between gap-2 text-xs sm:text-sm">
+                                            <span className="min-w-0 flex-1 truncate text-gray-700" title={spec.name}>
+                                                {spec.name}
+                                            </span>
+                                            <span
+                                                className="max-w-[60px] flex-shrink-0 truncate text-xs text-gray-500 sm:max-w-[80px]"
+                                                title={spec.dimensions}
+                                            >
+                                                {spec.dimensions}
+                                            </span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="py-2 text-center text-xs text-gray-500 italic sm:text-sm">{t('no_specifications_available')}</div>
+                                )}
                             </div>
                         </div>
-                    )}
-                    <div className="absolute bottom-4 left-4">
-                        <div className="rounded-lg bg-white/10 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">{building.category}</div>
                     </div>
                 </div>
 
-                {/* Content Section with consistent layout */}
-                <div className="flex h-[calc(100%-18rem)] flex-col p-6">
-                    {/* Title with truncation */}
-                    <h3 className="mb-4 truncate text-xl font-bold text-slate-800 transition-colors group-hover:text-orange-500">
-                        {truncateText(building.title, 19)}
-                    </h3>
+                {/* Action Buttons - Fixed at Bottom */}
+                <div className="flex flex-shrink-0 gap-2">
+                    <Button asChild className="h-8 flex-1 rounded-lg bg-[#0076A8] text-white hover:bg-[#00628D] sm:h-10">
+                        <a href={`/building-details/${building.id}`} className="flex items-center justify-center">
+                            <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                            <span className="truncate text-xs sm:text-sm">{t('details')}</span>
+                        </a>
+                    </Button>
 
-                    {/* Total Area Display */}
-                    <div className="mb-4 flex items-center justify-between rounded-xl bg-slate-50 p-4">
-                        <div className="flex items-center">
-                            <Square className="mr-2 h-5 w-5 text-orange-500" />
-                            <span className="text-sm font-medium text-slate-600">Total Area</span>
-                        </div>
-                        <span className="text-lg font-bold text-slate-800">{building.totalArea}</span>
-                    </div>
-
-                    {/* Construction Info with truncation */}
-                    <div className="mb-6 flex-1">
-                        <div className="mb-2 flex items-center">
-                            <Building className="mr-2 h-4 w-4 text-slate-500" />
-                            <span className="text-sm font-semibold text-slate-600">Construction</span>
-                        </div>
-                        <p className="text-sm leading-relaxed text-slate-600">{truncateText(building.construction, 19)}</p>
-                    </div>
-
-                    {/* Specifications Preview with truncation */}
-                    <div className="mb-6">
-                        <div className="mb-3 flex items-center">
-                            <Ruler className="mr-2 h-4 w-4 text-slate-500" />
-                            <span className="text-sm font-semibold text-slate-600">Specifications</span>
-                        </div>
-                        <div className="space-y-2">
-                            {building.specifications.slice(0, 2).map((spec, idx) => (
-                                <div key={idx} className="flex items-center justify-between text-sm">
-                                    <span className="font-medium text-slate-700">{truncateText(spec.name, 19)}</span>
-                                    <span className="text-slate-600">{spec.dimensions}</span>
-                                </div>
-                            ))}
-                            {building.specifications.length > 2 && (
-                                <div className="text-sm font-medium text-orange-500">+{building.specifications.length - 2} more...</div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-3">
+                    {building.hasVideo && (
                         <Button
-                            asChild
-                            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:from-orange-500 group-hover:to-orange-600 hover:scale-105 hover:shadow-lg"
+                            variant="outline"
+                            className="h-8 w-8 flex-shrink-0 rounded-lg border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white sm:h-10 sm:w-10"
+                            onClick={() => window.open(building.videoUrls?.[0], '_blank')}
                         >
-                            <Link href={`/buildingsdetails?id=${building.id}`}>
-                                <Eye className="mr-2 h-4 w-4" />
-                                View Details
-                            </Link>
+                            <Play className="h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
-                        {building.hasVideo && building.videoUrls && building.videoUrls.length > 0 && (
-                            <button
-                                onClick={() => window.open(building.videoUrls![0], '_blank')}
-                                className="flex items-center justify-center rounded-xl border-2 border-blue-600 px-4 py-3 text-sm font-semibold text-blue-600 transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
-                            >
-                                <Play className="h-4 w-4" />
-                            </button>
-                        )}
-                        <button className="flex items-center justify-center rounded-xl border-2 border-orange-500 px-4 py-3 text-sm font-semibold text-orange-500 transition-all duration-300 hover:scale-105 hover:bg-orange-500 hover:text-white">
-                            <ExternalLink className="h-4 w-4" />
-                        </button>
-                    </div>
+                    )}
                 </div>
-
-                <div className="absolute inset-x-0 bottom-0 h-1 scale-x-0 transform bg-gradient-to-r from-orange-500 to-blue-600 transition-transform duration-300 group-hover:scale-x-100"></div>
             </div>
-        );
-    };
+        </motion.div>
+    );
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-16">
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-blue-600/5"></div>
-            <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                    backgroundImage: `radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
-                                     radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-                                     radial-gradient(circle at 40% 40%, rgba(71, 85, 105, 0.1) 0%, transparent 50%)`,
-                }}
-            ></div>
-
-            <div className="relative z-10 container mx-auto px-4">
-                <div className="mb-12 text-center">
-                    <h2
-                        className={`mb-6 text-3xl leading-tight font-bold text-slate-700 transition-all delay-200 duration-1000 sm:text-4xl md:text-5xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    >
-                        Featured
-                        <span className="ms-2 bg-gradient-to-r from-orange-500 to-orange-400 bg-clip-text text-transparent sm:ms-4">Buildings</span>
+        <section className="bg-slate-200/80 py-8 sm:py-12">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-8 text-center sm:mb-12"
+                >
+                    <h2 className="mt-2 text-2xl font-bold sm:mt-4 sm:text-3xl md:text-4xl lg:text-5xl" style={{ color: charcoal }}>
+                        {t('featured')}{' '}
+                        <span className="text-orange-500" style={{ color: steelBlue }}>
+                            {t('buildings')}
+                        </span>
                     </h2>
-                    <p
-                        className={`mx-auto max-w-3xl text-lg leading-relaxed text-slate-600 transition-all delay-400 duration-1000 sm:text-xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                    >
-                        Browse our selection of high-quality second-hand buildings available for purchase. Each structure is carefully dismantled and
-                        prepared for transport with precision engineering.
-                    </p>
+                    <p className="mx-auto mt-2 max-w-2xl text-sm text-gray-600 sm:mt-3 sm:text-base lg:text-lg">{t('featured_buildings_subtitle')}</p>
+                </motion.div>
+                {/* Enhanced Filter Section */}
+                <div className="mb-4 flex justify-center sm:mb-6">
+                    <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
+                        {buildingTypes.map((type) => (
+                            <button
+                                key={type.id}
+                                onClick={() => setFilter(type.id)}
+                                className={`flex min-h-[36px] items-center justify-center rounded-md px-2 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-300 sm:min-h-[40px] sm:px-4 sm:py-2 sm:text-sm lg:px-10 lg:py-2.5 lg:text-base ${
+                                    filter === type.id ? 'bg-orange-500 text-white' : ''
+                                }`}
+                            >
+                                <span className="truncate text-center">{type.label}</span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <Tabs defaultValue="all" className="w-full">
-                    <div
-                        className={`mb-12 flex justify-center transition-all delay-600 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
-                    >
-                        <TabsList className="flex flex-wrap justify-center gap-2 rounded-2xl border border-white/50 bg-white/80 p-2 shadow-xl backdrop-blur-sm">
-                            {buildingTypes.map((type) => (
-                                <TabsTrigger
-                                    key={type.id}
-                                    value={type.id}
-                                    onClick={() => setActiveFilter(type.id)}
-                                    className="flex items-center rounded-xl px-4 py-2 font-semibold transition-all duration-300 hover:bg-slate-100 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-400 data-[state=active]:text-white sm:px-6 sm:py-3"
-                                >
-                                    <type.icon className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                    {type.label}
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
-                    </div>
-
-                    <TabsContent value={activeFilter} className="mt-0">
-                        {loading ? (
-                            <div className="flex justify-center p-8">
-                                <div className="h-8 w-8 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
-                                <span className="ml-2">Loading buildings...</span>
-                            </div>
-                        ) : error ? (
-                            <div className="flex justify-center p-8">
-                                <div className="rounded-lg bg-red-50 p-4 text-red-600">{error}</div>
-                            </div>
-                        ) : filteredBuildings.length === 0 ? (
-                            <div className="flex justify-center p-8">
-                                <div className="rounded-lg bg-slate-50 p-4 text-slate-600">No buildings found in this category.</div>
-                            </div>
-                        ) : (
-                            <div className="grid w-full grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-                                {filteredBuildings.map((building, index) => (
-                                    <BuildingCard key={building.id} building={building} index={index} />
-                                ))}
-                            </div>
-                        )}
-                        <div
-                            className={`mt-12 flex justify-center transition-all delay-1200 duration-1000 sm:mt-16 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+                {/* Content Section */}
+                <div className="mt-6 sm:mt-8">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={filter}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.4 }}
+                            className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
                         >
-                            <Button
-                                asChild
-                                variant="outline"
-                                className="rounded-full border-2 border-slate-300 bg-white/80 px-8 py-3 text-base font-semibold text-slate-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-transparent hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:text-white hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
-                            >
-                                <Link href="/buildings">
-                                    View All Buildings
-                                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                </Link>
-                            </Button>
-                        </div>
-                    </TabsContent>
-                </Tabs>
+                            {(() => {
+                                const filtered = filter === 'all' ? warehouses : warehouses.filter((b) => b.type === filter);
+                                return filtered.length > 0 ? (
+                                    filtered.slice(0, 6).map((building) => <BuildingCard key={building.id} building={building} />)
+                                ) : (
+                                    <div className="col-span-full py-12 text-center sm:py-16">
+                                        <div className="text-4xl opacity-50 sm:text-6xl">🏗️</div>
+                                        <h3 className="mt-3 text-lg font-semibold text-gray-900 sm:mt-4 sm:text-xl">{t('no_buildings_found')}</h3>
+                                        <p className="mt-1 text-sm text-gray-600 sm:mt-2 sm:text-base">{t('check_back_later')}</p>
+                                    </div>
+                                );
+                            })()}
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* View All Button */}
+                <div className="mt-8 text-center sm:mt-12">
+                    <Button
+                        asChild
+                        size="lg"
+                        className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4 text-base font-semibold text-white shadow-lg transition-all hover:from-orange-600 hover:to-orange-700 hover:shadow-xl sm:px-8 sm:py-6 sm:text-lg"
+                    >
+                        <Link href="/buildings">
+                            {t('view_all_buildings')}
+                            <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                        </Link>
+                    </Button>
+                </div>
             </div>
         </section>
     );

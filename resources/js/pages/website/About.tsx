@@ -1,230 +1,291 @@
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
-import { ArrowRight, Award, Building2, Globe2, MapPin, Shield, Users, Wrench } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Link, usePage } from '@inertiajs/react';
+import {
+    ArrowRight,
+    BriefcaseBusiness,
+    Building2,
+    CheckCircle2,
+    Globe,
+    Hammer,
+    Lightbulb,
+    PackageCheck,
+    ShieldCheck,
+    Store,
+    Truck,
+    Users2,
+    Wrench,
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import Layout from './Layout';
+
+interface OfferingItem {
+    icon: string;
+    title: string;
+    description: string;
+}
+
+interface StatItem {
+    label: string;
+    value: string;
+}
+
+interface MissionItem {
+    icon: string;
+    title: string;
+    description: string;
+}
+
+interface SiteSettings {
+    who_we_are_title?: string;
+    who_we_are_description?: string;
+    who_we_are_founded?: string;
+    what_we_offer_title?: string;
+    what_we_offer_subtitle?: string;
+    what_we_offer_items?: OfferingItem[];
+    stats_title?: string;
+    stats_subtitle?: string;
+    stats_items?: StatItem[];
+    mission_title?: string;
+    mission_subtitle?: string;
+    mission_items?: MissionItem[];
+}
+
+const iconMap = {
+    Building2,
+    Wrench,
+    Users2,
+    ShieldCheck,
+    Store,
+    Truck,
+    PackageCheck,
+    Globe,
+    Hammer,
+    CheckCircle2,
+    BriefcaseBusiness,
+    Lightbulb,
+};
+
+// Helper function to safely split title and highlight last word(s)
+const formatWhoWeAreTitle = (title: string): { firstWord: string; restWords: string } => {
+    const safeTitle = typeof title === 'string' && title.trim() ? title.trim() : 'Who We Are';
+    const words = safeTitle.split(' ');
+    return {
+        firstWord: words[0] || '',
+        restWords: words.slice(1).join(' ') || '',
+    };
+};
+
+// Helper function to safely split what we offer title (first 2 words vs rest)
+const formatWhatWeOfferTitle = (title: string): { firstPart: string; lastPart: string } => {
+    const safeTitle = typeof title === 'string' && title.trim() ? title.trim() : 'What We Offer';
+    const words = safeTitle.split(' ');
+    return {
+        firstPart: words.slice(0, 2).join(' '),
+        lastPart: words.slice(2).join(' ') || '',
+    };
+};
+
+// Helper function for simple title split (first words vs last word)
+const formatSimpleTitle = (title: string, fallback: string = 'Title'): { firstPart: string; lastWord: string } => {
+    const safeTitle = typeof title === 'string' && title.trim() ? title.trim() : fallback;
+    const words = safeTitle.split(' ');
+    return {
+        firstPart: words.slice(0, -1).join(' '),
+        lastWord: words.slice(-1)[0] || '',
+    };
+};
 
 const About = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [hoveredCard, setHoveredCard] = useState(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.1 },
-        );
-
-        const element = document.getElementById('about-section');
-        if (element) observer.observe(element);
-
-        return () => observer.disconnect();
-    }, []);
-
-    const advantages = [
-        { text: 'Over 20 years of industry experience', icon: Award },
-        { text: 'Projects from 1,000 m² to 60,000 m²', icon: Building2 },
-        { text: 'Operations across Europe and beyond', icon: Globe2 },
-        { text: 'Complete service from purchase to assembly', icon: Wrench },
-        { text: 'Expertise in industrial and agricultural sectors', icon: Shield },
-    ];
-
-    const statCards = [
-        {
-            title: 'Worldwide Operations',
-            description: 'Serving clients in over 25 European countries and beyond',
-            icon: Globe2,
-            gradient: 'from-blue-500 to-blue-600',
-            accent: 'bg-blue-500',
-            number: '25+',
-            label: 'Countries',
-        },
-        {
-            title: 'Expert Team',
-            description: 'Skilled professionals with decades of industry experience',
-            icon: Users,
-            gradient: 'from-teal-500 to-teal-600',
-            accent: 'bg-teal-500',
-            number: '50+',
-            label: 'Experts',
-        },
-        {
-            title: 'Project Scale',
-            description: 'From small 1,000m² buildings to massive 60,000m² complexes',
-            icon: Building2,
-            gradient: 'from-orange-500 to-orange-600',
-            accent: 'bg-orange-500',
-            number: '60k',
-            label: 'Max m²',
-        },
-        {
-            title: 'Local Knowledge',
-            description: 'Based in Helmond, Netherlands with Europe-wide expertise',
-            icon: MapPin,
-            gradient: 'from-slate-600 to-slate-700',
-            accent: 'bg-slate-600',
-            number: '20+',
-            label: 'Years',
-        },
-    ];
+    const { siteSettings } = usePage().props as unknown as { siteSettings: SiteSettings };
+    const { t } = useTranslation();
 
     return (
-        <section id="about-section" className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 py-20 md:py-32">
-            {/* Background Elements */}
-            <div className="absolute inset-0">
-                <div className="absolute top-20 right-10 h-32 w-32 animate-pulse rounded-full bg-orange-500/5 blur-3xl"></div>
-                <div
-                    className="absolute bottom-20 left-10 h-40 w-40 animate-pulse rounded-full bg-blue-600/5 blur-3xl"
-                    style={{ animationDelay: '-2s' }}
-                ></div>
-                <div className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-slate-600/3 blur-3xl"></div>
-            </div>
+        <Layout title="About Us | Resteel">
+            {/* Hero Section */}
+            <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 px-4 pt-20 pb-16 text-center text-white sm:pt-24 sm:pb-20 md:pt-32 md:pb-24">
+                <h1 className="mb-4 text-3xl leading-tight font-bold sm:text-4xl md:text-5xl lg:text-6xl">{t('about_hero_title')}</h1>
+                <p className="mx-auto max-w-2xl text-base text-slate-300 sm:text-lg md:text-xl">{t('about_hero_subtitle')}</p>
+                <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap">
+                    <Button
+                        variant="outline"
+                        asChild
+                        className="w-full rounded-xl border-white px-6 py-3 text-orange-500 hover:text-orange-600 sm:w-auto sm:px-6 sm:py-4"
+                    >
+                        <Link href="/buildings" className="text-orange-500">
+                            {t('browse_structures')}
+                        </Link>
+                    </Button>
+                    <Button asChild className="w-full rounded-xl bg-orange-500 px-6 py-3 text-white hover:bg-orange-600 sm:w-auto sm:px-6 sm:py-4">
+                        <Link href="/contact">
+                            {t('lets_work_together')} <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </div>
+            </section>
 
-            {/* Floating Elements */}
-            <div className="absolute top-32 left-20 h-4 w-4 animate-bounce rounded-full bg-orange-500/20" style={{ animationDuration: '6s' }}></div>
-            {/* <div
-                className="absolute top-40 right-32 h-3 w-3 animate-bounce rounded-full bg-blue-600/20"
-                style={{ animationDuration: '8s', animationDelay: '-2s' }}
-            ></div>
-            <div
-                className="absolute bottom-40 left-32 h-5 w-5 animate-bounce rounded-full bg-teal-500/20"
-                style={{ animationDuration: '7s', animationDelay: '-4s' }}
-            ></div> */}
-
-            <div className="relative z-10 container mx-auto px-4">
-                <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-                    {/* Left Content */}
-                    <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
-                        <div className="mb-6 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 shadow-lg">
-                            <span className="mr-3 h-2 w-2 animate-pulse rounded-full bg-white"></span>
-                            <span className="text-sm font-semibold tracking-wide text-white">WHO WE ARE</span>
-                        </div>
-
-                        <h2
-                            className={`mb-8 bg-gradient-to-r from-slate-700 via-slate-600 to-blue-600 bg-clip-text text-4xl leading-tight font-bold text-transparent transition-all delay-200 duration-1000 md:text-6xl ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                        >
-                            About 2nd Hand
-                            <span className="block">Trading BV</span>
-                        </h2>
-
-                        <div
-                            className={`mb-10 space-y-6 transition-all delay-400 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                        >
-                            <p className="text-lg leading-relaxed text-slate-600">
-                                Based in <span className="font-semibold text-slate-700">Helmond, Netherlands</span>, 2nd Hand Trading BV specializes
-                                in buying and selling second-hand buildings and construction materials. With over two decades of experience, we've
-                                established ourselves as experts in the field of demountable industrial buildings.
-                            </p>
-                            <p className="text-lg leading-relaxed text-slate-600">
-                                We're <span className="font-semibold text-orange-600">broadly oriented</span> and not bound by specific branches or
-                                national borders. Our services extend to purchasing, selling, assembling, disassembling, and transporting second-hand
-                                buildings, as well as machines, forklifts, and construction materials.
-                            </p>
-                        </div>
-
-                        <div
-                            className={`mb-10 transition-all delay-600 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                        >
-                            <h3 className="mb-6 text-xl font-semibold text-slate-700">Why Choose Us?</h3>
-                            <div className="grid grid-cols-1 gap-4">
-                                {advantages.map((advantage, index) => (
-                                    <div
-                                        key={index}
-                                        className="group flex items-start rounded-xl border border-slate-200/50 bg-white/60 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/80 hover:shadow-lg"
-                                    >
-                                        <div className="mt-1 mr-4 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 p-2 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
-                                            <advantage.icon className="h-4 w-4 text-white" />
-                                        </div>
-                                        <span className="font-medium text-slate-700 transition-colors duration-300 group-hover:text-slate-800">
-                                            {advantage.text}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div
-                            className={`transition-all delay-800 duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
-                        >
-                            <Button
-                                asChild
-                                className="group rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-orange-700 hover:shadow-2xl hover:shadow-orange-500/25"
-                            >
-                                <Link href="/about">
-                                    Learn More About Us
-                                    <ArrowRight className="ml-3 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-                                </Link>
-                            </Button>
-                        </div>
-                    </div>
-
-                    {/* Right Content - Enhanced Stats Grid */}
-                    <div className={`relative transition-all delay-1000 duration-1000 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
-                        <div className="grid grid-cols-2 gap-6">
-                            {statCards.map((card, index) => (
-                                <div
-                                    key={index}
-                                    className={`group relative cursor-pointer rounded-2xl border border-white/50 bg-white/80 p-6 shadow-xl backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl ${
-                                        index % 2 === 0 ? 'translate-y-4 transform' : '-translate-y-2 transform'
-                                    }`}
-                                    onMouseEnter={() => setHoveredCard(index)}
-                                    onMouseLeave={() => setHoveredCard(null)}
-                                >
-                                    {/* Gradient Overlay */}
-                                    <div
-                                        className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${card.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-10`}
-                                    ></div>
-
-                                    {/* Icon */}
-                                    <div
-                                        className={`relative mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${card.gradient} shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl`}
-                                    >
-                                        <card.icon className="h-6 w-6 text-white" />
-                                    </div>
-
-                                    {/* Stats */}
-                                    <div className="relative mb-3">
-                                        <div className={`bg-gradient-to-r text-3xl font-bold ${card.gradient} bg-clip-text text-transparent`}>
-                                            {card.number}
-                                        </div>
-                                        <div className="text-sm font-medium text-slate-500">{card.label}</div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <h3 className="relative mb-2 text-lg font-semibold text-slate-700 transition-colors duration-300 group-hover:text-slate-800">
-                                        {card.title}
-                                    </h3>
-                                    <p className="relative text-sm leading-relaxed text-slate-600 transition-colors duration-300 group-hover:text-slate-700">
-                                        {card.description}
-                                    </p>
-
-                                    {/* Hover Effect Indicator */}
-                                    {/* <div
-                                        className={`absolute top-4 right-4 h-2 w-2 rounded-full ${card.accent} animate-pulse opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
-                                    ></div> */}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Decorative Elements */}
-                        <div className="absolute -top-8 -right-8 h-24 w-24 animate-pulse rounded-full bg-gradient-to-br from-orange-500/10 to-orange-600/10 blur-xl"></div>
-                        <div
-                            className="absolute -bottom-8 -left-8 h-32 w-32 animate-pulse rounded-full bg-gradient-to-br from-blue-600/10 to-slate-600/10 blur-xl"
-                            style={{ animationDelay: '-3s' }}
-                        ></div>
-
-                        {/* Connecting Lines */}
-                        <div className="absolute top-1/2 left-1/2 h-20 w-1 -translate-x-1/2 -translate-y-1/2 transform bg-gradient-to-b from-transparent via-slate-300/50 to-transparent"></div>
-                        <div className="absolute top-1/2 left-1/2 h-1 w-20 -translate-x-1/2 -translate-y-1/2 transform bg-gradient-to-r from-transparent via-slate-300/50 to-transparent"></div>
+            {/* Company Story */}
+            <section className="bg-white px-4 py-12 text-center sm:py-16 md:py-20">
+                <div className="mx-auto max-w-4xl">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+                        {(() => {
+                            const titleText = siteSettings?.who_we_are_title || 'Who We Are';
+                            const { firstWord, restWords } = formatWhoWeAreTitle(titleText);
+                            return (
+                                <>
+                                    {firstWord}
+                                    <span className="text-[var(--primary)]">{restWords && ` ${restWords}`}</span>
+                                </>
+                            );
+                        })()}
+                    </h2>
+                    <p className="mb-6 text-base text-gray-600 sm:text-lg">
+                        {siteSettings?.who_we_are_description ||
+                            'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.'}
+                    </p>
+                    <div className="text-xs text-gray-400 italic sm:text-sm">
+                        {siteSettings?.who_we_are_founded || 'Founded in 2005 · Headquartered in Helmond, Netherlands'}
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Bottom Accent */}
-            <div className="absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r from-orange-500 via-blue-600 to-orange-500"></div>
-        </section>
+            {/* Mission Section */}
+            <section className="bg-slate-50 px-4 py-12 sm:py-16 md:py-20">
+                <div className="mx-auto max-w-5xl text-center">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+                        {(() => {
+                            const titleText = siteSettings?.mission_title || 'Our Mission';
+                            const { firstPart, lastWord } = formatSimpleTitle(titleText, 'Our Mission');
+                            return (
+                                <>
+                                    {firstPart}
+                                    <span className="text-[var(--primary)]"> {lastWord}</span>
+                                </>
+                            );
+                        })()}
+                    </h2>
+
+                    <p className="mb-8 text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
+                        {siteSettings?.mission_subtitle || t('about_mission_subtitle')}
+                    </p>
+                    <div className="grid gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
+                        {(siteSettings?.mission_items && siteSettings.mission_items.length > 0
+                            ? siteSettings.mission_items
+                            : [
+                                  { icon: 'CheckCircle2', title: t('integrity'), description: t('honest_transparent_business') },
+                                  { icon: 'BriefcaseBusiness', title: t('expertise'), description: t('deep_industry_knowledge') },
+                                  { icon: 'Lightbulb', title: t('innovation'), description: t('creative_solutions_challenges') },
+                              ]
+                        ).map((item, idx) => {
+                            const IconComponent = iconMap[item.icon as keyof typeof iconMap] || CheckCircle2;
+                            return (
+                                <div key={idx} className="flex items-start gap-3 sm:gap-4">
+                                    <div className="rounded-xl bg-slate-100 p-2 text-slate-600 sm:p-3">
+                                        <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-base font-semibold text-gray-800 sm:text-lg">{item.title}</h4>
+                                        <p className="text-xs text-gray-600 sm:text-sm">{item.description}</p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* What We Offer */}
+            <section className="bg-white px-4 py-12 sm:py-16 md:py-20">
+                <div className="mx-auto max-w-6xl text-center">
+                    <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+                        {(() => {
+                            const titleText = siteSettings?.what_we_offer_title || 'What We Offer';
+                            const { firstPart, lastPart } = formatWhatWeOfferTitle(titleText);
+                            return (
+                                <>
+                                    {firstPart}
+                                    <span className="text-[var(--primary)]">{lastPart && ` ${lastPart}`}</span>
+                                </>
+                            );
+                        })()}
+                    </h2>
+                    <p className="mb-8 text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
+                        {siteSettings?.what_we_offer_subtitle ||
+                            'More than just buying and selling — we help move, manage, and optimize every structure'}
+                    </p>
+
+                    <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+                        {(siteSettings?.what_we_offer_items && siteSettings.what_we_offer_items.length > 0
+                            ? siteSettings.what_we_offer_items
+                            : [
+                                  { icon: 'Building2', title: 'Steel Halls', description: 'Pre-owned halls for industrial and agricultural use.' },
+                                  { icon: 'Wrench', title: 'Assembly Services', description: 'Complete dismantling, transport, and reassembly.' },
+                                  { icon: 'Users2', title: 'Project Guidance', description: 'Consultation on layout, logistics, and feasibility.' },
+                                  { icon: 'ShieldCheck', title: 'Certified Steel', description: 'Compliance-backed quality and safety assurance.' },
+                              ]
+                        ).map((item, idx) => {
+                            const IconComponent = iconMap[item.icon as keyof typeof iconMap] || Building2;
+                            return (
+                                <div key={idx} className="rounded-xl bg-slate-50 p-4 shadow transition hover:shadow-md sm:p-6">
+                                    <div className="mb-3 inline-block rounded-lg bg-white p-2 text-slate-700 sm:mb-4 sm:p-3">
+                                        <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
+                                    </div>
+                                    <h4 className="mb-1 text-base font-semibold text-gray-800 sm:text-lg">{item.title}</h4>
+                                    <p className="text-xs text-gray-600 sm:text-sm">{item.description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="bg-slate-50 px-4 py-12 text-center sm:py-16 md:py-20">
+                <h2 className="text-charcoal mt-4 mb-4 text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+                    {(() => {
+                        const titleText = siteSettings?.stats_title || 'Across Borders';
+                        const { firstPart, lastWord } = formatSimpleTitle(titleText, 'Across Borders');
+                        return (
+                            <>
+                                {firstPart}
+                                <span className="text-[var(--primary)]"> {lastWord}</span>
+                            </>
+                        );
+                    })()}
+                </h2>
+
+                <p className="mx-auto mb-8 max-w-2xl text-base text-gray-600 sm:mb-10 sm:text-lg md:mb-12">
+                    {siteSettings?.stats_subtitle || 'Our structures stand in more than 25 countries — from farms in Finland to factories in France'}
+                </p>
+                <div className="mx-auto grid max-w-6xl gap-6 text-center sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+                    {(siteSettings?.stats_items && siteSettings.stats_items.length > 0
+                        ? siteSettings.stats_items
+                        : [
+                              { label: 'Years Experience', value: '20+' },
+                              { label: 'Countries Served', value: '25+' },
+                              { label: 'Projects Delivered', value: '500+' },
+                              { label: 'Max Hall Size', value: '60,000 m²' },
+                          ]
+                    ).map((stat, idx) => (
+                        <div key={idx} className="py-4">
+                            <div className="text-3xl font-bold text-[var(--primary)] sm:text-4xl">{stat.value}</div>
+                            <div className="mt-1 text-xs text-gray-600 sm:text-sm">{stat.label}</div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Final CTA */}
+            <section className="bg-gradient-to-tr from-slate-100 to-slate-100 px-4 py-12 text-center text-slate-800 sm:py-16">
+                <h2 className="mb-4 text-2xl font-bold sm:text-3xl md:text-4xl">{t('lets_build_sustainable')}</h2>
+                <p className="mx-auto mb-6 max-w-xl text-sm text-slate-800 sm:text-base">{t('lets_build_sustainable_desc')}</p>
+                <Button
+                    asChild
+                    className="w-full rounded-xl border border-orange-500 bg-white px-6 py-3 font-semibold text-orange-500 hover:bg-orange-500 hover:text-white sm:w-auto"
+                >
+                    <Link href="/contact">{t('get_in_touch')}</Link>
+                </Button>
+            </section>
+        </Layout>
     );
 };
 

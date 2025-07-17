@@ -20,7 +20,7 @@ class WarehouseController extends Controller
 
     // Ensure array fields are initialized for each warehouse
     $warehouses->each(function ($warehouse) {
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (is_null($warehouse->$field)) {
           $warehouse->$field = [];
@@ -47,6 +47,33 @@ class WarehouseController extends Controller
       ]
     ]);
   }
+  public function warehosue_view_api()
+  {
+    $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
+
+    return response()->json([
+      'status' => 'success',
+      'data' => $warehouses
+    ]);
+  }
+
+  public function warehouse_detail_api($id)
+  {
+    $warehouse = Warehouse::find($id);
+
+    if (!$warehouse) {
+      return response()->json([
+        'status' => 'error',
+        'message' => 'Warehouse not found'
+      ], 404);
+    }
+
+    return response()->json([
+      'status' => 'success',
+      'data' => $warehouse
+    ]);
+  }
+
 
   /**
    * Show the form for creating a new warehouse.
@@ -90,7 +117,7 @@ class WarehouseController extends Controller
       }
 
       // Ensure empty arrays are properly handled
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (!isset($validated[$field]) || (is_array($validated[$field]) && empty($validated[$field]))) {
           $validated[$field] = [];
@@ -139,7 +166,7 @@ class WarehouseController extends Controller
   public function show(Warehouse $warehouse)
   {
     // Ensure array fields are initialized
-    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
     foreach ($arrayFields as $field) {
       if (is_null($warehouse->$field)) {
         $warehouse->$field = [];
@@ -157,7 +184,7 @@ class WarehouseController extends Controller
   public function edit(Warehouse $warehouse)
   {
     // Ensure array fields are initialized
-    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+    $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
     foreach ($arrayFields as $field) {
       if (is_null($warehouse->$field)) {
         $warehouse->$field = [];
@@ -177,6 +204,15 @@ class WarehouseController extends Controller
     try {
       // Log the request data for debugging
       Log::info('Update warehouse request data:', $request->all());
+
+      // Additional debugging for status field
+      Log::info('Status field debug:', [
+        'status_value' => $request->input('status'),
+        'status_type' => gettype($request->input('status')),
+        'status_length' => strlen($request->input('status') ?? ''),
+        'status_empty' => empty($request->input('status')),
+        'status_null' => is_null($request->input('status')),
+      ]);
 
       // Validate the warehouse data
       $validated = $this->validateWarehouse($request);
@@ -203,7 +239,7 @@ class WarehouseController extends Controller
       }
 
       // Ensure empty arrays are properly handled
-      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+      $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
       foreach ($arrayFields as $field) {
         if (!isset($validated[$field]) || (is_array($validated[$field]) && empty($validated[$field]))) {
           $validated[$field] = [];
@@ -220,24 +256,78 @@ class WarehouseController extends Controller
 
         $path = $request->file('image')->store('warehouses', 'public');
         $validated['image_path'] = Storage::url($path);
+        Log::info('Main image updated for warehouse ' . $warehouse->id, ['new_path' => $validated['image_path']]);
+      } elseif ($request->has('remove_main_image') && $request->input('remove_main_image') === '1') {
+        // Remove main image if requested
+        if ($warehouse->image_path) {
+          $oldPath = str_replace('/storage/', '', $warehouse->image_path);
+          Storage::disk('public')->delete($oldPath);
+        }
+        $validated['image_path'] = null;
+        Log::info('Main image removed for warehouse ' . $warehouse->id);
       }
 
       // Handle additional images
-      if ($request->hasFile('images')) {
-        // Delete old additional images if they exist
+      Log::info('Additional images request data:', [
+        'hasFile_images' => $request->hasFile('images'),
+        'remove_additional_images' => $request->input('remove_additional_images'),
+        'existing_images_count' => count($warehouse->additional_images ?? []),
+        'existing_images_to_remove' => $request->input('existing_images_to_remove'),
+        'request_all' => $request->all()
+      ]);
+
+      if ($request->hasFile('images') || $request->has('existing_images_to_remove')) {
+        // Start with existing images (if any)
+        $additionalImages = $warehouse->additional_images ?? [];
+
+        // Remove specific existing images if requested
+        if ($request->has('existing_images_to_remove')) {
+          $imagesToRemove = $request->input('existing_images_to_remove');
+          if (is_array($imagesToRemove)) {
+            // Sort in descending order to avoid index shifting issues
+            rsort($imagesToRemove);
+            foreach ($imagesToRemove as $index) {
+              if (isset($additionalImages[$index])) {
+                // Delete the file from storage
+                $oldPath = str_replace('/storage/', '', $additionalImages[$index]);
+                Storage::disk('public')->delete($oldPath);
+                // Remove from array
+                unset($additionalImages[$index]);
+              }
+            }
+            // Re-index the array
+            $additionalImages = array_values($additionalImages);
+          }
+        }
+
+        // Add new images if uploaded
+        if ($request->hasFile('images')) {
+          foreach ($request->file('images') as $image) {
+            $path = $image->store('warehouses', 'public');
+            $additionalImages[] = Storage::url($path);
+          }
+        }
+
+        $validated['additional_images'] = $additionalImages;
+        Log::info('Additional images updated for warehouse ' . $warehouse->id, [
+          'existing_kept' => count($warehouse->additional_images ?? []) - count($request->input('existing_images_to_remove', [])),
+          'new_added' => $request->hasFile('images') ? count($request->file('images')) : 0,
+          'total' => count($additionalImages)
+        ]);
+      } elseif ($request->has('remove_additional_images') && $request->input('remove_additional_images') === '1') {
+        // Remove all additional images if requested
         if (!empty($warehouse->additional_images)) {
           foreach ($warehouse->additional_images as $oldImage) {
             $oldPath = str_replace('/storage/', '', $oldImage);
             Storage::disk('public')->delete($oldPath);
           }
         }
-
-        $additionalImages = [];
-        foreach ($request->file('images') as $image) {
-          $path = $image->store('warehouses', 'public');
-          $additionalImages[] = Storage::url($path);
-        }
-        $validated['additional_images'] = $additionalImages;
+        $validated['additional_images'] = [];
+        Log::info('All additional images removed for warehouse ' . $warehouse->id);
+      } else {
+        // Preserve existing additional images if no new images uploaded and no removal requested
+        // Don't modify the additional_images field, so existing images are preserved
+        Log::info('Preserving existing additional images for warehouse ' . $warehouse->id, ['count' => count($warehouse->additional_images ?? [])]);
       }
 
       // Remove the image and images from validated data as they are File objects
@@ -279,11 +369,11 @@ class WarehouseController extends Controller
     return $request->validate([
       'name' => 'required|string|max:255',
       'location' => 'required|string|max:255',
-      'status' => 'required|in:active,leased,under_maintenance,coming_soon,inactive',
+      'status' => 'required|in:active,leased,under_maintenance,coming_soon,inactive,sale,sold',
       'capacity' => 'nullable|string|max:255',
       'occupied' => 'nullable|string|max:255',
       'occupancy_rate' => 'nullable|numeric|min:0|max:100',
-      'type' => 'nullable|string|max:255',
+      'type' => 'required|string|in:warehouses,steelconstructions,other',
       'last_inspection' => 'nullable|date',
       'revenue' => 'nullable|string|max:255',
       'alerts' => 'nullable|integer|min:0',
@@ -296,12 +386,10 @@ class WarehouseController extends Controller
       'has_video' => 'nullable|boolean',
       'video_urls' => 'nullable',
       'features' => 'nullable',
-      'main_hall_dimensions' => 'nullable|string|max:255',
-      'main_hall_area' => 'nullable|string|max:255',
-      'office_space_dimensions' => 'nullable|string|max:255',
-      'office_space_area' => 'nullable|string|max:255',
-      'loading_dock_dimensions' => 'nullable|string|max:255',
-      'loading_dock_area' => 'nullable|string|max:255',
+      'area_dimensions' => 'nullable|array',
+      'area_dimensions.*.name' => 'nullable|string|max:255',
+      'area_dimensions.*.dimensions' => 'nullable|string|max:255',
+      'area_dimensions.*.area' => 'nullable|string|max:255',
       'category' => 'nullable|string|max:255',
       'ceiling_height' => 'nullable|string|max:255',
       'floor_load_capacity' => 'nullable|string|max:255',
@@ -321,9 +409,11 @@ class WarehouseController extends Controller
       'country' => 'nullable|string|max:255',
       'latitude' => 'nullable|string|max:255',
       'longitude' => 'nullable|string|max:255',
-      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+      'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif|max:10240',
       'images' => 'nullable|array',
-      'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+      'images.*' => 'image|mimes:jpeg,png,jpg,gif,avif|max:10240',
+      'existing_images_to_remove' => 'nullable|array',
+      'existing_images_to_remove.*' => 'integer|min:0',
     ]);
   }
 
@@ -382,7 +472,7 @@ class WarehouseController extends Controller
 
       // Ensure array fields are initialized for each warehouse
       $warehouses->each(function ($warehouse) {
-        $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates'];
+        $arrayFields = ['features', 'video_urls', 'security_features', 'utilities', 'certificates', 'area_dimensions'];
         foreach ($arrayFields as $field) {
           if (is_null($warehouse->$field)) {
             $warehouse->$field = [];
@@ -392,30 +482,20 @@ class WarehouseController extends Controller
 
       // Transform warehouses into the format expected by the frontend
       $formattedWarehouses = $warehouses->map(function ($warehouse) {
-        // Extract the main hall dimensions if available
+        // Extract specifications from area_dimensions array
         $specifications = [];
-        if ($warehouse->main_hall_dimensions && $warehouse->main_hall_area) {
-          $specifications[] = [
-            'name' => 'Main Hall',
-            'dimensions' => $warehouse->main_hall_dimensions,
-            'area' => $warehouse->main_hall_area . ' ' . $warehouse->unit_of_measurement
-          ];
-        }
 
-        if ($warehouse->office_space_dimensions && $warehouse->office_space_area) {
-          $specifications[] = [
-            'name' => 'Office Space',
-            'dimensions' => $warehouse->office_space_dimensions,
-            'area' => $warehouse->office_space_area . ' ' . $warehouse->unit_of_measurement
-          ];
-        }
-
-        if ($warehouse->loading_dock_dimensions && $warehouse->loading_dock_area) {
-          $specifications[] = [
-            'name' => 'Loading Dock',
-            'dimensions' => $warehouse->loading_dock_dimensions,
-            'area' => $warehouse->loading_dock_area . ' ' . $warehouse->unit_of_measurement
-          ];
+        if (!empty($warehouse->area_dimensions)) {
+          foreach ($warehouse->area_dimensions as $dimension) {
+            if (!empty($dimension['name'])) {
+              $specifications[] = [
+                'name' => $dimension['name'],
+                'dimensions' => $dimension['dimensions'] ?? 'Not specified',
+                'area' => ($dimension['area'] ?? 'Not specified') .
+                  (!empty($dimension['area']) ? ' ' . $warehouse->unit_of_measurement : '')
+              ];
+            }
+          }
         }
 
         // If no specifications were added, add a generic one with the total area
@@ -434,7 +514,7 @@ class WarehouseController extends Controller
           'type' => 'warehouses', // Default type
           'category' => $warehouse->category ?: 'Industrial Warehouses',
           'construction' => $warehouse->construction ?: 'Not specified',
-          'image' => 'https://www.tradingbv.com/wp-content/uploads/2024/06/20240523_101558000_iOS-2048x1152.jpg', // Default image
+          'image' => $warehouse->image_path ?: 'https://www.tradingbv.com/wp-content/uploads/2024/06/20240523_101558000_iOS-2048x1152.jpg', // Use warehouse image if available
           'specifications' => $specifications,
           'totalArea' => $warehouse->total_area . ' ' . $warehouse->unit_of_measurement,
           'hasVideo' => $warehouse->has_video,
