@@ -61,7 +61,7 @@ const FeaturedBuildings = () => {
         { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
         { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
-        // { id: 'other', label: t('other'), icon: SquareStack },
+        { id: 'other', label: t('other') },
         // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
