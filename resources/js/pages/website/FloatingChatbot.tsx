@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Building, Mail, MessageCircle, MessageSquare, Phone, Send, User, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ContactFormData {
     name: string;
@@ -15,13 +16,13 @@ interface ContactFormData {
 }
 
 const FloatingChatbot: React.FC = () => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [chatMessages, setChatMessages] = useState([
-        { type: 'bot', text: "Hello! 👋 I'm here to help you with your industrial building needs. Let's get started!" },
-    ]);
+    const [chatMessages, setChatMessages] = useState([{ type: 'bot', text: t('chatbot_welcome') }]);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const [data, setData] = useState<ContactFormData>({
         name: '',
@@ -51,21 +52,21 @@ const FloatingChatbot: React.FC = () => {
     };
 
     const steps = [
-        { field: 'name', question: "What's your name?", icon: User, placeholder: 'Enter your full name' },
-        { field: 'email', question: "What's your email address?", icon: Mail, placeholder: 'Enter your email' },
-        { field: 'phone', question: "What's your phone number?", icon: Phone, placeholder: 'Enter your phone number (optional)', optional: true },
+        { field: 'name', question: t('chatbot_name_question'), icon: User, placeholder: t('chatbot_name_placeholder') },
+        { field: 'email', question: t('chatbot_email_question'), icon: Mail, placeholder: t('chatbot_email_placeholder') },
+        { field: 'phone', question: t('chatbot_phone_question'), icon: Phone, placeholder: t('chatbot_phone_placeholder'), optional: true },
         {
             field: 'company',
-            question: "What's your company name?",
+            question: t('chatbot_company_question'),
             icon: Building,
-            placeholder: 'Enter your company name (optional)',
+            placeholder: t('chatbot_company_placeholder'),
             optional: true,
         },
         {
             field: 'message',
-            question: 'Tell us about your requirements:',
+            question: t('chatbot_message_question'),
             icon: MessageSquare,
-            placeholder: 'Describe your industrial building needs',
+            placeholder: t('chatbot_message_placeholder'),
         },
     ];
 
@@ -74,7 +75,7 @@ const FloatingChatbot: React.FC = () => {
         if (!isOpen) {
             setCurrentStep(0);
             reset();
-            setChatMessages([{ type: 'bot', text: "Hello! 👋 I'm here to help you with your industrial building needs. Let's get started!" }]);
+            setChatMessages([{ type: 'bot', text: t('chatbot_welcome') }]);
         }
     };
 
@@ -86,13 +87,43 @@ const FloatingChatbot: React.FC = () => {
         }
     };
 
+    // Phone number validation function
+    const validatePhoneNumber = (phone: string): boolean => {
+        // Remove all non-digit characters except +, -, (, ), and space
+        const cleaned = phone.replace(/[^\d+\-()\s]/g, '');
+
+        // Remove all non-digit characters for length check
+        const digitsOnly = phone.replace(/\D/g, '');
+
+        // Check if it's empty (optional field)
+        if (!phone.trim()) {
+            return true;
+        }
+
+        // Check minimum length (at least 7 digits for a valid phone number)
+        if (digitsOnly.length < 7) {
+            return false;
+        }
+
+        // Check maximum length (reasonable limit of 15 digits)
+        if (digitsOnly.length > 15) {
+            return false;
+        }
+
+        // Check for valid phone number patterns
+        // Supports international formats with +, local formats with country codes, etc.
+        const phoneRegex = /^[+]?[1-9][\d]{0,15}$|^[+]?[(]?[1-9][\d]{0,4}[)]?[\d\s-]{0,15}$/;
+
+        return phoneRegex.test(cleaned);
+    };
+
     const handleNext = () => {
         const currentField = steps[currentStep].field as keyof ContactFormData;
         const currentValue = data[currentField];
 
         // Validate required fields
         if (!currentValue && !steps[currentStep].optional) {
-            setErrors({ [currentField]: `${steps[currentStep].question.replace('?', '')} is required` });
+            setErrors({ [currentField]: t('chatbot_field_required', { field: steps[currentStep].question.replace('?', '') }) });
             return;
         }
 
@@ -100,7 +131,15 @@ const FloatingChatbot: React.FC = () => {
         if (currentField === 'email' && currentValue) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(String(currentValue))) {
-                setErrors({ email: 'Please enter a valid email address' });
+                setErrors({ email: t('chatbot_invalid_email') });
+                return;
+            }
+        }
+
+        // Phone validation
+        if (currentField === 'phone' && currentValue) {
+            if (!validatePhoneNumber(String(currentValue))) {
+                setErrors({ phone: t('chatbot_invalid_phone') });
                 return;
             }
         }
@@ -110,18 +149,19 @@ const FloatingChatbot: React.FC = () => {
 
         // Skip optional fields if empty
         if (!currentValue && steps[currentStep].optional) {
-            setChatMessages((prev) => [...prev, { type: 'bot', text: "No problem! Let's continue." }]);
+            setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_no_problem') }]);
         } else {
             setChatMessages((prev) => [
                 ...prev,
                 { type: 'user', text: String(currentValue) },
-                { type: 'bot', text: currentStep === steps.length - 1 ? 'Perfect! Let me submit your information.' : 'Great! Next question:' },
+                { type: 'bot', text: currentStep === steps.length - 1 ? t('chatbot_perfect_submit') : t('chatbot_great_next') },
             ]);
         }
 
         if (currentStep < steps.length - 1) {
             setCurrentStep(currentStep + 1);
         } else {
+            setCurrentStep(steps.length); // Set to steps.length to indicate submission
             handleSubmit();
         }
     };
@@ -145,21 +185,19 @@ const FloatingChatbot: React.FC = () => {
                     ...prev,
                     {
                         type: 'bot',
-                        text: `✅ Thank you ${result.data.name}! Your information has been submitted successfully. Our team will contact you soon!`,
+                        text: t('chatbot_success_message', { name: data.name }),
                     },
                 ]);
                 setTimeout(() => {
                     setIsOpen(false);
                     reset();
                     setCurrentStep(0);
-                    setChatMessages([
-                        { type: 'bot', text: "Hello! 👋 I'm here to help you with your industrial building needs. Let's get started!" },
-                    ]);
+                    setChatMessages([{ type: 'bot', text: t('chatbot_welcome') }]);
                 }, 3000);
             } else {
                 if (result.errors) {
                     setErrors(result.errors);
-                    setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ Please check your information and try again.' }]);
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_error_check_info') }]);
                 } else {
                     throw new Error(result.message || 'Submission failed');
                 }
@@ -171,21 +209,15 @@ const FloatingChatbot: React.FC = () => {
                 const axiosError = error as { response?: { status?: number; data?: { errors?: Record<string, string> } } };
 
                 if (axiosError.response?.status === 419) {
-                    setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ CSRF token mismatch. Please refresh the page and try again.' }]);
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_error_csrf') }]);
                 } else if (axiosError.response?.data?.errors) {
                     setErrors(axiosError.response.data.errors);
-                    setChatMessages((prev) => [...prev, { type: 'bot', text: '❌ Please check your input and try again.' }]);
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_error_check_input') }]);
                 } else {
-                    setChatMessages((prev) => [
-                        ...prev,
-                        { type: 'bot', text: '❌ Sorry, there was an error submitting your information. Please try again later.' },
-                    ]);
+                    setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_error_general') }]);
                 }
             } else {
-                setChatMessages((prev) => [
-                    ...prev,
-                    { type: 'bot', text: '❌ Sorry, there was an error submitting your information. Please try again later.' },
-                ]);
+                setChatMessages((prev) => [...prev, { type: 'bot', text: t('chatbot_error_general') }]);
             }
         } finally {
             setIsSubmitting(false);
@@ -198,6 +230,14 @@ const FloatingChatbot: React.FC = () => {
             handleNext();
         }
     };
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatMessages]);
 
     const currentStepData = steps[currentStep];
     const currentValue = data[currentStepData?.field as keyof ContactFormData] || '';
@@ -215,8 +255,8 @@ const FloatingChatbot: React.FC = () => {
                                 <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                             </div>
                             <div>
-                                <h3 className="text-sm font-semibold sm:text-base">Resteel Assistant</h3>
-                                <p className="text-xs text-blue-100">Industrial Buildings Expert</p>
+                                <h3 className="text-sm font-semibold sm:text-base">{t('chatbot_assistant_title')}</h3>
+                                <p className="text-xs text-blue-100">{t('chatbot_expert_subtitle')}</p>
                             </div>
                         </div>
                         <button onClick={toggleChatbot} className="text-white transition-colors hover:text-gray-200">
@@ -237,6 +277,7 @@ const FloatingChatbot: React.FC = () => {
                                 </div>
                             </div>
                         ))}
+                        <div ref={messagesEndRef} />
 
                         {/* Current Question */}
                         {!isSubmitted && currentStepData && (
@@ -293,7 +334,7 @@ const FloatingChatbot: React.FC = () => {
                             </div>
                             {currentStepData.optional && (
                                 <button onClick={handleNext} className="mt-2 text-xs text-gray-500 hover:text-gray-700">
-                                    Skip this step
+                                    {t('chatbot_skip_step')}
                                 </button>
                             )}
                         </div>
@@ -309,7 +350,7 @@ const FloatingChatbot: React.FC = () => {
                                 ></div>
                             </div>
                             <p className="mt-1 text-center text-xs text-gray-500">
-                                Step {currentStep + 1} of {steps.length}
+                                {t('chatbot_step_progress', { current: currentStep + 1, total: steps.length })}
                             </p>
                         </div>
                     )}
@@ -328,15 +369,9 @@ const FloatingChatbot: React.FC = () => {
                     <MessageCircle className="h-5 w-5 text-white transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6" />
                 )}
 
-                {/* Pulse animation */}
-                {/* {!isOpen && (
-                    <div className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping"></div>
-                )} */}
-
-                {/* Tooltip - Hidden on mobile, shown on hover for desktop */}
                 {!isOpen && (
                     <div className="absolute right-full mr-2 hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-white shadow-lg group-hover:block sm:mr-3 sm:px-3 sm:py-2 sm:text-sm">
-                        <span className="whitespace-nowrap">Need help? Let's chat!</span>
+                        <span className="whitespace-nowrap">{t('chatbot_need_help')}</span>
                         <div className="absolute top-1/2 right-0 translate-x-full -translate-y-1/2 border-4 border-transparent border-l-gray-800"></div>
                     </div>
                 )}
