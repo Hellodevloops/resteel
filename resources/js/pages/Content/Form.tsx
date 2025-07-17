@@ -78,7 +78,7 @@ interface PageProps {
     supported_locales?: string[];
 }
 
-interface FormData extends ContentSettings {
+interface ContentFormData extends ContentSettings {
     locale: string;
 }
 
@@ -265,7 +265,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
     const contentForLocale = getContentForLocale(selectedLocale);
 
-    const { data, setData, processing, errors, reset, post, put } = useForm<FormData>({
+    const { data, setData, processing, errors, reset, post, put } = useForm<ContentFormData>({
         locale: selectedLocale,
         ...contentForLocale,
     });
@@ -345,7 +345,7 @@ export default function ContentForm({ content, isEditing = false }: Props) {
 
     // Helper to update content data
     // Using 'any' type here as ContentSettings has diverse field types including arrays and strings
-    const updateContent = (field: keyof ContentSettings, value: any) => {
+    const updateContent = (field: keyof ContentSettings, value: string) => {
         setData(field, value);
     };
 
@@ -398,11 +398,11 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     // Language selector component
     const LanguageSelector = () => (
         <div className="ml-auto flex items-center gap-2">
-            <Globe className="h-4 w-4 text-gray-500" />
+            <Globe className="h-3 w-3 text-gray-500 sm:h-4 sm:w-4" />
             <select
                 value={selectedLocale}
                 onChange={(e) => setSelectedLocale(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none"
+                className="rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:outline-none sm:px-3 sm:py-1 sm:text-sm"
             >
                 {supportedLocales.map((locale) => (
                     <option key={locale} value={locale}>
@@ -414,26 +414,28 @@ export default function ContentForm({ content, isEditing = false }: Props) {
     );
 
     return (
-        <div className="space-y-6 p-6">
+        <div className="space-y-4 p-4 sm:space-y-6 sm:p-6">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">{isEditing ? 'Edit Content' : 'Manage Content'}</h2>
-                    <p className="text-muted-foreground">Configure your website's content sections</p>
+                    <h2 className="text-xl font-bold tracking-tight sm:text-2xl">{isEditing ? 'Edit Content' : 'Manage Content'}</h2>
+                    <p className="text-muted-foreground text-sm">Configure your website's content sections</p>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                 {/* Services We Provide Section */}
                 <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Settings className="mr-2 h-5 w-5" />
-                            Services We Provide
+                    <CardHeader className="p-3 sm:p-6">
+                        <CardTitle className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-0">
+                            <div className="flex items-center">
+                                <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                <span className="text-sm sm:text-base">Services We Provide</span>
+                            </div>
                             <LanguageSelector />
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-4 p-3 sm:space-y-6 sm:p-6">
                         <div className="space-y-2">
                             <Label htmlFor="services_title">Section Title</Label>
                             <Input
@@ -880,22 +882,22 @@ export default function ContentForm({ content, isEditing = false }: Props) {
                 </Card>
 
                 {/* Form Actions */}
-                <div className="flex items-center justify-between">
-                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing}>
-                        <RefreshCw className="mr-2 h-4 w-4" />
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing} className="text-xs sm:text-sm">
+                        <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                         Reset
                     </Button>
 
                     <div className="flex gap-2">
-                        <Button type="submit" disabled={processing}>
+                        <Button type="submit" disabled={processing} className="text-xs sm:text-sm">
                             {processing ? (
                                 <>
-                                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                                    <RefreshCw className="mr-2 h-3 w-3 animate-spin sm:h-4 sm:w-4" />
                                     Saving...
                                 </>
                             ) : (
                                 <>
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                     Save Content
                                 </>
                             )}

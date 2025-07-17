@@ -176,56 +176,86 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
         <AppLayout>
             <Head title={isEditing ? 'Edit Contact' : 'Create Contact'} />
             <div className="min-h-screen bg-slate-50">
-                <div className="mx-auto max-w-3xl px-4 py-10">
-                    <div className="mb-8">
-                        <h1 className="text-2xl font-bold text-slate-800">{isEditing ? 'Edit Contact' : 'Create Contact'}</h1>
-                        <p className="mt-2 text-slate-600">
+                <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
+                    <div className="mb-6 sm:mb-8">
+                        <h1 className="text-xl font-bold text-slate-800 sm:text-2xl lg:text-3xl">{isEditing ? 'Edit Contact' : 'Create Contact'}</h1>
+                        <p className="mt-2 text-sm text-slate-600 sm:text-base">
                             {isEditing ? 'Update the contact information below.' : 'Fill in the contact information below to create a new contact.'}
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6 rounded-2xl bg-white p-8 shadow">
-                        <div className="grid gap-6 md:grid-cols-2">
-                            <div>
-                                <Label htmlFor="name">Name</Label>
-                                <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} />
-                                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                    <form onSubmit={handleSubmit} className="space-y-6 rounded-2xl bg-white p-4 shadow sm:p-6 lg:p-8">
+                        <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                                    Name
+                                </Label>
+                                <Input id="name" value={data.name} onChange={(e) => setData('name', e.target.value)} className="w-full" />
+                                {errors.name && <p className="text-xs text-red-600 sm:text-sm">{errors.name}</p>}
                             </div>
-                            <div>
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" value={data.email} onChange={(e) => handleEmailChange(e.target.value)} />
+                            <div className="space-y-2">
+                                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                                    Email
+                                </Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    value={data.email}
+                                    onChange={(e) => handleEmailChange(e.target.value)}
+                                    className="w-full"
+                                />
                                 {(errors.email || validationErrors.email) && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.email || validationErrors.email}</p>
+                                    <p className="text-xs text-red-600 sm:text-sm">{errors.email || validationErrors.email}</p>
                                 )}
                             </div>
-                            <div>
-                                <Label htmlFor="phone">Phone</Label>
-                                <Input id="phone" type="tel" value={data.phone} onChange={(e) => handlePhoneChange(e.target.value)} />
+                            <div className="space-y-2">
+                                <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
+                                    Phone
+                                </Label>
+                                <Input
+                                    id="phone"
+                                    type="tel"
+                                    value={data.phone}
+                                    onChange={(e) => handlePhoneChange(e.target.value)}
+                                    className="w-full"
+                                />
                                 {(errors.phone || validationErrors.phone) && (
-                                    <p className="mt-1 text-sm text-red-600">{errors.phone || validationErrors.phone}</p>
+                                    <p className="text-xs text-red-600 sm:text-sm">{errors.phone || validationErrors.phone}</p>
                                 )}
                             </div>
-                            <div>
-                                <Label htmlFor="company">Company</Label>
-                                <Input id="company" value={data.company} onChange={(e) => setData('company', e.target.value)} />
-                                {errors.company && <p className="mt-1 text-sm text-red-600">{errors.company}</p>}
+                            <div className="space-y-2">
+                                <Label htmlFor="company" className="text-sm font-medium text-gray-700">
+                                    Company
+                                </Label>
+                                <Input id="company" value={data.company} onChange={(e) => setData('company', e.target.value)} className="w-full" />
+                                {errors.company && <p className="text-xs text-red-600 sm:text-sm">{errors.company}</p>}
                             </div>
                         </div>
 
-                        <div>
-                            <Label htmlFor="source">Source</Label>
-                            <Input id="source" value={data.source} onChange={(e) => setData('source', e.target.value)} />
-                            {errors.source && <p className="mt-1 text-sm text-red-600">{errors.source}</p>}
+                        <div className="space-y-2">
+                            <Label htmlFor="source" className="text-sm font-medium text-gray-700">
+                                Source
+                            </Label>
+                            <Input id="source" value={data.source} onChange={(e) => setData('source', e.target.value)} className="w-full" />
+                            {errors.source && <p className="text-xs text-red-600 sm:text-sm">{errors.source}</p>}
                         </div>
 
-                        <div>
-                            <Label htmlFor="message">Message</Label>
-                            <Textarea id="message" rows={4} value={data.message} onChange={(e) => setData('message', e.target.value)} />
-                            {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+                        <div className="space-y-2">
+                            <Label htmlFor="message" className="text-sm font-medium text-gray-700">
+                                Message
+                            </Label>
+                            <Textarea
+                                id="message"
+                                rows={4}
+                                value={data.message}
+                                onChange={(e) => setData('message', e.target.value)}
+                                className="w-full resize-none"
+                            />
+                            {errors.message && <p className="text-xs text-red-600 sm:text-sm">{errors.message}</p>}
                         </div>
 
-                        <div className="pt-4 text-right">
-                            <Button type="submit" disabled={processing}>
+                        <div className="flex flex-col-reverse gap-3 pt-4 sm:flex-row sm:justify-end sm:gap-4">
+                            <Button type="submit" disabled={processing} className="w-full sm:w-auto">
                                 {processing ? 'Saving...' : isEditing ? 'Update Contact' : 'Create Contact'}
                             </Button>
                         </div>

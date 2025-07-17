@@ -43,15 +43,24 @@ interface ContentSettings {
     }>;
 }
 
+interface MultiLangContentSettings {
+    [locale: string]: ContentSettings;
+}
+
 interface Props {
     content?: ContentSettings;
 }
 
 export default function Edit({ content }: Props) {
+    // Convert single content to multi-language format
+    const multiLangContent: MultiLangContentSettings | undefined = content ? { en: content } : undefined;
+
     return (
         <AppLayout>
             <Head title="Edit Content - Admin" />
-            <ContentForm content={content} isEditing={true} />
+            <div className="bg-background min-h-screen">
+                <ContentForm content={multiLangContent} isEditing={true} />
+            </div>
         </AppLayout>
     );
 }

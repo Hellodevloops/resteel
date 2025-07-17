@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { Eye, Pencil, Search, Trash2, X } from 'lucide-react';
+import { Eye, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const steelBlue = '#0076A8';
@@ -91,8 +91,8 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
             <div className="min-h-screen bg-gray-100">
                 {/* Success Alert */}
                 {showSuccessAlert && flash.success && (
-                    <div className="fixed top-4 right-4 z-50 max-w-md">
-                        <div className="rounded-lg border border-green-200 bg-green-50 p-4 shadow-lg">
+                    <div className="fixed top-4 right-4 z-50 max-w-sm sm:max-w-md">
+                        <div className="rounded-lg border border-green-200 bg-green-50 p-3 shadow-lg sm:p-4">
                             <div className="flex items-start">
                                 <div className="flex-shrink-0">
                                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
@@ -106,7 +106,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                     </div>
                                 </div>
                                 <div className="ml-3 flex-1">
-                                    <p className="text-sm font-medium text-green-800">{flash.success}</p>
+                                    <p className="text-xs font-medium text-green-800 sm:text-sm">{flash.success}</p>
                                 </div>
                                 <button onClick={() => setShowSuccessAlert(false)} className="ml-3 flex-shrink-0 text-green-400 hover:text-green-600">
                                     <X className="h-4 w-4" />
@@ -115,36 +115,38 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                         </div>
                     </div>
                 )}
+
                 {/* Header */}
                 <div className="border-b border-gray-200 bg-white shadow-sm">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <div className="flex items-center justify-between">
+                    <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800">Contact List</h1>
-                                <p className="mt-1 text-gray-600">View and manage your contacts</p>
+                                <h1 className="text-xl font-bold text-gray-800 sm:text-2xl lg:text-3xl">Contact List</h1>
+                                <p className="mt-1 text-sm text-gray-600 sm:text-base">View and manage your contacts</p>
                             </div>
                             <Link
                                 href="/admin/contacts/create"
-                                className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+                                className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none sm:w-auto"
                                 style={{ backgroundColor: steelBlue }}
                             >
+                                <Plus className="mr-2 h-4 w-4" />
                                 Add New Contact
                             </Link>
                         </div>
                     </div>
                 </div>
 
-                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
                     {/* Search Bar */}
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <div className="relative">
                             <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Search contacts by name, email, phone, company, type, status, or building details..."
+                                placeholder="Search contacts..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full border border-gray-300 py-2 pr-4 pl-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                className="w-full rounded-md border border-gray-300 py-2 pr-10 pl-10 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-base"
                             />
                             {searchTerm && (
                                 <button
@@ -156,96 +158,105 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                             )}
                         </div>
                         {searchTerm && (
-                            <div className="mt-2 text-sm text-gray-600">
+                            <div className="mt-2 text-xs text-gray-600 sm:text-sm">
                                 Showing {filteredContacts.length} of {initialContacts.length} contacts
                             </div>
                         )}
                     </div>
 
-                    {/* Contact List */}
-                    <div className="overflow-hidden bg-white shadow">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Email</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Phone</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Company</th>
-                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Type</th> */}
-                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Status</th> */}
-                                    {/* <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">Building</th> */}
-                                    <th className="px-6 py-3 text-right text-xs font-medium tracking-wider text-gray-500 uppercase">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                                {filteredContacts.map((contact) => (
-                                    <tr key={contact.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">{contact.name}</td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.email}</td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.phone}</td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">{contact.company}</td>
-                                        {/* <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                                            <span
-                                                className={`inline-flex rounded-full px-2 text-xs leading-5 font-semibold ${
-                                                    contact.type === 'Lead'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : contact.type === 'Customer'
-                                                          ? 'bg-blue-100 text-blue-800'
-                                                          : 'bg-gray-100 text-gray-800'
-                                                }`}
-                                            >
-                                                {contact.type}
-                                            </span> */}
-                                        {/* </td>
-                                        <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                                            <span
-                                                className={`inline-flex rounded-full px-2 text-xs leading-5 font-semibold ${
-                                                    contact.status === 'active'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : contact.status === 'pending'
-                                                          ? 'bg-yellow-100 text-yellow-800'
-                                                          : 'bg-red-100 text-red-800'
-                                                }`}
-                                            >
-                                                {contact.status}
-                                            </span>
-                                        </td> */}
-                                        {/* <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                                            {contact.building_category && (
-                                                <div>
-                                                    <span className="font-medium">{contact.building_category}</span>
-                                                    {contact.building_type && (
-                                                        <>
-                                                            <br />
-                                                            <span className="text-xs">
-                                                                Type: {contact.building_type}
-                                                                {contact.building_width &&
-                                                                    contact.building_length &&
-                                                                    ` • ${contact.building_width}m × ${contact.building_length}m`}
-                                                                {contact.gutter_height && ` • H: ${contact.gutter_height}m`}
-                                                            </span>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </td> */}
-                                        <td className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
-                                            <div className="flex justify-end space-x-3">
-                                                <Link href={`/admin/contacts/${contact.id}`} className="text-blue-600 hover:text-blue-900">
-                                                    <Eye className="h-5 w-5" />
-                                                </Link>
-                                                <Link href={`/admin/contacts/${contact.id}/edit`} className="text-yellow-600 hover:text-yellow-900">
-                                                    <Pencil className="h-5 w-5" />
-                                                </Link>
-                                                <button onClick={() => handleDelete(contact.id)} className="text-red-600 hover:text-red-900">
-                                                    <Trash2 className="h-5 w-5" />
-                                                </button>
-                                            </div>
-                                        </td>
+                    {/* Contact List - Mobile Card View */}
+                    <div className="block sm:hidden">
+                        <div className="space-y-3">
+                            {filteredContacts.map((contact) => (
+                                <div key={contact.id} className="rounded-lg bg-white p-4 shadow">
+                                    <div className="flex items-start justify-between">
+                                        <div className="min-w-0 flex-1">
+                                            <h3 className="truncate text-sm font-medium text-gray-900">{contact.name}</h3>
+                                            <p className="truncate text-xs text-gray-500">{contact.email}</p>
+                                            <p className="truncate text-xs text-gray-500">{contact.phone}</p>
+                                            {contact.company && <p className="truncate text-xs text-gray-500">{contact.company}</p>}
+                                        </div>
+                                        <div className="ml-4 flex items-center space-x-2">
+                                            <Link href={`/admin/contacts/${contact.id}`} className="p-1 text-blue-600 hover:text-blue-900">
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                            <Link href={`/admin/contacts/${contact.id}/edit`} className="p-1 text-yellow-600 hover:text-yellow-900">
+                                                <Pencil className="h-4 w-4" />
+                                            </Link>
+                                            <button onClick={() => handleDelete(contact.id)} className="p-1 text-red-600 hover:text-red-900">
+                                                <Trash2 className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {filteredContacts.length === 0 && (
+                            <div className="rounded-lg bg-white p-6 text-center shadow">
+                                <p className="text-sm text-gray-500">No contacts found. Try adjusting your search.</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Contact List - Desktop Table View */}
+                    <div className="hidden overflow-hidden rounded-lg bg-white shadow sm:block">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase sm:px-6">
+                                            Name
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase sm:px-6">
+                                            Email
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase sm:px-6">
+                                            Phone
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase sm:px-6">
+                                            Company
+                                        </th>
+                                        <th className="px-4 py-3 text-right text-xs font-medium tracking-wider text-gray-500 uppercase sm:px-6">
+                                            Actions
+                                        </th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white">
+                                    {filteredContacts.map((contact) => (
+                                        <tr key={contact.id} className="hover:bg-gray-50">
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-900 sm:px-6">
+                                                <div className="max-w-xs truncate">{contact.name}</div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 sm:px-6">
+                                                <div className="max-w-xs truncate">{contact.email}</div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 sm:px-6">
+                                                <div className="max-w-xs truncate">{contact.phone}</div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 sm:px-6">
+                                                <div className="max-w-xs truncate">{contact.company}</div>
+                                            </td>
+                                            <td className="px-4 py-4 text-right text-sm font-medium sm:px-6">
+                                                <div className="flex justify-end space-x-3">
+                                                    <Link href={`/admin/contacts/${contact.id}`} className="text-blue-600 hover:text-blue-900">
+                                                        <Eye className="h-5 w-5" />
+                                                    </Link>
+                                                    <Link
+                                                        href={`/admin/contacts/${contact.id}/edit`}
+                                                        className="text-yellow-600 hover:text-yellow-900"
+                                                    >
+                                                        <Pencil className="h-5 w-5" />
+                                                    </Link>
+                                                    <button onClick={() => handleDelete(contact.id)} className="text-red-600 hover:text-red-900">
+                                                        <Trash2 className="h-5 w-5" />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                         {filteredContacts.length === 0 && (
                             <div className="p-6 text-center text-gray-500">No contacts found. Try adjusting your search.</div>
                         )}
@@ -253,12 +264,12 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
 
                     {/* Recent Activity Section */}
                     {recentActivity.length > 0 && (
-                        <div className="mt-8">
-                            <h2 className="mb-4 text-lg font-medium text-gray-900">Recent Activity</h2>
-                            <div className="overflow-hidden bg-white shadow">
+                        <div className="mt-6 sm:mt-8">
+                            <h2 className="mb-3 text-lg font-medium text-gray-900 sm:mb-4">Recent Activity</h2>
+                            <div className="overflow-hidden rounded-lg bg-white shadow">
                                 <ul className="divide-y divide-gray-200">
                                     {recentActivity.map((activity) => (
-                                        <li key={activity.id} className="px-6 py-4">
+                                        <li key={activity.id} className="px-4 py-3 sm:px-6 sm:py-4">
                                             <div className="flex items-center">
                                                 <div
                                                     className={`h-2 w-2 flex-shrink-0 rounded-full ${
@@ -269,9 +280,9 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
                                                               : 'bg-red-400'
                                                     }`}
                                                 />
-                                                <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">{activity.action}</p>
-                                                    <p className="text-sm text-gray-500">
+                                                <div className="ml-3 min-w-0 flex-1">
+                                                    <p className="truncate text-sm font-medium text-gray-900">{activity.action}</p>
+                                                    <p className="truncate text-xs text-gray-500 sm:text-sm">
                                                         {activity.contact} • {activity.time}
                                                     </p>
                                                 </div>

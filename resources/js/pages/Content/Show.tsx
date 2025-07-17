@@ -57,25 +57,25 @@ export default function Show({ content }: Props) {
             <div className="bg-background min-h-screen">
                 {/* Header */}
                 <div className="bg-background border-b">
-                    <div className="container mx-auto px-6 py-6">
-                        <div className="flex items-center justify-between">
+                    <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                             <div className="flex items-center space-x-3">
-                                <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-sm">
-                                    <FileText className="text-primary-foreground h-5 w-5" />
+                                <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-sm sm:h-10 sm:w-10">
+                                    <FileText className="text-primary-foreground h-4 w-4 sm:h-5 sm:w-5" />
                                 </div>
                                 <div>
-                                    <h1 className="text-xl font-semibold">Content Management</h1>
-                                    <p className="text-muted-foreground text-sm">Manage your website's content sections</p>
+                                    <h1 className="text-lg font-semibold sm:text-xl">Content Management</h1>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Manage your website's content sections</p>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <Button variant="outline" className="rounded-sm">
-                                    <RefreshCw className="mr-2 h-4 w-4" />
+                            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                                <Button variant="outline" className="rounded-sm text-xs sm:text-sm">
+                                    <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                     Refresh
                                 </Button>
-                                <Button asChild className="rounded-sm">
+                                <Button asChild className="rounded-sm text-xs sm:text-sm">
                                     <Link href={route('admin.content.edit')}>
-                                        <Edit3 className="mr-2 h-4 w-4" />
+                                        <Edit3 className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                         Edit Content
                                     </Link>
                                 </Button>
@@ -85,152 +85,152 @@ export default function Show({ content }: Props) {
                 </div>
 
                 {/* Main Content */}
-                <div className="container mx-auto space-y-6 px-6 py-6">
-                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="container mx-auto space-y-4 px-4 py-4 sm:space-y-6 sm:px-6 sm:py-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
                         {/* Services Section */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    Services We Provide
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">Services We Provide</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.services_title || 'Services We Provide'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.services_title || 'Services We Provide'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Subtitle</p>
-                                    <p className="text-sm">
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Subtitle</p>
+                                    <p className="text-xs sm:text-sm">
                                         {content?.services_subtitle || 'Comprehensive solutions for your industrial building needs'}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Items</p>
-                                    <p className="text-sm">{content?.services_items?.length || 0} service items configured</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Items</p>
+                                    <p className="text-xs sm:text-sm">{content?.services_items?.length || 0} service items configured</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* Why Choose Us Section */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    Why Choose Us
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">Why Choose Us</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.why_choose_us_title || 'Why Choose Us'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.why_choose_us_title || 'Why Choose Us'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Subtitle</p>
-                                    <p className="text-sm">{content?.why_choose_us_subtitle || 'We combine decades of experience...'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Subtitle</p>
+                                    <p className="text-xs sm:text-sm">{content?.why_choose_us_subtitle || 'We combine decades of experience...'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Items</p>
-                                    <p className="text-sm">{content?.why_choose_us_items?.length || 0} feature items configured</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Items</p>
+                                    <p className="text-xs sm:text-sm">{content?.why_choose_us_items?.length || 0} feature items configured</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* About - Who We Are */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    About - Who We Are
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">About - Who We Are</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.who_we_are_title || 'Who We Are'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.who_we_are_title || 'Who We Are'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Description</p>
-                                    <p className="line-clamp-2 text-sm">
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Description</p>
+                                    <p className="line-clamp-2 text-xs sm:text-sm">
                                         {content?.who_we_are_description || 'Resteel is a trusted European leader...'}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Founded Info</p>
-                                    <p className="text-sm">{content?.who_we_are_founded || 'Founded in 2005...'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Founded Info</p>
+                                    <p className="text-xs sm:text-sm">{content?.who_we_are_founded || 'Founded in 2005...'}</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* About - What We Offer */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    About - What We Offer
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">About - What We Offer</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.what_we_offer_title || 'What We Offer'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.what_we_offer_title || 'What We Offer'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Subtitle</p>
-                                    <p className="text-sm">{content?.what_we_offer_subtitle || 'More than just buying and selling...'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Subtitle</p>
+                                    <p className="text-xs sm:text-sm">{content?.what_we_offer_subtitle || 'More than just buying and selling...'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Items</p>
-                                    <p className="text-sm">{content?.what_we_offer_items?.length || 0} offering items configured</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Items</p>
+                                    <p className="text-xs sm:text-sm">{content?.what_we_offer_items?.length || 0} offering items configured</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* About - Stats */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    About - Stats Section
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">About - Stats Section</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.stats_title || 'Across Borders'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.stats_title || 'Across Borders'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Subtitle</p>
-                                    <p className="text-sm">{content?.stats_subtitle || 'Our structures stand in more than 25 countries...'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Subtitle</p>
+                                    <p className="text-xs sm:text-sm">{content?.stats_subtitle || 'Our reach and impact...'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Stats</p>
-                                    <p className="text-sm">{content?.stats_items?.length || 0} statistics configured</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Items</p>
+                                    <p className="text-xs sm:text-sm">{content?.stats_items?.length || 0} statistics configured</p>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* About - Mission */}
                         <Card className="rounded-sm">
-                            <CardHeader>
+                            <CardHeader className="p-3 sm:p-6">
                                 <CardTitle className="flex items-center">
-                                    <Settings className="mr-2 h-5 w-5" />
-                                    About - Mission Section
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span className="text-sm sm:text-base">About - Mission Section</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-3 p-3 sm:space-y-4 sm:p-6">
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Title</p>
-                                    <p className="font-medium">{content?.mission_title || 'Our Mission'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Title</p>
+                                    <p className="text-xs font-medium sm:text-sm">{content?.mission_title || 'Our Mission'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Subtitle</p>
-                                    <p className="text-sm">{content?.mission_subtitle || 'Advancing sustainable construction...'}</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Subtitle</p>
+                                    <p className="text-xs sm:text-sm">{content?.mission_subtitle || 'What drives us forward...'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-muted-foreground text-sm">Mission Values</p>
-                                    <p className="text-sm">{content?.mission_items?.length || 0} mission values configured</p>
+                                    <p className="text-muted-foreground text-xs sm:text-sm">Items</p>
+                                    <p className="text-xs sm:text-sm">{content?.mission_items?.length || 0} mission values configured</p>
                                 </div>
                             </CardContent>
                         </Card>

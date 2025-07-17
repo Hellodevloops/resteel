@@ -110,27 +110,29 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
     };
 
     return (
-        <div className="space-y-6 p-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold tracking-tight">{isEditing ? 'Edit Site Settings' : 'Site Settings'}</h2>
-                    <p className="text-muted-foreground">Configure your website's core settings and preferences</p>
+        <div className="space-y-4 p-4 sm:space-y-6 sm:p-6">
+            {/* Header - Mobile Responsive */}
+            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                <div className="min-w-0 flex-1">
+                    <h2 className="truncate text-xl font-bold tracking-tight sm:text-2xl">{isEditing ? 'Edit Site Settings' : 'Site Settings'}</h2>
+                    <p className="text-muted-foreground truncate text-sm">Configure your website's core settings and preferences</p>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Contact Information */}
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                {/* Contact Information - Mobile Responsive */}
                 <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Phone className="mr-2 h-5 w-5" />
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="flex items-center text-base sm:text-lg">
+                            <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                             Contact Information
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-4 p-4 pt-0 sm:space-y-6 sm:p-6">
                         <div className="space-y-2">
-                            <Label htmlFor="contact_email">Contact Email *</Label>
+                            <Label htmlFor="contact_email" className="text-sm sm:text-base">
+                                Contact Email *
+                            </Label>
                             <div className="relative">
                                 <Mail className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                                 <Input
@@ -138,14 +140,14 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                                     type="email"
                                     value={data.contact_email}
                                     onChange={(e) => setData('contact_email', e.target.value)}
-                                    className="pl-10"
+                                    className="pl-10 text-sm sm:text-base"
                                     placeholder="contact@yourcompany.com"
                                     required
                                 />
                             </div>
-                            {errors.contact_email && <p className="text-sm text-red-600">{errors.contact_email}</p>}
+                            {errors.contact_email && <p className="text-xs text-red-600 sm:text-sm">{errors.contact_email}</p>}
                             {data.contact_email && !validateEmail(data.contact_email) && (
-                                <p className="flex items-center text-sm text-orange-600">
+                                <p className="flex items-center text-xs text-orange-600 sm:text-sm">
                                     <AlertCircle className="mr-1 h-3 w-3" />
                                     Please enter a valid email address
                                 </p>
@@ -153,20 +155,22 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="contact_phone">Contact Phone</Label>
+                            <Label htmlFor="contact_phone" className="text-sm sm:text-base">
+                                Contact Phone
+                            </Label>
                             <div className="relative">
                                 <Phone className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                                 <Input
                                     id="contact_phone"
                                     value={data.contact_phone}
                                     onChange={(e) => setData('contact_phone', e.target.value)}
-                                    className="pl-10"
+                                    className="pl-10 text-sm sm:text-base"
                                     placeholder="+1 (555) 123-4567"
                                 />
                             </div>
-                            {errors.contact_phone && <p className="text-sm text-red-600">{errors.contact_phone}</p>}
+                            {errors.contact_phone && <p className="text-xs text-red-600 sm:text-sm">{errors.contact_phone}</p>}
                             {data.contact_phone && !validatePhone(data.contact_phone) && (
-                                <p className="flex items-center text-sm text-orange-600">
+                                <p className="flex items-center text-xs text-orange-600 sm:text-sm">
                                     <AlertCircle className="mr-1 h-3 w-3" />
                                     Please enter a valid phone number
                                 </p>
@@ -174,163 +178,179 @@ export default function SiteSettingsForm({ settings, isEditing = false }: Props)
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="contact_address">Contact Address</Label>
+                            <Label htmlFor="contact_address" className="text-sm sm:text-base">
+                                Contact Address
+                            </Label>
                             <div className="relative">
                                 <MapPin className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
                                 <Textarea
                                     id="contact_address"
                                     value={data.contact_address}
                                     onChange={(e) => setData('contact_address', e.target.value)}
-                                    className="pl-10"
+                                    className="pl-10 text-sm sm:text-base"
                                     placeholder="123 Business Street, City, State, Country"
                                     rows={3}
                                 />
                             </div>
-                            {errors.contact_address && <p className="text-sm text-red-600">{errors.contact_address}</p>}
+                            {errors.contact_address && <p className="text-xs text-red-600 sm:text-sm">{errors.contact_address}</p>}
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* Social Media Links */}
+                {/* Social Media Links - Mobile Responsive */}
                 <Card className="rounded-sm">
-                    <CardHeader>
-                        <CardTitle className="flex items-center">
-                            <Link2 className="mr-2 h-5 w-5" />
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="flex items-center text-base sm:text-lg">
+                            <Link2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                             Social Media Links
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="social_twitter">Twitter/X</Label>
-                            <div className="relative">
-                                <Twitter className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_twitter"
-                                    type="url"
-                                    value={data.social_twitter}
-                                    onChange={(e) => setData('social_twitter', e.target.value)}
-                                    className="pl-10"
-                                    placeholder="https://twitter.com/yourusername"
-                                />
+                    <CardContent className="space-y-4 p-4 pt-0 sm:space-y-6 sm:p-6">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="social_twitter" className="text-sm sm:text-base">
+                                    Twitter/X
+                                </Label>
+                                <div className="relative">
+                                    <Twitter className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_twitter"
+                                        type="url"
+                                        value={data.social_twitter}
+                                        onChange={(e) => setData('social_twitter', e.target.value)}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://twitter.com/yourusername"
+                                    />
+                                </div>
+                                {errors.social_twitter && <p className="text-xs text-red-600 sm:text-sm">{errors.social_twitter}</p>}
                             </div>
-                            {errors.social_twitter && <p className="text-sm text-red-600">{errors.social_twitter}</p>}
-                        </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="social_instagram">Instagram</Label>
-                            <div className="relative">
-                                <Instagram className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_instagram"
-                                    type="url"
-                                    value={data.social_instagram}
-                                    onChange={(e) => setData('social_instagram', e.target.value)}
-                                    className="pl-10"
-                                    placeholder="https://instagram.com/yourusername"
-                                />
+                            <div className="space-y-2">
+                                <Label htmlFor="social_instagram" className="text-sm sm:text-base">
+                                    Instagram
+                                </Label>
+                                <div className="relative">
+                                    <Instagram className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_instagram"
+                                        type="url"
+                                        value={data.social_instagram}
+                                        onChange={(e) => setData('social_instagram', e.target.value)}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://instagram.com/yourusername"
+                                    />
+                                </div>
+                                {errors.social_instagram && <p className="text-xs text-red-600 sm:text-sm">{errors.social_instagram}</p>}
                             </div>
-                            {errors.social_instagram && <p className="text-sm text-red-600">{errors.social_instagram}</p>}
-                        </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="social_youtube">YouTube</Label>
-                            <div className="relative">
-                                <Youtube className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_youtube"
-                                    type="url"
-                                    value={data.social_youtube}
-                                    onChange={(e) => setData('social_youtube', e.target.value)}
-                                    className="pl-10"
-                                    placeholder="https://youtube.com/yourchannel"
-                                />
+                            <div className="space-y-2">
+                                <Label htmlFor="social_youtube" className="text-sm sm:text-base">
+                                    YouTube
+                                </Label>
+                                <div className="relative">
+                                    <Youtube className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_youtube"
+                                        type="url"
+                                        value={data.social_youtube}
+                                        onChange={(e) => setData('social_youtube', e.target.value)}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://youtube.com/yourchannel"
+                                    />
+                                </div>
+                                {errors.social_youtube && <p className="text-xs text-red-600 sm:text-sm">{errors.social_youtube}</p>}
                             </div>
-                            {errors.social_youtube && <p className="text-sm text-red-600">{errors.social_youtube}</p>}
-                        </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="social_facebook">Facebook</Label>
-                            <div className="relative">
-                                <Facebook className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_facebook"
-                                    type="url"
-                                    value={data.social_facebook}
-                                    onChange={(e) => setData('social_facebook', e.target.value)}
-                                    className="pl-10"
-                                    placeholder="https://facebook.com/yourpage"
-                                />
+                            <div className="space-y-2">
+                                <Label htmlFor="social_facebook" className="text-sm sm:text-base">
+                                    Facebook
+                                </Label>
+                                <div className="relative">
+                                    <Facebook className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_facebook"
+                                        type="url"
+                                        value={data.social_facebook}
+                                        onChange={(e) => setData('social_facebook', e.target.value)}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://facebook.com/yourpage"
+                                    />
+                                </div>
+                                {errors.social_facebook && <p className="text-xs text-red-600 sm:text-sm">{errors.social_facebook}</p>}
                             </div>
-                            {errors.social_facebook && <p className="text-sm text-red-600">{errors.social_facebook}</p>}
-                        </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="social_linkedin">LinkedIn</Label>
-                            <div className="relative">
-                                <Linkedin className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_linkedin"
-                                    type="url"
-                                    value={data.social_linkedin}
-                                    onChange={(e) => setData('social_linkedin', e.target.value)}
-                                    className="pl-10"
-                                    placeholder="https://linkedin.com/company/yourcompany"
-                                />
+                            <div className="space-y-2">
+                                <Label htmlFor="social_linkedin" className="text-sm sm:text-base">
+                                    LinkedIn
+                                </Label>
+                                <div className="relative">
+                                    <Linkedin className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_linkedin"
+                                        type="url"
+                                        value={data.social_linkedin}
+                                        onChange={(e) => setData('social_linkedin', e.target.value)}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://linkedin.com/company/yourcompany"
+                                    />
+                                </div>
+                                {errors.social_linkedin && <p className="text-xs text-red-600 sm:text-sm">{errors.social_linkedin}</p>}
                             </div>
-                            {errors.social_linkedin && <p className="text-sm text-red-600">{errors.social_linkedin}</p>}
-                        </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="social_website">Website</Label>
-                            <div className="relative">
-                                <Globe className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
-                                <Input
-                                    id="social_website"
-                                    type="url"
-                                    value={data.social_website}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        // Only normalize on blur to avoid disrupting typing
-                                        setData('social_website', value);
-                                    }}
-                                    onBlur={(e) => {
-                                        const value = e.target.value;
-                                        if (value && validateUrl(value)) {
-                                            setData('social_website', normalizeUrl(value));
-                                        }
-                                    }}
-                                    className="pl-10"
-                                    placeholder="https://www.yourwebsite.com"
-                                />
+                            <div className="space-y-2">
+                                <Label htmlFor="social_website" className="text-sm sm:text-base">
+                                    Website
+                                </Label>
+                                <div className="relative">
+                                    <Globe className="text-muted-foreground absolute top-3 left-3 h-4 w-4" />
+                                    <Input
+                                        id="social_website"
+                                        type="url"
+                                        value={data.social_website}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            // Only normalize on blur to avoid disrupting typing
+                                            setData('social_website', value);
+                                        }}
+                                        onBlur={(e) => {
+                                            const value = e.target.value;
+                                            if (value && validateUrl(value)) {
+                                                setData('social_website', normalizeUrl(value));
+                                            }
+                                        }}
+                                        className="pl-10 text-sm sm:text-base"
+                                        placeholder="https://www.yourwebsite.com"
+                                    />
+                                </div>
+                                {errors.social_website && <p className="text-xs text-red-600 sm:text-sm">{errors.social_website}</p>}
+                                {data.social_website && !validateUrl(data.social_website) && (
+                                    <p className="flex items-center text-xs text-orange-600 sm:text-sm">
+                                        <AlertCircle className="mr-1 h-3 w-3" />
+                                        Please enter a valid website URL (e.g., www.example.com or https://example.com)
+                                    </p>
+                                )}
                             </div>
-                            {errors.social_website && <p className="text-sm text-red-600">{errors.social_website}</p>}
-                            {data.social_website && !validateUrl(data.social_website) && (
-                                <p className="flex items-center text-sm text-orange-600">
-                                    <AlertCircle className="mr-1 h-3 w-3" />
-                                    Please enter a valid website URL (e.g., www.example.com or https://example.com)
-                                </p>
-                            )}
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* Form Actions */}
-                <div className="flex items-center justify-between">
-                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing}>
-                        <RefreshCw className="mr-2 h-4 w-4" />
+                {/* Form Actions - Mobile Responsive */}
+                <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                    <Button type="button" variant="outline" onClick={handleReset} disabled={processing} className="text-sm sm:text-base">
+                        <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                         Reset
                     </Button>
 
-                    <div className="flex gap-2">
-                        <Button type="submit" disabled={processing}>
+                    <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                        <Button type="submit" disabled={processing} className="text-sm sm:text-base">
                             {processing ? (
                                 <>
-                                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                                    <RefreshCw className="mr-2 h-3 w-3 animate-spin sm:h-4 sm:w-4" />
                                     Saving...
                                 </>
                             ) : (
                                 <>
-                                    <Save className="mr-2 h-4 w-4" />
+                                    <Save className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                     Save Settings
                                 </>
                             )}

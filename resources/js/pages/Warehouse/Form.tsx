@@ -14,18 +14,12 @@ type FormData = {
     name: string;
     location: string;
     status: 'active' | 'leased' | 'under_maintenance' | 'coming_soon' | 'inactive' | 'sale' | 'sold';
-    capacity: string;
-    occupied: string;
-    occupancy_rate: number;
     type: string;
     last_inspection: string;
-    revenue: string;
     alerts: number;
     description: string;
     construction: string;
     year_built: string;
-    price: string;
-    total_area: string;
     has_video: boolean;
     video_urls: string[];
     features: string[];
@@ -42,8 +36,6 @@ type FormData = {
     country: string;
     ceiling_height: string;
     floor_load_capacity: string;
-    number_of_loading_docks: number;
-    parking_spaces: number;
     security_features: string[];
     utilities: string[];
     certificates: string[];
@@ -67,18 +59,12 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         name: warehouse?.name || '',
         location: warehouse?.location || '',
         status: warehouse?.status || 'active',
-        capacity: warehouse?.capacity || '',
-        occupied: warehouse?.occupied || '',
-        occupancy_rate: warehouse?.occupancy_rate || 0,
         type: warehouse?.type || '',
         last_inspection: warehouse?.last_inspection ? formatDate(warehouse.last_inspection) : '',
-        revenue: warehouse?.revenue || '',
         alerts: warehouse?.alerts || 0,
         description: warehouse?.description || '',
         construction: warehouse?.construction || '',
         year_built: warehouse?.year_built || '',
-        price: warehouse?.price || '',
-        total_area: warehouse?.total_area || '',
         has_video: warehouse?.has_video || false,
         video_urls: warehouse?.video_urls?.filter((url): url is string => url !== null) || [''],
         features: warehouse?.features?.filter((feature): feature is string => feature !== null) || [''],
@@ -95,8 +81,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         country: warehouse?.country || '',
         ceiling_height: warehouse?.ceiling_height || '',
         floor_load_capacity: warehouse?.floor_load_capacity || '',
-        number_of_loading_docks: warehouse?.number_of_loading_docks || 0,
-        parking_spaces: warehouse?.parking_spaces || 0,
         security_features: warehouse?.security_features?.filter((feature): feature is string => feature !== null) || [''],
         utilities: warehouse?.utilities?.filter((utility): utility is string => utility !== null) || [''],
         certificates: warehouse?.certificates?.filter((cert): cert is string => cert !== null) || [''],
@@ -171,23 +155,8 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
         if (!data.type.trim()) newErrors.type = 'Building type is required';
 
         // Numeric fields
-        if (data.capacity && !validateNumber(data.capacity, 'capacity')) {
-            newErrors.capacity = 'Capacity must be a valid number';
-        }
-        if (data.occupied && !validateNumber(data.occupied, 'occupied')) {
-            newErrors.occupied = 'Occupied space must be a valid number';
-        }
-        if (data.occupancy_rate && !validateNumber(data.occupancy_rate, 'occupancy_rate')) {
-            newErrors.occupancy_rate = 'Occupancy rate must be between 0 and 100';
-        }
         if (data.alerts && !validateNumber(data.alerts, 'alerts')) {
             newErrors.alerts = 'Alerts must be a valid number';
-        }
-        if (data.number_of_loading_docks && !validateNumber(data.number_of_loading_docks, 'number_of_loading_docks')) {
-            newErrors.number_of_loading_docks = 'Number of loading docks must be a valid number';
-        }
-        if (data.parking_spaces && !validateNumber(data.parking_spaces, 'parking_spaces')) {
-            newErrors.parking_spaces = 'Parking spaces must be a valid number';
         }
 
         // Email validation
@@ -560,22 +529,24 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-4 sm:py-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">{isEditing ? 'Edit Warehouse' : 'Create New Warehouse'}</h1>
-                    <p className="mt-2 text-lg text-gray-600">
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-xl font-bold text-gray-900 sm:text-2xl lg:text-3xl">
+                        {isEditing ? 'Edit Warehouse' : 'Create New Warehouse'}
+                    </h1>
+                    <p className="mt-2 text-base text-gray-600 sm:text-lg">
                         {isEditing ? 'Update warehouse information and settings' : 'Add a new warehouse to your inventory management system'}
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                     {/* General Error Message */}
                     {Object.keys(errors).length > 0 && (
-                        <div className="rounded-xl border border-red-200 bg-red-50 p-6 shadow-sm">
+                        <div className="rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm sm:p-6">
                             <div className="flex">
                                 <div className="flex-shrink-0">
-                                    <svg className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg className="h-5 w-5 text-red-500 sm:h-6 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
                                         <path
                                             fillRule="evenodd"
                                             d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
@@ -584,18 +555,26 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     </svg>
                                 </div>
                                 <div className="ml-3">
-                                    <h3 className="text-base font-semibold text-red-800">Form Validation Errors</h3>
-                                    <p className="mt-1 text-sm text-red-700">{'Please correct the errors in the form before proceeding'}</p>
+                                    <h3 className="text-sm font-semibold text-red-800 sm:text-base">Form Validation Errors</h3>
+                                    <p className="mt-1 text-xs text-red-700 sm:text-sm">
+                                        {'Please correct the errors in the form before proceeding'}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     )}
 
                     {/* Basic Information Card */}
-                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
-                        <div className="mb-6 flex items-center">
+                    <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-lg sm:p-6 lg:p-8">
+                        <div className="mb-4 flex items-center sm:mb-6">
                             <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
-                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    className="h-5 w-5 sm:h-6 sm:w-6"
+                                    style={{ color: steelBlue }}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -604,11 +583,11 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     />
                                 </svg>
                             </div>
-                            <h2 className="ml-4 text-xl font-bold text-gray-900">Basic Information</h2>
+                            <h2 className="ml-3 text-lg font-bold text-gray-900 sm:ml-4 sm:text-xl">Basic Information</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            <div className="space-y-6">
+                        <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
+                            <div className="space-y-4 sm:space-y-6">
                                 <div>
                                     <label htmlFor="name" className="mb-2 block text-sm font-semibold text-gray-700">
                                         Warehouse Name *
@@ -618,7 +597,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         type="text"
                                         value={data.name}
                                         onChange={(e) => setData('name', e.target.value)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-3 py-2 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none sm:px-4 sm:py-3 ${
                                             errors.name
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -648,7 +627,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         type="text"
                                         value={data.location}
                                         onChange={(e) => setData('location', e.target.value)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-3 py-2 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none sm:px-4 sm:py-3 ${
                                             errors.location
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -692,7 +671,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         id="status"
                                         value={data.status}
                                         onChange={(e) => setData('status', e.target.value as FormData['status'])}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-3 py-2 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none sm:px-4 sm:py-3 ${
                                             errors.status
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -714,7 +693,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         id="type"
                                         value={data.type}
                                         onChange={(e) => setData('type', e.target.value)}
-                                        className={`block w-full rounded-xl border-2 px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none ${
+                                        className={`block w-full rounded-xl border-2 px-3 py-2 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none sm:px-4 sm:py-3 ${
                                             errors.type
                                                 ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
                                                 : 'border-gray-200 focus:border-[#0076A8] focus:ring-4 focus:ring-blue-100'
@@ -748,29 +727,14 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                             type="checkbox"
                                             checked={data.has_video}
                                             onChange={(e) => setData('has_video', e.target.checked)}
-                                            className="rounded border-gray-300 text-[#0076A8] shadow-sm focus:border-[#0076A8] focus:ring-[#0076A8]"
+                                            className="h-4 w-4 rounded border-gray-300 text-[#0076A8] focus:ring-[#0076A8]"
                                         />
-                                        <span className="ml-2 text-sm text-gray-700">Has Video Content</span>
+                                        <span className="ml-2 text-sm font-medium text-gray-700">Has Video Content</span>
                                     </label>
                                 </div>
                             </div>
 
-                            <div className="space-y-6">
-                                <div>
-                                    {errors.last_inspection && (
-                                        <p className="mt-2 flex items-center text-sm text-red-600">
-                                            <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                            {errors.last_inspection}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                            <div className="space-y-4 sm:space-y-6"></div>
                         </div>
                     </div>
 
@@ -905,96 +869,6 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         </p>
                                     )}
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Financial Information Card */}
-                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
-                        <div className="mb-6 flex items-center">
-                            <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
-                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                                    />
-                                </svg>
-                            </div>
-                            <h2 className="ml-4 text-xl font-bold text-gray-900">Financial Information</h2>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                            <div>
-                                {errors.price && (
-                                    <p className="mt-2 flex items-center text-sm text-red-600">
-                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        {errors.price}
-                                    </p>
-                                )}
-                            </div>
-
-                            <div>
-                                {errors.revenue && (
-                                    <p className="mt-2 flex items-center text-sm text-red-600">
-                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        {errors.revenue}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="mt-8">
-                            <div className="md:col-span-2 lg:col-span-1">
-                                <label htmlFor="total_area" className="mb-2 block text-sm font-semibold text-gray-700">
-                                    Total Area
-                                </label>
-                                <div className="flex rounded-xl border-2 border-gray-200 focus-within:border-[#0076A8] focus-within:ring-4 focus-within:ring-blue-100">
-                                    <input
-                                        id="total_area"
-                                        type="text"
-                                        value={data.total_area}
-                                        onChange={(e) => setData('total_area', e.target.value)}
-                                        className="block w-full rounded-l-xl border-0 px-4 py-3 text-gray-900 placeholder-gray-500 focus:ring-0 focus:outline-none"
-                                        placeholder="Enter area"
-                                    />
-                                    <div className="flex items-center rounded-r-xl border-l border-gray-200 bg-gray-50 px-3">
-                                        <select
-                                            value={data.unit_of_measurement}
-                                            onChange={(e) => setData('unit_of_measurement', e.target.value)}
-                                            className="border-0 bg-transparent text-gray-500 focus:ring-0"
-                                        >
-                                            <option value="m²">m²</option>
-                                            <option value="ft²">ft²</option>
-                                            <option value="sqm">sqm</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                {errors.total_area && (
-                                    <p className="mt-2 flex items-center text-sm text-red-600">
-                                        <svg className="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                        {errors.total_area}
-                                    </p>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -1240,10 +1114,16 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                     </div>
 
                     {/* Images Card */}
-                    <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
-                        <div className="mb-6 flex items-center">
+                    <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-lg sm:p-6 lg:p-8">
+                        <div className="mb-4 flex items-center sm:mb-6">
                             <div className="rounded-lg p-2" style={{ backgroundColor: `${steelBlue}15` }}>
-                                <svg className="h-6 w-6" style={{ color: steelBlue }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg
+                                    className="h-5 w-5 sm:h-6 sm:w-6"
+                                    style={{ color: steelBlue }}
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -1252,29 +1132,29 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                     />
                                 </svg>
                             </div>
-                            <h2 className="ml-4 text-xl font-bold text-gray-900">Images</h2>
+                            <h2 className="ml-3 text-lg font-bold text-gray-900 sm:ml-4 sm:text-xl">Images</h2>
                         </div>
 
                         <div className="space-y-8">
                             <div>
-                                <h3 className="mb-4 text-lg font-semibold text-gray-900">Main Cover Image</h3>
-                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                <h3 className="mb-4 text-base font-semibold text-gray-900 sm:text-lg">Main Cover Image</h3>
+                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-4 pt-4 pb-4 sm:px-6 sm:pt-5 sm:pb-6">
                                     <div className="space-y-1 text-center">
                                         {imagePreview ? (
                                             <div className="relative">
-                                                <img src={imagePreview} alt="Preview" className="mb-3 h-40 w-auto rounded-md object-cover" />
+                                                <img src={imagePreview} alt="Preview" className="mb-3 h-32 w-auto rounded-md object-cover sm:h-40" />
                                                 <button
                                                     type="button"
                                                     onClick={handleRemoveMainImage}
                                                     className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                                                 >
-                                                    <X className="h-4 w-4" />
+                                                    <X className="h-3 w-3 sm:h-4 sm:w-4" />
                                                 </button>
                                             </div>
                                         ) : (
                                             <>
                                                 <svg
-                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                    className="mx-auto h-8 w-8 text-gray-400 sm:h-12 sm:w-12"
                                                     stroke="currentColor"
                                                     fill="none"
                                                     viewBox="0 0 48 48"
@@ -1287,7 +1167,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                         strokeLinejoin="round"
                                                     />
                                                 </svg>
-                                                <div className="flex text-sm text-gray-600">
+                                                <div className="flex flex-col text-xs text-gray-600 sm:flex-row sm:text-sm">
                                                     <label
                                                         htmlFor="cover-image"
                                                         className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
@@ -1303,7 +1183,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                             onChange={handleImageChange}
                                                         />
                                                     </label>
-                                                    <p className="pl-1">or drag and drop</p>
+                                                    <p className="sm:pl-1">or drag and drop</p>
                                                 </div>
                                                 <p className="text-xs text-gray-500">PNG, JPG, GIF, AVIF up to 10MB</p>
                                             </>
@@ -1325,46 +1205,46 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                             </div>
 
                             <div>
-                                <div className="mb-4 flex items-center justify-between">
-                                    <h3 className="text-lg font-semibold text-gray-900">Additional Images</h3>
+                                <div className="mb-4 flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                                    <h3 className="text-base font-semibold text-gray-900 sm:text-lg">Additional Images</h3>
                                     {(imagePreviews.length > 0 ||
                                         (isEditing && warehouse?.additional_images && warehouse.additional_images.length > 0)) && (
                                         <button
                                             type="button"
                                             onClick={handleRemoveAdditionalImages}
-                                            className="rounded-lg bg-red-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-red-600"
+                                            className="w-full rounded-lg bg-red-500 px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-red-600 sm:w-auto"
                                         >
                                             Remove All
                                         </button>
                                     )}
                                 </div>
-                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                <div className="flex justify-center rounded-xl border-2 border-dashed border-gray-300 px-4 pt-4 pb-4 sm:px-6 sm:pt-5 sm:pb-6">
                                     <div className="space-y-1 text-center">
                                         {imagePreviews.length > 0 ? (
-                                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
                                                 {imagePreviews.map((preview, idx) => (
                                                     <div key={idx} className="relative">
                                                         <img
                                                             src={preview}
                                                             alt={`Preview ${idx + 1}`}
-                                                            className="h-32 w-full rounded-md object-cover"
+                                                            className="h-24 w-full rounded-md object-cover sm:h-32"
                                                         />
                                                         <button
                                                             type="button"
                                                             onClick={() => handleRemoveIndividualImage(idx)}
                                                             className="absolute -top-2 -right-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
                                                         >
-                                                            <X className="h-4 w-4" />
+                                                            <X className="h-3 w-3 sm:h-4 sm:w-4" />
                                                         </button>
                                                     </div>
                                                 ))}
-                                                <div className="flex h-32 flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300">
+                                                <div className="flex h-24 flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 sm:h-32">
                                                     <label
                                                         htmlFor="additional-images"
                                                         className="relative flex cursor-pointer flex-col items-center justify-center text-center"
                                                     >
-                                                        <Plus className="h-8 w-8 text-gray-400" />
-                                                        <span className="mt-2 block text-sm font-medium text-[#0076A8]">Add More</span>
+                                                        <Plus className="h-6 w-6 text-gray-400 sm:h-8 sm:w-8" />
+                                                        <span className="mt-2 block text-xs font-medium text-[#0076A8] sm:text-sm">Add More</span>
                                                         <input
                                                             id="additional-images"
                                                             name="additional-images"
@@ -1381,7 +1261,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                         ) : (
                                             <>
                                                 <svg
-                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                    className="mx-auto h-8 w-8 text-gray-400 sm:h-12 sm:w-12"
                                                     stroke="currentColor"
                                                     fill="none"
                                                     viewBox="0 0 48 48"
@@ -1394,7 +1274,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                         strokeLinejoin="round"
                                                     />
                                                 </svg>
-                                                <div className="flex text-sm text-gray-600">
+                                                <div className="flex flex-col text-xs text-gray-600 sm:flex-row sm:text-sm">
                                                     <label
                                                         htmlFor="additional-images"
                                                         className="relative cursor-pointer rounded-md bg-white font-medium text-[#0076A8] focus-within:ring-2 focus-within:ring-[#0076A8] focus-within:ring-offset-2 focus-within:outline-none hover:text-[#FF6A1C]"
@@ -1411,7 +1291,7 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                                             onChange={handleMultipleImagesChange}
                                                         />
                                                     </label>
-                                                    <p className="pl-1">or drag and drop</p>
+                                                    <p className="sm:pl-1">or drag and drop</p>
                                                 </div>
                                                 <p className="text-xs text-gray-500">PNG, JPG, GIF, AVIF up to 10MB each</p>
                                             </>
@@ -1434,18 +1314,18 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                         </div>
                     </div>
 
-                    <div className="flex justify-end pt-6">
+                    <div className="flex justify-center pt-4 sm:justify-end sm:pt-6">
                         <button
                             type="submit"
                             disabled={processing}
                             style={{ backgroundColor: steelBlue }}
-                            className="inline-flex items-center rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl focus:ring-4 focus:ring-blue-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
+                            className="inline-flex w-full items-center justify-center rounded-xl px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl focus:ring-4 focus:ring-blue-200 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005a87')}
                             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = steelBlue)}
                         >
                             {processing ? (
                                 <>
-                                    <svg className="mr-3 h-5 w-5 animate-spin text-white" viewBox="0 0 24 24">
+                                    <svg className="mr-2 h-4 w-4 animate-spin text-white sm:mr-3 sm:h-5 sm:w-5" viewBox="0 0 24 24">
                                         <circle
                                             className="opacity-25"
                                             cx="12"
@@ -1461,12 +1341,19 @@ export default function WarehouseForm({ warehouse, isEditing = false }: Props) {
                                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                         ></path>
                                     </svg>
-                                    Saving...
+                                    <span className="hidden sm:inline">Saving...</span>
+                                    <span className="sm:hidden">Saving</span>
                                 </>
                             ) : isEditing ? (
-                                'Update Warehouse'
+                                <>
+                                    <span className="hidden sm:inline">Update Warehouse</span>
+                                    <span className="sm:hidden">Update</span>
+                                </>
                             ) : (
-                                'Create Warehouse'
+                                <>
+                                    <span className="hidden sm:inline">Create Warehouse</span>
+                                    <span className="sm:hidden">Create</span>
+                                </>
                             )}
                         </button>
                     </div>

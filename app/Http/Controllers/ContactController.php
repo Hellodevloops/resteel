@@ -76,6 +76,17 @@ class ContactController extends Controller
             'last_contact' => now(),
         ]);
 
+        // Check if this is a public submission (from website) or admin submission
+        if ($request->expectsJson()) {
+            // This is likely a public submission from the website contact form
+            return response()->json([
+                'success' => true,
+                'message' => 'Thank you for your message! We will get back to you soon.',
+                'contact_id' => $contact->id
+            ]);
+        }
+
+        // This is an admin submission, redirect to admin contacts index
         return Redirect::route('admin.contacts.index')
             ->with('success', 'Contact created successfully.');
     }

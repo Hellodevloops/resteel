@@ -590,7 +590,7 @@ const BuildingDetails = () => {
                             <p className="mb-6 text-orange-100">{t('interested_text')}</p>
                             <div className="flex flex-col justify-center gap-4 sm:flex-row">
                                 <Button size="lg" variant="secondary" className="bg-white text-orange-600 hover:bg-gray-100" asChild>
-                                    <Link href="/contacts">
+                                    <Link href="/contact">
                                         <Phone className="mr-2 h-4 w-4" />
                                         {t('contact_us')}
                                     </Link>

@@ -27,10 +27,10 @@ export default function Edit({ warehouse }: Props) {
                 {/* Header */}
 
                 {/* Main Content */}
-                <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                    <div className="px-4 py-6 sm:px-0">
+                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+                    <div className="px-0 py-4 sm:px-0 sm:py-6">
                         <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm">
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 <WarehouseForm warehouse={warehouse} isEditing />
                             </div>
                         </div>

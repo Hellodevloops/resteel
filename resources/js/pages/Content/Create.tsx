@@ -6,7 +6,9 @@ export default function Create() {
     return (
         <AppLayout>
             <Head title="Create Content - Admin" />
-            <ContentForm isEditing={false} />
+            <div className="bg-background min-h-screen">
+                <ContentForm isEditing={false} />
+            </div>
         </AppLayout>
     );
 }

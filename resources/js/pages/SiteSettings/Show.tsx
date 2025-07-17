@@ -82,27 +82,27 @@ const Show = ({ settings }: Props) => {
             <Head title="Site Settings - Admin" />
 
             <div className="bg-background min-h-screen">
-                {/* Header */}
+                {/* Header - Mobile Responsive */}
                 <div className="bg-background border-b">
-                    <div className="container mx-auto px-6 py-6">
-                        <div className="flex items-center justify-between">
+                    <div className="container mx-auto px-4 py-4 sm:px-6 sm:py-6">
+                        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                             <div className="flex items-center space-x-3">
                                 <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-sm">
                                     <Settings className="text-primary-foreground h-5 w-5" />
                                 </div>
-                                <div>
-                                    <h1 className="text-xl font-semibold">Site Settings</h1>
-                                    <p className="text-muted-foreground text-sm">Current website configuration and settings</p>
+                                <div className="min-w-0 flex-1">
+                                    <h1 className="truncate text-lg font-semibold sm:text-xl">Site Settings</h1>
+                                    <p className="text-muted-foreground truncate text-xs sm:text-sm">Current website configuration and settings</p>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <Button variant="outline" className="rounded-sm">
-                                    <RefreshCw className="mr-2 h-4 w-4" />
+                            <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                                <Button variant="outline" className="rounded-sm text-xs sm:text-sm">
+                                    <RefreshCw className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                     Refresh
                                 </Button>
-                                <Button asChild className="rounded-sm">
+                                <Button asChild className="rounded-sm text-xs sm:text-sm">
                                     <Link href="/admin/settings/edit">
-                                        <Edit3 className="mr-2 h-4 w-4" />
+                                        <Edit3 className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                         Edit Settings
                                     </Link>
                                 </Button>
@@ -111,162 +111,94 @@ const Show = ({ settings }: Props) => {
                     </div>
                 </div>
 
-                {/* Main Content */}
-                <div className="container mx-auto space-y-6 px-6 py-6">
-                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                        {/* Company Information */}
-                        {/* <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Building className="mr-2 h-5 w-5" />
-                                    Company Information
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Company Name</p>
-                                    <p className="font-medium">{currentSettings.company_name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Tagline</p>
-                                    <p className="font-medium">{currentSettings.company_tagline}</p>
-                                </div>
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Description</p>
-                                    <p className="text-sm font-medium">{currentSettings.company_description}</p>
-                                </div>
-                                <div>
-                                    <p className="text-muted-foreground text-sm">Tax Rate</p>
-                                    <p className="font-medium">{currentSettings.tax_rate}%</p>
-                                </div>
-                            </CardContent>
-                        </Card> */}
-
-                        {/* Contact Information */}
+                {/* Main Content - Mobile Responsive */}
+                <div className="container mx-auto space-y-4 px-4 py-4 sm:space-y-6 sm:px-6 sm:py-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
+                        {/* Contact Information - Mobile Responsive */}
                         <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Phone className="mr-2 h-5 w-5" />
+                            <CardHeader className="p-4 sm:p-6">
+                                <CardTitle className="flex items-center text-base sm:text-lg">
+                                    <Phone className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                                     Contact Information
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="space-y-3">
-                                    <div className="flex items-center space-x-2">
-                                        <Mail className="text-muted-foreground h-4 w-4" />
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Email</p>
-                                            <p className="font-medium">{currentSettings.contact_email}</p>
+                            <CardContent className="space-y-3 p-4 pt-0 sm:space-y-4 sm:p-6">
+                                <div className="space-y-3 sm:space-y-4">
+                                    <div className="flex items-start space-x-2 sm:space-x-3">
+                                        <Mail className="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-muted-foreground text-xs sm:text-sm">Email</p>
+                                            <p className="truncate text-sm font-medium sm:text-base">{currentSettings.contact_email}</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center space-x-2">
-                                        <Phone className="text-muted-foreground h-4 w-4" />
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Phone</p>
-                                            <p className="font-medium">{currentSettings.contact_phone}</p>
+                                    <div className="flex items-start space-x-2 sm:space-x-3">
+                                        <Phone className="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-muted-foreground text-xs sm:text-sm">Phone</p>
+                                            <p className="truncate text-sm font-medium sm:text-base">{currentSettings.contact_phone}</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start space-x-2">
-                                        <MapPin className="text-muted-foreground mt-1 h-4 w-4" />
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Address</p>
-                                            <p className="font-medium">{currentSettings.contact_address}</p>
+                                    <div className="flex items-start space-x-2 sm:space-x-3">
+                                        <MapPin className="text-muted-foreground mt-0.5 h-4 w-4 flex-shrink-0" />
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-muted-foreground text-xs sm:text-sm">Address</p>
+                                            <p className="text-sm font-medium break-words sm:text-base">{currentSettings.contact_address}</p>
                                         </div>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
 
-                        {/* Shipping Settings */}
-                        {/* <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Truck className="mr-2 h-5 w-5" />
-                                    Shipping Settings
+                        {/* Company Information - Mobile Responsive */}
+                        <Card className="rounded-sm">
+                            <CardHeader className="p-4 sm:p-6">
+                                <CardTitle className="flex items-center text-base sm:text-lg">
+                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                                    Company Information
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <p className="text-muted-foreground text-sm">Shipping Enabled</p>
-                                    <Badge variant={currentSettings.shipping_enabled ? 'default' : 'secondary'}>
-                                        {currentSettings.shipping_enabled ? 'Enabled' : 'Disabled'}
-                                    </Badge>
-                                </div>
-                                {currentSettings.shipping_enabled && (
-                                    <>
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Shipping Rate</p>
-                                            <p className="font-medium">${currentSettings.shipping_rate}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Free Shipping Threshold</p>
-                                            <p className="font-medium">${currentSettings.free_shipping_threshold}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-muted-foreground text-sm">Shipping Zones</p>
-                                            <div className="mt-1 flex flex-wrap gap-2">
-                                                {currentSettings.shipping_zones.map((zone, index) => (
-                                                    <Badge key={index} variant="outline">
-                                                        {zone}
-                                                    </Badge>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
-                            </CardContent>
-                        </Card> */}
-
-                        {/* Notification Settings */}
-                        {/* <Card className="rounded-sm">
-                            <CardHeader>
-                                <CardTitle className="flex items-center">
-                                    <Mail className="mr-2 h-5 w-5" />
-                                    Notification Settings
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <p className="text-muted-foreground text-sm">Email Notifications</p>
-                                    <Badge variant={currentSettings.email_notifications ? 'default' : 'secondary'}>
-                                        {currentSettings.email_notifications ? 'Enabled' : 'Disabled'}
-                                    </Badge>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <p className="text-muted-foreground text-sm">Order Notifications</p>
-                                    <Badge variant={currentSettings.order_notifications ? 'default' : 'secondary'}>
-                                        {currentSettings.order_notifications ? 'Enabled' : 'Disabled'}
-                                    </Badge>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                    <p className="text-muted-foreground text-sm">Contact Form Notifications</p>
-                                    <Badge variant={currentSettings.contact_form_notifications ? 'default' : 'secondary'}>
-                                        {currentSettings.contact_form_notifications ? 'Enabled' : 'Disabled'}
-                                    </Badge>
+                            <CardContent className="space-y-3 p-4 pt-0 sm:space-y-4 sm:p-6">
+                                <div className="space-y-3 sm:space-y-4">
+                                    <div>
+                                        <p className="text-muted-foreground text-xs sm:text-sm">Company Name</p>
+                                        <p className="truncate text-sm font-medium sm:text-base">{currentSettings.company_name}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-muted-foreground text-xs sm:text-sm">Tagline</p>
+                                        <p className="text-sm font-medium break-words sm:text-base">{currentSettings.company_tagline}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-muted-foreground text-xs sm:text-sm">Description</p>
+                                        <p className="text-sm font-medium break-words sm:text-base">{currentSettings.company_description}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-muted-foreground text-xs sm:text-sm">Tax Rate</p>
+                                        <p className="text-sm font-medium sm:text-base">{currentSettings.tax_rate}%</p>
+                                    </div>
                                 </div>
                             </CardContent>
-                        </Card> */}
+                        </Card>
                     </div>
 
-                    {/* Social Media Links */}
+                    {/* Social Media Links - Mobile Responsive */}
                     <Card className="rounded-sm">
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <Link2 className="mr-2 h-5 w-5" />
+                        <CardHeader className="p-4 sm:p-6">
+                            <CardTitle className="flex items-center text-base sm:text-lg">
+                                <Link2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                                 Social Media Links
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <CardContent className="p-4 pt-0 sm:p-6">
+                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                                 {socialPlatforms.map((platform) => {
                                     const Icon = platform.icon;
                                     return (
-                                        <div key={platform.name} className="flex items-center space-x-3 rounded-md border p-3">
-                                            <Icon className={`h-5 w-5 ${platform.color}`} />
+                                        <div key={platform.name} className="flex items-center space-x-3 rounded-md border p-3 sm:p-4">
+                                            <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${platform.color} flex-shrink-0`} />
                                             <div className="min-w-0 flex-1">
-                                                <p className="text-sm font-medium">{platform.name}</p>
+                                                <p className="truncate text-xs font-medium sm:text-sm">{platform.name}</p>
                                                 {platform.url ? (
                                                     <a
                                                         href={platform.url}
