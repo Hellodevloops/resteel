@@ -2,7 +2,7 @@ import Header from '@/components/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import axios from 'axios';
-import { Building, Building2, Eye, Factory, Play, SquareStack, Warehouse } from 'lucide-react';
+import { Building, Building2, Eye, Factory, Play, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
@@ -101,7 +101,7 @@ const Buildings = () => {
         { id: 'all', label: t('all_buildings'), icon: Building2 },
         { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
         { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
-        { id: 'other', label: t('other'), icon: SquareStack },
+        // { id: 'other', label: t('other'), icon: SquareStack },
         // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
@@ -398,7 +398,7 @@ const Buildings = () => {
                     {/* Enhanced Filter Section */}
                     <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8">
                         <div className="mb-6 flex justify-center sm:mb-8">
-                            <div className="grid w-full max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
+                            <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
                                 {buildingTypes.map((type) => (
                                     <button
                                         key={type.id}

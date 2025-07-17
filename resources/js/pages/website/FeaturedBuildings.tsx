@@ -1,10 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Eye, Play, Ruler, Square, Warehouse } from 'lucide-react';
+import { ArrowRight, Building2, Eye, Factory, Play, Ruler, Square, Warehouse } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -56,12 +55,14 @@ const charcoal = '#3C3F48';
 const FeaturedBuildings = () => {
     const { t } = useTranslation();
     const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+    const [filter, setFilter] = useState('all');
 
     const buildingTypes = [
-        { id: 'all', label: t('all_buildings') },
-        { id: 'warehouses', label: t('warehouses') },
-        { id: 'steelconstructions', label: t('steel_constructions') },
-        { id: 'other', label: t('other') },
+        { id: 'all', label: t('all_buildings'), icon: Building2 },
+        { id: 'warehouses', label: t('warehouses'), icon: Warehouse },
+        { id: 'steelconstructions', label: t('steel_constructions'), icon: Factory },
+        // { id: 'other', label: t('other'), icon: SquareStack },
+        // { id: 'industrial', label: t('industrial'), icon: SquareStack },
     ];
 
     useEffect(() => {
@@ -240,7 +241,7 @@ const FeaturedBuildings = () => {
     );
 
     return (
-        <section className="bg-slate-200/80 py-8 sm:py-12 lg:py-16">
+        <section className="bg-slate-200/80 py-8 sm:py-12">
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -256,54 +257,49 @@ const FeaturedBuildings = () => {
                     </h2>
                     <p className="mx-auto mt-2 max-w-2xl text-sm text-gray-600 sm:mt-3 sm:text-base lg:text-lg">{t('featured_buildings_subtitle')}</p>
                 </motion.div>
-                <Tabs defaultValue="all" className="w-full">
-                    {/* Mobile-first responsive tabs */}
-                    <div className="mb-4 flex justify-center sm:mb-6">
-                        <TabsList className="grid w-full max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
-                            {buildingTypes.map((type) => (
-                                <TabsTrigger
-                                    key={type.id}
-                                    value={type.id}
-                                    className="flex min-h-[36px] items-center justify-center rounded-md px-2 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white sm:min-h-[40px] sm:px-4 sm:py-2 sm:text-sm lg:px-10 lg:py-2.5 lg:text-base"
-                                >
-                                    <span className="truncate text-center">{type.label}</span>
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
+                {/* Enhanced Filter Section */}
+                <div className="mb-4 flex justify-center sm:mb-6">
+                    <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
+                        {buildingTypes.map((type) => (
+                            <button
+                                key={type.id}
+                                onClick={() => setFilter(type.id)}
+                                className={`flex min-h-[36px] items-center justify-center rounded-md px-2 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-300 sm:min-h-[40px] sm:px-4 sm:py-2 sm:text-sm lg:px-10 lg:py-2.5 lg:text-base ${
+                                    filter === type.id ? 'bg-orange-500 text-white' : ''
+                                }`}
+                            >
+                                <span className="truncate text-center">{type.label}</span>
+                            </button>
+                        ))}
                     </div>
+                </div>
 
-                    {/* Rest of the TabsContent remains the same */}
-                    {buildingTypes.map((type) => {
-                        const filtered = type.id === 'all' ? warehouses : warehouses.filter((b) => b.type === type.id);
-
-                        return (
-                            <TabsContent key={type.id} value={type.id} className="mt-6 sm:mt-8">
-                                <AnimatePresence mode="wait">
-                                    <motion.div
-                                        key={type.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -20 }}
-                                        transition={{ duration: 0.4 }}
-                                        className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
-                                    >
-                                        {filtered.length > 0 ? (
-                                            filtered.slice(0, 6).map((building) => <BuildingCard key={building.id} building={building} />)
-                                        ) : (
-                                            <div className="col-span-full py-12 text-center sm:py-16">
-                                                <div className="text-4xl opacity-50 sm:text-6xl">🏗️</div>
-                                                <h3 className="mt-3 text-lg font-semibold text-gray-900 sm:mt-4 sm:text-xl">
-                                                    {t('no_buildings_found')}
-                                                </h3>
-                                                <p className="mt-1 text-sm text-gray-600 sm:mt-2 sm:text-base">{t('check_back_later')}</p>
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                </AnimatePresence>
-                            </TabsContent>
-                        );
-                    })}
-                </Tabs>
+                {/* Content Section */}
+                <div className="mt-6 sm:mt-8">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={filter}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.4 }}
+                            className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+                        >
+                            {(() => {
+                                const filtered = filter === 'all' ? warehouses : warehouses.filter((b) => b.type === filter);
+                                return filtered.length > 0 ? (
+                                    filtered.slice(0, 6).map((building) => <BuildingCard key={building.id} building={building} />)
+                                ) : (
+                                    <div className="col-span-full py-12 text-center sm:py-16">
+                                        <div className="text-4xl opacity-50 sm:text-6xl">🏗️</div>
+                                        <h3 className="mt-3 text-lg font-semibold text-gray-900 sm:mt-4 sm:text-xl">{t('no_buildings_found')}</h3>
+                                        <p className="mt-1 text-sm text-gray-600 sm:mt-2 sm:text-base">{t('check_back_later')}</p>
+                                    </div>
+                                );
+                            })()}
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
 
                 {/* View All Button */}
                 <div className="mt-8 text-center sm:mt-12">
