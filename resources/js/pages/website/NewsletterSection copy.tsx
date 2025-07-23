@@ -19,13 +19,7 @@ const NewsletterSection = () => {
                     {/* Newsletter Form */}
                     <div className="mx-auto max-w-2xl">
                         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-8">
-                            <form
-                                action="https://devloops.us17.list-manage.com/subscribe/post?u=a0091f78f874cb693028bc8d9&amp;id=997de3977b"
-                                method="post"
-                                target="_blank"
-                                noValidate
-                                className="flex flex-col gap-4 sm:flex-row sm:gap-3"
-                            >
+                            <form method="post" target="_blank" noValidate className="flex flex-col gap-4 sm:flex-row sm:gap-3">
                                 <div className="relative flex-1">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                         <Mail className="h-5 w-5 text-slate-400" />

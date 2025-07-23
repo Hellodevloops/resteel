@@ -168,16 +168,16 @@ const ContactCTA = ({ siteSettings }: ContactCTAProps) => {
     };
 
     return (
-        <section id="contact-section" className="bg-slate-200/80 px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-12 lg:mt-4 lg:px-8 lg:py-16 xl:py-20">
+        <section id="contact-section" className="bg-slate-200/80 px-3 py-6 sm:px-4 sm:py-8 md:px-6 md:py-12 lg:mt-0 lg:px-8 lg:py-16 xl:py-20">
             <div className="mx-auto max-w-7xl space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
                 {/* Hero Section */}
                 <div className="space-y-3 text-center sm:space-y-4 md:space-y-6">
-                    <span
+                    {/* <span
                         className="inline-block rounded-full px-2.5 py-1 text-xs font-medium sm:px-3 sm:text-sm"
                         style={{ backgroundColor: `${steelBlue}20`, color: steelBlue }}
                     >
                         {t('expert_consultation')}
-                    </span>
+                    </span> */}
                     <h2
                         className="text-xl leading-tight font-bold sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl"
                         style={{ color: charcoal }}
