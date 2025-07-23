@@ -213,9 +213,9 @@ const Buildings = () => {
         const statusDisplay = formatStatusDisplay(building.status);
 
         return (
-            <div className="flex h-full flex-col rounded-xl bg-white p-3 shadow-md transition-all hover:shadow-lg sm:p-4 sm:pt-10">
-                {/* Image Container with Fixed Height */}
-                <div className="relative mb-3 h-40 w-full overflow-hidden rounded-md sm:mb-4 sm:h-48">
+            <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg">
+                {/* Image Container with Full Width - No Padding */}
+                <div className="relative h-40 w-full overflow-hidden sm:h-48">
                     <img src={building.image} alt={building.title} className="h-full w-full object-cover" />
                     {/* Status Badge */}
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
@@ -237,8 +237,8 @@ const Buildings = () => {
                     )}
                 </div>
 
-                {/* Content Container with Flex Grow */}
-                <div className="flex flex-grow flex-col">
+                {/* Content Container with Padding */}
+                <div className="flex flex-grow flex-col p-3 sm:p-4">
                     {/* Title with Fixed Height */}
                     <div className="mb-2 min-h-[2rem] sm:min-h-[2.5rem]">
                         <h3 className="line-clamp-2 text-base font-bold sm:text-lg">{truncateText(building.title, truncation.title)}</h3>
@@ -290,7 +290,6 @@ const Buildings = () => {
             </div>
         );
     };
-
     if (loading) {
         return (
             <Layout title={`Resteel | ${t('hero_title')}`}>

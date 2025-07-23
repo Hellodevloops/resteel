@@ -56,6 +56,29 @@ const getStatusStyles = (status: string) => {
     }
 };
 
+// Helper to format status labels
+const formatStatusLabel = (status: string, t: (key: string) => string): string => {
+    switch (status.toUpperCase()) {
+        case 'SALE':
+            return t('sale').toUpperCase();
+        case 'SOLD':
+            return t('sold').toUpperCase();
+        case 'COMING_SOON':
+            return 'COMING SOON';
+        case 'UNDER_MAINTENANCE':
+            return 'UNDER MAINTENANCE';
+        case 'LEASED':
+            return 'Leased';
+        case 'INACTIVE':
+            return 'Inactive';
+        case 'ACTIVE':
+            return 'Active';
+        default:
+            // Replace underscores with spaces and capitalize each word
+            return status.replace(/_/g, ' ').replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+    }
+};
+
 const BuildingDetails = () => {
     const { t } = useTranslation();
     const { props } = usePage();
@@ -256,7 +279,7 @@ const BuildingDetails = () => {
                             <div className="flex-1">
                                 <h1 className="mb-2 text-3xl leading-tight font-bold text-gray-900 sm:text-4xl">{building.title}</h1>
                                 {/* Status Badge */}
-                                <div className="mb-2">
+                                {/* <div className="mb-2">
                                     <Badge
                                         className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${statusStyles.bg} ${statusStyles.text}`}
                                     >
@@ -271,7 +294,7 @@ const BuildingDetails = () => {
                                                   ? 'UNDER MAINTENANCE'
                                                   : building.status.toUpperCase()}
                                     </Badge>
-                                </div>
+                                </div> */}
                                 <div className="flex flex-wrap items-center gap-4 text-gray-600">
                                     <div className="flex items-center">
                                         <MapPin className="mr-1 h-4 w-4 text-orange-500" />
@@ -313,15 +336,7 @@ const BuildingDetails = () => {
                                                 className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${statusStyles.bg} ${statusStyles.text}`}
                                             >
                                                 <span className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full ${statusStyles.pulse}`} />
-                                                {building.status === 'SALE'
-                                                    ? t('sale').toUpperCase()
-                                                    : building.status === 'SOLD'
-                                                      ? t('sold').toUpperCase()
-                                                      : building.status === 'COMING_SOON'
-                                                        ? 'COMING SOON'
-                                                        : building.status === 'UNDER_MAINTENANCE'
-                                                          ? 'UNDER MAINTENANCE'
-                                                          : building.status.toUpperCase()}
+                                                {formatStatusLabel(building.status, t)}
                                             </Badge>
                                         </div>
                                         {building.images.length > 0 ? (
