@@ -192,21 +192,21 @@ const Buildings = () => {
         const formatStatusDisplay = (status: string) => {
             const statusUpper = status.toUpperCase();
             if (statusUpper === 'SOLD') {
-                return { label: t('sold').toUpperCase(), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60' };
+                return { label: t('SOLD'), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60', textColor: 'text-white' };
             } else if (statusUpper === 'SALE') {
-                return { label: t('sale').toUpperCase(), bgColor: 'bg-orange-500', pulseColor: 'bg-white' };
+                return { label: t('SALE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'ACTIVE') {
-                return { label: t('active').toUpperCase(), bgColor: 'bg-green-500', pulseColor: 'bg-white' };
+                return { label: t('ACTIVE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'LEASED') {
-                return { label: t('leased').toUpperCase(), bgColor: 'bg-blue-500', pulseColor: 'bg-white' };
+                return { label: t('LEASED'), bgColor: 'bg-blue-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'UNDER_MAINTENANCE') {
-                return { label: t('under_maintenance').toUpperCase(), bgColor: 'bg-yellow-500', pulseColor: 'bg-white' };
+                return { label: 'UNDER MAINTENANCE', bgColor: 'bg-yellow-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'COMING_SOON') {
-                return { label: t('coming_soon').toUpperCase(), bgColor: 'bg-purple-500', pulseColor: 'bg-white' };
+                return { label: 'COMING SOON', bgColor: 'bg-purple-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'INACTIVE') {
-                return { label: t('inactive').toUpperCase(), bgColor: 'bg-red-500', pulseColor: 'bg-white' };
+                return { label: t('INACTIVE'), bgColor: 'bg-red-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else {
-                return { label: statusUpper, bgColor: 'bg-gray-500', pulseColor: 'bg-white' };
+                return { label: statusUpper, bgColor: 'bg-gray-500', pulseColor: 'bg-white', textColor: 'text-white' };
             }
         };
 
@@ -220,7 +220,7 @@ const Buildings = () => {
                     {/* Status Badge */}
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
                         <span
-                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1 ${statusDisplay.bgColor}`}
+                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${statusDisplay.textColor} sm:px-3 sm:py-1 ${statusDisplay.bgColor}`}
                         >
                             <span className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full sm:mr-2 sm:h-2 sm:w-2 ${statusDisplay.pulseColor}`} />
                             <span className="text-xs sm:text-xs">{statusDisplay.label}</span>

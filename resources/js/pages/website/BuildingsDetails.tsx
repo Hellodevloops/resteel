@@ -36,6 +36,26 @@ interface BuildingType {
     }>;
 }
 
+const getStatusStyles = (status: string) => {
+    switch (status.toUpperCase()) {
+        case 'SOLD':
+            return { bg: 'bg-gray-500', pulse: 'bg-white/60', text: 'text-white' };
+        case 'SALE':
+        case 'ACTIVE':
+            return { bg: 'bg-orange-500', pulse: 'bg-white', text: 'text-white' };
+        case 'LEASED':
+            return { bg: 'bg-blue-500', pulse: 'bg-white', text: 'text-white' };
+        case 'UNDER_MAINTENANCE':
+            return { bg: 'bg-yellow-500', pulse: 'bg-white', text: 'text-white' };
+        case 'COMING_SOON':
+            return { bg: 'bg-purple-500', pulse: 'bg-white', text: 'text-white' };
+        case 'INACTIVE':
+            return { bg: 'bg-red-500', pulse: 'bg-white', text: 'text-white' };
+        default:
+            return { bg: 'bg-gray-500', pulse: 'bg-white', text: 'text-white' };
+    }
+};
+
 const BuildingDetails = () => {
     const { t } = useTranslation();
     const { props } = usePage();
@@ -43,7 +63,6 @@ const BuildingDetails = () => {
     const [building, setBuilding] = useState<BuildingType | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [showFullDescription, setShowFullDescription] = useState(true);
     const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
 
     // Calculate total area from specifications
@@ -147,11 +166,6 @@ const BuildingDetails = () => {
         }
     };
 
-    const truncateText = (text: string, maxLength: number) => {
-        if (!text) return '';
-        return text.length <= maxLength ? text : text.substring(0, maxLength).trim() + '...';
-    };
-
     const openContactForm = (productName: string) => {
         setContactForm({ isOpen: true, productName });
     };
@@ -204,6 +218,8 @@ const BuildingDetails = () => {
         );
     }
 
+    const statusStyles = getStatusStyles(building.status);
+
     return (
         <Layout title={`Resteel | ${building.title}`}>
             <div className="mt-20 bg-gray-50 sm:mt-25">
@@ -241,15 +257,20 @@ const BuildingDetails = () => {
                                 <h1 className="mb-2 text-3xl leading-tight font-bold text-gray-900 sm:text-4xl">{building.title}</h1>
                                 {/* Status Badge */}
                                 <div className="mb-2">
-                                    {/* <Badge
-                                        className={`rounded-full px-3 py-1 text-xs font-semibold text-white ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                                    <Badge
+                                        className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${statusStyles.bg} ${statusStyles.text}`}
                                     >
+                                        <span className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full ${statusStyles.pulse}`} />
                                         {building.status === 'SALE'
                                             ? t('sale').toUpperCase()
                                             : building.status === 'SOLD'
                                               ? t('sold').toUpperCase()
-                                              : building.status}
-                                    </Badge> */}
+                                              : building.status === 'COMING_SOON'
+                                                ? 'COMING SOON'
+                                                : building.status === 'UNDER_MAINTENANCE'
+                                                  ? 'UNDER MAINTENANCE'
+                                                  : building.status.toUpperCase()}
+                                    </Badge>
                                 </div>
                                 <div className="flex flex-wrap items-center gap-4 text-gray-600">
                                     <div className="flex items-center">
@@ -289,13 +310,18 @@ const BuildingDetails = () => {
                                         {/* Status Badge Overlay */}
                                         <div className="absolute top-4 left-4 z-10">
                                             <Badge
-                                                className={`rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg ${building.status === 'SOLD' ? 'bg-gray-500' : 'bg-orange-500'}`}
+                                                className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${statusStyles.bg} ${statusStyles.text}`}
                                             >
+                                                <span className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full ${statusStyles.pulse}`} />
                                                 {building.status === 'SALE'
                                                     ? t('sale').toUpperCase()
                                                     : building.status === 'SOLD'
                                                       ? t('sold').toUpperCase()
-                                                      : building.status.toUpperCase()}
+                                                      : building.status === 'COMING_SOON'
+                                                        ? 'COMING SOON'
+                                                        : building.status === 'UNDER_MAINTENANCE'
+                                                          ? 'UNDER MAINTENANCE'
+                                                          : building.status.toUpperCase()}
                                             </Badge>
                                         </div>
                                         {building.images.length > 0 ? (
@@ -466,9 +492,7 @@ const BuildingDetails = () => {
                             <CardContent className="space-y-6">
                                 <div>
                                     <div className="max-h-64 overflow-x-hidden overflow-y-auto">
-                                        <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">
-                                            {showFullDescription ? building.description : truncateText(building.description, 300)}
-                                        </p>
+                                        <p className="leading-relaxed break-words whitespace-pre-line text-gray-700">{building.description}</p>
                                     </div>
                                     {/* {building.description && building.description.length > 300 && (
                                         <Button
