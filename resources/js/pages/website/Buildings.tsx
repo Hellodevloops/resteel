@@ -397,7 +397,7 @@ const Buildings = () => {
                     {/* Enhanced Filter Section */}
                     <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8">
                         <div className="mb-6 flex justify-center sm:mb-8">
-                            <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
+                            <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
                                 {buildingTypes.map((type) => (
                                     <button
                                         key={type.id}
