@@ -367,7 +367,7 @@ return [
   'subscription_success' => 'Ihr Abonnement war erfolgreich.',
 
   // Footer Component
-  'footer_company_desc' => 'Spezialisten für den Kauf und Verkauf von gebrauchten Gebäuden und Baumaterialien mit über 20 Jahren Erfahrung.',
+  'footer_company_desc' => 'Spezialisten für den Kauf und Verkauf von gebrauchten Gebäuden und Baumaterialien mit über 25 Jahren Erfahrung.',
   'resteel_solutions' => 'Resteel Solutions',
   'quick_links' => 'Schnellzugriff',
   'home' => 'Startseite',
