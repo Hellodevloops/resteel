@@ -27,7 +27,7 @@ return new class extends Migration
             'tax_rate' => '8.5',
             'company_name' => 'Resteel Solutions',
             'company_tagline' => 'Building the future, one solution at a time',
-            'company_description' => 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
+            'company_description' => 'Specialists in buying and selling second-hand buildings and construction materials with over 25 years of experience.',
             'shipping_enabled' => 'true',
             'shipping_rate' => '5.99',
             'free_shipping_threshold' => '50.00',
@@ -83,13 +83,13 @@ return new class extends Migration
                 [
                     'icon' => 'ShieldCheck',
                     'title' => '20+ Years of Trust',
-                    'description' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.'
+                    'description' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.'
                 ]
             ]),
             // About - Who We Are Section
             'who_we_are_title' => 'Who We Are',
             'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
-            'who_we_are_founded' => 'Founded in 2005 · Headquartered in Helmond, Netherlands',
+            'who_we_are_founded' => 'Founded in 2000 · Headquartered in Helmond, Netherlands',
             // About - What We Offer Section
             'what_we_offer_title' => 'What We Offer',
             'what_we_offer_subtitle' => 'More than just buying and selling — we help move, manage, and optimize every structure',

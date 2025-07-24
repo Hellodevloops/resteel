@@ -25,17 +25,19 @@ const Terms = () => {
     return (
         <Layout title={`${t('terms_of_service')} | Resteel`}>
             {/* Hero Banner */}
-            <section className="bg-resteel-primary text-white">
-                <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-                    <div className="mx-auto max-w-4xl">
-                        <h1 className="mb-3 text-2xl leading-tight font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl">{t('terms_of_service')}</h1>
-                        <p className="text-base text-white/90 sm:text-lg lg:text-xl">{t('terms_last_updated')}</p>
-                    </div>
-                </div>
-            </section>
 
             {/* Terms Content */}
             <section className="py-8 sm:py-12 lg:py-16">
+                <section className="bg-resteel-primary text-black">
+                    <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+                        <div className="mx-auto max-w-4xl">
+                            <h1 className="mb-3 text-2xl leading-tight font-bold sm:mb-4 sm:text-3xl md:text-4xl lg:text-5xl">
+                                {t('terms_of_service')}
+                            </h1>
+                            {/* <p className="text-base text-white/90 sm:text-lg lg:text-xl">{t('terms_last_updated')}</p> */}
+                        </div>
+                    </div>
+                </section>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-4xl rounded-lg bg-white p-4 shadow-sm sm:p-6 lg:p-8">
                         <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">

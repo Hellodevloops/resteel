@@ -182,7 +182,7 @@ const Footer = () => {
                 <div className="mt-12 border-t border-white/10 pt-8">
                     <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                         <p className="text-slate-400">
-                            © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 2005.
+                            © {new Date().getFullYear()} Resteel. All rights reserved. Engineering Excellence Since 2000.
                         </p>
                         <div className="flex space-x-6">
                             <Link href="/terms" className="group text-sm text-slate-400 transition-colors hover:text-orange-400">

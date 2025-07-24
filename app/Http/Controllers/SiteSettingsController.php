@@ -115,7 +115,7 @@ class SiteSettingsController extends Controller
       'tax_rate' => 8.5,
       'company_name' => 'Resteel Solutions',
       'company_tagline' => 'Building the future, one solution at a time',
-      'company_description' => 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
+      'company_description' => 'Specialists in buying and selling second-hand buildings and construction materials with over 25 years of experience.',
       'shipping_enabled' => true,
       'shipping_rate' => '5.99',
       'free_shipping_threshold' => '50.00',

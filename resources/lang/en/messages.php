@@ -70,7 +70,7 @@ return [
   'about_hero_subtitle' => 'At Resteel, we give second-hand steel constructions a powerful second life — with sustainability, scale, and precision.',
   'who_we_are' => 'Who We Are',
   'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
-  'founded_info' => 'Founded in 2005 · Headquartered in Helmond, Netherlands',
+  'founded_info' => 'Founded in 2000 · Headquartered in Helmond, Netherlands',
   'our_mission' => 'Our Mission',
   'mission_description' => 'We transform used steel structures into cost-efficient, environmentally responsible building solutions. From agriculture to logistics, we serve businesses of all sizes across Europe.',
   'integrity' => 'Integrity',
@@ -143,7 +143,7 @@ return [
   'sunday_closed' => 'Sunday: Closed',
 
   // Footer
-  'footer_description' => 'Leading provider of second-hand industrial steel buildings across Europe. Quality, sustainability, and expertise since 2005.',
+  'footer_description' => 'Leading provider of second-hand industrial steel buildings across Europe. Quality, sustainability, and expertise since 2000.',
   'quick_links' => 'Quick Links',
   'follow_us' => 'Follow Us',
   'newsletter_signup' => 'Newsletter Signup',
@@ -313,7 +313,7 @@ return [
   'end_to_end_support' => 'End-to-End Support',
   'end_to_end_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'years_of_trust' => '20+ Years of Trust',
-  'years_of_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'years_of_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Discover Our Latest Structures',
@@ -353,7 +353,7 @@ return [
   'subscription_success' => 'Your subscription has been successful.',
 
   // Footer Component
-  'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
+  'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 25 years of experience.',
   'resteel_solutions' => 'Resteel Solutions',
   'quick_links' => 'Quick Links',
   'home' => 'Home',
@@ -362,11 +362,11 @@ return [
   'contact_us' => 'Contact Us',
   'terms' => 'Terms',
   'privacy' => 'Privacy',
-  'engineering_excellence_since' => 'Technical excellence since 2005.',
+  'engineering_excellence_since' => 'Technical excellence since 2000.',
 
   // Hero2 Component
   'hero2_title' => 'Purchase - Sale - Assembly - Disassembly - Transport of second-hand warehouses and steel constructions Across Europe',
-  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2005.',
+  'hero2_subtitle' => 'From agricultural halls to industrial warehouses — trusted relocation and resale since 2000.',
   'browse_structures_btn' => 'Browse Structures',
   'sell_your_property_btn' => 'Sell Your Property',
 
@@ -419,7 +419,7 @@ return [
 
   // Terms of Service
   'terms_of_service' => 'Terms of Service',
-  'terms_last_updated' => 'Last updated: May 21, 2005',
+  'terms_last_updated' => 'Last updated: May 21, 2000',
   'terms_introduction' => 'Introduction',
   'terms_introduction_text' => 'Welcome to Resteel. These Terms of Service govern your use of our website and the services we provide. By accessing or using our website, you agree to be bound by these Terms.',
   'terms_definitions' => 'Definitions',
@@ -448,7 +448,7 @@ return [
 
   // Privacy Policy
   'privacy_policy_title' => 'Privacy Policy',
-  'privacy_last_updated' => 'Last updated: May 21, 2005',
+  'privacy_last_updated' => 'Last updated: May 21, 2000',
   'privacy_introduction' => 'Introduction',
   'privacy_introduction_text' => 'At Resteel, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.',
   'privacy_information_collect' => 'Information We Collect',
@@ -527,12 +527,12 @@ return [
   'feature_support_title' => 'End-to-End Support',
   'feature_support_desc' => 'We manage the full lifecycle — disassembly, transport, and reassembly included.',
   'feature_trust_title' => '20+ Years of Trust',
-  'feature_trust_desc' => 'Since 2005, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
+  'feature_trust_desc' => 'Since 2000, we\'ve helped hundreds of industrial and agri businesses relocate or resell steel halls.',
 
   // Dynamic Content - About Who We Are
   'who_we_are_title' => 'Who We Are',
   'who_we_are_description' => 'Resteel is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
-  'who_we_are_founded' => 'Founded in 2005 · Headquartered in Helmond, Netherlands',
+  'who_we_are_founded' => 'Founded in 2000 · Headquartered in Helmond, Netherlands',
 
   // Dynamic Content - About What We Offer
   'what_we_offer_title' => 'What We Offer',

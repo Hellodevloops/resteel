@@ -70,7 +70,7 @@ return [
   'about_hero_subtitle' => 'Bei Resteel geben wir gebrauchten Stahlkonstruktionen ein kraftvolles zweites Leben – mit Nachhaltigkeit, Größe und Präzision.',
   'who_we_are' => 'Wer wir sind',
   'who_we_are_description' => 'Resteel ist ein vertrauenswürdiger europäischer Marktführer im nachhaltigen Stahlbau. Wir helfen Unternehmen dabei, die Infrastruktur mit zurückgewonnenen, hochwertigen Materialien zu überdenken — ohne Kompromisse bei Festigkeit, Sicherheit oder Stil.',
-  'founded_info' => 'Gegründet 2005 · Hauptsitz in Helmond, Niederlande',
+  'founded_info' => 'Gegründet 2000 · Hauptsitz in Helmond, Niederlande',
   'our_mission' => 'Unsere Mission',
   'mission_description' => 'Wir transformieren gebrauchte Stahlkonstruktionen in kosteneffiziente, umweltverantwortliche Baulösungen. Von der Landwirtschaft bis zur Logistik bedienen wir Unternehmen aller Größen in ganz Europa.',
   'integrity' => 'Integrität',
@@ -143,7 +143,7 @@ return [
   'sunday_closed' => 'Sonntag: Geschlossen',
 
   // Footer
-  'footer_description' => 'Führender Anbieter von Second-Hand-Industrie-Stahlgebäuden in ganz Europa. Qualität, Nachhaltigkeit und Expertise seit 2005.',
+  'footer_description' => 'Führender Anbieter von Second-Hand-Industrie-Stahlgebäuden in ganz Europa. Qualität, Nachhaltigkeit und Expertise seit 2000.',
   'quick_links' => 'Schnellzugriff',
   'follow_us' => 'Folgen Sie uns',
   'newsletter_signup' => 'Newsletter-Anmeldung',
@@ -327,7 +327,7 @@ return [
   'end_to_end_support' => 'Rundum-Betreuung',
   'end_to_end_support_desc' => 'Wir verwalten den gesamten Lebenszyklus — Demontage, Transport und Wiedermontage inklusive.',
   'years_of_trust' => '20+ Jahre Vertrauen',
-  'years_of_trust_desc' => 'Seit 2005 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
+  'years_of_trust_desc' => 'Seit 2000 haben wir Hunderten von Industrie- und Landwirtschaftsunternehmen beim Umzug oder Wiederverkauf von Stahlhallen geholfen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Entdecken Sie unsere neuesten Strukturen',
@@ -367,7 +367,7 @@ return [
   'subscription_success' => 'Ihr Abonnement war erfolgreich.',
 
   // Footer Component
-  'footer_company_desc' => 'Spezialisten für den Kauf und Verkauf von gebrauchten Gebäuden und Baumaterialien mit über 20 Jahren Erfahrung.',
+  'footer_company_desc' => 'Spezialisten für den Kauf und Verkauf von gebrauchten Gebäuden und Baumaterialien mit über 25 Jahren Erfahrung.',
   'resteel_solutions' => 'Resteel Solutions',
   'quick_links' => 'Schnellzugriff',
   'home' => 'Startseite',
@@ -375,13 +375,13 @@ return [
   'browse_structures' => 'Gebäude Durchsuchen',
   'contact_us' => 'Kontakt',
   'all_rights_reserved' => 'Alle Rechte vorbehalten.',
-  'engineering_excellence_since' => 'Technische Exzellenz seit 2005.',
+  'engineering_excellence_since' => 'Technische Exzellenz seit 2000.',
   'terms' => 'Bedingungen',
   'privacy' => 'Datenschutz',
 
   // Hero2 Component
   'hero2_title' => 'Ankauf - Verkauf - Montage - Demontage - Transport von gebrauchten Lagerhallen und Stahlkonstruktionen in ganz Europa',
-  'hero2_subtitle' => 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2005.',
+  'hero2_subtitle' => 'Von landwirtschaftlichen Hallen bis zu Industrielagern — vertrauensvolle Verlagerung und Wiederverkauf seit 2000.',
   'browse_structures_btn' => 'Strukturen durchsuchen',
   'sell_your_property_btn' => 'Ihre Immobilie verkaufen',
 
@@ -433,7 +433,7 @@ return [
 
   // Terms of Service
   'terms_of_service' => 'Nutzungsbedingungen',
-  'terms_last_updated' => 'Zuletzt aktualisiert: 21. Mai 2005',
+  'terms_last_updated' => 'Zuletzt aktualisiert: 21. Mai 2000',
   'terms_introduction' => 'Einführung',
   'terms_introduction_text' => 'Willkommen bei Resteel. Diese Nutzungsbedingungen regeln Ihre Nutzung unserer Website und der von uns bereitgestellten Dienste. Durch den Zugriff auf oder die Nutzung unserer Website stimmen Sie zu, an diese Bedingungen gebunden zu sein.',
   'terms_definitions' => 'Definitionen',
@@ -462,7 +462,7 @@ return [
 
   // Privacy Policy
   'privacy_policy_title' => 'Datenschutzrichtlinie',
-  'privacy_last_updated' => 'Zuletzt aktualisiert: 21. Mai 2005',
+  'privacy_last_updated' => 'Zuletzt aktualisiert: 21. Mai 2000',
   'privacy_introduction' => 'Einführung',
   'privacy_introduction_text' => 'Bei Resteel respektieren wir Ihre Privatsphäre und verpflichten uns, Ihre persönlichen Daten zu schützen. Diese Datenschutzrichtlinie erklärt, wie wir Ihre Informationen sammeln, verwenden und schützen, wenn Sie unsere Website besuchen oder unsere Dienste nutzen.',
   'privacy_information_collect' => 'Informationen, die wir sammeln',
