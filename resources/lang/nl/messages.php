@@ -368,7 +368,7 @@ return [
   'subscription_success' => 'Je abonnement is succesvol.',
 
   // Footer Component
-  'footer_company_desc' => 'Specialisten in het kopen en verkopen van tweedehands bedrijfspanden en bouwmaterialen met meer dan 20 jaar ervaring.',
+  'footer_company_desc' => 'Specialisten in het kopen en verkopen van tweedehands bedrijfspanden en bouwmaterialen met meer dan 25 jaar ervaring.',
   'resteel_solutions' => 'Resteel Solutions',
   'quick_links' => 'Snelle Links',
   'home' => 'Home',
