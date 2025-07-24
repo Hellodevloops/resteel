@@ -192,35 +192,35 @@ const Buildings = () => {
         const formatStatusDisplay = (status: string) => {
             const statusUpper = status.toUpperCase();
             if (statusUpper === 'SOLD') {
-                return { label: t('sold').toUpperCase(), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60' };
+                return { label: t('SOLD'), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60', textColor: 'text-white' };
             } else if (statusUpper === 'SALE') {
-                return { label: t('sale').toUpperCase(), bgColor: 'bg-orange-500', pulseColor: 'bg-white' };
+                return { label: t('SALE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'ACTIVE') {
-                return { label: t('active').toUpperCase(), bgColor: 'bg-green-500', pulseColor: 'bg-white' };
+                return { label: t('ACTIVE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'LEASED') {
-                return { label: t('leased').toUpperCase(), bgColor: 'bg-blue-500', pulseColor: 'bg-white' };
+                return { label: t('LEASED'), bgColor: 'bg-blue-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'UNDER_MAINTENANCE') {
-                return { label: t('under_maintenance').toUpperCase(), bgColor: 'bg-yellow-500', pulseColor: 'bg-white' };
+                return { label: 'UNDER MAINTENANCE', bgColor: 'bg-yellow-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'COMING_SOON') {
-                return { label: t('coming_soon').toUpperCase(), bgColor: 'bg-purple-500', pulseColor: 'bg-white' };
+                return { label: 'COMING SOON', bgColor: 'bg-purple-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'INACTIVE') {
-                return { label: t('inactive').toUpperCase(), bgColor: 'bg-red-500', pulseColor: 'bg-white' };
+                return { label: t('INACTIVE'), bgColor: 'bg-red-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else {
-                return { label: statusUpper, bgColor: 'bg-gray-500', pulseColor: 'bg-white' };
+                return { label: statusUpper, bgColor: 'bg-gray-500', pulseColor: 'bg-white', textColor: 'text-white' };
             }
         };
 
         const statusDisplay = formatStatusDisplay(building.status);
 
         return (
-            <div className="flex h-full flex-col rounded-xl bg-white p-3 shadow-md transition-all hover:shadow-lg sm:p-4 sm:pt-10">
-                {/* Image Container with Fixed Height */}
-                <div className="relative mb-3 h-40 w-full overflow-hidden rounded-md sm:mb-4 sm:h-48">
+            <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg">
+                {/* Image Container with Full Width - No Padding */}
+                <div className="relative h-40 w-full overflow-hidden sm:h-48">
                     <img src={building.image} alt={building.title} className="h-full w-full object-cover" />
                     {/* Status Badge */}
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
                         <span
-                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1 ${statusDisplay.bgColor}`}
+                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${statusDisplay.textColor} sm:px-3 sm:py-1 ${statusDisplay.bgColor}`}
                         >
                             <span className={`mr-1 h-1.5 w-1.5 animate-pulse rounded-full sm:mr-2 sm:h-2 sm:w-2 ${statusDisplay.pulseColor}`} />
                             <span className="text-xs sm:text-xs">{statusDisplay.label}</span>
@@ -237,8 +237,8 @@ const Buildings = () => {
                     )}
                 </div>
 
-                {/* Content Container with Flex Grow */}
-                <div className="flex flex-grow flex-col">
+                {/* Content Container with Padding */}
+                <div className="flex flex-grow flex-col p-3 sm:p-4">
                     {/* Title with Fixed Height */}
                     <div className="mb-2 min-h-[2rem] sm:min-h-[2.5rem]">
                         <h3 className="line-clamp-2 text-base font-bold sm:text-lg">{truncateText(building.title, truncation.title)}</h3>
@@ -290,7 +290,6 @@ const Buildings = () => {
             </div>
         );
     };
-
     if (loading) {
         return (
             <Layout title={`Resteel | ${t('hero_title')}`}>
@@ -398,7 +397,7 @@ const Buildings = () => {
                     {/* Enhanced Filter Section */}
                     <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 sm:pb-8 lg:px-8">
                         <div className="mb-6 flex justify-center sm:mb-8">
-                            <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg bg-gray-200 p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
+                            <div className="grid w-auto max-w-full grid-cols-2 gap-1 rounded-lg p-1 sm:flex sm:max-w-2xl sm:gap-2 sm:p-1.5 lg:gap-3 lg:p-2">
                                 {buildingTypes.map((type) => (
                                     <button
                                         key={type.id}

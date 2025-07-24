@@ -255,12 +255,10 @@ const Header: React.FC = () => {
                                     <li key={href}>
                                         <Link
                                             href={href}
-                                            className={`group relative px-3 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 xl:px-4 xl:text-base ${
-                                                isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-slate-700 hover:text-orange-400'
-                                            }`}
+                                            className={`group relative overflow-hidden px-3 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 xl:px-4 xl:text-base ${isScrolled ? 'text-slate-700 hover:text-orange-500' : 'text-slate-700 hover:text-orange-400'} `}
                                         >
                                             {label}
-                                            <span className="absolute bottom-0 left-1/2 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 transition-all duration-300 group-hover:left-3 group-hover:w-6 xl:group-hover:left-4 xl:group-hover:w-8" />
+                                            <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-orange-500 to-orange-400 opacity-0 transition-all duration-300 group-hover:w-full group-hover:opacity-100" />
                                         </Link>
                                     </li>
                                 ))}
