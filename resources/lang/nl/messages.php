@@ -70,7 +70,7 @@ return [
   'about_hero_subtitle' => 'Bij Resteel geven we tweedehands staalconstructies een krachtig tweede leven — met duurzaamheid, schaal en precisie.',
   'who_we_are' => 'Wie we zijn',
   'who_we_are_description' => 'Resteel is een vertrouwde Europese leider in duurzame staalconstructie. We helpen bedrijven infrastructuur te heroverwegen met gerecyclede, eersteklas materialen — zonder compromissen op sterkte, veiligheid of stijl.',
-  'founded_info' => 'Opgericht in 2005 · Hoofdkantoor in Helmond, Nederland',
+  'founded_info' => 'Opgericht in 2000 · Hoofdkantoor in Helmond, Nederland',
   'our_mission' => 'Onze missie',
   'mission_description' => 'We transformeren gebruikte staalconstructies naar kostenefficiënte, milieuvriendelijke bouwoplossingen. Van landbouw tot logistiek, we bedienen bedrijven van alle groottes door heel Europa.',
   'integrity' => 'Integriteit',
@@ -143,7 +143,7 @@ return [
   'sunday_closed' => 'Zondag: Gesloten',
 
   // Footer
-  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 2005.',
+  'footer_description' => 'Toonaangevende leverancier van tweedehands industriële staalgebouwen door heel Europa. Kwaliteit, duurzaamheid en expertise sincs 2000.',
   'quick_links' => 'Snelle Links',
   'follow_us' => 'Volg ons',
   'newsletter_signup' => 'Nieuwsbrief aanmelden',
@@ -328,7 +328,7 @@ return [
   'end_to_end_support' => 'End-to-end ondersteuning',
   'end_to_end_support_desc' => 'We beheren de volledige levenscyclus — demontage, transport en hermontage inbegrepen.',
   'years_of_trust' => '20+ jaar vertrouwen',
-  'years_of_trust_desc' => 'Sincs 2005 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
+  'years_of_trust_desc' => 'Sincs 2000 hebben we honderden industriële en agrarische bedrijven geholpen bij het verplaatsen of doorverkopen van staalhallen.',
 
   // CarouselSection Component
   'discover_our_latest_structures' => 'Ontdek onze nieuwste structuren',
@@ -376,13 +376,13 @@ return [
   'browse_structures' => 'Bekijk Panden',
   'contact_us' => 'Contact',
   'all_rights_reserved' => 'Alle rechten voorbehouden.',
-  'engineering_excellence_since' => 'Technische uitmuntendheid sinds 2005.',
+  'engineering_excellence_since' => 'Technische uitmuntendheid sinds 2000.',
   'terms' => 'Voorwaarden',
   'privacy' => 'Privacybeleid',
 
   // Hero2 Component
   'hero2_title' => 'Inkoop - Verkoop - Montage - Demontage - Transport van 2ehands bouwmaterialen en staalconstructies door heel Europa',
-  'hero2_subtitle' => 'Van agrarische hallen tot industriële bedrijfspanden — vertrouwde verplaatsing en doorverkoop sincs 2005.',
+  'hero2_subtitle' => 'Van agrarische hallen tot industriële bedrijfspanden — vertrouwde verplaatsing en doorverkoop sincs 2000.',
   'browse_structures_btn' => 'bedrijfs panden bekijken',
   'sell_your_property_btn' => 'Uw pand verkopen',
 
