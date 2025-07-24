@@ -39,9 +39,9 @@ RUN mkdir -p /var/www/html/storage/app/public \
 
 # Make sure unit user exists before trying to set permissions
 RUN if ! id -u unit > /dev/null 2>&1; then \
-        # Create unit user and group if they don't exist
-        groupadd -g 1000 unit && \
-        useradd -u 1000 -g unit -s /bin/bash -d /var/www/html unit; \
+    # Create unit user and group if they don't exist
+    groupadd -g 1000 unit && \
+    useradd -u 1000 -g unit -s /bin/bash -d /var/www/html unit; \
     fi
 
 # Set correct permissions
@@ -73,7 +73,7 @@ RUN chown -R unit:unit /var/www/html \
 # Add health check to verify PHP-FPM and Laravel availability
 HEALTHCHECK --interval=10s --timeout=5s --start-period=60s --retries=2 \
 
-  CMD curl -f https://www.google.com || exit 1
+    CMD curl -f https://www.google.com || exit 1
 
 
 # Expose port
