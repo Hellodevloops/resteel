@@ -353,7 +353,7 @@ return [
   'subscription_success' => 'Your subscription has been successful.',
 
   // Footer Component
-  'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 20 years of experience.',
+  'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 25 years of experience.',
   'resteel_solutions' => 'Resteel Solutions',
   'quick_links' => 'Quick Links',
   'home' => 'Home',
