@@ -152,34 +152,6 @@ const Show = ({ settings }: Props) => {
                         </Card>
 
                         {/* Company Information - Mobile Responsive */}
-                        <Card className="rounded-sm">
-                            <CardHeader className="p-4 sm:p-6">
-                                <CardTitle className="flex items-center text-base sm:text-lg">
-                                    <Settings className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                                    Company Information
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3 p-4 pt-0 sm:space-y-4 sm:p-6">
-                                <div className="space-y-3 sm:space-y-4">
-                                    <div>
-                                        <p className="text-muted-foreground text-xs sm:text-sm">Company Name</p>
-                                        <p className="truncate text-sm font-medium sm:text-base">{currentSettings.company_name}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-xs sm:text-sm">Tagline</p>
-                                        <p className="text-sm font-medium break-words sm:text-base">{currentSettings.company_tagline}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-xs sm:text-sm">Description</p>
-                                        <p className="text-sm font-medium break-words sm:text-base">{currentSettings.company_description}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted-foreground text-xs sm:text-sm">Tax Rate</p>
-                                        <p className="text-sm font-medium sm:text-base">{currentSettings.tax_rate}%</p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
                     </div>
 
                     {/* Social Media Links - Mobile Responsive */}

@@ -178,14 +178,14 @@ const FeaturedBuildings = () => {
                             <span className="text-xs sm:text-xs">{formatStatusLabel(building.status, t)}</span>
                         </span>
                     </div>
-                    {building.hasVideo && (
+                    {/* {building.hasVideo && (
                         <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
                             <span className="inline-flex items-center rounded-full bg-blue-500/90 px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1">
                                 <Play className="mr-1 h-3 w-3" />
                                 <span className="text-xs sm:text-xs">{t('video')}</span>
                             </span>
                         </div>
-                    )}
+                    )} */}
                 </div>
 
                 {/* Content Section - Flexible with proper height management */}

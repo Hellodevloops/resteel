@@ -78,7 +78,7 @@ const Footer = () => {
                     {/* Company Info */}
                     <div className="lg:col-span-2">
                         <h3 className="mb-3 bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-xl font-bold text-transparent sm:mb-4 sm:text-2xl">
-                            {siteSettings?.company_name || t('resteel_solutions')}
+                            Resteel-Solutions B.V
                         </h3>
                         <p className="mb-4 max-w-md text-sm text-slate-300 sm:mb-6 sm:text-base">{t('footer_company_desc')}</p>
                         {socialLinks.length > 0 && (
@@ -163,8 +163,7 @@ const Footer = () => {
                 {/* Footer Bottom */}
                 <div className="mt-8 flex flex-col items-center justify-between space-y-4 border-t border-white/10 pt-4 text-xs text-slate-400 sm:mt-10 sm:pt-6 sm:text-sm md:flex-row md:space-y-0">
                     <p className="text-center md:text-left">
-                        © {new Date().getFullYear()} {siteSettings?.company_name || t('resteel_solutions')}. {t('all_rights_reserved')}{' '}
-                        {t('engineering_excellence_since')}
+                        © {new Date().getFullYear()} Resteel-Solutions B.V. {t('all_rights_reserved')} {t('engineering_excellence_since')}
                     </p>
                     <div className="flex space-x-4 sm:space-x-6">
                         <Link href="/terms" className="transition-colors hover:text-orange-400">

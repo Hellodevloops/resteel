@@ -383,14 +383,14 @@ const BuildingDetails = () => {
                                                 </Dialog>
 
                                                 {/* Video Badge */}
-                                                {building.hasVideo && (
+                                                {/* {building.hasVideo && (
                                                     <div className="absolute top-4 right-4">
                                                         <Badge className="bg-blue-500 text-white">
                                                             <Play className="mr-1 h-4 w-3" />
                                                             Video Available
                                                         </Badge>
                                                     </div>
-                                                )}
+                                                )} */}
                                             </>
                                         ) : (
                                             <div className="flex h-full w-full items-center justify-center">
