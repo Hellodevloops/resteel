@@ -227,14 +227,14 @@ const Buildings = () => {
                         </span>
                     </div>
                     {/* Video Badge */}
-                    {building.hasVideo && (
+                    {/* {building.hasVideo && (
                         <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
                             <span className="inline-flex items-center rounded-full bg-blue-500/90 px-2 py-1 text-xs font-semibold text-white sm:px-3 sm:py-1">
                                 <Play className="mr-1 h-3 w-3" />
                                 <span className="text-xs sm:text-xs">{t('video')}</span>
                             </span>
                         </div>
-                    )}
+                    )} */}
                 </div>
 
                 {/* Content Container with Padding */}
