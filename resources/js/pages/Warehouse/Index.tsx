@@ -66,11 +66,19 @@ export default function Index({ warehouseData }: Props) {
     const getStatusBadge = (status: string) => {
         switch (status) {
             case 'active':
-                return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Active</Badge>;
-            case 'maintenance':
-                return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Maintenance</Badge>;
+                return <Badge className="bg-orange-500">Active</Badge>;
+            case 'leased':
+                return <Badge className="bg-purple-500">Leased</Badge>;
+            case 'under_maintenance':
+                return <Badge className="bg-yellow-500">Under Maintenance</Badge>;
+            case 'coming_soon':
+                return <Badge className="bg-[#0076A8]">Coming Soon</Badge>;
             case 'inactive':
-                return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Inactive</Badge>;
+                return <Badge className="bg-red-500">Inactive</Badge>;
+            case 'sale':
+                return <Badge className="bg-orange-500">For Sale</Badge>;
+            case 'sold':
+                return <Badge className="bg-gray-500">Sold</Badge>;
             default:
                 return <Badge variant="secondary">{status}</Badge>;
         }

@@ -62,14 +62,14 @@ return [
   'sustainable_solutions' => 'Sustainable Solutions',
   'sustainable_solutions_desc' => 'Eco-friendly processes and materials for a greener future',
   'why_choose_title' => 'Why Choose',
-  'why_choose_resteel' => 'Resteel-Solutions B.V?',
+  'why_choose_resteel' => 'Resteel Solutions B.V.?',
   'why_choose_subtitle' => 'Combining expertise with cutting-edge technology',
 
   // About Page
   'about_hero_title' => 'Redefining Steel Construction',
-  'about_hero_subtitle' => 'At Resteel-Solutions B.V, we give second-hand steel constructions a powerful second life — with sustainability, scale, and precision.',
+  'about_hero_subtitle' => 'At Resteel Solutions B.V., we give second-hand steel constructions a powerful second life — with sustainability, scale, and precision.',
   'who_we_are' => 'Who We Are',
-  'who_we_are_description' => 'Resteel-Solutions B.V is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
+  'who_we_are_description' => 'Resteel Solutions B.V. is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
   'founded_info' => 'Founded in 2000 · Headquartered in Helmond, Netherlands',
   'our_mission' => 'Our Mission',
   'mission_description' => 'We transform used steel structures into cost-efficient, environmentally responsible building solutions. From agriculture to logistics, we serve businesses of all sizes across Europe.',
@@ -354,7 +354,7 @@ return [
 
   // Footer Component
   'footer_company_desc' => 'Specialists in buying and selling second-hand buildings and construction materials with over 25 years of experience.',
-  'resteel_solutions' => 'Resteel-Solutions B.V',
+  'resteel_solutions' => 'Resteel Solutions B.V.',
   'quick_links' => 'Quick Links',
   'home' => 'Home',
   'about_us' => 'About Us',
@@ -421,10 +421,10 @@ return [
   'terms_of_service' => 'Terms of Service',
   'terms_last_updated' => 'Last updated: May 21, 2005',
   'terms_introduction' => 'Introduction',
-  'terms_introduction_text' => 'Welcome to Resteel-Solutions B.V. These Terms of Service govern your use of our website and the services we provide. By accessing or using our website, you agree to be bound by these Terms.',
+  'terms_introduction_text' => 'Welcome to Resteel Solutions B.V. These Terms of Service govern your use of our website and the services we provide. By accessing or using our website, you agree to be bound by these Terms.',
   'terms_definitions' => 'Definitions',
   'terms_definitions_text' => 'The following definitions apply to these Terms:',
-  'terms_definitions_company' => '"Company," "We," "Us," and "Our" refer to Resteel-Solutions B.V.',
+  'terms_definitions_company' => '"Company," "We," "Us," and "Our" refer to Resteel Solutions B.V.',
   'terms_definitions_website' => '"Website" refers to resteel.com and all its subdomains.',
   'terms_definitions_services' => '"Services" refers to the second-hand building trading, disassembly, transport, and assembly services we provide.',
   'terms_definitions_user' => '"User," "You," and "Your" refer to individuals or entities accessing or using our website or services.',
@@ -433,16 +433,16 @@ return [
   'terms_inquiries_communication' => 'Inquiries and Communication',
   'terms_inquiries_communication_text' => 'When you submit inquiries through our website, you agree to provide accurate and complete information. We may use this information to contact you regarding our services. You can opt out of communications from us at any time by contacting us directly.',
   'terms_intellectual_property' => 'Intellectual Property',
-  'terms_intellectual_property_text' => 'All content on this website, including text, graphics, logos, and images, is the property of Resteel-Solutions B.V and is protected by intellectual property laws. You may not reproduce, distribute, or use our content without our express permission.',
+  'terms_intellectual_property_text' => 'All content on this website, including text, graphics, logos, and images, is the property of Resteel Solutions B.V. and is protected by intellectual property laws. You may not reproduce, distribute, or use our content without our express permission.',
   'terms_limitation_liability' => 'Limitation of Liability',
-  'terms_limitation_liability_text' => 'To the extent permitted by law, Resteel-Solutions B.V shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of our website or services.',
+  'terms_limitation_liability_text' => 'To the extent permitted by law, Resteel Solutions B.V. shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of our website or services.',
   'terms_governing_law' => 'Governing Law',
   'terms_governing_law_text' => 'These Terms shall be governed by and construed in accordance with the laws of the Netherlands, without regard to its conflict of law provisions. Any disputes relating to these Terms shall be subject to the exclusive jurisdiction of the courts of the Netherlands.',
   'terms_changes_to_terms' => 'Changes to Terms',
   'terms_changes_to_terms_text' => 'We reserve the right to modify these Terms at any time. When we make changes, we will revise the "Last updated" date at the top of these Terms. We encourage you to review these Terms periodically to stay informed of any updates.',
   'terms_contact_us' => 'Contact Us',
   'terms_contact_us_text' => 'If you have any questions about these Terms, please contact us at:',
-  'terms_contact_info' => 'Resteel-Solutions B.V<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (6) 25334951',
+  'terms_contact_info' => 'Resteel Solutions B.V.<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: info@resteel-solutions.com<br />Phone: +31 (6) 25334951',
   'terms_full_document' => 'Full Document',
   'terms_download_complete' => 'Download complete terms & conditions',
 
@@ -450,7 +450,7 @@ return [
   'privacy_policy_title' => 'Privacy Policy',
   'privacy_last_updated' => 'Last updated: May 21, 2005',
   'privacy_introduction' => 'Introduction',
-  'privacy_introduction_text' => 'At Resteel-Solutions B.V, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.',
+  'privacy_introduction_text' => 'At Resteel Solutions B.V., we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.',
   'privacy_information_collect' => 'Information We Collect',
   'privacy_information_collect_text' => 'We may collect the following types of information:',
   'privacy_personal_identification' => 'Personal Identification Information:',
@@ -486,7 +486,7 @@ return [
   'privacy_changes_policy_text' => 'We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.',
   'privacy_contact_us' => 'Contact Us',
   'privacy_contact_us_text' => 'If you have any questions about this Privacy Policy or our data practices, please contact us at:',
-  'privacy_contact_info' => 'Resteel-Solutions B.V<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: privacy@resteel.com<br />Phone: +31 (6) 25334951',
+  'privacy_contact_info' => 'Resteel Solutions B.V.<br />Westerbeemd 2B<br />5705 DN Helmond<br />Netherlands<br />Email: privacy@resteel.com<br />Phone: +31 (6) 25334951',
 
   // Buildings/Properties Page
   'our_properties' => 'Our Properties',
@@ -531,7 +531,7 @@ return [
 
   // Dynamic Content - About Who We Are
   'who_we_are_title' => 'Who We Are',
-  'who_we_are_description' => 'Resteel-Solutions B.V is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
+  'who_we_are_description' => 'Resteel Solutions B.V. is a trusted European leader in sustainable steel construction. We help companies rethink infrastructure using reclaimed, premium-grade materials — without compromising on strength, safety, or style.',
   'who_we_are_founded' => 'Founded in 2000 · Headquartered in Helmond, Netherlands',
 
   // Dynamic Content - About What We Offer
@@ -606,7 +606,7 @@ return [
   'chatbot_error_csrf' => '❌ CSRF token mismatch. Please refresh the page and try again.',
   'chatbot_error_check_input' => '❌ Please check your input and try again.',
   'chatbot_error_general' => '❌ Sorry, there was an error submitting your information. Please try again later.',
-  'chatbot_assistant_title' => 'Resteel-Solutions B.V Assistant',
+  'chatbot_assistant_title' => 'Resteel Solutions B.V. Assistant',
   'chatbot_expert_subtitle' => 'Industrial Buildings Expert',
   'chatbot_need_help' => "Need help? Let's chat!",
   'chatbot_step_progress' => 'Step {{current}} of {{total}}',

@@ -48,7 +48,7 @@ const getStatusStyles = (status: string) => {
         case 'UNDER_MAINTENANCE':
             return { bg: 'bg-yellow-500', pulse: 'bg-white', text: 'text-white' };
         case 'COMING_SOON':
-            return { bg: 'bg-purple-500', pulse: 'bg-white', text: 'text-white' };
+            return { bg: 'bg-blue-500', pulse: 'bg-white', text: 'text-white' };
         case 'INACTIVE':
             return { bg: 'bg-red-500', pulse: 'bg-white', text: 'text-white' };
         default:
@@ -68,11 +68,11 @@ const formatStatusLabel = (status: string, t: (key: string) => string): string =
         case 'UNDER_MAINTENANCE':
             return 'UNDER MAINTENANCE';
         case 'LEASED':
-            return 'Leased';
+            return 'LEASED';
         case 'INACTIVE':
-            return 'Inactive';
+            return 'INACTIVE';
         case 'ACTIVE':
-            return 'Active';
+            return 'ACTIVE';
         default:
             // Replace underscores with spaces and capitalize each word
             return status.replace(/_/g, ' ').replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());

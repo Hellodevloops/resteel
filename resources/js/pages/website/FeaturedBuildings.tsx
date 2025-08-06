@@ -62,12 +62,14 @@ const formatStatusLabel = (status: string, t: (key: string) => string) => {
             return 'COMING SOON';
         case 'UNDER_MAINTENANCE':
             return 'UNDER MAINTENANCE';
+        case 'LEASED':
+            return 'LEASED';
+        case 'ACTIVE':
+            return 'ACTIVE';
+        case 'INACTIVE':
+            return 'INACTIVE';
         default:
-            return status
-                .replace(/_/g, ' ')
-                .split(' ')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                .join(' ');
+            return status.replace(/_/g, ' ').toUpperCase();
     }
 };
 
@@ -79,11 +81,11 @@ const getStatusStyles = (status: string) => {
         case 'ACTIVE':
             return { bg: 'bg-orange-500', pulse: 'bg-white' };
         case 'LEASED':
-            return { bg: 'bg-blue-500', pulse: 'bg-white' };
+            return { bg: 'bg-purple-500', pulse: 'bg-white' };
         case 'UNDER_MAINTENANCE':
             return { bg: 'bg-yellow-500', pulse: 'bg-white' };
         case 'COMING_SOON':
-            return { bg: 'bg-purple-500', pulse: 'bg-white' };
+            return { bg: 'bg-[#0076A8]', pulse: 'bg-white' };
         case 'INACTIVE':
             return { bg: 'bg-red-500', pulse: 'bg-white' };
         default:
