@@ -198,11 +198,11 @@ const Buildings = () => {
             } else if (statusUpper === 'ACTIVE') {
                 return { label: t('ACTIVE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'LEASED') {
-                return { label: t('LEASED'), bgColor: 'bg-blue-500', pulseColor: 'bg-white', textColor: 'text-white' };
+                return { label: t('LEASED'), bgColor: 'bg-purple-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'UNDER_MAINTENANCE') {
                 return { label: 'UNDER MAINTENANCE', bgColor: 'bg-yellow-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'COMING_SOON') {
-                return { label: 'COMING SOON', bgColor: 'bg-purple-500', pulseColor: 'bg-white', textColor: 'text-white' };
+                return { label: 'COMING SOON', bgColor: 'bg-[#0076A8]', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'INACTIVE') {
                 return { label: t('INACTIVE'), bgColor: 'bg-red-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else {
