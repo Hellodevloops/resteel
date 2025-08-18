@@ -1,5 +1,4 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import { Settings } from 'lucide-react';
 import SiteSettingsForm from './Form';
 
@@ -68,7 +67,7 @@ export default function Edit({ settings }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Edit Site Settings - Admin" />
+            
 
             <div className="bg-background min-h-screen">
                 {/* Header - Mobile Responsive */}

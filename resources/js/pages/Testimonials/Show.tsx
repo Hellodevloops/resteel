@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft, Edit3, Hash, MessageSquare, Star, User } from 'lucide-react';
 
 interface Testimonial {
@@ -25,7 +25,7 @@ interface Props {
 export default function ShowTestimonial({ testimonial }: Props) {
     return (
         <AppLayout>
-            <Head title={`${testimonial.author} - Testimonial Details`} />
+            
 
             <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
                 <div className="mb-6 flex items-center justify-between">

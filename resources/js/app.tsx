@@ -10,8 +10,6 @@ import { CartProvider } from './contexts/CartContext';
 import i18n from './i18n';
 
 // Grab the DOM element
-const el = document.getElementById('app')!;
-const appName = import.meta.env.VITE_APP_NAME || 'Resteel';
 
 // Render the Inertia app with i18n context and suspense
 createInertiaApp({
@@ -41,6 +39,5 @@ createInertiaApp({
             </React.StrictMode>,
         );
     },
-    title: (title) => `${title} - ${appName}`,
     progress: { color: '#4B5563' },
 });

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { Edit3, Facebook, Globe, Instagram, Link2, Linkedin, Mail, MapPin, Phone, RefreshCw, Settings, Twitter, Youtube } from 'lucide-react';
 
 interface SiteSettings {
@@ -79,7 +79,6 @@ const Show = ({ settings }: Props) => {
 
     return (
         <AppLayout>
-            <Head title="Site Settings - Admin" />
 
             <div className="bg-background min-h-screen">
                 {/* Header - Mobile Responsive */}

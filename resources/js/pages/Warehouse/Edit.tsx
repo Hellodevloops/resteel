@@ -2,7 +2,6 @@ import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Warehouse } from '@/types/warehouse';
-import { Head } from '@inertiajs/react';
 import WarehouseForm from './Form';
 
 interface Props {
@@ -20,7 +19,7 @@ export default function Edit({ warehouse }: Props) {
 
     return (
         <AppLayout>
-            <Head title={`Edit ${warehouse.name} - Admin`} />
+            
             <AppSidebarHeader breadcrumbs={breadcrumbs} />
 
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50/30 to-slate-100/20">

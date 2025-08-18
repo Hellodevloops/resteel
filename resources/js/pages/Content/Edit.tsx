@@ -1,5 +1,4 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import ContentForm from './Form';
 
 interface ContentSettings {
@@ -54,7 +53,6 @@ interface Props {
 export default function Edit({ content }: Props) {
     return (
         <AppLayout>
-            <Head title="Edit Content - Admin" />
             <div className="bg-background min-h-screen">
                 <ContentForm content={content} isEditing={true} />
             </div>

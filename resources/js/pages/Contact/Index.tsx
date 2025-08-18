@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { Eye, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -86,7 +86,7 @@ export default function ContactList({ contacts: initialContacts, recentActivity 
 
     return (
         <AppLayout>
-            <Head title="Contact List" />
+            
 
             <div className="min-h-screen bg-gray-100">
                 {/* Success Alert */}

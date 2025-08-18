@@ -14,11 +14,7 @@ type LayoutProps = {
 
 const Layout = ({ children, title, siteSettings }: LayoutProps) => {
     useEffect(() => {
-        if (title) {
-            document.title = title;
-        } else if (siteSettings?.company_name) {
-            document.title = `${siteSettings.company_name} | ${siteSettings.company_tagline || 'Welcome'}`;
-        }
+        // Title is managed globally via Blade; avoid overriding here
     }, [title, siteSettings]);
 
     return (

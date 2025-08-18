@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react';
 import { useForm } from '@inertiajs/react';
 import { Product } from '@/types/webshop';
@@ -21,7 +21,7 @@ export default function Show({ product }: Props) {
 
     return (
         <AppLayout>
-            <Head title={`${product.name} - WebShop Admin`} />
+            
             
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}

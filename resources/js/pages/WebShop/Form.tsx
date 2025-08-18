@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Product } from '@/types/webshop';
-import { Head, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { ArrowLeft, Plus, Upload, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
@@ -67,7 +67,6 @@ export default function ProductForm({ product, isEditing = false }: Props) {
 
     return (
         <>
-            <Head title={isEditing ? 'Edit Product' : 'Create Product'} />
             <div className="mx-auto max-w-2xl px-4 py-8">
                 <div className="mb-6">
                     <a href={route('admin.webshops.index')} className="text-muted-foreground inline-flex items-center text-sm">

@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { BookCheck, Filter, Grid, List, Package, Pencil, Plus, Search, Star, Trash2, TrendingUp } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -69,7 +69,6 @@ export default function Index({ products: initialProducts = [], filters: initial
 
     return (
         <AppLayout>
-            <Head title="WebShop Management" />
             {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
             <div className="min-h-screen bg-slate-50">

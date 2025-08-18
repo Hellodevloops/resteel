@@ -13,11 +13,17 @@
         }
     </style>
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title>Resteel Solutions B.V.</title>
 
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="title" content="Resteel Solutions B.V.">
+    <meta name="description" content="Resteel Solutions B.V. - Preparing sorted materials for recycling, Helmond.">
+    <meta property="og:title" content="Resteel Solutions B.V.">
+    <meta property="og:description" content="Sustainable solutions for material preparation and recycling.">
+    <meta property="og:image" content="{{ asset('assets/ResteelSolutionsLogo.png') }}">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/png" href="{{ asset('assets/ResteelSolutionsLogo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/ResteelSolutionsLogo.png') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />

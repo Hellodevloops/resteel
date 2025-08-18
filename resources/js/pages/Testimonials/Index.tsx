@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Edit, Eye, MessageSquare, Plus, Star, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -46,7 +46,7 @@ export default function TestimonialsIndex({ testimonials }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Testimonials - Admin" />
+            
 
             <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
                 <div className="mb-6 flex items-center justify-between">

@@ -1,12 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import { Building2 } from 'lucide-react';
 import WarehouseForm from './Form';
 
 export default function Create() {
     return (
         <AppLayout>
-            <Head title="Create Warehouse - Admin" />
             {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
             <div className="bg-background min-h-screen">
