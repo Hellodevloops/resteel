@@ -13,10 +13,7 @@ const Index = () => {
     // Initialize scroll animations
     useScrollAnimation();
 
-    // Update document title
-    useEffect(() => {
-        document.title = 'Resteel | Second-Hand Industrial Buildings';
-    }, []);
+    // Title is managed globally via Blade
 
     return (
         <div className="flex min-h-screen flex-col">

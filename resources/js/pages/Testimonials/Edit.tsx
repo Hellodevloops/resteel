@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 import TestimonialForm from './Form';
 
@@ -22,7 +22,7 @@ interface Props {
 export default function EditTestimonial({ testimonial }: Props) {
     return (
         <AppLayout>
-            <Head title={`Edit ${testimonial.author} - Testimonials`} />
+            
 
             <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
                 <div className="mb-6">

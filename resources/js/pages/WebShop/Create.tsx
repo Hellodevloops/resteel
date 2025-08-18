@@ -1,5 +1,4 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import { AlertCircle, Package, Sparkles, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ProductForm from './Form';
@@ -86,7 +85,7 @@ export default function Create({ errors: serverErrors = {}, flash = {} }) {
 
     return (
         <AppLayout>
-            <Head title="Create Product - WebShop Admin" />
+            
 
             <div className="min-h-screen bg-slate-50">
                 {/* Success Alert */}

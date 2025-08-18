@@ -1,5 +1,4 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import ProductForm from './Form';
 import { Product } from '@/types/webshop';
 
@@ -10,7 +9,7 @@ interface Props {
 export default function Edit({ product }: Props) {
     return (
         <AppLayout>
-            <Head title={`Edit ${product.name} - WebShop Admin`} />
+            
 
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}

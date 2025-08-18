@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import { Head, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { FormEvent, useState } from 'react';
 
 interface ContactFormData {
@@ -174,7 +174,7 @@ export default function ContactForm({ contact, isEditing = false }: Props) {
 
     return (
         <AppLayout>
-            <Head title={isEditing ? 'Edit Contact' : 'Create Contact'} />
+            
             <div className="min-h-screen bg-slate-50">
                 <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="mb-6 sm:mb-8">

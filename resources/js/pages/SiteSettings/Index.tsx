@@ -2,7 +2,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import { Bell, Edit3, Mail, MapPin, Phone, RefreshCw, Save, Settings, Truck } from 'lucide-react';
 
 interface SiteSettings {
@@ -75,7 +74,7 @@ export default function Index({ siteSettingsData }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Site Settings - Admin" />
+            
 
             <div className="bg-background min-h-screen">
                 {/* Header - Mobile Responsive */}

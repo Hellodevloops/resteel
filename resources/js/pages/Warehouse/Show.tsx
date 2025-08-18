@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { Warehouse } from '@/types/warehouse';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Box, Calendar, CheckCircle, Edit, MapPin, Package, Trash2, XCircle, Zap } from 'lucide-react';
 
 interface Props {
@@ -28,7 +28,7 @@ export default function Show({ warehouse }: Props) {
 
     return (
         <AppLayout>
-            <Head title={`${warehouse.name} - Admin`} />
+            
             {/* <AppSidebarHeader /> */}
 
             <div className="min-h-screen bg-slate-50">

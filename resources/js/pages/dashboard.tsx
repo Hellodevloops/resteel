@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowRight, BrickWall, Home, PhoneCall } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -54,7 +54,6 @@ const dashboardCards = [
 export default function Dashboard() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-8 rounded-xl p-6">
                 {/* Welcome Section */}
                 <div className="space-y-2">

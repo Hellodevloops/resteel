@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft, Mail, Phone, Building, MapPin, Calendar, Tag, AlertCircle, DollarSign, MessageSquare } from 'lucide-react';
 
 interface Contact {
@@ -26,7 +26,7 @@ interface Props {
 export default function ContactShow({ contact }: Props) {
     return (
         <AppLayout>
-            <Head title={`Contact - ${contact.name}`} />
+            
 
             <div className="min-h-screen bg-gray-100">
                 {/* Header */}

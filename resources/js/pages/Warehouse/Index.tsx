@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { Building2, Eye, MapPin, Package, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 
@@ -86,7 +86,7 @@ export default function Index({ warehouseData }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Warehouses - Admin" />
+            
             {/* <AppSidebarHeader breadcrumbs={breadcrumbs} /> */}
 
             <div className="bg-background min-h-screen">

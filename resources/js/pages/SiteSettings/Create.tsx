@@ -1,5 +1,4 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 import { Settings } from 'lucide-react';
 import SiteSettingsForm from './Form';
 
@@ -11,7 +10,7 @@ export default function Create() {
 
     return (
         <AppLayout>
-            <Head title="Create Site Settings - Admin" />
+            
 
             <div className="bg-background min-h-screen">
                 {/* Header - Mobile Responsive */}

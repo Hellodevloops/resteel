@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { Edit3, FileText, RefreshCw, Settings } from 'lucide-react';
 
 interface ContentSettings {
@@ -74,7 +74,7 @@ export default function Index({ content }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Content Management - Admin" />
+            
 
             <div className="bg-background min-h-screen">
                 {/* Header */}
