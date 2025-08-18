@@ -1,7 +1,7 @@
 'use client';
 
 import { Link, usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from './Layout';
 
@@ -87,23 +87,27 @@ const BuildingDetails = () => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [contactForm, setContactForm] = useState<{ isOpen: boolean; productName: string }>({ isOpen: false, productName: '' });
+    const thumbnailsRef = useRef<HTMLDivElement | null>(null);
 
     // Calculate total area from specifications
-    const calculateTotalArea = (specs: Array<{ name: string; dimensions: string; area: string }>, unit: string): string => {
-        try {
-            // Extract numeric values from area strings and sum them
-            const totalArea = specs.reduce((sum, spec) => {
-                const areaValue = parseFloat(spec.area.replace(/[^0-9.]/g, ''));
-                return isNaN(areaValue) ? sum : sum + areaValue;
-            }, 0);
+    const calculateTotalArea = useCallback(
+        (specs: Array<{ name: string; dimensions: string; area: string }>, unit: string): string => {
+            try {
+                // Extract numeric values from area strings and sum them
+                const totalArea = specs.reduce((sum, spec) => {
+                    const areaValue = parseFloat(spec.area.replace(/[^0-9.]/g, ''));
+                    return isNaN(areaValue) ? sum : sum + areaValue;
+                }, 0);
 
-            // Return formatted total with unit
-            return totalArea > 0 ? `${totalArea.toFixed(2)} ${unit}` : t('not_available');
-        } catch (error) {
-            console.error('Error calculating total area:', error);
-            return t('not_available');
-        }
-    };
+                // Return formatted total with unit
+                return totalArea > 0 ? `${totalArea.toFixed(2)} ${unit}` : t('not_available');
+            } catch (error) {
+                console.error('Error calculating total area:', error);
+                return t('not_available');
+            }
+        },
+        [t],
+    );
 
     useEffect(() => {
         const fetchBuilding = async () => {
@@ -171,7 +175,7 @@ const BuildingDetails = () => {
         };
 
         fetchBuilding();
-    }, [id, t]);
+    }, [id, t, calculateTotalArea]);
 
     const handleThumbnailClick = (index: number) => {
         setSelectedImageIndex(index);
@@ -188,6 +192,8 @@ const BuildingDetails = () => {
             setSelectedImageIndex((prev) => (prev === 0 ? building.images.length - 1 : prev - 1));
         }
     };
+
+    // Horizontal scroll handler is implemented inline on the thumbnails container
 
     const openContactForm = (productName: string) => {
         setContactForm({ isOpen: true, productName });
@@ -402,15 +408,31 @@ const BuildingDetails = () => {
                                         )}
                                     </div>
 
-                                    {/* Thumbnail Grid */}
+                                    {/* Thumbnail Row (Horizontal Scroll) */}
                                     {building.images.length > 1 && (
-                                        <div className="mt-6 rounded-lg bg-gray-50 p-4">
-                                            <div className="grid grid-cols-6 gap-2 sm:grid-cols-8 md:grid-cols-10">
-                                                {building.images.slice(0, 10).map((image, index) => (
+                                        <div className="relative mt-6 rounded-lg bg-gray-50 p-4">
+                                            {/* <button
+                                                aria-label="Scroll thumbnails left"
+                                                onClick={() => scrollThumbnails(-((thumbnailsRef.current?.clientWidth || 320) * 0.9))}
+                                                className="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+                                            >
+                                                <ChevronLeft className="h-4 w-4" />
+                                            </button> */}
+                                            <div
+                                                ref={thumbnailsRef}
+                                                className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth"
+                                                onWheel={(e) => {
+                                                    if (thumbnailsRef.current && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                                                        e.preventDefault();
+                                                        thumbnailsRef.current.scrollBy({ left: e.deltaY, behavior: 'smooth' });
+                                                    }
+                                                }}
+                                            >
+                                                {building.images.map((image, index) => (
                                                     <button
                                                         key={index}
                                                         onClick={() => handleThumbnailClick(index)}
-                                                        className={`relative aspect-square overflow-hidden rounded-lg transition-all ${
+                                                        className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg transition-all ${
                                                             index === selectedImageIndex
                                                                 ? 'scale-105 ring-2 ring-orange-500'
                                                                 : 'hover:scale-105 hover:ring-2 hover:ring-gray-300'
@@ -419,12 +441,14 @@ const BuildingDetails = () => {
                                                         <img src={image} alt={`View ${index + 1}`} className="h-full w-full object-cover" />
                                                     </button>
                                                 ))}
-                                                {building.images.length > 10 && (
-                                                    <div className="flex aspect-square items-center justify-center rounded-lg bg-gray-200">
-                                                        <span className="text-xs font-medium text-gray-600">+{building.images.length - 10}</span>
-                                                    </div>
-                                                )}
                                             </div>
+                                            {/* <button
+                                                aria-label="Scroll thumbnails right"
+                                                onClick={() => scrollThumbnails((thumbnailsRef.current?.clientWidth || 320) * 0.9)}
+                                                className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all hover:bg-black/70"
+                                            >
+                                                <ChevronRight className="h-4 w-4" />
+                                            </button> */}
                                         </div>
                                     )}
                                 </CardContent>
