@@ -192,9 +192,9 @@ const Buildings = () => {
         const formatStatusDisplay = (status: string) => {
             const statusUpper = status.toUpperCase();
             if (statusUpper === 'SOLD') {
-                return { label: t('SOLD'), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60', textColor: 'text-white' };
+                return { label: t('sold').toUpperCase(), bgColor: 'bg-gray-500', pulseColor: 'bg-white/60', textColor: 'text-white' };
             } else if (statusUpper === 'SALE') {
-                return { label: t('SALE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
+                return { label: t('sale').toUpperCase(), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'ACTIVE') {
                 return { label: t('ACTIVE'), bgColor: 'bg-orange-500', pulseColor: 'bg-white', textColor: 'text-white' };
             } else if (statusUpper === 'LEASED') {
