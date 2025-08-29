@@ -55,9 +55,9 @@ const charcoal = '#3C3F48';
 const formatStatusLabel = (status: string, t: (key: string) => string) => {
     switch (status) {
         case 'SALE':
-            return t('SALE').toUpperCase();
+            return t('sale').toUpperCase();
         case 'SOLD':
-            return t('SOLD').toUpperCase();
+            return t('sold').toUpperCase();
         case 'COMING_SOON':
             return 'COMING SOON';
         case 'UNDER_MAINTENANCE':
